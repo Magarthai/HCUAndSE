@@ -52,7 +52,9 @@ const AppointmentManagerComponent = (props) => {
         try {
 
             const timeTableData = await fetchTimeTableDataFromBackend(user, selectedDate);
+            
             if (timeTableData.length > 0) {
+                console.log(timeTableData,"timeTableData")
                 const filteredTimeTableData = timeTableData
                 if (filteredTimeTableData.length > 0) {
                     const allTimeableLists = filteredTimeTableData.reduce((acc, item) => {
@@ -107,8 +109,14 @@ const AppointmentManagerComponent = (props) => {
                             })),
                     ];
 
+                    if (timeOptionsFromTimetable.length <= 1) {
+                        const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                        setTimeOptions([noTimeSlotsAvailableOption]);
+                    } else {
+                        setTimeOptions(timeOptionsFromTimetable);
+                    }
 
-                    setTimeOptions(timeOptionsFromTimetable);
+
                 } else {
                     const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
                     setTimeOptions([noTimeSlotsAvailableOption]);

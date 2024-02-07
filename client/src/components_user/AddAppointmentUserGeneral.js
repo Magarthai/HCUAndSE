@@ -53,7 +53,8 @@ const AddAppointmentUser = () => {
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
                     where('addDay', '==', selectedDate.dayName),
-                    where('clinic', '==', 'คลินิกทั่วไป')
+                    where('clinic', '==', 'คลินิกทั่วไป'),
+                    where('status', '==', 'Enabled')
                 ));
 
                 const timeTableData = querySnapshot.docs.map((doc) => ({

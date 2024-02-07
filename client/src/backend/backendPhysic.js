@@ -9,7 +9,8 @@ export const fetchTimeTableDataPhysic = async (user, selectedDate) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDate.dayName),
-                where('clinic', '==', 'คลินิกกายภาพ')
+                where('clinic', '==', 'คลินิกกายภาพ'),
+                where('status', '==', 'Enabled')
             ));
 
             const timeTableData = querySnapshot.docs.map((doc) => ({
@@ -30,7 +31,8 @@ export const fetchTimeTableMainDataPhysic = async (user, selectedDates) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDates.dayName),
-                where('clinic', '==', 'คลินิกกายภาพ')
+                where('clinic', '==', 'คลินิกกายภาพ'),
+                where('status', '==', 'Enabled')
             ));
             const timeTableData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,

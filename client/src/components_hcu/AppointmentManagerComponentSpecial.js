@@ -12,7 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Swal from "sweetalert2";
 import { availableTimeSlotsSpecial, fetchAppointmentUsersDataSpecial, fetchTimeTableDataFromSpecial, fetchTimeTableDataSpecial, fetchUserDataWithAppointmentsSpecial } from "../backend/backendSpecial";
 import ClockComponent from "../utils/ClockComponent";
-import { fetchTimeTableDataFromBackend } from "../backend/backendGeneral";
+
 
 const AppointmentManagerComponentSpecial = (props) => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -102,7 +102,12 @@ const AppointmentManagerComponentSpecial = (props) => {
                     ];
 
 
-                    setTimeOptions(timeOptionsFromTimetable);
+                    if (timeOptionsFromTimetable.length <= 1) {
+                        const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                        setTimeOptions([noTimeSlotsAvailableOption]);
+                    } else {
+                        setTimeOptions(timeOptionsFromTimetable);
+                    }
                 } else {
                     const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
                     setTimeOptions([noTimeSlotsAvailableOption]);

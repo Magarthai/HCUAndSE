@@ -9,7 +9,8 @@ export const fetchTimeTableDataNeedle = async (user, selectedDate) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDate.dayName),
-                where('clinic', '==', 'คลินิกฝั่งเข็ม')
+                where('clinic', '==', 'คลินิกฝั่งเข็ม'),
+                where('status', '==', 'Enabled')
             ));
 
             const timeTableData = querySnapshot.docs.map((doc) => ({
@@ -30,7 +31,8 @@ export const fetchTimeTableMainDataNeedle = async (user, selectedDates) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDates.dayName),
-                where('clinic', '==', 'คลินิกฝั่งเข็ม')
+                where('clinic', '==', 'คลินิกฝั่งเข็ม'),
+                where('status', '==', 'Enabled')
             ));
             const timeTableData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,

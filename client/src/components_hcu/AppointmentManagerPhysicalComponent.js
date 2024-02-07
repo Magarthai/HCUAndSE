@@ -180,10 +180,12 @@ const AppointmentManagerPhysicComponent = (props) => {
                         }, {});
                         setIsChecked(initialIsChecked);
                         const timeOptionsFromTimetable = GetTimeOptionsFilterdFromTimetable(availableTimeSlots);
-                        console.log("Before setTimeOptions", timeOptionsFromTimetable);
-                        setTimeOptionss(timeOptionsFromTimetable);
-                        console.log("After setTimeOptions", timeOptionsFromTimetable);
-                        console.log(timeOptionss)
+                        if(timeOptionsFromTimetable.length <= 1) {
+                            const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                        setTimeOptionss([noTimeSlotsAvailableOption]);
+                        } else {
+                            setTimeOptionss(timeOptionsFromTimetable);
+                        }
                     } else {
                         console.log("Time table not found for selected day and clinic");
                         const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -253,7 +255,12 @@ const AppointmentManagerPhysicComponent = (props) => {
                     }, {});
                     setIsChecked(initialIsChecked);
                     const timeOptionsFromTimetable = GetTimeOptionsFromTimetable(availableTimeSlots);
+                    if (timeOptionsFromTimetable.length <= 1) {
+                        const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    } else {
                     setTimeOptions(timeOptionsFromTimetable);
+                    }
                 } else {
                     const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
                     setTimeOptions([noTimeSlotsAvailableOption]);

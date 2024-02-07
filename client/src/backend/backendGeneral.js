@@ -9,13 +9,17 @@ export const fetchTimeTableDataFromBackend = async (user, selectedDate) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDate.dayName),
-                where('clinic', '==', 'คลินิกทั่วไป')
+                where('clinic', '==', 'คลินิกทั่วไป'),
+                where('status', '==', 'Enabled')
+                
             ));
 
             const timeTableData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
+
+            console.log(timeTableData,"timeTableData")
 
             return timeTableData;
         }

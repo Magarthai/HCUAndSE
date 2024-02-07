@@ -11,6 +11,7 @@ import { doc, updateDoc,where,query, addDoc, deleteDoc } from 'firebase/firestor
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { PulseLoader } from "react-spinners";
+import { getTimeablelist } from "../backend/backendGeneral";
 const TimetableSpecialComponent = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1); 
@@ -596,37 +597,113 @@ const TimetableSpecialComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
-    
+
+        
         if (duration <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณากรอกช่วงเวลานัดหมายใหม่!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
             return;
         }
-    
-        const timeablelist = [];
-    
-        const interval = Math.floor(duration / numberAppointment);
-    
-        for (let i = 0; i < numberAppointment; i++) {
-            const slotStart = new Date(start.getTime() + i * interval * 60000);
-            const slotEnd = new Date(slotStart.getTime() + interval * 60000);
-    
-            if (slotEnd.getTime() > end.getTime()) {
-                timeablelist.push({
-                    start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    end: end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                });
-                break;
-            }
-    
-            timeablelist.push({
-                start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            });
+        if (numberAppointment <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ใส่จํานวนคิวใหม่เนื่องจากน้อยกว่า 1 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
         }
-    
+        if (!Number.isInteger(parseFloat(numberAppointment))) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ต้องเป็นเลขจํานวนเต็มเท่านั่น!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+        if (
+            timeAppointmentStart >= timeAppointmentEnd 
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลาใหม่ เวลาเริ่มนัดหมายน้อยกว่าช่วงเวลาสุดท้าย!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+        if (
+            timeStart >= timeEnd 
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลาใหม่ เวลาเริ่มเปิดคลินิกน้อยกว่าช่วงเวลาปิด!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+        if (
+            timeAppointmentStart < timeStart 
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลาเปิดนัดหมายใหม่ เวลาเริ่มเปิดนัดหมายน้อยกว่าช่วงเวลาเปิดคลิกนิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+        if (
+            timeAppointmentEnd > timeEnd
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลาเปิดนัดหมายใหม่ เวลาเริ่มปิดนัดหมายมากกว่าช่วงเวลาปิดคลิกนิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+        
+        const timeablelist = getTimeablelist(duration,numberAppointment,start,end);
         try {
             const timetableRef = doc(db, 'timeTable', timetableId);
-            console.log(timetableId);
-    
+            console.log(timetableId);  // Corrected from console.log(timetable.id)
+
             const updatedTimetable = {
                 addDay: addDay,
                 timeStart: timeStart,
@@ -638,9 +715,8 @@ const TimetableSpecialComponent = (props) => {
                 timeablelist: timeablelist,
                 status: "Enabled",
             };
-    
             await updateDoc(timetableRef, updatedTimetable);
-    
+
             Swal.fire({
                 icon: "success",
                 title: "การอัปเดตช่วงเวลาสำเร็จ!",

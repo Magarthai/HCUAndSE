@@ -9,7 +9,8 @@ export const fetchTimeTableDataFromSpecial = async (user, selectedDate) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDate.dayName),
-                where('clinic', '==', 'คลินิกเฉพาะทาง')
+                where('clinic', '==', 'คลินิกเฉพาะทาง'),
+                where('status', '==', 'Enabled')
             ));
 
             const timeTableData = querySnapshot.docs.map((doc) => ({
