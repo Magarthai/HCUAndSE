@@ -328,7 +328,7 @@ const AppointmentRequestManagementComponent = (props) => {
                     <p className="admin-textBody-large">Time : {showTime}</p>
                 </div>
             </div>
-            <a href="/AppointmentManagerComponent"><img src={arrow_icon} className="approval-icon admin-back-arrow"/></a>
+            <a href="/AppointmentManagerComponent"><img src={arrow_icon} className="admin-back-arrow"/></a>
             <div className="admin">
                 <div className="admin-header">
                     <p className="admin-hearder-item admin-textBody-large colorPrimary-800">รายการนัดหมาย</p>
@@ -351,8 +351,8 @@ const AppointmentRequestManagementComponent = (props) => {
                                 <th className="admin-textBody-large colorPrimary-800" id="th_clinic">คลินิก</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_dateOld">วันนัดหมายเดิม</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_dateNew">วันนัดหมายที่ขอเปลี่ยน</th>
-                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาเดิม</th>
-                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาใหม่</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_timeNew">เวลาเดิม</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_timeOld">เวลาใหม่</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_symptom">อาการ</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_notation">หมายเหตุ</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_approve">อนุมัติ</th>
