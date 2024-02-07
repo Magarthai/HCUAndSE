@@ -746,6 +746,20 @@ const TimetableSpecialComponent = (props) => {
     const [saveEditId, setsaveEditId] = useState([])
 
     const openAddtimetable = () => {
+        setState((prevState) => ({
+            ...prevState,
+            addDay: "",
+            timeStart: "",
+            timeEnd: "",
+            timeAppointmentStart: "",
+            timeAppointmentEnd: "",
+            numberAppointment: "",
+            clinic: "คลินิกเฉพาะทาง",
+            timeablelist: "",
+            status: "Enabled",
+            timetableId: "",
+        }));
+        setSelectedCount(1)
         adminCards.forEach(card => card.classList.remove('focused'));
         let x = document.getElementById("Addtimetable");
         let y = document.getElementById("Edittimetable");
@@ -758,17 +772,38 @@ const TimetableSpecialComponent = (props) => {
             setsaveEditId("")
         } else {
             x.style.display = "none";
-
-
         }
     }
 
-    const navigate = useNavigate();
-    
+    const closeEditTimeTable = () => {
+        let x = document.getElementById("Edittimetable");
+        let y = document.getElementById("Addtimetable");
+        let z = document.getElementById("Detailtimetable");
+        setState((prevState) => ({
+            ...prevState,
+            addDay: "",
+            timeStart: "",
+            timeEnd: "",
+            timeAppointmentStart: "",
+            timeAppointmentEnd: "",
+            numberAppointment: "",
+            clinic: "คลินิกเฉพาะทาง",
+            timeablelist: "",
+            status: "Enabled",
+            timetableId: "",
+        }));
+
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+
+    }
+
     const openEdittimetable = (element, timetable) => {
         let x = document.getElementById("Edittimetable");
         let y = document.getElementById("Addtimetable");
         let z = document.getElementById("Detailtimetable");
+        handleSelectChange();
         console.log(timetable)
         setState((prevState) => ({
             ...prevState,
@@ -781,9 +816,8 @@ const TimetableSpecialComponent = (props) => {
             clinic: "คลินิกเฉพาะทาง",
             timeablelist: timetable.timeablelist,
             status: "Enabled",
-            timetableId: timetable.id,  // Update the id in the state
+            timetableId: timetable.id,
         }));
-
         if (window.getComputedStyle(x).display === "none") {
             if(window.getComputedStyle(z).display === "block" && saveDetailId === timetable.id ){
                 element.stopPropagation();
@@ -791,28 +825,21 @@ const TimetableSpecialComponent = (props) => {
             x.style.display = "block";
             y.style.display = "none";
             z.style.display = "none";
-            
             setsaveDetailId("")
             setsaveEditId(timetable.id)
-            console.log(timetable.id)
           
-          
-      
-          //window.history.replaceState({}, null, `/timeTableSpecialAdmin/${timetable.id}`);
         } else {
-            console.log("23",saveEditId === timetable.id)
             if (saveEditId === timetable.id) {
                 x.style.display = "none";
                 setsaveEditId("")
-                
+             
             } else {
                 setsaveEditId(timetable.id)
-                
-               
-                
+        
             }
+
         }
-      };
+    };
 
 
 
@@ -1166,7 +1193,7 @@ const TimetableSpecialComponent = (props) => {
                     <div id="Addtimetable">
                         <form onSubmit={submitForm}>
                             <div>
-                                <button type="button" onClick={openAddtimetable} className="colorPrimary-800" id="backTopic">❮ เพิ่มเวลาเข้าทำการแพทย์</button>
+                                <button type="button" onClick={closeEditTimeTable} className="colorPrimary-800" id="backTopic">❮ เพิ่มเวลาเข้าทำการแพทย์</button>
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
@@ -1229,7 +1256,7 @@ const TimetableSpecialComponent = (props) => {
 
                             </div>
                             <div className="admin-timetable-btn">
-                                <button type="button" onClick={openAddtimetable} className="btn-secondary btn-systrm">กลับ</button>
+                                <button type="button" onClick={closeEditTimeTable} className="btn-secondary btn-systrm">กลับ</button>
                                 <input type="submit" value="เพิ่มช่วงเวลา" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                             </div>
                         </form>
@@ -1237,7 +1264,7 @@ const TimetableSpecialComponent = (props) => {
                     <div id="Edittimetable">
                         <form onSubmit={editForm}>
                             <div>
-                                <button type="button" onClick={() => openEdittimetable()} className="colorPrimary-800" id="backTopic">❮ แก้ไขเวลาเข้าทำการแพทย์</button>
+                                <button type="button" onClick={() => closeEditTimeTable()} className="colorPrimary-800" id="backTopic">❮ แก้ไขเวลาเข้าทำการแพทย์</button>
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
@@ -1300,7 +1327,7 @@ const TimetableSpecialComponent = (props) => {
 
                             </div>
                             <div className="admin-timetable-btn">
-                                <button onClick={() => openEdittimetable()} className="btn-secondary btn-systrm" >กลับ</button>
+                                <button onClick={() => closeEditTimeTable()} className="btn-secondary btn-systrm" >กลับ</button>
                                 <input type="submit" value="แก้ไขนัดหมาย" className="btn-primary btn-systrm" target="_parent" />
                             </div>
                         </form>
