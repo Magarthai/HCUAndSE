@@ -1,0 +1,42 @@
+th, td{
+    border-left: 3px solid #dbdbdb;
+    border-right: 3px solid #dbdbdb;
+}
+th{
+   
+    vertical-align: middle;
+    text-align: center;
+}
+td{
+    text-align: center;
+}
+table{
+    border: 3px solid #dbdbdb;
+}
+.approval-icon{
+    width: 40px;
+    height: 40px;
+    margin: 0px 7%;
+    cursor: pointer;
+}
+.admin-back-arrow{
+    position: absolute;
+    top:100px;
+    left: -60px;
+    cursor: pointer;
+}
+#th_name{
+    width: 300px;
+}
+#th_id,#th_tel, #th_clinic,#th_dateOld,#th_dateNew{
+    width: 140px;
+}
+/* #th_dateNew{
+    width: 220px;
+} */
+#th_symptom,#th_notation{
+    width: 300px;
+}
+#th_approve{
+    width: 130px;
+}

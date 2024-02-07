@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+@media (min-width: 300px) {
+    .user-appointment-Bold-letter{
+        font-weight: 500;
+    }
+    .CalendarUser-appointment {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    .User-appointmentmenu-headbar {
+        color: #263A50;
+        font-weight: 500;
+        font-size: 22px;
+        margin: 5%;
+        width: 180px;
+    }
+    .user-appointment-btn-add {
+        padding: 4px;
+        margin: 5%;
+        justify-content: center;
+        border: none;
+        border-radius: var(--Radius-Card, 20px);
+        background: #263A50;
+        width: 160px;
+        height: 40px;
+        color: #ffffff;
+        text-decoration: none;
+        scale: 1;
+    }
+    .user-appointment-bar-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
+    .user-appointment-description1 {
+        display: flex;
+        gap: 3%;
+        align-items: center;
+    }
+    .user-appointment-funtion {
+        width: 100%;
+    }
+    .user-appointment-card {
+        width:90%;
+        margin: 5%;
+        padding: 20px;
+        border-radius: var(--Radius-Card, 20px);
+        background: var(--Neutral-blue-50, #FBFFFF);
+        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+        line-height: 200%;
+        color: #263A50;
+    }
+    .user-non-appointment-card {
+        width: 90%;
+        margin: 5%;
+        border-radius: var(--Radius-Card, 20px);
+        background: var(--Neutral-blue-50, #FBFFFF);
+        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+        color: #263A50;
+        text-align: center;
+        align-items: center;
+        padding: 70px;
+    }
+    .user-non-appointment {
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+    .user-appointment-warn {
+        color: #C11F1F;
+    }
+    .user-appointment-btn-submit{
+        display: flex;
+        padding: 4px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: var(--Radius-Tag, 12px);
+        background: var(--Primary-800, #263A50);
+        width: 50%;
+        height: 50px;
+        margin-top: 15px;
+        color: #ffffff;
+        text-decoration: none;
+    }
+    .user-appointment-btn-cancel {
+        display: flex;
+        padding: 4px;
+        justify-content: center;
+        align-items: center;
+        border-radius: var(--Radius-Tag, 12px);
+        border: 1px solid var(--Neutral-black-800, #444);
+        background: var(--Secondary-50, #F4FAFA);
+        width: 50%;
+        height: 50px;
+        margin-top: 15px;
+    }
+    .user-appointment-btn-submit-set {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5%;
+    }
+    .user-appointment-status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 70px;
+        width: 110px;
+        background-color: #0CB686;
+        color: #FBFFFF;
+        height: 28px;
+        font-size: 15px;
+    }
+
+    .user-appointment-status1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 70px;
+        width: 110px;
+        background-color: #C11F1F;
+        color: #FBFFFF;
+        height: 28px;
+        font-size: 15px;
+    }
+
+    .user-appointment-status2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 70px;
+        width: 110px;
+        background-color: #D88C09;
+        color: #FBFFFF;
+        height: 28px;
+        font-size: 15px;
+    }
+
+    .user-appointment-status3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 70px;
+        width: 110px;
+        background-color: #A1A1A1;
+        color: #FBFFFF;
+    }
+
+    .user-header-appointment-card{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .UserAllAppointmet-footermenu {
+        background-color: #96CFCF;
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 80px;
+    }
+    .user-appointment-vertical {
+        justify-content: center;
+        align-items: center;
+        width: 100%;       
+    }
+    :link {
+        text-decoration: none;
+    }
+    x{
+        color: #ffffff;
+    }
+    y{
+        color: #263A50;
+    }
+    .user-appointment-middle{
+        width: 1px;
+        height: 65px;
+        border-right: 2px solid #263A5080;
+    }
+}
+
+
+@media (max-width: 505px) {
+    .User-appointmentmenu-headbar {
+        color: #263A50;
+        font-weight: 500;
+        font-size: 22px;
+        margin: 20px;
+        width: 180px;
+    }
+    .user-appointment-btn-add {
+        scale: 0.8;
+        margin-right: 5px;
+    }
+    
+}

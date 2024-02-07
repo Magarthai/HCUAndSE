@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+
+
+.gap-32{
+    margin-bottom: 32px;
+}
+.gap-16{
+    margin-bottom: 16px;
+}
+.gap-8{
+    margin-bottom: 8px;
+}
+.margin-32{
+    margin-left: 32px ;
+    margin-right: 32px;
+}
+.user-DateAppointment-header_container{
+    width: 100%;
+    margin-bottom: 32px;
+}
+.user-DateAppointment-header{
+    /* width: 100%; */
+    width: 508px;
+    height: 133px;
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
+    padding: 16px 36px;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #008080;
+    color: #FBFFFF;
+    filter: drop-shadow(0px 4px 15px rgb(0, 0, 0, .25));
+    position: fixed;
+}
+.user-DateAppointment-header_title {
+    margin: 0;
+}
+.user-DateAppointment-Date_container{
+    width: 100%;
+    padding: 0px 5%;
+}
+.user-DateAppointment-AppointmentList_container{
+    width: 100%;
+    font-weight: 300;
+}
+.user-DateAppointment-card{
+    background-color: #FBFFFF;
+    color: #263A50;
+    text-decoration: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25); 
+    border: 0px solid #12121200;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin: 0px 5%;
+    
+}
+.user-DateAppointment-card-h4{
+    margin: 0px 5% 10px 5%;
+}
+.user-DateAppointment-clinic {
+    margin-top: 0;
+    font-size: 20px;
+}
+.user-DateAppointment-card_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.user-DateAppointment-icon{
+    width: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-DateAppointment-card_noAppointment{
+    height: 134px;
+    background-color: #D1D1D1;
+    color: #5C5C5C;
+    text-decoration: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25); 
+    border: 0px solid #12121200;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin: 0% 5%;
+}
+.user-Appointment-select_date{
+    height: 40px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #0a0f157a;
+    font-size: 16px;
+    font-weight: 300;
+    /*color: #BABABA; */
+    color:#263A50;
+    padding: 0px 10px;
+    background-color: #ffffff;
+}
+.user-DateAppointment-icon_edit,.user-DateAppointment-icon_delete{
+    width: 32px;
+    height: 32px;
+    }
+
+@media (min-width: 1200px) {
+    .user-DateAppointment-card_noAppointment{
+       margin: 0% 5%;
+    }
+}

@@ -1,0 +1,133 @@
+
+.user-profile{
+    padding: 10px 20px;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 15px;
+}
+.user-profile-detail{
+    margin: -10px 10px 20px 10px;
+    background-color: #ffffff;
+}
+.user-profile-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 2px solid #D1D1D1;
+    /* margin-left: 70%;
+    margin-top: -52px; */
+    background-color: #ffffff;
+    position: relative; /* Position image above wave */
+    z-index: 1; /* Ensure image is in front of wave */
+}
+.user-profile-header-user-name{
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+}
+.user-profile-header-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #008080;
+    height: 130px;
+    width: 100%;
+    align-items: top;
+    justify-content: top;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 15px;
+}
+.user-profile-info{
+    padding: 0px 30px;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    /* margin-top: 20px; */
+}
+.user-profile-info-edit{
+    padding: 0px 20px;
+    border: 2px solid #D1D1D1;
+    border: 3px solid #263A50;
+    border-radius: 10px;
+    margin-top: 20px;
+
+}
+
+.user-profile-waves {
+    position: absolute; 
+    top: 20px;
+    bottom: -10px; 
+    width: 100% !important; 
+    height: 100%; 
+    z-index: 1; 
+  }
+  
+  .user-profile-wave-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden; 
+    width: 100%;
+    height: 100%;
+  }
+
+  
+  /* Animation */
+  
+  .user-profile-parallax > use {
+    animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+  }
+  .user-profile-parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+  }
+  .user-profile-parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+  }
+  .user-profile-parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+  }
+  .user-profile-parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+  }
+  @keyframes move-forever {
+    0% {
+     transform: translate3d(-90px,0,0);
+    }
+    100% { 
+      transform: translate3d(85px,0,0);
+    }
+  }
+
+
+
+/* @media(min-width:400px){
+    .user-profile-img{
+        margin-left: 75%;
+    }
+}
+@media(min-width:500px){
+    .user-profile-img{
+        margin-left: 80%;
+    }
+}
+@media(min-width:800px){
+    .user-profile-img{
+        margin-left: 86%;
+    }
+}
+@media(min-width:1025px){
+    .user-profile-img{
+        margin-left: 75%;
+    }
+} */

@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+
+.mini-card-icon{
+    width: 24px;
+    height: 24px;
+}
+
+.AppointList-body-searchItem{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5%; */
+    margin: 0px 5% 20px 5%;
+}
+
+.AppointList-body-searchItem-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    margin: 0%;
+}
+
+.AppointList-body-card-item
+
+.AppointList-body-card-item-outDate{
+    color: #263A50;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0%;
+    margin-left: 5%;
+}
+
+.AppointList-body-card-item-innerCard{
+    color: #263A50;
+    margin: 5px 5% 20px 5%;
+    padding: 16px;
+    border-radius: var(--Radius-Card, 20px);
+    background: var(--Neutral-blue-50, #FBFFFF);
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.AppointList-body-card-item-innerCard-ClinicName{
+    margin-bottom: 10px;
+    color: #263A50;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.AppointList-body-card-item-innerCard-DescDate{
+    display: flex;
+    gap: 3px;
+}
+
+.AppointList-body-card-item-innerCard-DescDate-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.AppointList-body-card-item-innerCard-TimeAndClick{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.AppointList-body-card-item-innerCard-DescTime{
+    display: flex;
+    gap: 3px;
+}
+
+.AppointList-body-card-item-innerCard-DescTime-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.AppointList-body-card-item-innerCard-DescClick{
+    color: #263A50;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+
+.AppointList-body-BetweenCard{
+    text-align: center;
+    flex-direction: row;
+    margin: 10px 5%;
+}
+
+.AppointList-body-BetweenCard-txt{
+    color: #A19D9D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 250;
+    line-height: normal;
+}
+
+.AppointList-body-cardCommitted-item-outDate{
+    color: #263A50;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0%;
+    margin-left: 20px;
+}
+
+.AppointList-body-cardCommitted-item-innerCard{
+    margin: 20px;
+    margin-top: 5px;
+    padding: 16px;
+    border-radius: var(--Radius-Card, 20px);
+    background: var(--Neutral-blue-50, #FBFFFF);
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.AppointList-body-cardCommitted-item-innerCard-ClinicAndStatus{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.AppointList-body-cardCommitted-item-innerCard-StatusGreen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 70px;
+    width: 110px;
+    background-color: #0CB686;
+    color: #FBFFFF;
+}
+.AppointList-body-cardCommitted-item-innerCard-StatusRed{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 70px;
+    width: 110px;
+    background-color: #F2655A;
+    color: #FBFFFF;
+}
+
+.AppointList-body-cardCommitted-item-innerCard-ClinicName{
+    color: #263A50;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.AppointList-body-cardCommitted-item-innerCard-DescDate{
+    display: flex;
+    gap: 3px;
+}
+
+.AppointList-body-cardCommitted-item-innerCard-DescDate-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.AppointList-body-cardCommitted-item-innerCard-TimeAndClick{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.AppointList-body-cardCommitted-item-innerCard-DescTime{
+    display: flex;
+    gap: 3px;
+}
+
+.AppointList-body-cardCommitted-item-innerCard-DescTime-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+
+.AppointList-body-returnButton{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.return-btn{
+    display: flex;
+    padding: 4px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 12px;
+    background:  #263A50;
+    width: 100%;
+    height: 58px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+/*---------- popup ----------*/
+
+.Popup-ListAppointment{
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50%; */
+}
+
+
+.Popup-ListAppointment-ref{
+    background-color: #FBFFFF;
+    padding: 25px;
+    border-radius: var(--Radius-Tag, 12px);
+    box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+    width: 400px;
+    margin-top: 10%;
+}
+
+.Popup-ListAppointment-ref-ClinicNameAndCloseBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3px;
+}
+
+.PopupCloseBtn{
+    width: 32px;
+    height: 32px;
+}
+
+.Popup-ListAppointment-ref-ClinicName{
+    color: #263A50;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.Popup-ListAppointment-ref-DescDate, .Popup-ListAppointment-ref-DescTime{
+    display: flex;
+    gap: 3px;
+}
+
+.Popup-ListAppointment-ref-DescDate-txt, .Popup-ListAppointment-ref-DescTime-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.Popup-ListAppointment-ref-CauseSympt,.Popup-ListAppointment-ref-BasicSympt{
+    display: flex;
+    flex-direction: column;
+}
+
+.Popup-ListAppointment-ref-CauseSympt-Ans,.Popup-ListAppointment-ref-BasicSympt-Ans{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    margin-left: 10px;
+}
+.BlackBackground {
+    background-color: rgba(0, 0, 0, 0.357);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:-50vh;
+    left: -50vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    gap: 50%;
+   
+}
+.form-control-date{
+    border: 1px solid #a3a3a3;
+    border-radius: 5px;
+    color: #263A50;
+    padding: 0px 5px 0px 10px;
+    height: 30px;
+    width: 200px;
+}
+
+@media (max-width: 440px) {
+    .Popup-ListAppointment-ref{
+        width: 380px;
+        
+    }
+}
+@media (max-width: 400px) {
+    .Popup-ListAppointment-ref{
+        width: 340px;
+        
+    }
+}
+@media (max-width: 350px) {
+    .Popup-ListAppointment-ref{
+        width: 300px;
+    }
+}
+@media (max-width: 300px) {
+    .Popup-ListAppointment-ref{
+        width: 280px;
+    }
+}
+@media (max-width: 280px) {
+    .Popup-ListAppointment-ref{
+        width: 250px;
+    }
+}
+@media (max-width: 250px) {
+    .Popup-ListAppointment-ref{
+        width: 200px;
+    }
+}
+@media (max-width: 200px) {
+    .Popup-ListAppointment-ref{
+        width: 150px;
+    }
+}

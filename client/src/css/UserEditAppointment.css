@@ -1,0 +1,55 @@
+.gap-32{
+    margin-bottom: 32px;
+}
+.user-EditAppointment-Calendar_container{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.user-EditAppointment-Canlendar_title{
+    color: #263A50;
+}
+.user-EditAppointment-Calendar{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+.user-EditAppointment-Dropdown_container{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.user-EditAppointment-Dropdown_title{
+    color: #263A50;
+}
+.user-EditAppointment-Dropdown_time{
+    color: #263A50;
+}
+.user-EditAppointment-Reason_container{
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #263A50;
+}
+.user-EditAppointment-Reason{
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 300;
+}
+.user-EditAppointment-Symptom_container{
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #263A50;
+}
+.user-EditAppointment-Symptom{
+    height: 80px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #0a0f157a;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+.user-EditAppointment-Button_container{
+    margin-left: 5%;
+    margin-right: 5%;
+}

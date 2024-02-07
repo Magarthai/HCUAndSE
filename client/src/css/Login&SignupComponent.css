@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+body{
+    font-family: 'Mitr', sans-serif;
+    background-color: #ffffff;
+}
+@media(min-width:300px){
+    .login-flexbox{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        height: 100vh;
+        
+    }
+    .login-hcu-image{
+        display: none;
+        
+    }
+    .login-flexbox-item{
+        box-sizing: border-box;
+	    width: 100%;
+	    padding: 7%;
+        height: auto;
+    }
+    .signup-hearder{
+        margin-bottom:10%;
+    }
+    .singup-kmutt{
+        margin-top: 5%;
+        padding: 0px 15%;
+    }
+    .login-kmutt{
+        margin-top: 14%;
+        padding: 0px 15%;
+    }
+    .login-hearder{
+        margin-bottom: 14%;
+    }
+    .profile{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+    .underline{
+        text-decoration: underline;
+    }
+}
+@media(min-width:600px){
+    .login-hcu-image{
+        display: block;
+        box-sizing: border-box;
+        width: 50%;
+        opacity: 85%;
+        z-index: -1;
+        height: auto;
+        
+        
+    }
+    .login-flexbox-item{
+        box-sizing: border-box;
+	    width: 50%;
+	    padding: 2%;
+        height: auto;
+    }
+    .login-hearder{
+        margin-bottom: 24%;
+    }
+    .login-kmutt{
+        margin-top: 17%;
+       
+    }
+    
+}
+@media(min-width:900px){
+    .login-hcu-image{
+        display: block;
+        box-sizing: border-box;
+        width: 65%;
+        opacity: 85%;
+        z-index: -1;
+        height: auto;
+        
+        
+    }
+    .login-flexbox-item{
+        box-sizing: border-box;
+	    width: 35%;
+	    padding: 2%;
+        height: auto;
+    }
+    .login-hearder{
+        margin-bottom: 26%;
+    }
+    .login-kmutt{
+        margin-top: 19%;
+       
+    }
+}
+@media(min-width:1200px){
+    .login-flexbox-item{
+        width: 30%;
+    }
+    .login-hcu-image{
+        width: 70%;
+    }
+    .login-kmutt{
+        margin-top: 20%;
+       
+    }
+    .login-hearder{
+        margin-bottom: 20%;
+    }
+}

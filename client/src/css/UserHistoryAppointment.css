@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+
+.mini-card-icon{
+    width: 24px;
+    height: 24px;
+}
+
+.head-txt-HistoryAppointList{
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.head-txt-HistoryAppointProcess{
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.HistoryAppointment-body-searchItem{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5%; */
+    margin: 0px 5% 20px 5%;
+}
+
+.HistoryAppointment-body-searchItem-txt{
+    color: #263A50;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    margin: 0%;
+}
+
+.HistoryAppointment-body-card-item-outDate{
+    margin: 0%;
+    margin-left: 20px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.HistoryAppointment-body-card-item-innerCard{
+    color: #263A50;
+    margin:  10px 5% 20px 5%;
+    padding: 16px;
+    border-radius: var(--Radius-Card, 20px);
+    background: var(--Neutral-blue-50, #FBFFFF);
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.25);
+    padding-bottom: 5px;
+    
+
+}
+
+.HistoryAppointment-body-card-item-innerCard-TypeAppAndStatus{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.HistoryAppointment-body-card-item-innerCard-Typeappointment{
+    color: #263A50;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0%;
+}
+
+.HistoryAppointment-body-card-item-innerCard-StatusGreen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 80px;
+    width: 95px;
+    background-color: #0CB686;
+    color: #FBFFFF;
+    margin-bottom: 10px;
+}
+.HistoryAppointment-body-card-item-innerCard-StatusYellow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 80px;
+    width: 130px;
+    background-color: #F59E0B;
+    color: #FBFFFF;
+    margin-bottom: 10px;
+}
+
+
+
+.HistoryAppointment-body-card-item-innerCard-ClinicName{
+    color: #263A50;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.HistoryAppointment-body-card-item-innerCard-DescDate{
+    display: flex;
+    gap: 3px;
+}
+
+.HistoryAppointment-body-card-item-innerCard-DescDate-txt{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.HistoryAppointment-body-card-item-innerCard-DescTime{
+    display: flex;
+    gap: 3px;
+}
+
+.HistoryAppointment-body-card-item-innerCard-DescTime-txt{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.HistoryAppointment-body-returnButton{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.return-btn{
+    display: flex;
+    padding: 4px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: var(--Radius-Tag, 12px);
+    background: var(--Primary-800, #263A50);
+    width: 90%;
+    height: 58px;
+    margin-top: 0px;
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

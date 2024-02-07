@@ -1,0 +1,143 @@
+.admin-queue-flexbox{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    background-color: #EEF2F7;
+    border: 1px solid rgba(10, 15, 21, 0.482);
+}
+.admin-queue-box{
+    box-sizing: border-box;
+    width: 50%;
+    padding: 2% 2% 0% 2%;
+    background-color: #EEF2F7;
+    height: 640px;
+
+}
+.admin-queue-card{
+    background-color: #ffffff;
+    width: 100%;
+    height: 72px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 15px 0px;
+
+}
+.admin-queue-card.focused{
+    border: 2px solid #D1D1D1;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+
+}
+.admin-queue-card-time{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 15%;
+    border-right: 3px solid #D1D1D1;
+    height: 72px;
+    padding-top: 15px;
+    
+
+}
+.admin-queue-card-info{
+
+    box-sizing: border-box;
+    width: 60%;
+    padding: 9px 10px;
+    height: 72px;
+
+}
+.admin-queue-card-info p{
+    padding: 0px;
+    margin: 0px;
+}
+
+.admin-queue-card-status{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 15%;
+    padding-top: 15px;
+    height: 72px;
+
+}
+.admin-queue-card-function{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #D1D1D1;
+    width: 10%;
+    border-radius: 0px 8px 8px 0px;
+    height: 72px;
+}
+.admin-queue-card-icon{
+    width: 40px;
+    height: 40px;
+}
+.admin-queue-card-function-succeed{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #098B66;
+    width: 10%;
+    border-radius: 0px 8px 8px 0px;
+    height: 72px;
+}
+.admin-queue-detail-header{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.admin-queue-detail-header-items{
+    box-sizing: border-box;
+    width: 33.33%;
+}
+/* .admin-queue-detail-status{
+   
+    border-radius: 50px;
+    background-color: #D1D1D1;
+} */
+#detail-appointment-status{
+    padding: 7px 15px;
+    border-radius: 50px;
+    color: #ffffff;
+}
+.confirmed-background{
+    background-color: #D88C09;
+}
+
+.completed-background{
+    background-color: #098B66;
+}
+
+.failed-background{
+    background-color: #C11F1F;
+}
+
+.pending-confirmation-background{
+    background-color: #A1A1A1;
+}

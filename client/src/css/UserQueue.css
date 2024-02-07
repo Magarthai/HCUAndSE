@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+.user{
+    font-family: 'Mitr';
+}
+.gap-16 {
+    margin-bottom: 16px;
+}
+.user-queue_container{
+    color: #263A50;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.user-queue_ticket_container{
+    height: 150px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.textQ{
+    font-size: 3.5rem;
+    font-weight: 500;
+}
+.textQ2{
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+.user-queue_ticket_waitingQ_container{
+    width: 60%;
+    height: 150px;
+    background-color: #96CFCF;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: #FBFFFF;
+    border-style: hidden dashed hidden hidden
+}
+.user-queue_ticket_waitingQ_text{
+    height: 150px;
+    padding: 10px;
+}
+.user-queue_ticket_waitingQ_text h4{
+    margin: 0;
+}
+.user-queue_ticket_waitingQ_text p{
+    margin: 0;
+}
+.user-queue_ticket_myQ_container{
+    display: flex;
+    width: 40%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px ;
+    outline-width: 4px;
+    outline-offset: -4px;
+    outline-style: solid;
+    outline-color: #96CFCF;
+}
+.user-queue_ticket_myQ_text{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    width: 90%;
+}
+.user-queue_ticket_myQ_text h5{
+    margin-left: 12%;
+    margin-bottom: 0;
+}
+.user-queue_ticket_myQ_text p{
+    margin-left: 12%;
+    margin-bottom: 0;
+}
+.user-queue_ticket_myQ_circle{
+    position: relative;
+    width: 15%;
+    height: 20%;
+    top:39.5% ;
+    background-color: #FFFFFF;
+    border-radius:10rem 0 0 10rem;
+    outline-width: 4px;
+    border: #96CFCF solid 4px;
+    border-style: solid hidden solid solid;
+}
+#user-queue_waitingQ_text{
+    margin-bottom: -10px;
+}
+#user-queue_waitingQ_number{
+    margin-bottom: -10px;
+}

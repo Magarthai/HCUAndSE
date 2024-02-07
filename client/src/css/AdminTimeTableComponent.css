@@ -1,0 +1,285 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+body{
+    font-family: 'Mitr', sans-serif;
+    background-color: #ffffff;
+}
+@media(min-width:300px){
+    .admin-topicBox{
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        margin-bottom: 50px;
+    }
+    .admin-topicBox div{
+        box-sizing: border-box;
+	    width: 33.3%;
+    }
+    .dateTime{
+        text-align: right;
+        padding-right: 4%;
+    }
+    /* .box-header-container{
+        margin-top: 10px;
+    } */
+    .custom-admin-addtimetable{
+        padding: 0 8% 0 0;
+    }
+    .custome-admin-underline{
+        border-top: 3px dashed #263A50;
+        margin: 20px;
+    }
+    .admin-timetable-system{
+        margin: 0% 4%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        background-color: #EEF2F7;
+        height: 640px;
+        border: 1px solid rgba(10, 15, 21, 0.482);
+        /* border-radius: 10px; */
+        margin-bottom: 10px;
+    }
+    .admin-timetable-system-item{
+        box-sizing: border-box;
+	    width: 50%;
+        padding: 2% 2% 0% 2%;
+    }
+    .admin-timetable-system-detail{
+        overflow-y: scroll;
+        height: 520px;
+        margin-top: 10px; 
+    }
+    .admin-timetable-system-detail::-webkit-scrollbar {
+        width: 5px; 
+        margin: 5px;
+    }
+    .admin-timetable-system-detail::-webkit-scrollbar-thumb {
+        background-color: #263A50;
+        border-radius: 5px;
+    }
+    .admin-timetable-system-detail::-webkit-scrollbar-track {
+        background-color: #D1D1D1;
+        border-radius: 5px;
+    }
+    .border-L{
+        border-left: 1px solid #121212;
+    }
+    .clinic{
+        margin: 0% 4% 1% 4%;
+    }
+    .clinic a{
+        padding: 10px 20px;
+        background-color: #263A50;
+        color: #FBFFFF;
+        text-decoration: none;
+        margin-right: 10px;
+        border-radius: 50px;
+        font-size: 18px;
+    }
+    #select{
+        background-color: #DCE5EF;
+        color: #456A91;
+    }
+    .admin-timetable-system-top{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        margin: 0px;
+    }
+    .admin-timetable-system-top-item{
+        box-sizing: border-box;
+	    width: 50%;
+    }
+    button.admin-timetable-system-top-item{
+        width: auto;
+        height: 40px;
+        background-color: #263A50;
+        color: #FBFFFF;
+        padding: 0px 25px;
+        border-radius: 20px;
+        border: 0px solid #12121200;
+        margin-left: 33%;
+        font-size: 18px;
+    }
+    .row{
+        margin: 0px 4% 2% 4%;
+    }
+    .card{
+        background-color: #FBFFFF;
+        color: #263A50;
+        text-decoration: none;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+        border: 0px solid #12121200;
+        padding: 1% 2%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        cursor: pointer;
+        user-select: none;
+    }
+    .card.focused{
+        border: 2px solid #D1D1D1;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        
+    }
+    .card p{
+        margin: 0px;
+        cursor: pointer;
+      
+    }
+    .card-detail{
+        box-sizing: border-box;
+	    width: 82%;
+        text-decoration: none;
+        
+    }
+    .card-funtion{
+        box-sizing: border-box;
+	    width: 18%;
+        padding-top: 5px;
+    }
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 24px;
+    }
+    .toggle-switch input {
+        display: none;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 24px;
+    }
+    .slider:before {
+        position: absolute;
+        content: '';
+        height: 20px;
+        width: 19px; 
+        left: 2px; 
+        bottom: 2px; 
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+    .toggle-switch.checked .slider {
+        background-color: #00BA34;
+    }
+    .toggle-switch.checked input:checked + .slider:before {
+        transform: translateX(19px);
+    }
+    .form-control.timeable{
+        display: inline;
+        border: 1px solid #0a0f157a;
+        height: 38px;
+        width: 140px;
+        margin-bottom: 10px;
+        color: #263A50;
+    }
+
+    .admin-timetable-btn{
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        gap: 2%;
+
+    }
+    .admin-timetable-btn .btn-systrm{
+        width: 49%;
+        box-sizing: border-box;
+    
+    
+    }
+    #backTopic{
+        /* width: 100%; */
+        background-color: #ffffff00;
+        font-size: 24px;
+        font-weight: 500;
+        color: #263A50;
+        margin-left: -1%;
+        margin-bottom: 10px;
+        text-align: start;
+        border: 0px;
+    }
+    /* .nameClinic p{
+        margin: 2px;
+    }
+    .nameClinic{
+        margin-bottom: 7px;
+    } */
+    #Addtimetable{
+        display: none;
+    }
+    #Edittimetable{
+        display: none;
+    }
+    #Detailtimetable{
+        display: none;
+    }
+    #Detailtimetable p{
+        margin: 5px 0px;
+    }
+
+
+    #Detail p, #Detail2 p{
+        padding: 0px 30px;
+    }
+    .confirm{
+        width: 72px !important;
+        background-color: #DC2626 !important;
+        color: #ffffff !important;
+    }
+    .custom-confirm-button,.custom-cancel-button{
+        width: 143px; 
+    
+    }
+    .icon{
+        width: 30px;
+        height: 30px;
+        margin-left: 10px;
+        margin-top: -15px;
+    }
+    .icon:hover{
+        cursor: pointer;
+    }
+
+
+
+
+
+
+
+
+}
+@media(min-width:600px){
+
+}
+@media(min-width:900px){
+
+}
+@media(min-width:1200px){
+}

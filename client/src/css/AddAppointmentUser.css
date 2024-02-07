@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+@media (min-width: 300px) {
+    .CalendarUser {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    .user-head-context {
+        color: #263A50;
+        font-weight: 500;
+        font-size: 22px;
+        margin: 20px;
+        width: 180px;
+    }
+    .user-head-clinicname {
+        color: #263A50;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    .User-AddAppointment-dropdown {
+        color: #263A50;
+        margin-left: 20px;
+    }
+    .user-addappointment-cause {
+        margin-left: 40px;
+    }
+    .UserAddAppointment-textbox {
+        border-radius: 8px;
+        border: 2px solid rgba(10, 15, 21, 0.5);
+        width: 90%;
+        height: 100px;
+    }
+    .user-add-btn-request {
+        background: rgba(38, 58, 80, 1);
+        width: 90%;
+        height: 50px;
+        border: none;
+        border-radius: var(--Radius-Card, 8px);
+        color: #ffffff;
+        margin: 20px;
+        text-align: center;
+    }
+    .user-add-center {
+        text-align: center;
+    }
+    
+}
+
+@media (max-width: 505px) {
+
+}

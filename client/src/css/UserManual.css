@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;700&display=swap");
+.user{
+    font-family: 'Mitr';
+}
+.user-Manual_container{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.user-Manual_list {
+    background-color: #263A50;
+    height: 72px;
+    border-radius: 5px;
+    display: flex;  
+    align-items: center;
+    padding-left: 5%;
+}
+.user-Manual_list h3 {
+    margin:0;
+}
+.gap-16 {
+    margin-bottom: 16px;
+}

@@ -1,0 +1,148 @@
+.user-navbar-icon{
+    width: 40px;
+    cursor: pointer;
+    position: absolute;
+    top:25px;
+    right: 30px;
+}
+.user-navbar-icon-close{
+    width: 23px;
+    cursor: pointer;
+    position: absolute;
+    top:27px;
+    right: 35px;
+}
+#user-navbar{
+    display: none;
+    position: absolute;
+    right: 0vw;
+    top: 0vh;
+    height: 610px;
+    /* height: 100vh; */
+    width: 100%;
+    background-color: #E8E8E8;
+    animation-name: example;
+    animation-duration: 0.2s;
+    font-size: 16px;
+    border-radius: 0px 0px 20px 20px;
+   
+}
+@keyframes example {
+    0% {
+        font-size: 16px ;
+        height: 400px;
+        opacity: 50%;
+    }
+    100% {
+        font-size: 16px ;
+        height: 610px;
+        opacity: 100%;
+    }
+    }
+@keyframes example1 {
+    0% {
+        margin: -5px 0px;
+    }
+    100% {
+
+        margin: 17px 0px;
+    }
+
+  }
+  @keyframes example2{
+    0% {
+        opacity: 50%;
+    }
+    100% {
+
+        opacity: 100%;
+    }
+
+  }
+#user-navbar-background{
+    display: none;
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+    height: 100vh;
+    width: 100vw;
+    background-color: #444444bf;
+}
+.user-navbar-header{
+    background-color: #263A50;
+    width: 100%;
+    height: 133px;
+    border-radius: 0px 0px 20px 20px;
+    padding: 15px 20px 0px 20px;
+    opacity: 100%;
+}
+
+.user-navbar-profile{
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border-radius: 50px;
+}
+.user-navbar-profile-detail{
+    margin-top: 5px;
+    
+}
+.user-navbar-icon-edit{
+    width: 30px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.user-navbar-lists{
+    margin: 20px 20px;
+    border-bottom: 1px solid #A6A6A7;
+
+}
+.user-navbar-lists p{
+    color: #263A50;
+    padding: 0px;
+    margin: 17px 0px;
+    animation-name: example1;
+    animation-duration: 0.2s;
+        
+}
+.user-navbar-icon-logout{
+    width: 35px;
+    margin: 0px 10px 0px 20px;
+}
+
+@media (min-width: 1025px) {
+    #user-navbar-background{
+        top: 0vh;
+        left: -26vw;
+        height: 100vh;
+        width: 100vw;
+    }
+    #user-navbar{
+        height: 100vh;
+        border-radius:0px;
+    }
+    @keyframes example {
+        0% {
+            font-size: 16px ;
+            height: 400px;
+        }
+        100% {
+            font-size: 16px ;
+            height: 100vh;
+        }
+      }
+}
+
+@media (min-width: 1200px) {
+   #user-navbar-background{
+        top: 0vh;
+        left: -30vw;
+        height: 100vh;
+        width: 100vw;
+    }
+    #user-navbar{
+        height: 100vh;
+        border-radius:0px;
+    }
+  
+}
