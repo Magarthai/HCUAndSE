@@ -34,7 +34,8 @@ const UserEditAppointment = (props) => {
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
                     where('addDay', '==', selectedDate.dayName),
-                    where('clinic', '==', 'คลินิกทั่วไป')
+                    where('clinic', '==', 'คลินิกทั่วไป'),
+                    where('status', '==', 'Enabled'),
                 ));
 
                 const timeTableData = querySnapshot.docs.map((doc) => ({
@@ -139,7 +140,20 @@ const UserEditAppointment = (props) => {
 
     const location = useLocation();
     const { AppointmentUserData } = location.state || {};
-
+    const clearState = () => {
+        setState({
+            appointmentDate: "",
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            timeablelist: "",
+            userID: "",
+        });
+    };
     useEffect(() => {
         console.log('Data from state:', AppointmentUserData);
         fetchTimeTableData();
@@ -260,10 +274,11 @@ const UserEditAppointment = (props) => {
 
                 });  
                 navigate('/appointment');
+                clearState();
                 }
                 else{
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',

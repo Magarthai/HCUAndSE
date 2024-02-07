@@ -231,6 +231,20 @@ const UserEditAppointmentPhysic = (props) => {
             }
         });
     }
+    const clearState = () => {
+        setState({
+            appointmentDate: "",
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            timeablelist: "",
+            userID: "",
+        });
+    };
     const [selectedValue, setSelectedValue] = useState("");
     const submitEditForm = async (e) => {
         e.preventDefault();
@@ -289,6 +303,7 @@ const UserEditAppointmentPhysic = (props) => {
 
                 });  
                 await updateDoc(timetableRef, updatedTimetable);
+                clearState();
                 navigate('/appointment');
                 }
                 else {
