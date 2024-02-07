@@ -197,7 +197,7 @@ const UserEditAppointment = (props) => {
       }, [AppointmentUserData]);
     
     const [calendarSelectedDate, setCalendarSelectedDate] = useState(null);
-    
+    const [selectedValue, setSelectedValue] = useState("");
     const submitEditForm = async (e) => {
         e.preventDefault();
         try {
@@ -215,7 +215,10 @@ const UserEditAppointment = (props) => {
                 subject: "ขอเลื่อนนัดหมาย",
             };
             
-
+            const selectedTimeLabel = timeOptions.find((timeOption) => {
+                const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
+                return optionValue === selectedValue;
+            })?.label;
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
                 html:  `อัพเดตเป็นวันที่ ${appointmentDate}<br/> เวลา ${selectedTimeLabel}`,
@@ -305,6 +308,7 @@ const UserEditAppointment = (props) => {
                             name="time"
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
+                                setSelectedValue(e.target.value); 
                                 handleSelectChange();
                                 const selectedValue = JSON.parse(e.target.value);
 

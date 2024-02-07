@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "../css/UserEditAppointment.css";
 import "../css/Component.css";
 import NavbarUserComponent from './NavbarUserComponent';
-import CalendarUserComponentDate from "./CalendarComponentDate";
+import CalendarUserComponentDate from "./CalendarUserComponentDate";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
