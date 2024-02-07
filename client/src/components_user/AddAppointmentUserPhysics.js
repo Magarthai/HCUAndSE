@@ -163,6 +163,7 @@ const AddAppointmentUser = () => {
             const appointmentInfo = {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
                 appointmentTime,
+                appointmentTime2: "",
                 appointmentId: appointmentId || null,
                 appointmentCasue:"ตรวจรักษาโรค",
                 appointmentSymptom: appointmentSymptom,
