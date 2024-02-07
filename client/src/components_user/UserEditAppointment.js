@@ -214,7 +214,6 @@ const UserEditAppointment = (props) => {
                 status2: "เสร็จสิ้น",
                 subject: "ขอเลื่อนนัดหมาย",
             };
-
             
 
             Swal.fire({
