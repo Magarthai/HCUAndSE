@@ -29,6 +29,7 @@ import UserHistoryAppointment from "./components_user/UserHistoryAppointment.js"
 import AppointmentManagerComponentSpecial from './components_hcu/AppointmentManagerComponentSpecial.js';
 import UserTimetableComponet from './components_user/TimetableComponet.js';
 import UserProfileComponent from './components_user/ProfileComponent.js';
+import UserEditAppointmentSpecial from './components_user/UserEditAppointmentSpecial.js';
 import UserProfileEditComponent from './components_user/ProfileEditComponent.js';
 import AppointmentManagerNeedleComponent from './components_hcu/AppointmentManagerNeedleComponent.js';
 import UserEditAppointmentPhysic from './components_user/UserEditAppointmentPhysic.js';
@@ -43,6 +44,7 @@ import UserActivity from './components_user/UserActivity.js';
 import UserActivityDetail from './components_user/UserActivityDetail.js';
 import UserManual from './components_user/UserManual.js';
 import UserQueue from './components_user/UserQueue.js';
+import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeedle.js';
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
 import './index.css'
@@ -229,6 +231,14 @@ const router = createBrowserRouter([
   {
     path: "/appointment/editPhysic",
     element: <ProtectRoute><UserEditAppointmentPhysic/></ProtectRoute>
+  },
+  {
+    path: "/appointment/editNeedle",
+    element: <ProtectRoute><UserEditAppointmentNeedle/></ProtectRoute>
+  },
+  {
+    path: "/appointment/editSpecial",
+    element: <ProtectRoute><UserEditAppointmentSpecial/></ProtectRoute>
   },
   {
     path: "/appointment/history",
