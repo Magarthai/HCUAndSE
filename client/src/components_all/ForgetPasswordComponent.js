@@ -37,8 +37,13 @@ const ForgetPasswordComponent = () => {
             console.log("Password reset successful");
             Swal.fire({
                 icon: "success",
-                title: "Alert",
-                text: "Check your email for password reset instructions!",
+                title: "แจ้งเตือน",
+                text: "กรุณาตรวจสอบอีเมลของคุณสำหรับคำแนะนำในการรีเซ็ตรหัสผ่าน!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/home');
@@ -49,8 +54,8 @@ const ForgetPasswordComponent = () => {
             console.log("Password reset failed:", err);
             Swal.fire({
                 icon: "error",
-                title: "Alert",
-                text: err.code === "auth/user-not-found" ? "This email does not exist" : "Error resetting password",
+                title: "แจ้งเตือน",
+                text: err.code === "auth/user-not-found" ? "ไม่พบอีเมลนี้ในระบบ" : "เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน",
             });
         }
     };
