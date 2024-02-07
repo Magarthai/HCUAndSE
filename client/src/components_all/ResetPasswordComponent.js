@@ -48,8 +48,13 @@ const ForgetPasswordComponent = () => {
       await resetPassword2(query.get('oobCode'), password);
       Swal.fire({
         icon: "success",
-        title: "Success",
-        text: "Your password has been reset!",
+        title: "สำเร็จ",
+        text: "รหัสผ่านของคุณถูกรีเซ็ตแล้ว!",
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#263A50',
+        customClass: {
+            confirmButton: 'custom-confirm-button',
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/home');
@@ -60,8 +65,13 @@ const ForgetPasswordComponent = () => {
       console.log(err);
       Swal.fire({
         icon: "error",
-        title: "Alert",
-        text: "This email does not exist",
+        title: "แจ้งเตือน",
+        text: "อีเมลนี้ไม่มีอยู่ในระบบ",
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#263A50',
+        customClass: {
+            confirmButton: 'custom-confirm-button',
+        }
       });
     }
   };
