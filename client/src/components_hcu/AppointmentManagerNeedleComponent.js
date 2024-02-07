@@ -732,8 +732,11 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     value=""
                                     class=${selectedCount >= 2 ? 'selected' : ''}
                                 >
-                                    ${timeOptionsFromTimetable.map((timeOption) =>
-                                        `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
+                                    ${timeOptionsFromTimetable.map((timeOption,index) =>
+                                        `<option key="${ timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" 
+                                        value=${index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                        ${index === 0 ? 'hidden' : ''}
+                                        >
                                             ${timeOption.label}
                                         </option>`
                                     )}
@@ -1211,10 +1214,14 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         className={selectedCount >= 2 ? 'selected' : ''}
                                     >
                                         {timeOptions.map((timeOption, index) => (
-                                            <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                                {timeOption.label}
-                                            </option>
-                                        ))}
+                                <option
+                                    key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                    value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                    hidden={index===0}
+                                >
+                                    {timeOption.label}
+                                </option>
+                            ))}
                                     </select>
                                 </div>
                                 <div>
@@ -1296,12 +1303,20 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         >
                                             {typecheck === 'talk' ?
                                                 timeOptions.map((timeOption, index) => (
-                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
+                                                    <option
+                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        hidden={index===0}
+                                                    >
                                                         {timeOption.label}
                                                     </option>
-                                                )) :
+                                                )):
                                                 timeOptionsss.map((timeOption, index) => (
-                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
+                                                    <option
+                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        hidden={index===0}
+                                                    >
                                                         {timeOption.label}
                                                     </option>
                                                 ))

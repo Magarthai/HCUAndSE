@@ -317,16 +317,14 @@ const AddAppointmentUser = () => {
                             className={selectedCount >= 2 ? 'selected' : ''}
                         >
                             {timeOptions.map((timeOption, index) => (
-                            index === 0 ? 
-                            <option disabled key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                            {timeOption.label}
-                            </option>
-                            :
-                            <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                            {timeOption.label}
-                            </option>
-                        ))}
-
+                                <option
+                                    key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                    value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                    hidden={index===0}
+                                >
+                                    {timeOption.label}
+                                </option>
+                            ))}
                         </select>
 
                     </div>

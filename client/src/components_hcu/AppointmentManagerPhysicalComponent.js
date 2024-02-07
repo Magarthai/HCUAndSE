@@ -749,11 +749,14 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     value=""
                                     class=${selectedCount >= 2 ? 'selected' : ''}
                                 >
-                                    ${timeOptionsFromTimetable.map((timeOption) =>
-                                        `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                            ${timeOption.label}
-                                        </option>`
-                                    )}
+                                ${timeOptionsFromTimetable.map((timeOption,index) =>
+                                    `<option key="${ timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" 
+                                    value=${index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                    ${index === 0 ? 'hidden' : ''}
+                                    >
+                                        ${timeOption.label}
+                                    </option>`
+                                )}
                                 </select>
                             </div>
                             <br>
@@ -1063,7 +1066,6 @@ const AppointmentManagerPhysicComponent = (props) => {
         setSelectedDate(date);
         const formattedDate = formatDateForDisplay(date.toISOString().split("T")[0]);
         console.log("Formatted Date:", formattedDate);
-        // ทำอย่างอื่นตามต้องการ
       };
     return (
         <div className="appointment" style={containerStyle}>
