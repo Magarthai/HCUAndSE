@@ -55,6 +55,7 @@ const AppointmentManagerComponent = (props) => {
             
             if (timeTableData.length > 0) {
                 console.log(timeTableData,"timeTableData")
+
                 const filteredTimeTableData = timeTableData
                 if (filteredTimeTableData.length > 0) {
                     const allTimeableLists = filteredTimeTableData.reduce((acc, item) => {
@@ -480,6 +481,16 @@ const AppointmentManagerComponent = (props) => {
     }
 
     const openAddAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+        }));
         adminCards.forEach(card => card.classList.remove('focused'));
         let x = document.getElementById("add-appointment");
         let y = document.getElementById("detail-appointment");
@@ -499,7 +510,7 @@ const AppointmentManagerComponent = (props) => {
 
     }
 
-    const openEditAppointment = async (element,appointmentUserData) => {
+    const openEditAppointment = async (appointmentUserData) => {
         console.log("Edit appointment data:", appointmentUserData.appointmentuid);
         console.log(appointmentUserData.appointmentuid)
         let x = document.getElementById("edit-appointment");
@@ -519,9 +530,6 @@ const AppointmentManagerComponent = (props) => {
             typecheck: appointmentUserData.type
         }));
         if (window.getComputedStyle(x).display === "none") {
-            if(window.getComputedStyle(z).display === "block" && saveDetailId === appointmentUserData.appointmentuid){
-                element.stopPropagation();
-            }
             x.style.display = "block";
             y.style.display = "none";
             z.style.display = "none";
@@ -754,7 +762,7 @@ const AppointmentManagerComponent = (props) => {
                                                     <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
                                                 ) : (
                                                     <>
-                                                        <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(event,AppointmentUserData.appointment)} />
+                                                        <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(AppointmentUserData.appointment)} />
                                                         <img src={icon_delete} className="icon" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper)} />
                                                     </>
                                                 )}

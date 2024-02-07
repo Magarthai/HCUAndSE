@@ -219,17 +219,18 @@ const AppointmentManagerNeedleComponent = (props) => {
                         }, {});
                         setIsChecked(initialIsChecked);
                         const timeOptionsFromTimetable = GetTimeOptionsFilterdFromTimetable(availableTimeSlots);
-                        if(timeOptionsFromTimetable.length <= 1) {
-                            const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
-                        setTimeOptionss([noTimeSlotsAvailableOption]);
+                        if (timeOptionsFromTimetable.length) {
+                            setTimeOptionsss(timeOptionsFromTimetable);
                         } else {
-                            setTimeOptionss(timeOptionsFromTimetable);
+                            const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                        setTimeOptionsss([noTimeSlotsAvailableOption]);
                         }
+
                     } else {
                         console.log("Time table not found for selected day and clinic");
                         const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
                         setTimeOptionsss([noTimeSlotsAvailableOption]);
-                        console.log(timeOptionss)
+                        console.log(timeOptionsss)
                     }
 
                 } else {
@@ -410,6 +411,17 @@ const AppointmentManagerNeedleComponent = (props) => {
         }
     }
     const openAddAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            typecheck: ""
+        }));
         adminCards.forEach(card => card.classList.remove('focused'));
         let x = document.getElementById("add-appointment");
         let y = document.getElementById("detail-appointment");
@@ -1314,20 +1326,12 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         >
                                             {typecheck === 'talk' ?
                                                 timeOptions.map((timeOption, index) => (
-                                                    <option
-                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
-                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
-                                                        hidden={index===0}
-                                                    >
+                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
                                                         {timeOption.label}
                                                     </option>
-                                                )):
+                                                )) :
                                                 timeOptionsss.map((timeOption, index) => (
-                                                    <option
-                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
-                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
-                                                        hidden={index===0}
-                                                    >
+                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
                                                         {timeOption.label}
                                                     </option>
                                                 ))

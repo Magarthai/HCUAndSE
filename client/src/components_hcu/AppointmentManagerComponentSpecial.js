@@ -458,6 +458,16 @@ const AppointmentManagerComponentSpecial = (props) => {
     }
 
     const openAddAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+        }));
         adminCards.forEach(card => card.classList.remove('focused'));
         let x = document.getElementById("add-appointment");
         let y = document.getElementById("detail-appointment");

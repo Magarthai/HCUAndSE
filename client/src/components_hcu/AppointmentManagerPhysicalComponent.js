@@ -219,9 +219,12 @@ const AppointmentManagerPhysicComponent = (props) => {
                         }, {});
                         setIsChecked(initialIsChecked);
                         const timeOptionsFromTimetable = GetTimeOptionsFilterdFromTimetable(availableTimeSlots);
-                        console.log("GetTimeOptionsFilterdFromTimetable", selectedDate, timeOptionsFromTimetable)
-                        setTimeOptionsss(timeOptionsFromTimetable);
-                        console.log(timeOptionsss)
+                        if (timeOptionsFromTimetable.length) {
+                            setTimeOptionsss(timeOptionsFromTimetable);
+                        } else {
+                            const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                        setTimeOptionsss([noTimeSlotsAvailableOption]);
+                        }
                     } else {
                         console.log("Time table not found for selected day and clinic");
                         const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -407,6 +410,17 @@ const AppointmentManagerPhysicComponent = (props) => {
         }
     }
     const openAddAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            typecheck: ""
+        }));
         let x = document.getElementById("add-appointment");
         let y = document.getElementById("detail-appointment");
         let z = document.getElementById("edit-appointment");
