@@ -191,6 +191,8 @@ const AppointmentManagerComponent = (props) => {
                 appointmentNotation,
                 clinic: "คลินิกทั่วไป",
                 status: "ลงทะเบียนแล้ว",
+                status2: "เสร็จสิ้น",
+                subject: "เพิ่มนัดหมาย",
             };
 
             const usersCollection = collection(db, 'users');

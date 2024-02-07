@@ -57,6 +57,8 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
             clinic: "คลินิกฝั่งเข็ม",
             type: "talk",
             status: "ลงทะเบียนแล้ว",
+            status2: "เสร็จสิ้น",
+            subject: "เพิ่มนัดหมาย",
         };
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));

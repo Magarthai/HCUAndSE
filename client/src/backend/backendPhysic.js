@@ -57,6 +57,8 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
             clinic: "คลินิกกายภาพ",
             type: "talk",
             status: "ลงทะเบียนแล้ว",
+            status2: "เสร็จสิ้น",
+                subject: "เพิ่มนัดหมาย",
         };
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
