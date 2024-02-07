@@ -94,7 +94,7 @@ const ForgetPasswordComponent = () => {
                     </form>
 
                     <div className="center">
-                        <a href="/login" role="button" className="colorPrimary-800" style={{textDecoration:"underline"}} >มีบัญชีแล้ว Log in</a>
+                        <a href="/" role="button" className="colorPrimary-800" style={{textDecoration:"underline"}} >มีบัญชีแล้ว Log in</a>
                         <p className="textBody-small login-kmutt">King Mongkut's University of Technology Thonburi</p>
                     </div>
 

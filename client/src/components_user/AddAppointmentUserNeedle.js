@@ -248,7 +248,7 @@ const AddNeedleAppointmentUser = () => {
 
             <body className="user-body">
                 <h3 className="user-head-context">ปฏิทิน</h3>
-                <label className="user-head-clinicname">คลินิกฝั่งเข็ม</label>
+                <label className="user-head-clinicname">คลินิกฝังเข็ม</label>
 
                 <div className="CalendarUser">
                     <CalendarAddUserComponent
