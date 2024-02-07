@@ -57,12 +57,12 @@ export const fetchTimeTableDataGeneral = async () => {
   try {
       const timeTableCollection = collection(db, 'timeTable');
       const timeTableSnapshot = await getDocs(query(timeTableCollection,where('clinic', '==', 'คลินิกทั่วไป')));
-
+      
       const timeTableData = timeTableSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
       }));
-
+      console.log(timeTableData,"timeTableData")
           return timeTableData;
       
   } catch (error) {

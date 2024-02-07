@@ -212,7 +212,40 @@ const TimetablePhysicalComponent = (props) => {
                 }
             });
             return;
+        }  
+        
+        if (
+            timeAppointmentMainEnd > timeEnd
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลากายภาพใหม่ เวลาปิดกายภาพมากกว่าช่วงเวลาปิดคลินิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
         }
+
+        if (
+            timeAppointmentMainStart < timeStart 
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลากายภาพใหม่ เวลาเปิดกายภาพน้อยกว่าช่วงเวลาเปิดคลินิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+
         
 
         const timeablelist = [];
@@ -280,19 +313,6 @@ const TimetablePhysicalComponent = (props) => {
                 status: "Enabled",
             };
             
-
-            const isInputMainTimeOverlap = () => {
-                const appointmentStartTime = new Date(`2000-01-01T${timeStart}`);
-                const appointmentEndTime = new Date(`2000-01-01T${timeEnd}`);
-                const inputStartTime = new Date(`2000-01-01T${timeAppointmentMainStart}`);
-                const inputEndTime = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
-                
-                return (
-                    (inputStartTime >= appointmentStartTime && inputStartTime <= appointmentEndTime) ||
-                    (inputEndTime >= appointmentStartTime && inputEndTime <= appointmentEndTime) ||
-                    (inputStartTime <= appointmentStartTime && inputEndTime >= appointmentEndTime)
-                );
-            };
 
             const isInputMainAppointmentTimeOverlap = () => {
                 const appointmentStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
@@ -849,6 +869,37 @@ const TimetablePhysicalComponent = (props) => {
             });
             return;
         }
+        if (
+            timeAppointmentMainEnd > timeEnd
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลากายภาพใหม่ เวลาปิดกายภาพมากกว่าช่วงเวลาปิดคลินิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
+
+        if (
+            timeAppointmentMainStart < timeStart 
+        ) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรอกช่วงเวลากายภาพใหม่ เวลาเปิดกายภาพน้อยกว่าช่วงเวลาเปิดคลินิก!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
 
     
         const timeablelist = [];
@@ -930,7 +981,72 @@ const TimetablePhysicalComponent = (props) => {
                 );
             };
             if (addDay === "monday") {
-                if (isInputMainAppointmentTimeOverlap()) {
+                const mondayTimetable = timetable.filter(item => item.addDay === "monday" && item.id != timetableId);
+                
+                const isTimeOverlap = mondayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                const isAppointmentTimeOverlap = mondayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeAppointmentStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeAppointmentEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                if (isTimeOverlap && !isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิด!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิดและช่วงเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } 
+                else if (isInputMainAppointmentTimeOverlap()) {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
@@ -945,7 +1061,72 @@ const TimetablePhysicalComponent = (props) => {
                 }
             }
             if (addDay === "tuesday") {
-                if (isInputMainAppointmentTimeOverlap()) {
+                const tuesdayTimetable = timetable.filter(item => item.addDay === "tuesday"  && item.id != timetableId);
+                
+                const isTimeOverlap = tuesdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                const isAppointmentTimeOverlap = tuesdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeAppointmentStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeAppointmentEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                if (isTimeOverlap && !isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิด!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิดและช่วงเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } 
+                else if (isInputMainAppointmentTimeOverlap()) {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
@@ -961,7 +1142,72 @@ const TimetablePhysicalComponent = (props) => {
             } 
 
             if (addDay === "wednesday") {
-                if (isInputMainAppointmentTimeOverlap()) {
+                const wednesdayTimetable = timetable.filter(item => item.addDay === "wednesday"  && item.id != timetableId);
+                
+                const isTimeOverlap = wednesdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                const isAppointmentTimeOverlap = wednesdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeAppointmentStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeAppointmentEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+
+                if (isTimeOverlap && !isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิด!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิดและช่วงเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } 
+                else if (isInputMainAppointmentTimeOverlap()) {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
@@ -977,7 +1223,72 @@ const TimetablePhysicalComponent = (props) => {
             }
 
             if (addDay === "thursday") {
-                if (isInputMainAppointmentTimeOverlap()) {
+                const thursdayTimetable = timetable.filter(item => item.addDay === "thursday"  && item.id != timetableId);
+                
+                const isTimeOverlap = thursdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                const isAppointmentTimeOverlap = thursdayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeAppointmentStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeAppointmentEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                if (isTimeOverlap && !isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิด!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิดและช่วงเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } 
+                else if (isInputMainAppointmentTimeOverlap()) {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
@@ -993,7 +1304,72 @@ const TimetablePhysicalComponent = (props) => {
             }
             
             if (addDay === "friday") {
-                if (isInputMainAppointmentTimeOverlap()) {
+                const fridayTimetable = timetable.filter(item => item.addDay === "friday"  && item.id != timetableId);
+                
+                const isTimeOverlap = fridayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                const isAppointmentTimeOverlap = fridayTimetable.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.timeAppointmentStart}`);
+                    const endTime = new Date(`2000-01-01T${item.timeAppointmentEnd}`);
+                    const inputStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
+                    const inputEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
+            
+                    return (
+                        (inputStartTime >= startTime && inputStartTime <= endTime) ||
+                        (inputEndTime >= startTime && inputEndTime <= endTime) ||
+                        (inputStartTime <= startTime && inputEndTime >= endTime)
+                    );
+                });
+            
+                if (isTimeOverlap && !isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิด!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } else if (isTimeOverlap && isAppointmentTimeOverlap) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ช่วงเวลาที่กำหนดซ้ำกับเวลาที่คลินิกเปิดหรือปิดและช่วงเวลานัดหมายที่มีอยู่แล้ว!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                    return;
+                } 
+                else if (isInputMainAppointmentTimeOverlap()) {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
