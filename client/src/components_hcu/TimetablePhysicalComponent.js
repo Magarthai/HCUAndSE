@@ -1153,6 +1153,7 @@ const TimetablePhysicalComponent = (props) => {
             timeAppointmentStart: timetable.timeAppointmentStart,
             timeAppointmentEnd: timetable.timeAppointmentEnd,
             numberAppointment: timetable.numberAppointment,
+            numberMainAppointment: timetable.numberMainAppointment,
             clinic: "คลินิกกายภาพ",
             timeablelist: timetable.timeablelist,
             status: "Enabled",
@@ -1731,8 +1732,8 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <input type="text" disabled className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
@@ -1756,8 +1757,8 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <input type="text" disabled className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
