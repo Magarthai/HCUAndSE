@@ -281,9 +281,9 @@ const getDayName = (date) => {
   return daysOfWeek[dayIndex];
 };
 
-const formatDateForDisplay = (isoDate) => {
-  const dateParts = isoDate.split("-");
-  if (dateParts.length === 3) {
+  const formatDateForDisplay = (isoDate) => {
+    const dateParts = isoDate.split("-");
+    if (dateParts.length === 3) {
       setAllAppointmentUsersData([]);
       const [year, month, day] = dateParts;
       const formattedMonth = parseInt(month, 10);
@@ -307,9 +307,12 @@ const formatDateForDisplay = (isoDate) => {
       });
       console.log("formattedSelectedDate", formattedSelectedDate);
       return formattedDate;
-  }
-  return isoDate;
-};
+    }
+    return isoDate;
+  };
+
+
+
   return (
 
     <div className="user">
@@ -334,8 +337,11 @@ const formatDateForDisplay = (isoDate) => {
                                     inputValue("appointmentDate")(e);
                                     const formattedDate = formatDateForDisplay(e.target.value);
                                     console.log("Formatted Date:", formattedDate);
+
                                 }}
-                            />
+                                
+                                
+                            /> 
                         </div>
         </div>
 
