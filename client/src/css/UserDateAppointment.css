@@ -107,10 +107,16 @@
     padding: 0px 10px;
     background-color: #ffffff;
 }
-.user-DateAppointment-icon_edit,.user-DateAppointment-icon_delete{
+.user-DateAppointment-icon_edit{
     width: 32px;
     height: 32px;
+    cursor: pointer;
     }
+.user-DateAppointment-icon_delete{
+        width: 31px;
+        height: 31px;
+        cursor: pointer;
+}
 
 @media (min-width: 1200px) {
     .user-DateAppointment-card_noAppointment{
