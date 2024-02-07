@@ -30,7 +30,6 @@ const TimetableGeneralComponent = (props) => {
         timetableId: id || "",
     })
 
-
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic, timetableId } = state
 
     const isSubmitEnabled =

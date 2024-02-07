@@ -231,7 +231,7 @@ const UserEditAppointmentNeedle = (props) => {
             }
         });
     }
-
+    const [selectedValue, setSelectedValue] = useState("");
     const submitEditForm = async (e) => {
         e.preventDefault();
         try {
@@ -245,10 +245,25 @@ const UserEditAppointmentNeedle = (props) => {
                 subject: "ขอเลื่อนนัดหมาย",
             };
 
-            
+            const selectedTimeLabel = timeOptions.find((timeOption) => {
+                const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
+                return optionValue === selectedValue;
+            })?.label;
+            if (selectedTimeLabel === undefined) {
+                Swal.fire({
+                    title: "แก้ไขไม่สําเร็จ กรุณาเลือกช่วงเวลา",
+                    icon: "error",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                });
+                return;
+            }
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html:  `อัพเดตเป็นวันที่ ${appointmentDate}<br/> เวลา ${selectedTimeLabel}`,
+                html:  `อัพเดตเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} <br/> เวลา ${selectedTimeLabel}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',
@@ -277,7 +292,7 @@ const UserEditAppointmentNeedle = (props) => {
                 }
                 if (result.isDenied){
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',
@@ -334,6 +349,7 @@ const UserEditAppointmentNeedle = (props) => {
                             name="time"
                             value={JSON.stringify(appointmentTime2)}
                             onChange={(e) => {
+                                setSelectedValue(e.target.value); 
                                 handleSelectChange();
                                 const selectedValue = JSON.parse(e.target.value);
 

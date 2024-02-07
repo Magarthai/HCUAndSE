@@ -219,9 +219,21 @@ const UserEditAppointment = (props) => {
                 const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                 return optionValue === selectedValue;
             })?.label;
+            if (selectedTimeLabel === undefined) {
+                Swal.fire({
+                    title: "แก้ไขไม่สําเร็จ กรุณาเลือกช่วงเวลา",
+                    icon: "error",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                });
+                return;
+            }
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html:  `อัพเดตเป็นวันที่ ${appointmentDate}<br/> เวลา ${selectedTimeLabel}`,
+                html:  `อัพเดตเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} <br/> เวลา ${selectedTimeLabel}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',

@@ -26,7 +26,7 @@ const UserEditAppointmentSpecial = (props) => {
         timeablelist: "",
         userID: "",
     })
-
+    const [selectedValue, setSelectedValue] = useState("");
     const fetchTimeTableData = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
@@ -210,11 +210,25 @@ const UserEditAppointmentSpecial = (props) => {
                 subject: "ขอเลื่อนนัดหมาย",
             };
 
-            
-
+            const selectedTimeLabel = timeOptions.find((timeOption) => {
+                const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
+                return optionValue === selectedValue;
+            })?.label;
+            if (selectedTimeLabel === undefined) {
+                Swal.fire({
+                    title: "แก้ไขไม่สําเร็จ กรุณาเลือกช่วงเวลา",
+                    icon: "error",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                });
+                return;
+            }
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html:  `อัพเดตเป็นวันที่ ${appointmentDate}<br/> เวลา ${selectedTimeLabel}`,
+                html:  `อัพเดตเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} <br/> เวลา ${selectedTimeLabel}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',
@@ -242,7 +256,7 @@ const UserEditAppointmentSpecial = (props) => {
                 }
                 if (result.isDenied){
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         customClass: {
@@ -298,6 +312,7 @@ const UserEditAppointmentSpecial = (props) => {
                             name="time"
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
+                                setSelectedValue(e.target.value); 
                                 handleSelectChange();
                                 const selectedValue = JSON.parse(e.target.value);
 

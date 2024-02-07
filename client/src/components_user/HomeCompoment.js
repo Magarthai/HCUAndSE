@@ -33,13 +33,13 @@ const HomeComponent = (props) => {
 
     const initLine = () => {
         liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
-
+            if (liff.isInClient()){
             if (liff.isLoggedIn()) {
                 runApp();
             } else {
                 liff.login();
             }
-        
+        }
         }, err => console.error(err));
     }
 
@@ -100,8 +100,7 @@ const HomeComponent = (props) => {
                     <div className="user-home-proflie" >
                         
                         <div className="user-home-proflie-box center" style={{width:"15%", paddingLeft:"4%"}}>
-                           {/* <img className="user-home-profile-img" src={profile} alt="logo health care unit" /> */}
-                           {userData &&<img className="user-home-profile-img" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+                           <img className="user-home-profile-img" src={profile} alt="logo health care unit" />
                         </div>
                         
                         <div className="user-home-proflie-box colorPrimary-800" style={{width:"70%", justifyContent:"flex-start", paddingLeft:"6%"}}>
