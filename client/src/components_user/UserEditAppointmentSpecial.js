@@ -254,7 +254,7 @@ const UserEditAppointmentSpecial = (props) => {
                 });  
                 navigate('/appointment');
                 }
-                if (result.isDenied){
+                else {
                     Swal.fire({
                         title: "แก้ไขไม่สําเร็จ",
                         icon: "error",

@@ -48,7 +48,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
             if (user) {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection,
-                where('postPone', '==', 'yes')));
+                where('status', '==', 'ยื่นแก้ไข้')));
     
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -70,18 +70,22 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                     for (const appointment of existingAppointments) {
                         const timeSlotIndex = appointment.appointmentTime.timeSlotIndex;
                         const timeTableId = appointment.appointmentTime.timetableId;
-                        
+                        const timeSlotIndex2 = appointment.appointmentTime2.timeSlotIndex;
+                        const timeTableId2 = appointment.appointmentTime2.timetableId;
                         try {
                             const timetableDocRef = doc(timeTableCollection, timeTableId);
                             const timetableDocSnapshot = await getDoc(timetableDocRef);
-    
-                            if (timetableDocSnapshot.exists()) {
+                            const timetableDocRef2 = doc(timeTableCollection, timeTableId2);
+                            const timetableDocSnapshot2 = await getDoc(timetableDocRef2);
+                            if (timetableDocSnapshot.exists() && timetableDocSnapshot2.exists()) {
                                 const timetableData = timetableDocSnapshot.data();
+                                const timetableData2 = timetableDocSnapshot2.data();
                                 console.log("Timetable Data:", timetableData);
                                 const timeslot = timetableData.timeablelist[timeSlotIndex];
+                                const timeslot2 = timetableData2.timeablelist[timeSlotIndex2];
                                 console.log("Timeslot info", timeslot);
     
-                                const userDetails = await getUserDataFromUserId(appointment,appointment.appointmentId, timeslot,appointment.appointmentuid);
+                                const userDetails = await getUserDataFromUserId(appointment,appointment.appointmentId, timeslot,timeslot2,appointment.appointmentuid);
     
                                 if (userDetails) {
                                     AppointmentUsersDataArray.push(userDetails);
@@ -116,11 +120,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
         }
     };
 
-
-
-    
-
-    const getUserDataFromUserId = async (appointment,userId,timeslot,appointmentuid) => {
+    const getUserDataFromUserId = async (appointment,userId,timeslot,timeslot2,appointmentuid) => {
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', userId)));
 
@@ -131,6 +131,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
         const userUid = userQuerySnapshot.docs[0].id;
         const userDatas = userQuerySnapshot.docs[0].data();
         userDatas.timeslot = timeslot;
+        userDatas.timeslot2 = timeslot2;
         userDatas.appointment = appointment;
         userDatas.appointmentuid = appointmentuid;
         userDatas.userUid = userUid;
@@ -139,6 +140,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
         console.log("testxd",userDatas.timeslot.start)
         return userDatas;
     };
+  
   
     useEffect(() => {
         document.title = 'Health Care Unit';
@@ -221,14 +223,16 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                     <thead>
                         <tr className="center colorPrimary-800">
                             <th className="admin-textBody-large colorPrimary-800" id="th_id">รหัสนักศึกษา/รหัสพนักงาน</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_name">ชื่อ</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_tel">เบอร์โทร</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_clinic">คลินิก</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_dateOld">วันนัดหมายเดิม</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_dateNew">วันนัดหมายที่ขอเปลี่ยน</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_symptom">อาการ</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_notation">หมายเหตุ</th>
-                            <th className="admin-textBody-large colorPrimary-800" id="th_approve">การอนุมัติ</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_name">ชื่อ</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_tel">เบอร์โทร</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_clinic">คลินิก</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_dateOld">วันนัดหมายเดิม</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_dateNew">วันนัดหมายที่ขอเปลี่ยน</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาเดิม</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาใหม่</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_symptom">อาการ</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">หมายเหตุ</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_approve">อนุมัติ</th>
                         </tr>
                     </thead>
                     <tbody >
@@ -245,6 +249,8 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.clinic}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate2}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot2.start} - {AppointmentUserData.timeslot2.end}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentSymptom}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentNotation}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appove}</td>
@@ -254,16 +260,17 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
             }
         </>
     ) : (<tr >
-        <td className="admin-textBody-huge2 colorPrimary-800" >64090500444</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">รวิษฎา อนุรุตติกุล</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">0630810573</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">คลินิกกายภาพ</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">07/12/2023</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">22/12/2023</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">ป่วย</td>
+        <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
         <td className="admin-textBody-huge2 colorPrimary-800">-</td>
-        <td className="admin-textBody-huge2 colorPrimary-800">อนุมัติ</td>
-
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+        <td className="admin-textBody-huge2 colorPrimary-800">-</td>
     </tr>
     )}
                     </tbody>

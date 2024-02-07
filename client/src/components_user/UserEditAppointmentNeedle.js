@@ -276,7 +276,7 @@ const UserEditAppointmentNeedle = (props) => {
                     cancelButton: 'custom-cancel-button',
                 }
             }).then(async (result) => {
-                await updateDoc(timetableRef, updatedTimetable);
+                
                 if (result.isConfirmed) {
                 Swal.fire({
                     title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
@@ -288,9 +288,10 @@ const UserEditAppointmentNeedle = (props) => {
                         }
 
                 });  
+                await updateDoc(timetableRef, updatedTimetable);
                 navigate('/appointment');
                 }
-                if (result.isDenied){
+                else {
                     Swal.fire({
                         title: "แก้ไขไม่สําเร็จ",
                         icon: "error",

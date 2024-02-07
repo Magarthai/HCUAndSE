@@ -68,18 +68,22 @@ const AppointmentRequestManagementComponent = (props) => {
                     for (const appointment of existingAppointments) {
                         const timeSlotIndex = appointment.appointmentTime.timeSlotIndex;
                         const timeTableId = appointment.appointmentTime.timetableId;
-                        
+                        const timeSlotIndex2 = appointment.appointmentTime2.timeSlotIndex;
+                        const timeTableId2 = appointment.appointmentTime2.timetableId;
                         try {
                             const timetableDocRef = doc(timeTableCollection, timeTableId);
                             const timetableDocSnapshot = await getDoc(timetableDocRef);
-    
-                            if (timetableDocSnapshot.exists()) {
+                            const timetableDocRef2 = doc(timeTableCollection, timeTableId2);
+                            const timetableDocSnapshot2 = await getDoc(timetableDocRef2);
+                            if (timetableDocSnapshot.exists() && timetableDocSnapshot2.exists()) {
                                 const timetableData = timetableDocSnapshot.data();
+                                const timetableData2 = timetableDocSnapshot2.data();
                                 console.log("Timetable Data:", timetableData);
                                 const timeslot = timetableData.timeablelist[timeSlotIndex];
+                                const timeslot2 = timetableData2.timeablelist[timeSlotIndex2];
                                 console.log("Timeslot info", timeslot);
     
-                                const userDetails = await getUserDataFromUserId(appointment,appointment.appointmentId, timeslot,appointment.appointmentuid);
+                                const userDetails = await getUserDataFromUserId(appointment,appointment.appointmentId, timeslot,timeslot2,appointment.appointmentuid);
     
                                 if (userDetails) {
                                     AppointmentUsersDataArray.push(userDetails);
@@ -118,7 +122,7 @@ const AppointmentRequestManagementComponent = (props) => {
 
     
 
-    const getUserDataFromUserId = async (appointment,userId,timeslot,appointmentuid) => {
+    const getUserDataFromUserId = async (appointment,userId,timeslot,timeslot2,appointmentuid) => {
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', userId)));
 
@@ -129,6 +133,7 @@ const AppointmentRequestManagementComponent = (props) => {
         const userUid = userQuerySnapshot.docs[0].id;
         const userDatas = userQuerySnapshot.docs[0].data();
         userDatas.timeslot = timeslot;
+        userDatas.timeslot2 = timeslot2;
         userDatas.appointment = appointment;
         userDatas.appointmentuid = appointmentuid;
         userDatas.userUid = userUid;
@@ -208,7 +213,7 @@ const AppointmentRequestManagementComponent = (props) => {
     
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate2}<br/> เวลา ${AppointmentUserData.appointment.appointmentTime2.label}`,
+                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate2} จากเดิม ${AppointmentUserData.appointment.appointmentDate}<br/> เวลา ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end} จากเดิม ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',
@@ -265,8 +270,8 @@ const AppointmentRequestManagementComponent = (props) => {
             };
     
             Swal.fire({
-                title: "ลบนัดหมาย",
-                html: `ลบนัดหมายของ ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}<br/> เวลา ${AppointmentUserData.appointment.appointmentTime2.label}`,
+                title: "ไม่อนุมัตินัดหมาย",
+                html: `ไม่อนุมัตินัดหมายของ ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}<br/>`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',
@@ -345,6 +350,8 @@ const AppointmentRequestManagementComponent = (props) => {
                                 <th className="admin-textBody-large colorPrimary-800" id="th_clinic">คลินิก</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_dateOld">วันนัดหมายเดิม</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_dateNew">วันนัดหมายที่ขอเปลี่ยน</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาเดิม</th>
+                                <th className="admin-textBody-large colorPrimary-800" id="th_notation">เวลาใหม่</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_symptom">อาการ</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_notation">หมายเหตุ</th>
                                 <th className="admin-textBody-large colorPrimary-800" id="th_approve">อนุมัติ</th>
@@ -364,6 +371,8 @@ const AppointmentRequestManagementComponent = (props) => {
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.clinic}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate2}</td>
+                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</td>
+                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot2.start} - {AppointmentUserData.timeslot2.end}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentSymptom}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentNotation}</td>
                                 <td>
@@ -376,6 +385,8 @@ const AppointmentRequestManagementComponent = (props) => {
                 </>
             ) : (
                             <tr>
+                                <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
+                                <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
