@@ -236,13 +236,14 @@ const AppointmentRequestManagementComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
-                    navigate('/appointment');
+                    navigate('/adminAppointmentRequestManagementHistoryComponent');
                 }
                 if (result.isDenied) {
                     Swal.fire({
                         title: "แก้ไข้ไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
                         customClass: {
                             confirmButton: 'custom-confirm-button',
                         }
