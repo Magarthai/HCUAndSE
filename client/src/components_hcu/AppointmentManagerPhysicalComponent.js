@@ -939,6 +939,8 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             clinic: "คลินิกกายภาพ",
                                             status: "ลงทะเบียนแล้ว",
                                             type: "main",
+                                            status2: "เสร็จสิ้น",
+                                            subject: "เพิ่มนัดหมาย",
                                         };
                     
                                         const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);

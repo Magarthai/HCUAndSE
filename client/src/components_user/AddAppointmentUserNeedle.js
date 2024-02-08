@@ -170,6 +170,7 @@ const AddNeedleAppointmentUser = () => {
                 clinic: "คลินิกฝั่งเข็ม",
                 status: "ลงทะเบียนแล้ว",
                 status2: "เสร็จสิ้น",
+                type: "talk",
                 subject: "เพิ่มนัดหมาย",
             };
 
