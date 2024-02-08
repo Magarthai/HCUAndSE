@@ -503,7 +503,7 @@ const AppointmentManagerComponent = (props) => {
             z.style.display = "none";
             setsaveDetailId("")
             setsaveEditId("")
-
+            
         } else {
             x.style.display = "none";
 
@@ -512,40 +512,43 @@ const AppointmentManagerComponent = (props) => {
 
     }
 
-    const openEditAppointment = async (element,appointmentUserData) => {
-        console.log("Edit appointment data:", appointmentUserData.appointmentuid);
-        console.log(appointmentUserData.appointmentuid)
+    const openEditAppointment = async (element,AppointmentUsersData) => {
+        console.log("Edit appointment data:", AppointmentUsersData.appointment.appointmentuid);
+        console.log(AppointmentUsersData.appointment.appointmentuid)
         let x = document.getElementById("edit-appointment");
         let y = document.getElementById("add-appointment");
         let z = document.getElementById("detail-appointment");
 
         setState((prevState) => ({
             ...prevState,
-            appointmentDate: appointmentUserData.appointmentDate,
+            appointmentDate: AppointmentUsersData.appointment.appointmentDate,
             appointmentTime: null,
-            appointmentId: appointmentUserData.appointmentId,
-            appointmentCasue: appointmentUserData.appointmentCasue,
-            appointmentSymptom: appointmentUserData.appointmentSymptom,
-            appointmentNotation: appointmentUserData.appointmentNotation,
-            clinic: appointmentUserData.clinic,
-            uid: appointmentUserData.appointmentuid,
-            typecheck: appointmentUserData.type
+            appointmentId: AppointmentUsersData.appointment.appointmentId,
+            appointmentCasue: AppointmentUsersData.appointment.appointmentCasue,
+            appointmentSymptom: AppointmentUsersData.appointment.appointmentSymptom,
+            appointmentNotation: AppointmentUsersData.appointment.appointmentNotation,
+            clinic: AppointmentUsersData.appointment.clinic,
+            uid: AppointmentUsersData.appointment.appointmentuid,
+            typecheck: AppointmentUsersData.appointment.type
         }));
         if (window.getComputedStyle(x).display === "none") {
-            if(window.getComputedStyle(z).display === "block" && saveDetailId === appointmentUserData.appointmentuid){
+            if(window.getComputedStyle(z).display === "block" && saveDetailId === AppointmentUsersData.appointment.appointmentuid){
                 element.stopPropagation();
             }
             x.style.display = "block";
             y.style.display = "none";
             z.style.display = "none";
             setsaveDetailId("")
-            setsaveEditId(appointmentUserData.appointmentuid)
+            setsaveEditId(AppointmentUsersData.appointmentuid)
+            document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start}-${AppointmentUsersData.timeslot.end}`
         } else {
-            if (saveEditId === appointmentUserData.appointmentuid) {
+            if (saveEditId === AppointmentUsersData.appointmentuid) {
                 x.style.display = "none";
                 setsaveEditId("")
+                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end}`
             } else {
-                setsaveEditId(appointmentUserData.appointmentuid)
+                setsaveEditId(AppointmentUsersData.appointmentuid)
+                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end}`
             }
         }
     }
@@ -767,7 +770,7 @@ const AppointmentManagerComponent = (props) => {
                                                     <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
                                                 ) : (
                                                     <>
-                                                        <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(event,AppointmentUserData.appointment)} />
+                                                        <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
                                                         <img src={icon_delete} className="icon" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper)} />
                                                     </>
                                                 )}
@@ -849,8 +852,6 @@ const AppointmentManagerComponent = (props) => {
                                     {timeOption.label}
                                 </option>
                             ))}
-
-
                                         </select>
                                     </div>
                                     <div>
@@ -897,7 +898,7 @@ const AppointmentManagerComponent = (props) => {
 
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา</label>
+                                        <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา </label>
                                         <select
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}

@@ -306,8 +306,8 @@ const UserEditAppointmentSpecial = (props) => {
                 <form onSubmit={submitEditForm}>
                     <div className="user-EditAppointment-Dropdown_container gap-32" style={{ marginTop: 36 }}>
                         <div className="user-EditAppointment-Dropdown_title">
-                            <h4>ช่วงเวลา</h4>
-                        </div>
+                        {AppointmentUserData && <h4>ช่วงเวลาเดิม {AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</h4>}
+                        </div>  
                         <select
                             name="time"
                             value={JSON.stringify(appointmentTime)}
