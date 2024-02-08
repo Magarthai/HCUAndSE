@@ -32,13 +32,15 @@ const HomeComponent = (props) => {
     const [profile, setProfile] = useState(male);
 
     const initLine = () => {
+        
         liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+            if (liff.isInClient) {
             if (liff.isLoggedIn()) {
                 runApp();
             } else {
                 liff.login();
             }
-        
+            }
         }, err => console.error(err));
     }
 
@@ -66,10 +68,10 @@ const HomeComponent = (props) => {
     useEffect(() => {
         if (userData) {
             console.log("get user data ID")
-
+            if (liff.isInClient) {
             a();
             console.log("update doneXDAC",userData.userID)
-            
+            }
           }
         
     }, [userData]);
