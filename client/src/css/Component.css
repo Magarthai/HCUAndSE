@@ -411,7 +411,8 @@
         margin-bottom: 20px;
     }
     .user-home-list a{
-        width: 31.3%;
+        /* width: 31.3%;
+        width: 48%; */
         box-sizing: border-box;
         margin-bottom: 0%;
         background-color: #263A50;
@@ -426,6 +427,12 @@
         box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.3);
         padding:5px;
 
+    }
+    .user-home-list-box1{
+        width: 65.7%;
+    }
+    .user-home-list-box2{
+        width: 31.3%;
     }
     .user-home-list a p{
         margin: 0;
