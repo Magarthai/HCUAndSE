@@ -660,7 +660,13 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     return acc;
                                 }, []);
                                 const appointmentsCollection = collection(db, 'appointment');
-                                const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`)));
+                                const appointmentQuerySnapshot = await getDocs(
+                                    query(
+                                        appointmentsCollection,
+                                        where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),
+                                        where('timeslot.type', '==', 'main')
+                                    )
+                                );
                                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
                                 if (existingAppointments.length > 0) {
 
@@ -910,6 +916,8 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     appointmentNotation: appointmentNotation,
                                     clinic: "คลินิกฝั่งเข็ม",
                                     status: "ลงทะเบียนแล้ว",
+                                    status2: "เสร็จสิ้น",
+                                    subject: "เพิ่มนัดหมาย",
                                     type: "main",
                                 };
             

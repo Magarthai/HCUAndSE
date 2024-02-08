@@ -670,7 +670,13 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     return acc;
                                 }, []);
                                 const appointmentsCollection = collection(db, 'appointment');
-                                const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`)));
+                                const appointmentQuerySnapshot = await getDocs(
+                                    query(
+                                        appointmentsCollection,
+                                        where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),
+                                        where('timeslot.type', '==', 'main')
+                                    )
+                                );
                                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
                                 if (existingAppointments.length > 0) {
 
