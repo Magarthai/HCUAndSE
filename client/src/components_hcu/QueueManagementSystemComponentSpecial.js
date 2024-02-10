@@ -49,16 +49,16 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 const currentDate = new Date();
                 const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
                 const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-
+        
                 const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
                 const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
-
-
-                console.log(";-;", currentFormattedTime, timeslotEnd,timeslotStart);
+        
+                const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 60000);
+        
+                console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
         
                 if (
                     appointment.status == 'ลงทะเบียนแล้ว' &&
-                    currentFormattedTime >= timeslotStart &&
                     currentFormattedTime >= timeslotEnd
                 ) {
                     try {
@@ -79,14 +79,36 @@ const QueueManagementSystemComponentSpecial = (props) => {
                     } catch (error) {
                         console.error('Error updating appointment status:', error);
                     }
+                } else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+                    try {
+                        const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                        await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
+        
+                        setAllAppointmentUsersData((prevData) => {
+                            const updatedData = prevData.map((data) => {
+                                if (data.appointment.appointmentuid === appointment.appointmentuid) {
+                                    return { ...data, appointment: { ...data.appointment, status: "รอยืนยันสิทธิ์" } };
+                                }
+                                return data;
+                            });
+                            return updatedData;
+                        });
+        
+                        console.log(`Updated status for appointment ${appointment.appointmentuid} to "รอยืนยันสิทธิ์"`);
+                    } catch (error) {
+                        console.error('Error updating appointment status:', error);
+                    }
                 }
             });
-        };
+        }; 
         
-        const intervalId = setInterval(() => {
+        const updateAppointments = async () => {
             updateAppointmentsStatus();
-            fetchUserDataWithAppointments();
-        }, 60000);
+        };
+    
+        updateAppointments();
+    
+        const intervalId = setInterval(updateAppointments, 1200);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
@@ -242,7 +264,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
                     `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`),
-                    where('clinic', '==', 'เฉพาะทาง')));
+                    where('clinic', '==', 'คลินิกเฉพาะทาง')));
 
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -377,9 +399,9 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 <div className="admin-header">
                 <div className="admin-hearder-item">
                         <a href="/adminQueueManagementSystemComponent" target="_parent" >คลินิกทั่วไป</a>
-                        <a href="/adminQueueManagementSystemComponentSpecial" target="_parent">คลินิกเฉพาะทาง</a>
+                        <a href="/adminQueueManagementSystemComponentSpecial" target="_parent" id="select">คลินิกเฉพาะทาง</a>
                         <a href="/adminQueueManagementSystemComponentPhysic" target="_parent" >คลินิกกายภาพ</a>
-                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" id="select">คลินิกฝั่งเข็ม</a>
+                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" >คลินิกฝั่งเข็ม</a>
                     </div>
 
                 </div>

@@ -107,7 +107,7 @@ const QueueManagementSystemComponent = (props) => {
     
         updateAppointments();
     
-        const intervalId = setInterval(updateAppointments, 6000);
+        const intervalId = setInterval(updateAppointments, 600);
     
         return () => {
             cancelAnimationFrame(animationFrameRef.current);

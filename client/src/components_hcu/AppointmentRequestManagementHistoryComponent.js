@@ -48,7 +48,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
             if (user) {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection,
-                where('status', '==', 'ยื่นแก้ไข้')));
+                where('appove', '==', 'ไม่อนุมัติ') || where('approve', '==', 'อนุมัติ')));
     
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {

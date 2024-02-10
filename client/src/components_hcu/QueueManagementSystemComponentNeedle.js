@@ -30,16 +30,6 @@ const QueueManagementSystemComponentSpecial = (props) => {
         console.log("Appointment",formattedSelectedDate)
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
-        const updateShowTime = () => {
-            const newTime = getShowTime();
-            if (newTime !== showTime) {
-                setShowTime(newTime);
-            }
-            animationFrameRef.current = requestAnimationFrame(updateShowTime);
-        };
-
-        animationFrameRef.current = requestAnimationFrame(updateShowTime);
-
         const updateAppointmentsStatus = async () => {
             const currentFormattedTime = new Date(); 
             console.log("currentFormattedTime", currentFormattedTime);
@@ -49,16 +39,16 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 const currentDate = new Date();
                 const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
                 const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-
+        
                 const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
                 const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
-
-
-                console.log(";-;", currentFormattedTime, timeslotEnd,timeslotStart);
+        
+                const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 60000);
+        
+                console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
         
                 if (
                     appointment.status == 'ลงทะเบียนแล้ว' &&
-                    currentFormattedTime >= timeslotStart &&
                     currentFormattedTime >= timeslotEnd
                 ) {
                     try {
@@ -79,14 +69,33 @@ const QueueManagementSystemComponentSpecial = (props) => {
                     } catch (error) {
                         console.error('Error updating appointment status:', error);
                     }
+                } else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+                    try {
+                        const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                        await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
+        
+                        setAllAppointmentUsersData((prevData) => {
+                            const updatedData = prevData.map((data) => {
+                                if (data.appointment.appointmentuid === appointment.appointmentuid) {
+                                    return { ...data, appointment: { ...data.appointment, status: "รอยืนยันสิทธิ์" } };
+                                }
+                                return data;
+                            });
+                            return updatedData;
+                        });
+        
+                        console.log(`Updated status for appointment ${appointment.appointmentuid} to "รอยืนยันสิทธิ์"`);
+                    } catch (error) {
+                        console.error('Error updating appointment status:', error);
+                    }
                 }
             });
-        };
+        }; 
         
         const intervalId = setInterval(() => {
             updateAppointmentsStatus();
             fetchUserDataWithAppointments();
-        }, 60000);
+        }, 6000);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
