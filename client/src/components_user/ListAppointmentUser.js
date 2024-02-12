@@ -13,10 +13,13 @@ import { useUserAuth } from "../context/UserAuthContext";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import icon_date from "../picture/datepicker.png"
 
 const ListAppointmentUser = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [date, setDate] = useState(null);
   const [state, setState] = useState({
     appointmentDate: "",
     userID: "",
@@ -402,6 +405,22 @@ const ListAppointmentUser = () => {
 
   const isPopupOpen = (appointmentuid) => openPopups.includes(appointmentuid);
 
+  const handleChange = (e) => {
+    const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+    console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+    if (!isNaN(e)) {
+      setDate(e);
+      const formattedDate = formatDateForDisplay(date1);
+      console.log("Formatted Date:", formattedDate);
+    }else {
+      console.error("Invalid date value:", e);
+    }
+  };
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="user">
       <header className="user-header">
@@ -417,7 +436,8 @@ const ListAppointmentUser = () => {
       <div className="user-body">
         <div className="AppointList-body-searchItem">
           <label className="textBody-huge colorPrimary-800">ค้นหา</label>
-          <input
+          <div className="center-container" >
+             {/* <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -425,7 +445,15 @@ const ListAppointmentUser = () => {
                                     const formattedDate = formatDateForDisplay(e.target.value);
                                     console.log("Formatted Date:", formattedDate);
                                 }}
-                            />
+                            /> */}
+            <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
+          }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+          wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
+          onClickOutside={() => setIsOpen(false)}/>
+          <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button>
+
+          </div>
+         
         </div>
 
         <div className="AppointList-body-card">
