@@ -2004,6 +2004,9 @@ const TimetablePhysicalComponent = (props) => {
                                     value={timeStart}
                                     onChange={inputValue("timeStart")}
                                     placeholder="00:00"
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2011,7 +2014,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeEnd}
                                     onChange={inputValue("timeEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
 
@@ -2022,7 +2028,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
                                     onChange={inputValue("timeAppointmentStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2030,7 +2039,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
                                     onChange={inputValue("timeAppointmentEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
@@ -2047,7 +2059,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentMainStart}
                                     onChange={inputValue("timeAppointmentMainStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2055,7 +2070,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentMainEnd}
                                     onChange={inputValue("timeAppointmentMainEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
@@ -2103,7 +2121,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeStart}
                                     onChange={inputValue("timeStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2111,7 +2132,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeEnd}
                                     onChange={inputValue("timeEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
 
@@ -2122,7 +2146,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
                                     onChange={inputValue("timeAppointmentStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2130,7 +2157,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
                                     onChange={inputValue("timeAppointmentEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
@@ -2155,7 +2185,10 @@ const TimetablePhysicalComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentMainEnd}
                                     onChange={inputValue("timeAppointmentMainEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
