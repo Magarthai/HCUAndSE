@@ -10,9 +10,14 @@ import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } f
 import { useUserAuth } from "../context/UserAuthContext";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import icon_date from "../picture/datepicker.png"
+
+
 const UserHistoryAppointment = (prop) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [date, setDate] = useState(null);
   const [state, setState] = useState({
     appointmentDate: "",
     userID: "",
@@ -280,38 +285,51 @@ const getDayName = (date) => {
   return daysOfWeek[dayIndex];
 };
 
-  const formatDateForDisplay = (isoDate) => {
-    const dateParts = isoDate.split("-");
-    if (dateParts.length === 3) {
-      setAllAppointmentUsersData([]);
-      const [year, month, day] = dateParts;
-      const formattedMonth = parseInt(month, 10);
-      const formattedDay = parseInt(day, 10);
-      const formattedYear = parseInt(year, 10);
-      const formattedDate = `${formattedDay}/${formattedMonth}/${formattedYear}`;
+const formatDateForDisplay = (isoDate) => {
+  const dateParts = isoDate.split("-");
+  if (dateParts.length === 3) {
+    setAllAppointmentUsersData([]);
+    const [year, month, day] = dateParts;
+    const formattedMonth = parseInt(month, 10);
+    const formattedDay = parseInt(day, 10);
+    const formattedYear = parseInt(year, 10);
+    const formattedDate = `${formattedDay}/${formattedMonth}/${formattedYear}`;
 
-      const dayName = getDayName(new Date(isoDate)).toLowerCase();
-      const formattedSelectedDate = {
-          day: formattedDay,
-          month: formattedMonth,
-          year: formattedYear,
-          dayName: dayName,
-      };
-      setAllAppointmentUsersData([]);
-      setSelectedDate(formattedSelectedDate);
-      setState({
-          ...state,
-          appointmentDate: `${formattedSelectedDate.day}/${formattedSelectedDate.month}/${formattedSelectedDate.year}`,
-          appointmentTimes: "",
-      });
-      console.log("formattedSelectedDate", formattedSelectedDate);
-      return formattedDate;
+    const dayName = getDayName(new Date(isoDate)).toLowerCase();
+    const formattedSelectedDate = {
+        day: formattedDay,
+        month: formattedMonth,
+        year: formattedYear,
+        dayName: dayName,
+    };
+    setAllAppointmentUsersData([]);
+    setSelectedDate(formattedSelectedDate);
+    setState({
+        ...state,
+        appointmentDate: `${formattedSelectedDate.day}/${formattedSelectedDate.month}/${formattedSelectedDate.year}`,
+        appointmentTimes: "",
+    });
+    console.log("formattedSelectedDate", formattedSelectedDate);
+    return formattedDate;
+  }
+  return isoDate;
+};
+
+  const handleChange = (e) => {
+    const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+    console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+    if (!isNaN(e)) {
+      setDate(e);
+      const formattedDate = formatDateForDisplay(date1);
+      console.log("Formatted Date:", formattedDate);
+    }else {
+      console.error("Invalid date value:", e);
     }
-    return isoDate;
   };
-
-
-
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
   return (
 
     <div className="user">
@@ -328,8 +346,8 @@ const getDayName = (date) => {
       <div className="user-body">
         <div className="HistoryAppointment-body-searchItem">
           <label className="textBody-huge colorPrimary-800">ค้นหา</label>
-          <div className="center-container">
-                            <input
+          <div className="center-container" >
+                            {/* <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -340,8 +358,17 @@ const getDayName = (date) => {
                                 }}
                                 
                                 
-                            /> 
-                        </div>
+                            />  */}
+          
+          <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
+          }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+          wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
+          onClickOutside={() => setIsOpen(false)}/>
+          <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button>
+        
+          
+          </div>
+          
         </div>
 
         <div className="HistoryAppointment-body-card">

@@ -13,10 +13,13 @@ import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } f
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import icon_date from "../picture/datepicker.png"
 
 const UserDateAppointment = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const [date, setDate] = useState(null);
 const [state, setState] = useState({
     appointmentDate: "",
     userID:"",
@@ -433,6 +436,22 @@ const formatDateForDisplay = (isoDate) => {
 
         navigate('/appointment/edit', { state: { AppointmentUserData: AppointmentUserData,selectedDate } });}
       }
+      const handleChange = (e) => {
+        const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+        console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+        if (!isNaN(e)) {
+          setDate(e);
+          const formattedDate = formatDateForDisplay(date1);
+          console.log("Formatted Date:", formattedDate);
+          fetchMainTimeTableData();
+        }else {
+          console.error("Invalid date value:", e);
+        }
+      };
+      const [isOpen, setIsOpen] = useState(false);
+      const handleToggle = () => {
+        setIsOpen(!isOpen);
+      };
       
     
     return (
@@ -464,7 +483,7 @@ const formatDateForDisplay = (isoDate) => {
                         <h4 className="colorPrimary-800">เลือกดูวันที่</h4>
                     </div>
                     <div className="center-container">
-                            <input
+                            {/* <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -473,7 +492,11 @@ const formatDateForDisplay = (isoDate) => {
                                     console.log("Formatted Date:", formattedDate);
                                     fetchMainTimeTableData();
                                 }}
-                            />
+                            /> */}
+                             <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
+                                onClickOutside={() => setIsOpen(false)}/>
+                            <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
                         </div>
                 </div>
                 <div className="user-DateAppointment-AppointmentList_container ">
