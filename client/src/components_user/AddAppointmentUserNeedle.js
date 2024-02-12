@@ -50,7 +50,7 @@ const AddNeedleAppointmentUser = () => {
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
                     where('addDay', '==', selectedDate.dayName),
-                    where('clinic', '==', 'คลินิกฝั่งเข็ม'),
+                    where('clinic', '==', 'คลินิกฝังเข็ม'),
                     where('status', '==', 'Enabled')
                 ));
 
@@ -167,7 +167,7 @@ const AddNeedleAppointmentUser = () => {
                 appointmentId: appointmentId || null,
                 appointmentCasue:"ตรวจรักษาโรค",
                 appointmentSymptom: appointmentSymptom,
-                clinic: "คลินิกฝั่งเข็ม",
+                clinic: "คลินิกฝังเข็ม",
                 status: "ลงทะเบียนแล้ว",
                 status2: "เสร็จสิ้น",
                 type: "talk",

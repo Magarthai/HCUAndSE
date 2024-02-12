@@ -84,7 +84,7 @@ const ExampleAdminComponent = (props) => {
                 <a href="/" target="_parent" id="select">คลินิกทั่วไป</a>
                 <a href="/" target="_parent" >คลินิกเฉพาะทาง</a>
                 <a href="/" target="_parent" >คลินิกกายภาพ</a>
-                <a href="/" target="_parent" >คลินิกฝั่งเข็ม</a>
+                <a href="/" target="_parent" >คลินิกฝังเข็ม</a>
             </div>
             
             <div className="admin-body">

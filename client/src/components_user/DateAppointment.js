@@ -427,7 +427,7 @@ const formatDateForDisplay = (isoDate) => {
             navigate('/appointment/editPhysic', { state: { AppointmentUserData: AppointmentUserData,selectedDate } });
         } else if (AppointmentUserData.appointment.clinic === "คลินิกเฉพาะทาง") {
             navigate('/appointment/editSpecial', { state: { AppointmentUserData: AppointmentUserData,selectedDate } });
-        } else if (AppointmentUserData.appointment.clinic === "คลินิกฝั่งเข็ม") {
+        } else if (AppointmentUserData.appointment.clinic === "คลินิกฝังเข็ม") {
             navigate('/appointment/editNeedle', { state: { AppointmentUserData: AppointmentUserData,selectedDate } });}
         else{
 

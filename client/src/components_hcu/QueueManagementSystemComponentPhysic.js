@@ -379,7 +379,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                         <a href="/adminQueueManagementSystemComponent" target="_parent" >คลินิกทั่วไป</a>
                         <a href="/adminQueueManagementSystemComponentSpecial" target="_parent">คลินิกเฉพาะทาง</a>
                         <a href="/adminQueueManagementSystemComponentPhysic" target="_parent" id="select">คลินิกกายภาพ</a>
-                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" >คลินิกฝั่งเข็ม</a>
+                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                     </div>
                 </div>
 
