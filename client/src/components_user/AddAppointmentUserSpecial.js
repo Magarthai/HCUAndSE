@@ -7,6 +7,7 @@ import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } f
 import Swal from "sweetalert2";
 import { useUserAuth } from "../context/UserAuthContext";
 import { useNavigate } from 'react-router-dom';
+import { runTransaction } from "firebase/firestore";
 const AddSpecialAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
     const handleDateSelect = (selectedDate) => {
@@ -162,101 +163,7 @@ const AddSpecialAppointmentUser = () => {
         console.log(appointmentTime)
     }, [timeOptions]);
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-        console.log(appointmentId)
-        try {
-            const isTimeSlotAvailable = checkTimeSlotAvailability();
-            if (!isTimeSlotAvailable) {
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
-                    confirmButtonText: "ตกลง",
-                    confirmButtonColor: '#263A50',
-                    customClass: {
-                        cancelButton: 'custom-cancel-button',
-                    }
-                });
-                return;
-            }
-            const appointmentInfo = {
-                appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
-                appointmentTime,
-                appointmentId: appointmentId || null,
-                appointmentCasue:"ตรวจรักษาโรค",
-                appointmentSymptom: appointmentSymptom,
-                clinic: "คลินิกเฉพาะทาง",
-                status: "ลงทะเบียนแล้ว",
-                status2: "เสร็จสิ้น",
-                subject: "เพิ่มนัดหมาย",
-                appove: "",
-                appointmentSymptom2: "",
-                appointmentDate2: "",
-                postPone: "",
-                appointmentTime2: [],
-            };
-
-            const usersCollection = collection(db, 'users');
-            const appointmentsCollection = collection(db, 'appointment');
-            const existingAppointmentsQuerySnapshot = await getDocs(query(
-                appointmentsCollection,
-                where('appointmentDate', '==', appointmentInfo.appointmentDate),
-                where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
-                where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
-            ));
-            const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
-            const userDocuments = userQuerySnapshot.docs;
-            console.log("userDocuments",userDocuments,appointmentId)
-            const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
-            const userId = userDocuments.length > 0 ? userDocuments[0].id : null;
-
-            if (foundUser) {
-                if (!existingAppointmentsQuerySnapshot.empty) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Time Slot Already Taken!",
-                        text: "Someone has already booked this time slot. Please choose another time.",
-                    });
-                } else {
-                    const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-        
-                    const userDocRef = doc(db, 'users', userId);
-        
-                    await updateDoc(userDocRef, {
-                        appointments: arrayUnion(appointmentRef.id),
-                    });
-        
-                    Swal.fire({
-                        icon: "success",
-                        title: "การนัดหมายสําเร็จ!",
-                        text: "การนัดหมายของคุณถูกสร้างเรียบร้อยแล้ว!",
-                        confirmButtonText: "ตกลง",
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            cancelButton: 'custom-cancel-button',
-                        }
-                    });
-                    await fetchTimeTableData();
-        
-                    const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
-                    navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
-                }
-            }
-
-
-        } catch (firebaseError) {
-            console.error('Firebase submit error:', firebaseError);
-
-            console.error('Firebase error response:', firebaseError);
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Failed to create user account. Please try again later.",
-            });
-        }
-    };
-
+    let isLoading = false;
     const checkTimeSlotAvailability = () => {
         try {
             if (timeOptions.length === 0) {
@@ -277,6 +184,121 @@ const AddSpecialAppointmentUser = () => {
         } catch (error) {
             console.error('Error checking time slot availability:', error);
             return false;
+        }
+    };
+    const submitForm = async (e) => {
+        e.preventDefault();
+        console.log(appointmentId);
+        if (isLoading) {
+            return;
+        }
+
+        try {
+            isLoading = true;
+
+            const isTimeSlotAvailable = checkTimeSlotAvailability();
+            if (!isTimeSlotAvailable) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                    text: "ไม่เหลือช่วงเวลาว่างสําหรับวันนี้ โปรดเลือกวันอื่น",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                });
+                return;
+            }
+
+            const appointmentInfo = {
+                appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                appointmentTime,
+                appointmentId: appointmentId || null,
+                appointmentCasue: "ตรวจรักษาโรค",
+                appointmentSymptom: appointmentSymptom,
+                clinic: "คลินิกเฉพาะทาง",
+                status: "ลงทะเบียนแล้ว",
+                status2: "เสร็จสิ้น",
+                subject: "เพิ่มนัดหมาย",
+                appove: "",
+                appointmentSymptom2: "",
+                appointmentDate2: "",
+                postPone: "",
+                appointmentTime2: [],
+            };
+            await runTransaction(db, async (transaction) => {
+                const appointmentsCollection = collection(db, 'appointment');
+                const existingAppointmentsQuerySnapshot = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate', '==', appointmentInfo.appointmentDate),
+                    where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                    where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                ));
+
+                if (!existingAppointmentsQuerySnapshot.empty) {
+                    console.log('XD')
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    return;
+                }
+
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;
+
+                console.log("userDocuments", userDocuments, appointmentId)
+                const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
+                const userId = userDocuments.length > 0 ? userDocuments[0].id : null;
+
+                if (foundUser) {
+                    const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
+
+                    const userDocRef = doc(db, 'users', userId);
+
+                    await updateDoc(userDocRef, {
+                        appointments: arrayUnion(appointmentRef.id),
+                    });
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "การนัดหมายสําเร็จ!",
+                        text: "การนัดหมายของคุณถูกสร้างเรียบร้อยแล้ว!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    await fetchTimeTableData();
+
+                    const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
+                    navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
+                }
+            });
+        } catch (firebaseError) {
+            console.error('Firebase submit error:', firebaseError);
+            console.error('Firebase error response:', firebaseError);
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด",
+                text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                confirmButtonText: "ตกลง",
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    cancelButton: 'custom-cancel-button',
+                }
+            });
+        } finally {
+            isLoading = false;
         }
     };
     
