@@ -25,11 +25,13 @@ const ForgetPasswordComponent = () => {
   const [state, setState] = useState({
     email: "",
     password: "",
+    cpassword: "",
   });
 
   const {
     email,
     password,
+    cpassword
   } = state;
 
   const inputValue = (name) => (event) => {
@@ -44,6 +46,20 @@ const ForgetPasswordComponent = () => {
     e.preventDefault();
     console.log({ email });
     setError("");
+    if (password != cpassword ) {
+      Swal.fire({
+        icon: "error",
+        title: "ไม่สำเร็จ!",
+        text: "รหัสผ่านไม่ตรงกัน!",
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#263A50',
+        customClass: {
+            confirmButton: 'custom-confirm-button',
+        }
+      })
+      return;
+      
+    }
     try {
       await resetPassword2(query.get('oobCode'), password);
       Swal.fire({
@@ -92,7 +108,7 @@ const ForgetPasswordComponent = () => {
 
 
                         <div>
-                            <label className="textBody-big colorPrimary-800">Password</label>
+                            <label className="textBody-big colorPrimary-800">New Password</label>
                             <input
                                 type="password"
                                 className="form-control"
@@ -101,7 +117,16 @@ const ForgetPasswordComponent = () => {
                                 placeholder="password"
                             />
                         </div>
-
+                        <div>
+                            <label className="textBody-big colorPrimary-800">Confirm New Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                value={cpassword}
+                                onChange={inputValue("cpassword")}
+                                placeholder="Confirm password"
+                            />
+                        </div>
                         <br />
                         <input
                             type="submit"
