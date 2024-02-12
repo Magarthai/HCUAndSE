@@ -922,6 +922,11 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     status2: "เสร็จสิ้น",
                                     subject: "เพิ่มนัดหมาย",
                                     type: "main",
+                                    appove: "",
+                                    appointmentSymptom2: "",
+                                    appointmentDate2: "",
+                                    postPone: "",
+                                    appointmentTime2: [],
                                 };
             
                                 const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);

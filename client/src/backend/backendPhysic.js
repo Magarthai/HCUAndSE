@@ -58,7 +58,12 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
             type: "talk",
             status: "ลงทะเบียนแล้ว",
             status2: "เสร็จสิ้น",
-                subject: "เพิ่มนัดหมาย",
+            subject: "เพิ่มนัดหมาย",
+            appove: "",
+            appointmentSymptom2: "",
+            appointmentDate2: "",
+            postPone: "",
+            appointmentTime2: [],
         };
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
@@ -629,6 +634,11 @@ export const submitFormAddContinue2Physic = async (appointmentId, time, state, a
                     clinic: "คลินิกกายภาพ",
                     status: "ลงทะเบียนแล้ว",
                     type: "main",
+                    appove: "",
+                    appointmentSymptom2: "",
+                    appointmentDate2: "",
+                    postPone: "",
+                    appointmentTime2: [],
                 };
                 console.log(`time`, state[`appointmentTime${i}`],)
                 const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);

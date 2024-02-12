@@ -172,6 +172,11 @@ const AddNeedleAppointmentUser = () => {
                 status2: "เสร็จสิ้น",
                 type: "talk",
                 subject: "เพิ่มนัดหมาย",
+                appove: "",
+                appointmentSymptom2: "",
+                appointmentDate2: "",
+                postPone: "",
+                appointmentTime2: [],
             };
 
             const usersCollection = collection(db, 'users');

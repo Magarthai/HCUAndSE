@@ -180,6 +180,11 @@ const AppointmentManagerComponentSpecial = (props) => {
                 status: "ลงทะเบียนแล้ว",
                 status2: "เสร็จสิ้น",
                 subject: "เพิ่มนัดหมาย",
+                appove: "",
+                appointmentSymptom2: "",
+                appointmentDate2: "",
+                postPone: "",
+                appointmentTime2: [],
             };
 
             const usersCollection = collection(db, 'users');

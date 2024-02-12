@@ -112,7 +112,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                     setAllAppointmentUsersData(AppointmentUsersDataArray);
                     console.log("AppointmentUsersData", AppointmentUsersDataArray);
                 } else {
-                    console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
+                    console.log(`No appointments found`);
                 }
             }
         } catch (error) {
