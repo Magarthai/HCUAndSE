@@ -179,7 +179,7 @@ const AppointmentManagerComponent = (props) => {
     const [selectedValue, setSelectedValue] = useState("");
     const submitForm = async (e) => {
         e.preventDefault();
-
+        
         try {
 
             const appointmentInfo = {

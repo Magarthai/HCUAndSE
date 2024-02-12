@@ -2022,8 +2022,8 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
@@ -2047,8 +2047,8 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>

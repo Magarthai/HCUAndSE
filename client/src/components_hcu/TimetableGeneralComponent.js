@@ -79,7 +79,19 @@ const TimetableGeneralComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
-        
+        if (numberAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายได้ไม่เกิน 10 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (duration <= 0) {
             Swal.fire({
                 icon: "error",
@@ -562,7 +574,19 @@ const TimetableGeneralComponent = (props) => {
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
 
-        
+        if (numberAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายได้ไม่เกิน 10 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (duration <= 0) {
             Swal.fire({
                 icon: "error",
@@ -1367,7 +1391,7 @@ const TimetableGeneralComponent = (props) => {
                 <a href="/timeTableGeneralAdmin" target="_parent" id="select">คลินิกทั่วไป</a>
                 <a href="/timeTableSpecialAdmin" target="_parent" >คลินิกเฉพาะทาง</a>
                 <a href="/timeTablePhysicalAdmin" target="_parent" >คลินิกกายภาพ</a>
-                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝั่งเข็ม</a>
+                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝังเข็ม</a>
             </div>
             {isLoading ? (
         <div className="loading-spinner">
@@ -1564,8 +1588,9 @@ const TimetableGeneralComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
+
                                 <span className="admin-textBody-large"> ถึง </span>
                                 <input
                                     type="text"
@@ -1575,7 +1600,7 @@ const TimetableGeneralComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
 
@@ -1589,7 +1614,7 @@ const TimetableGeneralComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span className="admin-textBody-large"> ถึง </span>
                                 <input
@@ -1600,12 +1625,12 @@ const TimetableGeneralComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="number" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
+                                <input type="number" pattern="[0-9]+"  className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span className="admin-textBody-large"> คิว</span>
 
                             </div>
@@ -1645,7 +1670,10 @@ const TimetableGeneralComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeStart}
                                     onChange={inputValue("timeStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -1653,7 +1681,10 @@ const TimetableGeneralComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeEnd}
                                     onChange={inputValue("timeEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
 
@@ -1664,7 +1695,10 @@ const TimetableGeneralComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
                                     onChange={inputValue("timeAppointmentStart")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -1672,12 +1706,15 @@ const TimetableGeneralComponent = (props) => {
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
                                     onChange={inputValue("timeAppointmentEnd")}
+                                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                                    onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
+                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                                 />
                             </div>
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberAppointment} disabled onChange={inputValue("numberAppointment")} placeholder="5" />
+                                <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} disabled onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>

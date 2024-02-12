@@ -663,13 +663,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     return acc;
                                 }, []);
                                 const appointmentsCollection = collection(db, 'appointment');
-                                const appointmentQuerySnapshot = await getDocs(
-                                    query(
-                                        appointmentsCollection,
-                                        where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),
-                                        where('timeslot.type', '==', 'main')
-                                    )
-                                );
+                                const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`)));
                                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
                                 if (existingAppointments.length > 0) {
 
@@ -764,11 +758,8 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     value=""
                                     class=${selectedCount >= 2 ? 'selected' : ''}
                                 >
-                                    ${timeOptionsFromTimetable.map((timeOption,index) =>
-                                        `<option key="${ timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" 
-                                        value=${index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
-                                        ${index === 0 ? 'hidden' : ''}
-                                        >
+                                    ${timeOptionsFromTimetable.map((timeOption) =>
+                                        `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
                                             ${timeOption.label}
                                         </option>`
                                     )}
@@ -838,7 +829,7 @@ const AppointmentManagerNeedleComponent = (props) => {
             }
         }
     };
-
+    
     function cleanUpOldPopups() {
         const appointmentPopupItem = document.querySelector(".admin-appointmemt-popup-item.two");
 
