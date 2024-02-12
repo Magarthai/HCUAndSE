@@ -1367,7 +1367,7 @@ const TimetableGeneralComponent = (props) => {
                 <a href="/timeTableGeneralAdmin" target="_parent" id="select">คลินิกทั่วไป</a>
                 <a href="/timeTableSpecialAdmin" target="_parent" >คลินิกเฉพาะทาง</a>
                 <a href="/timeTablePhysicalAdmin" target="_parent" >คลินิกกายภาพ</a>
-                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝั่งเข็ม</a>
+                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝังเข็ม</a>
             </div>
             {isLoading ? (
         <div className="loading-spinner">

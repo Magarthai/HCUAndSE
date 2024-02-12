@@ -634,7 +634,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                         const querySnapshot = await getDocs(query(
                             timeTableCollection,
                             where('addDay', '==', xd.dayName),
-                            where('clinic', '==', 'คลินิกฝั่งเข็ม')
+                            where('clinic', '==', 'คลินิกฝังเข็ม')
                         ));
                         const timeTableData = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
@@ -914,7 +914,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     appointmentCasue: appointmentCasue,
                                     appointmentSymptom: appointmentSymptom,
                                     appointmentNotation: appointmentNotation,
-                                    clinic: "คลินิกฝั่งเข็ม",
+                                    clinic: "คลินิกฝังเข็ม",
                                     status: "ลงทะเบียนแล้ว",
                                     status2: "เสร็จสิ้น",
                                     subject: "เพิ่มนัดหมาย",
@@ -1096,7 +1096,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                         <a href="/AppointmentManagerComponent" target="_parent" >คลินิกทั่วไป</a>
                         <a href="/AppointmentManagerComponentSpecial" target="_parent" >คลินิกเฉพาะทาง</a>
                         <a href="/AdminAppointmentManagerPhysicalComponent" target="_parent" >คลินิกกายภาพ</a>
-                        <a href="/adminAppointmentManagerNeedleComponent" target="_parent" id="select">คลินิกฝั่งเข็ม</a>
+                        <a href="/adminAppointmentManagerNeedleComponent" target="_parent" id="select">คลินิกฝังเข็ม</a>
                     </div>
                     <div className="admin-hearder-item admin-right">
                         <a target="_parent" onClick={() => {
@@ -1115,7 +1115,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                         <div >
                             <div className="appointment-hearder">
                                 <div className="colorPrimary-800 appointment-hearder-item">
-                                    <h2>นัดหมายคลินิกฝั่งเข็ม</h2>
+                                    <h2>นัดหมายคลินิกฝังเข็ม</h2>
                                     <p className="admin-textBody-large">
                                         {selectedDate
                                             ? `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
@@ -1151,7 +1151,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                             </div>
                                         </div>
                                     ))}
-                                <div style={{ marginTop: 20, marginBottom: 10, display: "flex", textAlign: "center", alignItems: "center", justifyContent: "center" }}><p className="colorNeutralBlack-400">---------------- นัดหมายฝั่งเข็ม ----------------</p></div>
+                                <div style={{ marginTop: 20, marginBottom: 10, display: "flex", textAlign: "center", alignItems: "center", justifyContent: "center" }}><p className="colorNeutralBlack-400">---------------- นัดหมายฝังเข็ม ----------------</p></div>
                                 {AppointmentUsersData
                                     .filter(appointmentUserData => appointmentUserData.appointment.type === "main")
                                     .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))

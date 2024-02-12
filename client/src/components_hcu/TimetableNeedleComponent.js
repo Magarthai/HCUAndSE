@@ -62,7 +62,7 @@ const TimetablePhysicalComponent = (props) => {
                 const timeTableCollection = collection(db, 'timeTable');
                 const timeTableSnapshot = await getDocs(query(
                     timeTableCollection,
-                    where('clinic', '==', 'คลินิกฝั่งเข็ม')
+                    where('clinic', '==', 'คลินิกฝังเข็ม')
                 ));
 
                 const timeTableData = timeTableSnapshot.docs.map((doc) => ({
@@ -204,7 +204,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "กรอกช่วงเวลาฝั่งเข็มใหม่ เวลาเริ่มน้อยกว่าช่วงเวลาปิด!",
+                text: "กรอกช่วงเวลาฝังเข็มใหม่ เวลาเริ่มน้อยกว่าช่วงเวลาปิด!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -308,7 +308,7 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentMainEnd:timeAppointmentMainEnd,
                 numberAppointment: numberAppointment,
                 numberMainAppointment: numberMainAppointment,
-                clinic: "คลินิกฝั่งเข็ม",
+                clinic: "คลินิกฝังเข็ม",
                 timeablelist: timeablelist,
                 status: "Enabled",
             };
@@ -396,7 +396,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -475,7 +475,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -555,7 +555,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -635,7 +635,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -715,7 +715,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -860,7 +860,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "กรอกช่วงเวลาฝั่งเข็มใหม่ เวลาเริ่มน้อยกว่าช่วงเวลาปิด!",
+                text: "กรอกช่วงเวลาฝังเข็มใหม่ เวลาเริ่มน้อยกว่าช่วงเวลาปิด!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -962,7 +962,7 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentStart: timeAppointmentStart,
                 timeAppointmentEnd: timeAppointmentEnd,
                 numberAppointment: numberAppointment,
-                clinic: "คลินิกฝั่งเข็ม",
+                clinic: "คลินิกฝังเข็ม",
                 timeablelist: timeablelist,
                 status: "Enabled",
             };
@@ -1050,7 +1050,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -1130,7 +1130,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -1211,7 +1211,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -1292,7 +1292,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -1373,7 +1373,7 @@ const TimetablePhysicalComponent = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝั่งเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
+                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {
@@ -1495,7 +1495,7 @@ const TimetablePhysicalComponent = (props) => {
             timeAppointmentStart: "",
             timeAppointmentEnd: "",
             numberAppointment: "",
-            clinic: "คลินิกฝั่งเข็ม",
+            clinic: "คลินิกฝังเข็ม",
             timeablelist: "",
             status: "Enabled",
             timetableId: "",
@@ -1531,7 +1531,7 @@ const TimetablePhysicalComponent = (props) => {
             timeAppointmentMainStart: "",
             timeAppointmentMainEnd: "",
             numberMainAppointment: "",
-            clinic: "คลินิกฝั่งเข็ม",
+            clinic: "คลินิกฝังเข็ม",
             timeablelist: "",
             status: "Enabled",
             timetableId: "",
@@ -1556,7 +1556,7 @@ const TimetablePhysicalComponent = (props) => {
             timeAppointmentEnd: timetable.timeAppointmentEnd,
             numberAppointment: timetable.numberAppointment,
             numberMainAppointment: timetable.numberMainAppointment,
-            clinic: "คลินิกฝั่งเข็ม",
+            clinic: "คลินิกฝังเข็ม",
             timeablelist: timetable.timeablelist,
             status: "Enabled",
             timetableId: timetable.id,
@@ -1646,7 +1646,7 @@ const TimetablePhysicalComponent = (props) => {
             }
         
             document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายพูดคุย</b> : ${listtimetable}`
-            document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทําฝั่งเข็ม</b> : ${listmaintable}`
+            document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทําฝังเข็ม</b> : ${listmaintable}`
             // window.history.replaceState({}, null, `/timeTablePhysicalAdmin/${timetable.id}`);
         } else {
             if(saveDetailId === timetable.id){
@@ -1697,7 +1697,7 @@ const TimetablePhysicalComponent = (props) => {
                 }
             
                 document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายพูดคุย</b> : ${listtimetable}`
-                document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทําฝั่งเข็ม</b> : ${listmaintable}`
+                document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทําฝังเข็ม</b> : ${listmaintable}`
             }
         }
 
@@ -1806,7 +1806,7 @@ const TimetablePhysicalComponent = (props) => {
                 <a href="/timeTableGeneralAdmin" target="_parent">คลินิกทั่วไป</a>
                 <a href="/timeTableSpecialAdmin" target="_parent">คลินิกเฉพาะทาง</a>
                 <a href="/timeTablePhysicalAdmin" target="_parent">คลินิกกายภาพ</a>
-                <a href="/timeTableNeedleAdmin" target="_parent" id="select">คลินิกฝั่งเข็ม</a>
+                <a href="/timeTableNeedleAdmin" target="_parent" id="select">คลินิกฝังเข็ม</a>
             </div>
             {isLoading ? (
         <div className="loading-spinner">
@@ -1822,13 +1822,13 @@ const TimetablePhysicalComponent = (props) => {
                     </div>
                     <div className="admin-timetable-system-detail">
                         <h3 className="colorPrimary-800">วันจันทร์</h3>
-                        {timetable.filter((timetable) => timetable.addDay === "monday" && timetable.clinic === "คลินิกฝั่งเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
+                        {timetable.filter((timetable) => timetable.addDay === "monday" && timetable.clinic === "คลินิกฝังเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝั่งเข็ม {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝังเข็ม {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1847,7 +1847,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                         ))}
-                        {timetable.filter((timetable) => timetable.addDay === "monday" && timetable.clinic === "คลินิกฝั่งเข็ม").length === 0 && (
+                        {timetable.filter((timetable) => timetable.addDay === "monday" && timetable.clinic === "คลินิกฝังเข็ม").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
@@ -1855,13 +1855,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                         )}
                         <h3 className="colorPrimary-800">วันอังคาร</h3>
-                        {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic === "คลินิกฝั่งเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
+                        {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic === "คลินิกฝังเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝั่งเข็ม {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝังเข็ม {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1875,7 +1875,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                         ))}
-                        {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic === "คลินิกฝั่งเข็ม").length === 0 && (
+                        {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic === "คลินิกฝังเข็ม").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
@@ -1883,13 +1883,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                         )}
                         <h3 className="colorPrimary-800">วันพุธ</h3>
-                        {timetable.filter((timetable) => timetable.addDay === "wednesday" && timetable.clinic === "คลินิกฝั่งเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
+                        {timetable.filter((timetable) => timetable.addDay === "wednesday" && timetable.clinic === "คลินิกฝังเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝั่งเข็ม {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝังเข็ม {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1903,7 +1903,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                         ))}
-                        {timetable.filter((timetable) => timetable.addDay === "wednesday" && timetable.clinic === "คลินิกฝั่งเข็ม").length === 0 && (
+                        {timetable.filter((timetable) => timetable.addDay === "wednesday" && timetable.clinic === "คลินิกฝังเข็ม").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
@@ -1911,13 +1911,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                         )}
                         <h3 className="colorPrimary-800">วันพฤหัสบดี</h3>
-                        {timetable.filter((timetable) => timetable.addDay === "thursday" && timetable.clinic === "คลินิกฝั่งเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
+                        {timetable.filter((timetable) => timetable.addDay === "thursday" && timetable.clinic === "คลินิกฝังเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝั่งเข็ม {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝังเข็ม {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1931,7 +1931,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                         ))}
-                        {timetable.filter((timetable) => timetable.addDay === "thursday" && timetable.clinic === "คลินิกฝั่งเข็ม").length === 0 && (
+                        {timetable.filter((timetable) => timetable.addDay === "thursday" && timetable.clinic === "คลินิกฝังเข็ม").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
@@ -1939,13 +1939,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                         )}
                         <h3 className="colorPrimary-800">วันศุกร์</h3>
-                        {timetable.filter((timetable) => timetable.addDay === "friday" && timetable.clinic === "คลินิกฝั่งเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
+                        {timetable.filter((timetable) => timetable.addDay === "friday" && timetable.clinic === "คลินิกฝังเข็ม").sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝั่งเข็ม {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดฝังเข็ม {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1959,7 +1959,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                         ))}
-                        {timetable.filter((timetable) => timetable.addDay === "friday" && timetable.clinic === "คลินิกฝั่งเข็ม").length === 0 && (
+                        {timetable.filter((timetable) => timetable.addDay === "friday" && timetable.clinic === "คลินิกฝังเข็ม").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
                                     <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
@@ -1977,7 +1977,7 @@ const TimetablePhysicalComponent = (props) => {
                                 <button type="button" onClick={closeEditTimeTable} className="colorPrimary-800" id="backTopic">❮ เพิ่มเวลาเข้าทำการแพทย์</button>
                             </div>
                             <div className="admin-timetable-system-detail">
-                            <h2 className=" colorPrimary-800">คลินิกฝั่งเข็ม</h2>
+                            <h2 className=" colorPrimary-800">คลินิกฝังเข็ม</h2>
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800" >วัน</label>
                                 <div className="custom-admin-addtimetable">
@@ -2041,7 +2041,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div className="custome-admin-underline"></div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝั่งเข็ม</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2077,7 +2077,7 @@ const TimetablePhysicalComponent = (props) => {
                                 <button type="button" onClick={closeEditTimeTable} className="colorPrimary-800" id="backTopic">❮ แก้ไขเวลาเข้าทำการแพทย์</button>
                             </div>
                             <div className="admin-timetable-system-detail">
-                            <h2 className=" colorPrimary-800">คลินิกฝั่งเข็ม</h2>
+                            <h2 className=" colorPrimary-800">คลินิกฝังเข็ม</h2>
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800" >วัน</label>
                                 <div className="custom-admin-addtimetable">
@@ -2141,7 +2141,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div className="custome-admin-underline"></div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝั่งเข็ม</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2173,13 +2173,13 @@ const TimetablePhysicalComponent = (props) => {
                     </div>
                     <div id="Detailtimetable" className="colorPrimary-800">
                         <h2 className="center">รายละเอียด</h2>
-                        <p id="Detailclinic" className="admin-textBody-big"><b>คลินิก</b> : คลินิกฝั่งเข็ม</p>
+                        <p id="Detailclinic" className="admin-textBody-big"><b>คลินิก</b> : คลินิกฝังเข็ม</p>
                         <p id="Detailday" className="admin-textBody-big">วัน :</p>
                         <p id="Detailtimeall" className="admin-textBody-big">ช่วงเวลาเปิดให้บริการ :</p>
                         <p id="Detailtime" className="admin-textBody-big">ช่วงเวลาเปิดให้นัดหมาย :</p>
                         <p id="Detailqueue" className="admin-textBody-big">จำนวนคิวนัดหมาย :</p>
                         <p id="Detail" className="admin-textBody-big">ช่วงเวลาเปิดให้นัดหมายพูดคุย :</p>
-                        <p id="Detail2" className="admin-textBody-big">ช่วงเวลาทําฝั่งเข็ม :</p>
+                        <p id="Detail2" className="admin-textBody-big">ช่วงเวลาทําฝังเข็ม :</p>
 
 
                     </div>

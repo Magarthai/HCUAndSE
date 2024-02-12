@@ -242,7 +242,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
                     `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`),
-                    where('clinic', '==', 'คลินิกฝั่งเข็ม')));
+                    where('clinic', '==', 'คลินิกฝังเข็ม')));
 
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -376,14 +376,14 @@ const QueueManagementSystemComponentSpecial = (props) => {
                         <a href="/adminQueueManagementSystemComponent" target="_parent" >คลินิกทั่วไป</a>
                         <a href="/adminQueueManagementSystemComponentSpecial" target="_parent">คลินิกเฉพาะทาง</a>
                         <a href="/adminQueueManagementSystemComponentPhysic" target="_parent" >คลินิกกายภาพ</a>
-                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" id="select">คลินิกฝั่งเข็ม</a>
+                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" id="select">คลินิกฝังเข็ม</a>
                     </div>
                 </div>
 
                 <div className="admin-body">
                     <div className="admin-queue-flexbox">
                         <div className="admin-queue-box">
-                            <h2 className="colorPrimary-800">นัดหมายคลินิกฝั่งเข็ม</h2>
+                            <h2 className="colorPrimary-800">นัดหมายคลินิกฝังเข็ม</h2>
                             {AppointmentUsersData ? (
     AppointmentUsersData.length > 0 ? (
         AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (

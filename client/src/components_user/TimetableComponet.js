@@ -75,7 +75,7 @@ const TimetableComponet = (props) => {
                             <option value="คลินิกทั่วไป">คลินิกทั่วไป</option>
                             <option value="คลินิกเฉพาะทาง">คลินิกเฉพาะทาง</option>
                             <option value="คลินิกกายภาพ">คลินิกกายภาพ</option>
-                            <option value="คลินิกฝั่งเข็ม">คลินิกฝังเข็ม</option>
+                            <option value="คลินิกฝังเข็ม">คลินิกฝังเข็ม</option>
                         </select>
                     </div>
                     <div className="colorPrimary-800">

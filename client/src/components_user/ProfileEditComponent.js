@@ -41,13 +41,56 @@ const ProfileEditComponent = (props) => {
             const updatedTimetable = {
                 firstName: firstName,
                 lastName: lastName,
-                email: email,
                 id: id ,
                 tel: tel,
                 gender: gender,
             };
 
-            
+            if (firstName.length > 50) {
+                Swal.fire(
+                  {
+                    title: 'เกิดข้อผิดพลาด',
+                    html : `ไม่สามารถกรอกชื่อได้มากกว่า 50 ตัวอักษร`,
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    }
+                  }
+                )
+                return;
+              }
+              if (lastName.length > 50) {
+                Swal.fire(
+                  {
+                    title: 'เกิดข้อผิดพลาด',
+                    html : `ไม่สามารถกรอกนามสกุลได้มากกว่า 50 ตัวอักษร`,
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    }
+                  }
+                )
+                return;
+              }
+              if (tel.length != 10) {
+                Swal.fire(
+                  {
+                    title: 'เกิดข้อผิดพลาด',
+                    text: "กรุณากรอกเบอร์โทรศัพท์ 10 หลัก!",
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    }
+                  }
+                )
+                return;
+              }
 
             Swal.fire({
                 title: "แก้ไขโปรไฟล์",

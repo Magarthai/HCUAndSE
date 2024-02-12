@@ -90,8 +90,54 @@ const SignupComponent = (props) => {
         )
         return false;
       }
+      if (firstName.length > 50) {
+        Swal.fire(
+          {
+            title: 'เกิดข้อผิดพลาด',
+            html : `ไม่สามารถกรอกชื่อได้มากกว่า 50 ตัวอักษร`,
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+            }
+          }
+        )
+        return false;
+      }
+      if (lastName.length > 50) {
+        Swal.fire(
+          {
+            title: 'เกิดข้อผิดพลาด',
+            html : `ไม่สามารถกรอกนามสกุลได้มากกว่า 50 ตัวอักษร`,
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+            }
+          }
+        )
+        return false;
+      }
+      if (password.length > 248) {
+        Swal.fire(
+          {
+            title: 'เกิดข้อผิดพลาด',
+            html : `ไม่สามารถกรอกพาสเวิรด์ได้มากกว่า 248 ตัวอักษร`,
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+            }
+          }
+        )
+        return false;
+      }
       return true;
     };
+    
     const isStudentIdAlreadyUsed = async (studentId) => {
         const usersCollection = collection(db, 'users');
         const querySnapshot = await getDocs(query(usersCollection, where('id', '==', studentId)));
@@ -118,10 +164,26 @@ const SignupComponent = (props) => {
                 cancelButton: 'custom-cancel-button',
             }
           }
+          
           )
           return
         }   
-      
+        if (tel.length != 10) {
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "กรุณากรอกเบอร์โทรศัพท์ 10 หลัก!",
+            confirmButtonText: "ตกลง",
+            confirmButtonColor: '#263A50',
+            customClass: {
+                cancelButton: 'custom-cancel-button',
+            }
+          }
+          
+          )
+          return
+        }   
+
         try {
       
           const isIdAlreadyUsed = await isStudentIdAlreadyUsed(id);

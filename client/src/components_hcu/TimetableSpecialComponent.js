@@ -192,6 +192,7 @@ const TimetableSpecialComponent = (props) => {
             });
             return;
         }
+        
 
         const timeablelist = [];
 
@@ -1439,7 +1440,7 @@ const TimetableSpecialComponent = (props) => {
                 <a href="/timeTableGeneralAdmin" target="_parent">คลินิกทั่วไป</a>
                 <a href="/timeTableSpecialAdmin" target="_parent" id="select">คลินิกเฉพาะทาง</a>
                 <a href="/timeTablePhysicalAdmin" target="_parent" >คลินิกกายภาพ</a>
-                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝั่งเข็ม</a>
+                <a href="/timeTableNeedleAdmin" target="_parent" >คลินิกฝังเข็ม</a>
             </div>
             {isLoading ? (
         <div className="loading-spinner">

@@ -9,7 +9,7 @@ export const fetchTimeTableDataNeedle = async (user, selectedDate) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDate.dayName),
-                where('clinic', '==', 'คลินิกฝั่งเข็ม'),
+                where('clinic', '==', 'คลินิกฝังเข็ม'),
                 where('status', '==', 'Enabled')
             ));
 
@@ -31,7 +31,7 @@ export const fetchTimeTableMainDataNeedle = async (user, selectedDates) => {
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
                 where('addDay', '==', selectedDates.dayName),
-                where('clinic', '==', 'คลินิกฝั่งเข็ม'),
+                where('clinic', '==', 'คลินิกฝังเข็ม'),
                 where('status', '==', 'Enabled')
             ));
             const timeTableData = querySnapshot.docs.map((doc) => ({
@@ -54,7 +54,7 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
             appointmentCasue,
             appointmentSymptom,
             appointmentNotation,
-            clinic: "คลินิกฝั่งเข็ม",
+            clinic: "คลินิกฝังเข็ม",
             type: "talk",
             status: "ลงทะเบียนแล้ว",
             status2: "เสร็จสิ้น",
@@ -198,7 +198,7 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
             appointmentCasue: appointmentCasue,
             appointmentSymptom: appointmentSymptom,
             appointmentNotation: appointmentNotation,
-            clinic: "คลินิกฝั่งเข็ม",
+            clinic: "คลินิกฝังเข็ม",
             status: "ลงทะเบียนแล้ว",
         };
 
@@ -508,7 +508,7 @@ export const fetchUserDataWithAppointmentsNeedle = async (user, selectedDate) =>
             const appointmentsCollection = collection(db, 'appointment');
             const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
                 `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`),
-                where('clinic', '==', 'คลินิกฝั่งเข็ม')));
+                where('clinic', '==', 'คลินิกฝังเข็ม')));
 
 
             const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -533,7 +533,7 @@ export const fetchUserDataWithAppointmentsNeedle = async (user, selectedDate) =>
 export const existingAppointmentsNeedle = async (xd) => {
     const appointmentsCollection = collection(db, 'appointment');
     const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),
-        where('clinic', '==', 'คลินิกฝั่งเข็ม')));
+        where('clinic', '==', 'คลินิกฝังเข็ม')));
 
     const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
     return existingAppointments
@@ -628,7 +628,7 @@ export const submitFormAddContinue2Needle = async (appointmentId, time, state, a
                     appointmentCasue: appointmentCasue,
                     appointmentSymptom: appointmentSymptom,
                     appointmentNotation: appointmentNotation,
-                    clinic: "คลินิกฝั่งเข็ม",
+                    clinic: "คลินิกฝังเข็ม",
                     status: "ลงทะเบียนแล้ว",
                     type: "main",
                 };
