@@ -246,7 +246,7 @@ const ActivityNoOpenRegisterComponent = (props) => {
                                         {activities.activityDetail}
                                     </p>
                                     <div className="admin-right">
-                                        <a href="/" target="_parent" className="btn btn-primary">รายชื่อ</a>
+                                        <a href="/adminActivityListOfPeopleComponent" target="_parent" className="btn btn-primary">รายชื่อ</a>
                                     </div>
                                 </div>
 

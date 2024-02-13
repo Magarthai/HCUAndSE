@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { addDoc,doc, updateDoc } from "firebase/firestore";
 import { setDoc } from 'firebase/firestore';
 import { ref, uploadBytes,getStorage, getDownloadURL } from 'firebase/storage';
-const ActivityEditComponent = (props) => {
+const ActivityEditOpenRegistartComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -30,6 +30,7 @@ const ActivityEditComponent = (props) => {
     });
     const checkCurrentDate = getCurrentDate();
     const location = useLocation();
+    const [lengthTimeslot, setlengthTimeslot] = useState();
     const { activities } = location.state || {};
     const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
 
@@ -60,7 +61,7 @@ const ActivityEditComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
-                navigate('/adminActivityNoOpenRegisterComponent');
+                navigate('/adminActivityOpenRegisterComponent');
             });
         } else {
             setState({
@@ -76,6 +77,8 @@ const ActivityEditComponent = (props) => {
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
             console.log(activities, "activities")
+            console.log("asfas", timeSlots.length)
+            setlengthTimeslot(timeSlots.length)
         }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
@@ -343,7 +346,49 @@ const ActivityEditComponent = (props) => {
     };
     const renderTimeSlots = () => {
         return timeSlots.map((timeSlot, index) => (
+            index < lengthTimeslot ? (
             <div key={index}>
+                <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                <input
+                    type="date"
+                    className="form-control"
+                    placeholder="dd/mm/yyyy"
+                    value={timeSlot.date}
+                    onChange={handleInputChange(index, "date")}
+                />
+                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา</label><br />
+                <input
+                    type="text"
+                    className="form-control timeable"
+                    placeholder="00:00"
+                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    value={timeSlot.startTime}
+                    onChange={handleInputChange(index, "startTime")}
+                />
+                <span className="admin-textBody-large"> ถึง </span>
+                <input
+                    type="text"
+                    className="form-control timeable"
+                    placeholder="00:00"
+                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    value={timeSlot.endTime}
+                    onChange={handleInputChange(index, "endTime")}
+                />
+                <br></br>
+                <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
+                <input
+                    type="text"
+                    className="form-control timeable"
+                    placeholder="40"
+                    value={timeSlot.registeredCount}
+                    onChange={handleInputChange(index, "registeredCount")}
+                />
+                <span className="admin-textBody-large"> คน</span>
+                {/* <div className="admin-right">
+                    <button onClick={(event) => removeData(event, index)} className="admin-activity-remove-btn">ลบช่วงเวลา</button>
+                </div> */}
+            </div>
+            ) : (            <div key={index}>
                 <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                 <input
                     type="date"
@@ -383,8 +428,7 @@ const ActivityEditComponent = (props) => {
                 <div className="admin-right">
                     <button onClick={(event) => removeData(event, index)} className="admin-activity-remove-btn">ลบช่วงเวลา</button>
                 </div>
-
-            </div>
+            </div>)
         ));
     };
 
@@ -452,6 +496,7 @@ const ActivityEditComponent = (props) => {
                                     value="yes"
                                     checked={activityType === 'yes'}
                                     onChange={handleRadioChange}
+                                    disabled
                                     />
                                     <label className={`admin-activity-queue ${activityType === 'yes' ? 'focus' : ''}`} htmlFor="option1">มีระบบคิว</label>
                                     <input
@@ -463,6 +508,7 @@ const ActivityEditComponent = (props) => {
                                         value="no"
                                         checked={activityType === 'no'}
                                         onChange={handleRadioChange}
+                                        disabled
                                     />
                                     <label className={`admin-activity-queue ${activityType === 'no' ? 'focus' : ''}`} htmlFor="option2">ไม่มีระบบคิว</label>
                                 </div>
@@ -480,6 +526,7 @@ const ActivityEditComponent = (props) => {
                                                     inputValue("openQueenDate")(e);
                                                 }}
                                                 value={openQueenDate}
+                                                disabled
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
                                             <input
@@ -499,6 +546,7 @@ const ActivityEditComponent = (props) => {
                                         </div>
                                     </div>
                                     <div className="admin-activity-form-register-box border-L">
+                                        
                                         <div className="admin-activity-container">
                                             <h2 className="colorPrimary-800 admin-activity-container-item">ช่วงเวลาจัดกิจกรรม</h2>
                                             <div className="admin-activity-container-item admin-right">
@@ -515,6 +563,12 @@ const ActivityEditComponent = (props) => {
                                     </div>
 
                                 </div>
+                               
+                            </div>
+                            <br></br>
+                            <div>
+                                <label className="admin-textBody-large colorPrimary-800">รายละเอียดกิจกรรมที่แก้ไข</label>
+                                <textarea className="acivity-detail" rows="5"></textarea>
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
@@ -532,4 +586,4 @@ const ActivityEditComponent = (props) => {
     );
 }
 
-export default ActivityEditComponent;
+export default ActivityEditOpenRegistartComponent;

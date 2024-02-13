@@ -47,6 +47,7 @@ import UserQueue from './components_user/UserQueue.js';
 import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeedle.js';
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
+import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -61,6 +62,7 @@ import QueueManagementSystemComponentNeedle from './components_hcu/QueueManageme
 import AddAppointmentUserNeedle from './components_user/AddAppointmentUserNeedle.js';
 import AddAppointmentUserPhysic from './components_user/AddAppointmentUserPhysics.js';
 import AddAppointmentUserSpecial from './components_user/AddAppointmentUserSpecial.js';
+
 
 const router = createBrowserRouter([
   {
@@ -166,6 +168,10 @@ const router = createBrowserRouter([
   {
     path: "/adminActivityEditComponent",
     element: <ProtectAdminRoute><AdminActivityEditComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminActivityEditOpenRegistartComponent",
+    element: <ProtectAdminRoute><AdminActivityEditOpenRegistartComponent/></ProtectAdminRoute>
   },
   {
     path: "/adminActivityListOfPeopleComponent",

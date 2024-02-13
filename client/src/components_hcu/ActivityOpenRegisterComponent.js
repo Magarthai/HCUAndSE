@@ -12,6 +12,9 @@ import edit from "../picture/icon_edit.jpg";
 import icon_delete from "../picture/icon_delete.jpg";
 import { fetchOpenActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { doc, deleteDoc } from "firebase/firestore";
+
 const ActivityOpenRegisterComponent = (props) => {
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -116,9 +119,69 @@ const ActivityOpenRegisterComponent = (props) => {
 
     const EditActivity = (activities) => {
         if (activities) {
-            navigate('/adminActivityEditComponent', { state: { activities: activities } });
+            navigate('/adminActivityEditOpenRegistartComponent', { state: { activities: activities } });
         }
     }
+
+    const deletedActivity = (activities) => {
+        if (activities) {
+            Swal.fire({
+                title: 'ลบกิจกรรม',
+                text: `คุณแน่ใจว่าจะลบกิจกรรม : ${activities.activityName} ?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#DC2626',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                    cancelButton: 'custom-cancel-button',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const activitiesRef = doc(db, 'activities', `${activities.id}`);
+                        deleteDoc(activitiesRef, `${activities.id}`)
+                        console.log(`${activities.id}`);
+                        Swal.fire(
+                            {
+                                title: 'การลบการนัดหมายสำเร็จ!',
+                                text: `การนัดหมายถูกลบเรียบร้อยแล้ว!`,
+                                icon: 'success',
+                                confirmButtonText: 'ตกลง',
+                                confirmButtonColor: '#263A50',
+                                customClass: {
+                                    confirmButton: 'custom-confirm-button',
+                                }
+                            }
+                        )
+                        fetchOpenActivityAndSetState();
+                    } catch (firebaseError) {
+                        throw new Error(firebaseError);
+                    }
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    Swal.fire(
+                        {
+                            title: 'ลบช่วงเวลาไม่สำเร็จ!',
+                            text: `ไม่สามารถลบช่วงเวลาได้ กรุณาลองอีกครั้งในภายหลัง`,
+                            icon: 'error',
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                confirmButton: 'custom-confirm-button',
+                            }
+                        }
+                    )
+                }
+            })
+
+        }
+    }
+
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
@@ -177,7 +240,8 @@ const ActivityOpenRegisterComponent = (props) => {
                                             <p className="admin-textBody-big colorPrimary-800"><a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box admin-right">
-                                            <a href="/adminActivityEditComponent" target="_parent"><img src={edit} className="icon" onClick={() => EditActivity(activities)} /></a>
+                                            <a href="/adminActivityEditOpenRegistartComponent" target="_parent"><img src={edit} className="icon" onClick={() => EditActivity(activities)} /></a>
+                                            <img onClick={() => deletedActivity(activities)} src={icon_delete} className="icon" />
                                         </div>
                                     </div>
                                     <h3 className="colorPrimary-800">รายละเอียด</h3>

@@ -164,7 +164,7 @@ const submitForm = async (e) => {
       const newActivityRef = await addDoc(activitiesCollection, activityInfo);
 
       Swal.fire({
-        title: 'ขอแก้ไขนัดหมาย',
+        title: 'สร้างกิจกรรม',
         html: `ตกลงที่จะสร้างกิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
         showConfirmButton: true,
         showCancelButton: true,
