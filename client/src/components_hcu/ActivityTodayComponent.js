@@ -64,6 +64,11 @@ const ActivityTodayComponent = (props) => {
         if (!isCheckedActivity) {
             try {
                 const todayActivity = await fetchTodayActivity(user, checkCurrentDate);
+                const initialIsChecked = todayActivity.reduce((acc, timetableItem) => {
+                    acc[timetableItem.id] = timetableItem.queenStatus === "open";
+                    return acc;
+                }, {});
+                setIsChecked(initialIsChecked);
                 setActivities(todayActivity);
                 setIsCheckedActivity(true);
             } catch (error) {
@@ -102,12 +107,13 @@ const ActivityTodayComponent = (props) => {
     }
     const checkCurrentDate = getCurrentDate();
 
+
     const handleToggle = async (id) => {
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
             const docRef = doc(db, 'activities', id);
             updateDoc(docRef, { queenStatus: updatedStatus ? "open" : "close" }).catch(error => {
-                console.error('Error updating activity status:', error);
+                console.error('Error updating timetable status:', error);
             });
 
             return { ...prevState, [id]: updatedStatus };

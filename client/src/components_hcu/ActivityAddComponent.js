@@ -148,7 +148,7 @@ const submitForm = async (e) => {
 
       const downloadURL = await getDownloadURL(storageRef);
       const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-
+      const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
         const activityInfo = {
         activityName: activityName,
         activityDetail: activityDetail,
@@ -159,6 +159,7 @@ const submitForm = async (e) => {
         totalRegisteredCount: totalRegisteredCount,
         imageURL: downloadURL,
         queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+        activityStatus: activityStatusForCurrentDate ? "open" : "close",
         };
 
       const newActivityRef = await addDoc(activitiesCollection, activityInfo);
@@ -279,19 +280,23 @@ const submitForm = async (e) => {
                 <input
                     type="text"
                     className="form-control timeable"
-                    placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                     value={timeSlot.startTime}
                     onChange={handleInputChange(index, "startTime")}
+                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                    onInput={(e) => e.target.setCustomValidity("")}
+                    placeholder="00:00"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                 />
                 <span className="admin-textBody-large"> ถึง </span>
                 <input
                     type="text"
                     className="form-control timeable"
-                    placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
                     value={timeSlot.endTime}
                     onChange={handleInputChange(index, "endTime")}
+                    onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
+                    onInput={(e) => e.target.setCustomValidity("")}
+                    placeholder="00:00"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                 />
                 <br></br>
                 <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
@@ -456,7 +461,13 @@ const submitForm = async (e) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="เพิ่มกิจกรรม" className="btn-primary btn-systrm" target="_parent" />
+                                <input 
+                                    type="submit" 
+                                    value="เพิ่มกิจกรรม" 
+                                    className="btn-primary btn-systrm" 
+                                    target="_parent" 
+                                    disabled={timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}
+                                />
                             </div>
                         </div>
                     </form>

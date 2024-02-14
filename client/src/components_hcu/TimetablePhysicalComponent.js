@@ -1994,7 +1994,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2005,7 +2005,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
 
@@ -2019,7 +2019,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2030,7 +2030,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
                             <div>
@@ -2050,7 +2050,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2061,7 +2061,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
                             <div>
@@ -2112,7 +2112,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2123,7 +2123,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
 
@@ -2137,7 +2137,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2148,7 +2148,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
                             <div>
@@ -2168,7 +2168,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                                 <span> ถึง </span>
                                 <input
@@ -2179,7 +2179,7 @@ const TimetablePhysicalComponent = (props) => {
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
-                                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
                             <div>

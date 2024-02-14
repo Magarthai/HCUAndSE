@@ -15,6 +15,7 @@ import { fetchCloseActivity, fetchOpenActivity } from "../backend/activity/getTo
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 const ActivityNoOpenRegisterComponent = (props) => {
+    
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
     const [showTime, setShowTime] = useState(getShowTime);

@@ -169,8 +169,8 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 if (!downloadURL.startsWith("https://firebasestorage.googleapis.com/")) {
                     throw new Error("เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
                 }
-                const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-              
+                const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
@@ -181,6 +181,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: downloadURL,
                     queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
               
               
@@ -227,6 +228,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 });
             } else {
                 const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
+                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
@@ -237,6 +239,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: imageURL,
                     queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
 
                 Swal.fire({
@@ -361,7 +364,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     type="text"
                     className="form-control timeable"
                     placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                     value={timeSlot.startTime}
                     onChange={handleInputChange(index, "startTime")}
                 />
@@ -370,7 +373,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     type="text"
                     className="form-control timeable"
                     placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                     value={timeSlot.endTime}
                     onChange={handleInputChange(index, "endTime")}
                 />
@@ -402,7 +405,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     type="text"
                     className="form-control timeable"
                     placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                     value={timeSlot.startTime}
                     onChange={handleInputChange(index, "startTime")}
                 />
@@ -411,7 +414,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     type="text"
                     className="form-control timeable"
                     placeholder="00:00"
-                    pattern="(0[0-9]|1[0-9]|2[0-3]|0[0-9]|[1-5][0-9]|6[0-1]):[0-5][0-9]"
+                    pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                     value={timeSlot.endTime}
                     onChange={handleInputChange(index, "endTime")}
                 />

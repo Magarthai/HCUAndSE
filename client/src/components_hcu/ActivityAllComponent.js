@@ -19,7 +19,6 @@ const ActivityAllComponent = (props) => {
     const animationFrameRef = useRef();
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
     const [activities, setActivities] = useState([])
-
     function getCurrentDate() {
         const currentDate = new Date();
         const year = currentDate.getFullYear();
@@ -84,7 +83,11 @@ const ActivityAllComponent = (props) => {
     const containerStyle = {
         zoom: zoomLevel,
     };
-
+    const PreviewActivity = (activities) => {
+        if (activities) {
+            navigate('/adminActivityDetail', { state: { activities: activities } });
+        }
+    }
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -160,7 +163,7 @@ const ActivityAllComponent = (props) => {
                                             <p className="admin-textBody-big colorPrimary-800"><a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box admin-right">
-                                            <a className="admin-activity-preview" href="/adminActivityDetail" role="button"  target="_parent">Preview <img src={preview} className="icon icon_preview" /></a>
+                                            <a className="admin-activity-preview" onClick={() => PreviewActivity(activities)} role="button"  target="_parent">Preview <img src={preview} className="icon icon_preview" /></a>
 
                                         </div>
                                     </div>

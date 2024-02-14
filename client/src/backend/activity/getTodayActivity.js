@@ -29,7 +29,7 @@ export const fetchOpenActivity = async (user, checkCurrentDate) => {
 
             const querySnapshot = await getDocs(query(
                 activitiesCollection,
-                where('queenStatus', '==', 'open'),
+                where('activityStatus', '==', 'open'),
             ));
 
             const activitiesData = querySnapshot.docs
@@ -46,6 +46,29 @@ export const fetchOpenActivity = async (user, checkCurrentDate) => {
     }
 }
 
+export const fetchUserAllActivity = async (user, checkCurrentDate) => {
+    try {
+        if (user && checkCurrentDate) {
+            const activitiesCollection = collection(db, 'activities');
+
+            const querySnapshot = await getDocs(query(
+                activitiesCollection,
+                where('openQueenDate', '<=', checkCurrentDate),
+            ));
+
+            const activitiesData = querySnapshot.docs
+                .map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }))
+            
+
+            return activitiesData;
+        }
+    } catch (error) {
+        console.error('Error fetching activities:', error);
+    }
+}
 
 export const fetchCloseActivity = async (user, checkCurrentDate) => {
     try {
@@ -54,7 +77,7 @@ export const fetchCloseActivity = async (user, checkCurrentDate) => {
 
             const querySnapshot = await getDocs(query(
                 activitiesCollection,
-                where('queenStatus', '==', "close"),
+                where('activityStatus', '==', "close"),
             ));
 
             const activitiesData = querySnapshot.docs

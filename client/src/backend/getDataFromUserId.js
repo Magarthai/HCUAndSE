@@ -16,8 +16,5 @@ export const getUserDataFromUserId = async (appointment, userId, timeslot, appoi
     userDatas.appointment = appointment;
     userDatas.appointmentuid = appointmentuid;
     userDatas.userUid = userUid;
-    console.log("User Data for userId", userId, ":", userDatas);
-    console.log("userDatas", userDatas)
-    console.log("testxd", userDatas.timeslot.start)
     return userDatas;
 };

@@ -107,7 +107,7 @@ const QueueManagementSystemComponent = (props) => {
     
         updateAppointments();
     
-        const intervalId = setInterval(updateAppointments, 600);
+        const intervalId = setInterval(updateAppointments, 6000);
     
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
@@ -266,7 +266,6 @@ const QueueManagementSystemComponent = (props) => {
                         ...appointmentData,
                     };
                 });
-
 
                 if (existingAppointments.length > 0) {
                     console.log("existingAppointments", existingAppointments);
