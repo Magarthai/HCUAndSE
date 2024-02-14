@@ -14,6 +14,9 @@ import { GetTimeOptionsFilterdFromTimetable, GetTimeOptionsFromTimetable } from 
 import { availableTimeSlotsNeedle, editFormNeedle, existingAppointmentsNeedle, fetchAppointmentUsersDataNeedle, fetchTimeTableDataNeedle, fetchTimeTableMainDataNeedle, fetchUserDataWithAppointmentsNeedle, submitForm, submitFormAddContinue2Needle, submitFormNeedle } from "../backend/backendNeedle";
 import DeleteAppointmentNeedle from "../backend/backendNeedle";
 import Swal from "sweetalert2";
+import icon_date from "../picture/datepicker.png"
+import DatePicker from "react-datepicker";
+
 const AppointmentManagerNeedleComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -134,6 +137,22 @@ const AppointmentManagerNeedleComponent = (props) => {
         }
         return isoDate;
     }
+    const [datePickerEdit, setDatePickerEdit] = useState(null);
+    const handleChangeEdit = (e) => {
+        const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+        console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+        if (!isNaN(e)) {
+          setDatePickerEdit(e);
+          const formattedDate = formatDateForDisplay(date1);
+          console.log("Formatted Date:", formattedDate);
+        }else {
+          console.error("Invalid date value:", e);
+        }
+    };
+    const [isOpenEdit, setIsOpenEdit] = useState(false);
+    const handleToggleEdit = () => {
+        setIsOpenEdit(!isOpenEdit);
+    };
     const formatDatesForDisplay = (isoDate) => {
         const dateParts = isoDate.split("-");
         if (dateParts.length === 3) {
@@ -164,6 +183,22 @@ const AppointmentManagerNeedleComponent = (props) => {
         }
         return isoDate;
     };
+    const [datePicker, setDatePicker] = useState(null);
+    const handleChange = (e) => {
+        const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+        console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+        if (!isNaN(e)) {
+          setDatePicker(e);
+          const formattedDate = formatDatesForDisplay(date1);
+          console.log("Formatted Date:", formattedDate);
+        }else {
+          console.error("Invalid date value:", e);
+        }
+      };
+      const [isOpen, setIsOpen] = useState(false);
+      const handleToggle = () => {
+        setIsOpen(!isOpen);
+      };
     const fetchMainTimeTableData = async () => {
         try {
             if (user && selectedDates && selectedDates.dayName) {
@@ -455,6 +490,8 @@ const AppointmentManagerNeedleComponent = (props) => {
             uid: AppointmentUsersData.appointment.appointmentuid,
             typecheck: AppointmentUsersData.appointment.type
         }));
+        let [day, month, year] = AppointmentUsersData.appointment.appointmentDate.split("/");
+        setDatePickerEdit(new Date(year, month-1, day))
         if (window.getComputedStyle(x).display === "none") {
             if(window.getComputedStyle(z).display === "block" && saveDetailId === AppointmentUsersData.appointment.appointmentuid){
                 element.stopPropagation();
@@ -1279,8 +1316,9 @@ const AppointmentManagerNeedleComponent = (props) => {
                         <div id="edit-appointment" className="colorPrimary-800">
                         <form onSubmit={handleFormEdit}>
                                     <h2 className="center">แก้ไขนัดหมาย</h2>
-                                    <div className="center-container">
-                                        <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                    <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                    <div className="date-picker-container">
+                                        {/* <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                         {selectedDate && (
                                             <input
                                                 type="date"
@@ -1294,7 +1332,18 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                     console.log("Formatted Date:", formattedDate);
                                                 }}
                                             />
-                                        )}
+                                        )} */}
+                                         <DatePicker selected={datePickerEdit} onChange={async (e) => {handleChangeEdit(e);setIsOpenEdit(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                        wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpenEdit} onClickOutside={() => setIsOpenEdit(false)}    minDate={new Date()} maxDate={maxDate} 
+                                        popperPlacement="bottom-end" popperModifiers={[
+                                        {
+                                          name: 'preventOverflow',
+                                          options: {
+                                            padding: -235, // ระยะห่างจากขอบของ viewport
+                                          },
+                                        },
+                                      ]}/>
+                                    <button type="button" onClick={handleToggleEdit} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
                                     </div>
                                     <div>
                                     <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา </label>
@@ -1380,7 +1429,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                         <div className="center-container">
                             <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                             <br></br>
-                            <input
+                            {/* <input
                                 type="date"
                                 className="form-control"
                                 min={new Date().toISOString().split("T")[0]}
@@ -1390,7 +1439,12 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     const formattedDate = formatDatesForDisplay(e.target.value);
                                     console.log("Formatted Date:", formattedDate);
                                 }}
-                            />
+                            /> */}
+                              <DatePicker selected={datePicker} onChange={(e) => {handleChange(e);setIsOpen(false);
+                                }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpen}
+                                onClickOutside={() => setIsOpen(false)}    minDate={new Date()} maxDate={maxDate}/>
+                                <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
                         </div>
                         <div>
                         </div>

@@ -446,10 +446,10 @@ body{
     }
     #admin-add-appointment-connected .admin-appointmemt-popup{
         width: 30%;
-        height: 830px;
+        height: 750px;
         background-color: #ffffff;
         position: absolute;
-        margin: 100px 35%;
+        margin: 160px 35%;
         border-radius: 20px;
         padding: 30px;
     }
@@ -470,10 +470,10 @@ body{
     }
     #admin-add-appointment-connected2 .admin-appointmemt-popup{
         width: 60%;
-        min-height: 650px;
+        min-height: 600px;
         background-color: #ffffff;
         position: absolute;
-        margin: 190px 20%;
+        margin: 200px 20%;
         border-radius: 20px;
         padding: 20px;
     }

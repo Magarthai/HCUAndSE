@@ -464,7 +464,7 @@
     }
     .custom-calendar {
         /* width: 100%; */
-        display: inline-block;
+        /* display: inline-block; */
     } 
     .custom-datepicker-wrapper {
         width: 85%;
@@ -494,9 +494,26 @@
         border-right: 0px;
         color: #263A50 !important;
     }
+    .datepicker::placeholder {
+        font-size: 16px;
+        font-weight: 300;
+        color: #BABABA; 
+    }
     .icon-datepicker img{
         width: 25px;
     }
+    .date-picker-container{
+        position: relative;
+    }
+    .datepicker{
+        position: relative;  
+        z-index: 1;
+    }
+    /* .react-datepicker-popper{
+        position: relative;  
+        z-index: 999; 
+    } */
+
 
 
 @media (max-width: 290px) {

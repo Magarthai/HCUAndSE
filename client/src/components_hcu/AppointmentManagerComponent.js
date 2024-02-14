@@ -15,6 +15,7 @@ import { fetchUserDataWithAppointments } from '../backend/backendGeneral'
 import "../css/AdminQueueManagementSystemComponent.css";
 import { DeleteAppointment } from '../backend/backendGeneral'
 import { PulseLoader } from "react-spinners";
+import icon_date from "../picture/datepicker.png"
 const AppointmentManagerComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -536,6 +537,8 @@ const AppointmentManagerComponent = (props) => {
             uid: AppointmentUsersData.appointment.appointmentuid,
             typecheck: AppointmentUsersData.appointment.type
         }));
+        let [day, month, year] = AppointmentUsersData.appointment.appointmentDate.split("/");
+        setDatePicker(new Date(year, month-1, day))
         if (window.getComputedStyle(x).display === "none") {
             if(window.getComputedStyle(z).display === "block" && saveDetailId === AppointmentUsersData.appointment.appointmentuid){
                 element.stopPropagation();
@@ -602,6 +605,24 @@ const AppointmentManagerComponent = (props) => {
         }
         return isoDate;
     }
+
+    const [datePicker, setDatePicker] = useState(null);
+    const handleChange = (e) => {
+        const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
+        console.log("Formatted Date:", `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`);
+        if (!isNaN(e)) {
+          setDatePicker(e);
+          const formattedDate = formatDateForDisplay(date1);
+          console.log("Formatted Date:", formattedDate);
+        }else {
+          console.error("Invalid date value:", e);
+        }
+    };
+    const [isOpen, setIsOpen] = useState(false);
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
+
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -884,9 +905,10 @@ const AppointmentManagerComponent = (props) => {
                             <div id="edit-appointment" className="colorPrimary-800">
                                 <form onSubmit={submitEditForm}>
                                     <h2 className="center">แก้ไขนัดหมาย</h2>
-                                    <div className="center-container">
-                                        <label className="admin-textBody-large colorPrimary-800">วันที่</label>
-                                        {selectedDate && (
+                                    <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                    <div className="date-picker-container">
+                                        
+                                        {/* {selectedDate && (
                                             <input
                                                 type="date"
                                                 className="form-control"
@@ -899,7 +921,18 @@ const AppointmentManagerComponent = (props) => {
                                                     console.log("Formatted Date:", formattedDate);
                                                 }}
                                             />
-                                        )}
+                                        )} */}
+                                         <DatePicker selected={datePicker} onChange={async (e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                    wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpen} onClickOutside={() => setIsOpen(false)}    minDate={new Date()} maxDate={maxDate} 
+                                    popperPlacement="bottom-end" popperModifiers={[
+                                        {
+                                          name: 'preventOverflow',
+                                          options: {
+                                            padding: -235, // ระยะห่างจากขอบของ viewport
+                                          },
+                                        },
+                                      ]}/>
+                                    <button type="button" onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
 
                                     </div>
                                     <div>
