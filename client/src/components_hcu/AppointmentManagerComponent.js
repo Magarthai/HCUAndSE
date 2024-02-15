@@ -908,7 +908,7 @@ const AppointmentManagerComponent = (props) => {
                                     <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                     <div className="date-picker-container">
                                         
-                                        {/* {selectedDate && (
+                                        {selectedDate && (
                                             <input
                                                 type="date"
                                                 className="form-control"
@@ -921,8 +921,8 @@ const AppointmentManagerComponent = (props) => {
                                                     console.log("Formatted Date:", formattedDate);
                                                 }}
                                             />
-                                        )} */}
-                                         <DatePicker selected={datePicker} onChange={async (e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                        )}
+                                         {/* <DatePicker selected={datePicker} onChange={async (e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                     wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpen} onClickOutside={() => setIsOpen(false)}    minDate={new Date()} maxDate={maxDate} 
                                     popperPlacement="bottom-end" popperModifiers={[
                                         {
@@ -932,7 +932,7 @@ const AppointmentManagerComponent = (props) => {
                                           },
                                         },
                                       ]}/>
-                                    <button type="button" onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
+                                    <button type="button" onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button> */}
 
                                     </div>
                                     <div>

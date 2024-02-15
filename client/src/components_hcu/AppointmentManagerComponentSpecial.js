@@ -961,22 +961,22 @@ const AppointmentManagerComponentSpecial = (props) => {
                             <h2 className="center">แก้ไขนัดหมาย</h2>
                             <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                             <div className="date-picker-container">
-                                {/* {selectedDate && (
-                                            // <input
-                                            //     type="date"
-                                            //     className="form-control"
-                                            //     min={new Date().toISOString().split("T")[0]}
-                                            //     value={`${selectedDate.year}-${('' + selectedDate.month).padStart(2, '0')}-${('' + selectedDate.day).padStart(2, '0')}`}
-                                            //     max={maxDate.toISOString().split("T")[0]} 
-                                            //     onChange={async (e) => {
-                                            //         inputValue("appointmentDate")(e);
-                                            //         const formattedDate = formatDateForDisplay(e.target.value);
-                                            //         console.log("Formatted Date:", formattedDate);
-                                            //     }}
-                                            // />
+                                {selectedDate && (
+                                            <input
+                                                type="date"
+                                                className="form-control"
+                                                min={new Date().toISOString().split("T")[0]}
+                                                value={`${selectedDate.year}-${('' + selectedDate.month).padStart(2, '0')}-${('' + selectedDate.day).padStart(2, '0')}`}
+                                                max={maxDate.toISOString().split("T")[0]} 
+                                                onChange={async (e) => {
+                                                    inputValue("appointmentDate")(e);
+                                                    const formattedDate = formatDateForDisplay(e.target.value);
+                                                    console.log("Formatted Date:", formattedDate);
+                                                }}
+                                            />
            
-                                    )} */}
-                                    <DatePicker selected={datePicker} onChange={async (e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                    )}
+                                    {/* <DatePicker selected={datePicker} onChange={async (e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                     wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpen} onClickOutside={() => setIsOpen(false)}    minDate={new Date()} maxDate={maxDate} 
                                     popperPlacement="bottom-end" popperModifiers={[
                                         {
@@ -986,7 +986,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                                           },
                                         },
                                       ]}/>
-                                    <button type="button" onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
+                                    <button type="button" onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button> */}
                                                
                             </div>
                             <div>

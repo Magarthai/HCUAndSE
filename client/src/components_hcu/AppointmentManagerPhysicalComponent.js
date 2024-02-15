@@ -1339,7 +1339,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     <h2 className="center">แก้ไขนัดหมาย</h2>
                                     <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                     <div className="date-picker-container">
-                                        {/* <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                        <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                         {selectedDate && (
                                             <input
                                                 type="date"
@@ -1353,8 +1353,8 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                     console.log("Formatted Date:", formattedDate);
                                                 }}
                                             />
-                                        )} */}
-                                         <DatePicker selected={datePickerEdit} onChange={async (e) => {handleChangeEdit(e);setIsOpenEdit(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                                        )}
+                                         {/* <DatePicker selected={datePickerEdit} onChange={async (e) => {handleChangeEdit(e);setIsOpenEdit(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                         wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpenEdit} onClickOutside={() => setIsOpenEdit(false)}    minDate={new Date()} maxDate={maxDate} 
                                         popperPlacement="bottom-end" popperModifiers={[
                                         {
@@ -1364,7 +1364,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                           },
                                         },
                                       ]}/>
-                                    <button type="button" onClick={handleToggleEdit} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
+                                    <button type="button" onClick={handleToggleEdit} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button> */}
 
                                     </div>
                                     <div>
@@ -1453,7 +1453,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                             <div className="center-container">
                                 <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                 <br></br>
-                                {/* <input
+                                <input
                                     type="date"
                                     className="form-control"
                                     min={new Date().toISOString().split("T")[0]}
@@ -1463,12 +1463,12 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         const formattedDate = formatDatesForDisplay(e.target.value);
                                         console.log("Formatted Date:", formattedDate);
                                     }}
-                                /> */}
-                                <DatePicker selected={datePicker} onChange={(e) => {handleChange(e);setIsOpen(false);
+                                />
+                                {/* <DatePicker selected={datePicker} onChange={(e) => {handleChange(e);setIsOpen(false);
                                 }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                 wrapperClassName="custom-datepicker-wrapper" placeholderText="dd/mm/yyyy"    closeOnSelect={true}  open={isOpen}
                                 onClickOutside={() => setIsOpen(false)}    minDate={new Date()} maxDate={maxDate}/>
-                                <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
+                                <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button> */}
                             </div>
                             <div>
                             </div>

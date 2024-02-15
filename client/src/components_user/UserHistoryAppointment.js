@@ -347,7 +347,7 @@ const formatDateForDisplay = (isoDate) => {
         <div className="HistoryAppointment-body-searchItem">
           <label className="textBody-huge colorPrimary-800">ค้นหา</label>
           <div className="center-container" >
-                            {/* <input
+                            <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -358,14 +358,14 @@ const formatDateForDisplay = (isoDate) => {
                                 }}
                                 
                                 
-                            />  */}
+                            /> 
           
-          <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
+          {/* <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
           }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
           wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
           onClickOutside={() => setIsOpen(false)}/>
           <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button>
-        
+         */}
           
           </div>
           

@@ -484,7 +484,7 @@ const formatDateForDisplay = (isoDate) => {
                         <h4 className="colorPrimary-800">เลือกดูวันที่</h4>
                     </div>
                     <div className="center-container">
-                            {/* <input
+                            <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -493,11 +493,11 @@ const formatDateForDisplay = (isoDate) => {
                                     console.log("Formatted Date:", formattedDate);
                                     fetchMainTimeTableData();
                                 }}
-                            /> */}
-                             <DatePicker selected={date}  onClick={(e) => {handleChange(e);}}dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                            />
+                             {/* <DatePicker selected={date}  onChange={(e) => {handleChange(e);}} onClick={(e) => {handleChange(e);}}dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                 wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
                                 onClickOutside={() => setIsOpen(false)}/>
-                            <button onClick={handleToggle} className="icon-datepicker center" style={{ top:"-1.5px"}}><img src={icon_date} /></button>
+                            <button onClick={handleToggle} className="icon-datepicker center" style={{ top:"-1.5px"}}><img src={icon_date} /></button> */}
                         </div>
                 </div>
                 <div className="user-DateAppointment-AppointmentList_container ">
