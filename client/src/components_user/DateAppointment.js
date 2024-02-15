@@ -496,7 +496,7 @@ const formatDateForDisplay = (isoDate) => {
                              <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                 wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
                                 onClickOutside={() => setIsOpen(false)}/>
-                            <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-1px"}}><img src={icon_date} /></button>
+                            <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-2px"}}><img src={icon_date} /></button>
                         </div>
                 </div>
                 <div className="user-DateAppointment-AppointmentList_container ">
