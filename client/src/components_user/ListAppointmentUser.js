@@ -412,6 +412,7 @@ const ListAppointmentUser = () => {
       setDate(e);
       const formattedDate = formatDateForDisplay(date1);
       console.log("Formatted Date:", formattedDate);
+      setIsOpen(false)
     }else {
       console.error("Invalid date value:", e);
     }
@@ -446,8 +447,8 @@ const ListAppointmentUser = () => {
                                     console.log("Formatted Date:", formattedDate);
                                 }}
                             /> */}
-            <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
-          }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+            <DatePicker selected={date} onChange={(e) => handleChange(e)
+          } dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
           wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
           onClickOutside={() => setIsOpen(false)}/>
           <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button>
