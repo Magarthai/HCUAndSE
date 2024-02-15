@@ -460,23 +460,23 @@ const ListAppointmentUser = () => {
 
         {AppointmentUsersData.length > 0 ?
 
-  AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").sort((a, b) => {
+AppointmentUsersData.sort((a, b) => {
 
-    const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
-    const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
-
-
-    if (dateA < dateB) return -1;
-    if (dateA > dateB) return 1;
+  const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+  const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
 
 
-    const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
-    const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
-    return timeA - timeB;
-  }).map((AppointmentUserData, index) => (
+  if (dateA < dateB) return -1;
+  if (dateA > dateB) return 1;
+
+
+  const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
+  const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
+  return timeA - timeB;
+}).map((AppointmentUserData, index) => (
     <div className="AppointList-body-card-item" key={index}>
 
-      {index === 0 || AppointmentUserData.appointment.appointmentDate !== AppointmentUsersData[index - 1].appointment.appointmentDate ? (
+{index === 0 || AppointmentUserData.appointment.appointmentDate !== AppointmentUsersData[index - 1].appointment.appointmentDate ? (
         <p className="AppointList-body-card-item-outDate">{AppointmentUserData.appointment.appointmentDate}</p>
       ) : null}
 
