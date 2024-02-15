@@ -412,7 +412,6 @@ const ListAppointmentUser = () => {
       setDate(e);
       const formattedDate = formatDateForDisplay(date1);
       console.log("Formatted Date:", formattedDate);
-      setIsOpen(false)
     }else {
       console.error("Invalid date value:", e);
     }
@@ -438,7 +437,7 @@ const ListAppointmentUser = () => {
         <div className="AppointList-body-searchItem">
           <label className="textBody-huge colorPrimary-800">ค้นหา</label>
           <div className="center-container" >
-             {/* <input
+             <input
                                 type="date"
                                 className="form-control"
                                 onChange={(e) => {
@@ -446,12 +445,12 @@ const ListAppointmentUser = () => {
                                     const formattedDate = formatDateForDisplay(e.target.value);
                                     console.log("Formatted Date:", formattedDate);
                                 }}
-                            /> */}
-            <DatePicker selected={date} onChange={(e) => handleChange(e)
-          } dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                            />
+            {/* <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);
+          }} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
           wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
           onClickOutside={() => setIsOpen(false)}/>
-          <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button>
+          <button onClick={handleToggle} className="icon-datepicker"><img src={icon_date} /></button> */}
 
           </div>
          

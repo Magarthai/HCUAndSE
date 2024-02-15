@@ -447,6 +447,7 @@ const formatDateForDisplay = (isoDate) => {
         }else {
           console.error("Invalid date value:", e);
         }
+        setIsOpen(false)
       };
       const [isOpen, setIsOpen] = useState(false);
       const handleToggle = () => {
@@ -493,7 +494,7 @@ const formatDateForDisplay = (isoDate) => {
                                     fetchMainTimeTableData();
                                 }}
                             /> */}
-                             <DatePicker selected={date} onChange={(e) => {handleChange(e);setIsOpen(false);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
+                             <DatePicker selected={date} onChange={(e) => {handleChange(e);}} dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                 wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
                                 onClickOutside={() => setIsOpen(false)}/>
                             <button onClick={handleToggle} className="icon-datepicker" style={{ top:"-2px"}}><img src={icon_date} /></button>
