@@ -796,8 +796,8 @@ const AppointmentManagerComponent = (props) => {
                                                     <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
                                                 ) : (
                                                     <>
-                                                        <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
+                                                        <img src={edit} className="icon_apppointment" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
                                                     </>
                                                 )}
                                             </div>
