@@ -538,12 +538,12 @@ const AppointmentManagerComponentSpecial = (props) => {
         }
     }
 
-    const DeleteAppointment = async (appointmentuid, uid) => {
+    const DeleteAppointment = async (appointmentuid, uid,AppointmentUserData) => {
         const timetableRef = doc(db, 'appointment', appointmentuid);
     
         Swal.fire({
             title: 'ลบนัดหมาย',
-            text: `วันที่ 15/12/2023 เวลา 13:01 - 13:10`,
+            text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา ${AppointmentUserData.timeslot.start}-${AppointmentUserData.timeslot.end}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'ลบ',
@@ -847,7 +847,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                                     ) : (
                                         <>
                                             <img src={edit} className="icon" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
-                                            <img src={icon_delete} className="icon" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)} />
+                                            <img src={icon_delete} className="icon" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                         </>
                                     )}
                                 </div>
