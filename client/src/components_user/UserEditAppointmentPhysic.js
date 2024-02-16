@@ -92,22 +92,31 @@ const UserEditAppointmentPhysic = (props) => {
 
                         const timeOptionsFromTimetable = [
                             { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
-                            ...availableTimeSlots
-                                .sort((a, b) => {
-                                    const timeA = new Date(`01/01/2000 ${a.start}`);
-                                    const timeB = new Date(`01/01/2000 ${b.start}`);
-                                    return timeA - timeB;
-                                })
-                                .map((timeSlot) => ({
-                                    label: `${timeSlot.start} - ${timeSlot.end}`,
-                                    value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
-                                })),
-                        ];
+                                ...availableTimeSlots
+                                .filter(timeSlot => timeSlot.type === 'talk')
+                                    .sort((a, b) => {
+                                        const timeA = new Date(`01/01/2000 ${a.start}`);
+                                        const timeB = new Date(`01/01/2000 ${b.start}`);
+                                        return timeA - timeB;
+                                    })
+                                    .map((timeSlot) => ({
+                                        label: `${timeSlot.start} - ${timeSlot.end}`,
+                                        value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
+                                    })),
+                            ];
 
-                        console.log("Before setTimeOptions", timeOptionsFromTimetable);
-                        setTimeOptions(timeOptionsFromTimetable);
-                        console.log("After setTimeOptions", timeOptions);
-                        console.log(timeOptions)
+
+                            if (timeOptionsFromTimetable.length <= 1) {
+                                console.log("Time table not found for selected day and clinic");
+                                const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                                setTimeOptions([noTimeSlotsAvailableOption]);
+                                console.log("notime",timeOptions)
+                            }else {
+                            console.log("Before setTimeOptions", timeOptionsFromTimetable);
+                            setTimeOptions(timeOptionsFromTimetable);
+                            console.log("After setTimeOptions", timeOptions);
+                            console.log(timeOptions)
+                            }
                     } else {
                         console.log("Time table not found for selected day and clinic");
                         const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };

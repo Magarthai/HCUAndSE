@@ -456,8 +456,6 @@ const formatDateForDisplay = (isoDate) => {
       
     
     return (
-
-        
         <div className="user">
             <div style={{display:"none"}}>
             <div className="CalendarUser">
@@ -502,10 +500,11 @@ const formatDateForDisplay = (isoDate) => {
                 </div>
                 <div className="user-DateAppointment-AppointmentList_container ">
                     {selectedDate &&<h4 className="colorPrimary-800 user-DateAppointment-card-h4">นัดหมายวันที่ {selectedDate.day}/{selectedDate.month}/{selectedDate.year}</h4>}
-                    
                     <div className="user-DateAppointment-cardList_container">
-                    {AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").length > 0 ? 
-                        AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
+                    {AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
+    AppointmentUserData.appointment.status === "ไม่สำเร็จ").length > 0 ? 
+    AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
+    AppointmentUserData.appointment.status === "ไม่สำเร็จ").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                             <div className="user-DateAppointment-card gap-16" style={{ marginTop: 25 }}>
                                 <div className="user-DateAppointment-card_header">
                                     <h4 className="textButton-Normal2">{AppointmentUserData.appointment.clinic}</h4>
