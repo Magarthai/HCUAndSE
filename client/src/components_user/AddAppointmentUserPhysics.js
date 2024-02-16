@@ -107,17 +107,19 @@ const AddAppointmentUser = () => {
                         
                         const timeOptionsFromTimetable = [
                             { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
-                            ...availableTimeSlots
-                                .sort((a, b) => {
-                                    const timeA = new Date(`01/01/2000 ${a.start}`);
-                                    const timeB = new Date(`01/01/2000 ${b.start}`);
-                                    return timeA - timeB;
-                                })
-                                .map((timeSlot) => ({
-                                    label: `${timeSlot.start} - ${timeSlot.end}`,
-                                    value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
-                                })),
-                        ];
+                                ...availableTimeSlots
+                                .filter(timeSlot => timeSlot.type === 'talk')
+                                    .sort((a, b) => {
+                                        const timeA = new Date(`01/01/2000 ${a.start}`);
+                                        const timeB = new Date(`01/01/2000 ${b.start}`);
+                                        return timeA - timeB;
+                                    })
+                                    .map((timeSlot) => ({
+                                        label: `${timeSlot.start} - ${timeSlot.end}`,
+                                        value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
+                                    })),
+                            ];
+
 
                         if (timeOptionsFromTimetable.length <= 1) {
                             console.log("Time table not found for selected day and clinic");
@@ -198,6 +200,7 @@ const AddAppointmentUser = () => {
                 status: "ลงทะเบียนแล้ว",
                 status2: "เสร็จสิ้น",
                 subject: "เพิ่มนัดหมาย",
+                type: "talk",
                 appove: "",
                 appointmentSymptom2: "",
                 appointmentDate2: "",

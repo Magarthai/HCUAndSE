@@ -221,6 +221,7 @@ const AddNeedleAppointmentUser = () => {
                 status2: "เสร็จสิ้น",
                 subject: "เพิ่มนัดหมาย",
                 appove: "",
+                type: "talk",
                 appointmentSymptom2: "",
                 appointmentDate2: "",
                 postPone: "",

@@ -295,7 +295,7 @@ const AppointmentRequestManagementComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
-                    window.location.reload();
+                    navigate('/adminAppointmentRequestManagementHistoryComponent');
                 }
                 if (result.isDenied) {
                     Swal.fire({
