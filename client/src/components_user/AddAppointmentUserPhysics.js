@@ -119,10 +119,17 @@ const AddAppointmentUser = () => {
                                 })),
                         ];
 
+                        if (timeOptionsFromTimetable.length <= 1) {
+                            console.log("Time table not found for selected day and clinic");
+                            const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                            setTimeOptions([noTimeSlotsAvailableOption]);
+                            console.log("notime",timeOptions)
+                        }else {
                         console.log("Before setTimeOptions", timeOptionsFromTimetable);
                         setTimeOptions(timeOptionsFromTimetable);
                         console.log("After setTimeOptions", timeOptions);
                         console.log(timeOptions)
+                        }
                     } else {
                         console.log("Time table not found for selected day and clinic");
                         const noTimeSlotsAvailableOption = { label: "ไม่มีช่วงเวลาทําการกรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -194,6 +201,7 @@ const AddAppointmentUser = () => {
                 appove: "",
                 appointmentSymptom2: "",
                 appointmentDate2: "",
+                appointmentNotation: "",
                 postPone: "",
                 appointmentTime2: [],
             };
