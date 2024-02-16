@@ -184,6 +184,15 @@ body{
     .error{
         color: #DC2626;
     }
+    .icon_apppointment{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+        margin-top: -8px;
+    }
+    .icon_apppointment:hover{
+        cursor: pointer;
+    }
 /*  
     .row{
         margin: 0px 4% 2% 4%;
