@@ -505,7 +505,7 @@ const formatDateForDisplay = (isoDate) => {
                     
                     <div className="user-DateAppointment-cardList_container">
                     {AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").length > 0 ? 
-    AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
+                        AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                             <div className="user-DateAppointment-card gap-16" style={{ marginTop: 25 }}>
                                 <div className="user-DateAppointment-card_header">
                                     <h4 className="textButton-Normal2">{AppointmentUserData.appointment.clinic}</h4>
@@ -514,6 +514,18 @@ const formatDateForDisplay = (isoDate) => {
                                         <a onClick={() => DeleteAppointment(AppointmentUserData, AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)}><img className="user-DateAppointment-icon_delete" src={Delete_icon} alt="" /></a>
                                     </div>
                                 </div>
+                                {
+  AppointmentUserData.appointment.type && (
+    <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}>
+      {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+        AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายพูดคุย'
+      ) : (
+        AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายพูดคุย'
+      )}
+    </p>
+  )
+}
+
                                 <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}> <img src={CalendarFlat_icon} alt="" /> {AppointmentUserData.appointment.appointmentDate} </p>
                                 <p className="textBody-big" style={{ marginBottom: 0 }}> <img src={ClockFlat_icon} alt="" /> {AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</p>
                                 <div className="user-appointment-description2" style={{marginTop:5}}>

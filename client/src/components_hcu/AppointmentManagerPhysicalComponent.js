@@ -713,10 +713,10 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     return acc;
                                 }, []);
                                 const appointmentsCollection = collection(db, 'appointment');
-                                const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`)));
-                                const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
+                                const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),where('clinic', '==', 'คลินิกกายภาพ'),where('type', '==', 'main')));
+                                const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data());
                                 if (existingAppointments.length > 0) {
-
+                                    console.log(existingAppointments,'existingAppointments')
                                     console.log(`Appointments found for ${xd.day}/${xd.month}/${xd.year}:`, existingAppointments);
                                 } else {
                                     console.log(`No appointments found for ${xd.day}/${xd.month}/${xd.year}`);
