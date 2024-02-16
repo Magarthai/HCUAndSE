@@ -695,12 +695,12 @@ export const submitFormAddContinue2Needle = async (appointmentId, time, state, a
     }
 };
 
-const DeleteAppointmentNeedle = async (appointmentuid, uid) => {
+const DeleteAppointmentNeedle = async (appointmentuid, uid,AppointmentUserData) => {
     const timetableRef = doc(db, 'appointment', appointmentuid);
 
     Swal.fire({
         title: 'ลบนัดหมาย',
-        text: `วันที่ 15/12/2023 เวลา 13:01 - 13:10`,
+        text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา  ${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'ลบ',

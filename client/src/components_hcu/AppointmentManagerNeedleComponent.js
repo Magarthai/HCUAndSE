@@ -1181,7 +1181,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon" onClick={(event) => openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon" onClick={() => DeleteAppointmentNeedle(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)} />
+                                                        <img src={icon_delete} className="icon" onClick={() => DeleteAppointmentNeedle(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                                     </>
                                                 )}  
                                             </div>
