@@ -87,7 +87,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
         const intervalId = setInterval(() => {
             updateAppointmentsStatus();
             fetchUserDataWithAppointments();
-        }, 60000);
+        }, 600);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
