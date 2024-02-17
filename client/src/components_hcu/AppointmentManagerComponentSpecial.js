@@ -32,11 +32,20 @@ const AppointmentManagerComponentSpecial = (props) => {
         appointmentSymptom: "",
         appointmentNotation: "",
         clinic: "",
-        uid:"",
-        timeablelist:"",
+        uid: "",
+        timeablelist: "",
+        appointmentDater: "",
+        appointmentTimer: "",
+        appointmentIdr: "",
+        appointmentCasuer: "",
+        appointmentSymptomr: "",
+        appointmentNotationr: "",
+        clinicr: "",
+        uidr: "",
+        timeablelistr: "",
     })
 
-    const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic,uid,timeablelist } = state
+    const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist ,appointmentDater,appointmentTimer,appointmentCasuer,appointmentSymptomr,appointmentNotationr} = state
     const isSubmitEnabled =
     !appointmentDate || !appointmentTime || !appointmentId;
     const inputValue = (name) => (event) => {
@@ -62,8 +71,8 @@ const AppointmentManagerComponentSpecial = (props) => {
                         }
                         return acc;
                     }, []);
-
                     const appointmentsCollection = collection(db, 'appointment');
+                    
                     const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
 
                     const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
@@ -208,6 +217,7 @@ const AppointmentManagerComponentSpecial = (props) => {
             } else {
                 if (foundUser) {
                     const userDocRef = doc(db, 'users', userId);
+                   
                     const selectedTimeLabel = timeOptions.find((timeOption) => {
                         const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                         return optionValue === selectedValue;
@@ -226,29 +236,59 @@ const AppointmentManagerComponentSpecial = (props) => {
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
-                                Swal.fire(
-                                    {
-                                        title: 'สําเร็จ!',
-                                        text: `การเพิ่มนัดหมายสำเร็จ!`,
-                                        icon: 'success',
-                                        confirmButtonText: 'ตกลง',
-                                        confirmButtonColor: '#263A50',
-                                        customClass: {
-                                            confirmButton: 'custom-confirm-button',
-                                        }
-                                    }
-                                ).then(async (result) => {
                                     if (result.isConfirmed) {
                                         const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
+                                        
+                                        const appointmentsCollection = collection(db, 'appointment');
+                                        const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                                            appointmentsCollection,
+                                            where('appointmentDate', '==', appointmentInfo.appointmentDate),
+                                            where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                                            where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                                        ));
+                        
+                                        const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                                            id: doc.id,
+                                            ...doc.data(),
+                                        }));
+                                        
+                                        if (b.length > 1) { 
+                                            console.log('มีเอกสาร');
+                                            console.log('XD');
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "เกิดข้อผิดพลาด",
+                                                text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                                confirmButtonText: "ตกลง",
+                                                confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    cancelButton: 'custom-cancel-button',
+                                                }
+                                            });
+                                            await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                                            return;
+                                        }
                                         await updateDoc(userDocRef, {
                                             appointments: arrayUnion(appointmentRef.id),
                                         });
+                                        Swal.fire(
+                                            {
+                                                title: 'สําเร็จ!',
+                                                text: `การเพิ่มนัดหมายสำเร็จ!`,
+                                                icon: 'success',
+                                                confirmButtonText: 'ตกลง',
+                                                confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    confirmButton: 'custom-confirm-button',
+                                                }
+                                            }
+                                        )
                                         window.location.reload();
                                     }
-                                });
+
                             } catch(firebaseError) {
                                 Swal.fire(
                                     {
@@ -332,7 +372,16 @@ const AppointmentManagerComponentSpecial = (props) => {
                 clinic: "คลินิกเฉพาะทาง",
                 status: "ลงทะเบียนแล้ว",
             };
-    
+            const updatedTimetableRollBack = {
+                appointmentDate: appointmentDater,
+                appointmentTime: appointmentTimer,
+                appointmentId: appointmentId,
+                appointmentCasue: appointmentCasuer,
+                appointmentSymptom: appointmentSymptomr,
+                appointmentNotation: appointmentNotationr,
+                clinic: "คลินิกเฉพาะทาง",
+                status: "ลงทะเบียนแล้ว",
+            };
             const selectedTimeLabel = timeOptions.find((timeOption) => {
                 const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                 return optionValue === selectedValue;
@@ -350,9 +399,39 @@ const AppointmentManagerComponentSpecial = (props) => {
                     confirmButton: 'custom-confirm-button',
                     cancelButton: 'custom-cancel-button',
                 }
-            }).then((result) => {
+            }).then(async(result) => {
                 if (result.isConfirmed) {
                     try {
+                        const appointmentsCollection = collection(db, 'appointment');
+                        await updateDoc(timetableRef, updatedTimetable);
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                            appointmentsCollection,
+                            where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                            where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                            where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                        ));
+                        const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                            id: doc.id,
+                            ...doc.data(),
+                        }));
+                        
+                        if (b.length > 1) { 
+                            console.log('มีเอกสาร');
+                            console.log('XD');
+                            Swal.fire({
+                                icon: "error",
+                                title: "เกิดข้อผิดพลาด",
+                                text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                confirmButtonText: "ตกลง",
+                                confirmButtonColor: '#263A50',
+                                customClass: {
+                                    cancelButton: 'custom-cancel-button',
+                                }
+                            });
+                            await updateDoc(timetableRef, updatedTimetableRollBack);
+                            return;
+                        }
                         Swal.fire({
                             icon: "success",
                             title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -365,7 +444,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                         }
                         ).then(async (result) => {
                             if (result.isConfirmed) {
-                                await updateDoc(timetableRef, updatedTimetable);
+                                
                                 window.location.reload();
                             }
                         });
@@ -401,10 +480,24 @@ const AppointmentManagerComponentSpecial = (props) => {
                     )
                 }
             })
-        } catch (firebaseError) {
-            console.error('Firebase update error:', firebaseError);
+
         }
-    };
+            catch (firebaseError) {
+                console.error('Firebase submit error:', firebaseError);
+
+                console.error('Firebase error response:', firebaseError);
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด!",
+                    text: "ไม่สามารถสร้างนัดหมายได้ กรุณาลองอีกครั้งในภายหลัง.",
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                    }
+                });
+            }
+        }
 
     const getDayName = (date) => {
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -513,6 +606,15 @@ const AppointmentManagerComponentSpecial = (props) => {
             clinic: AppointmentUsersData.appointment.clinic,
             uid: AppointmentUsersData.appointment.appointmentuid,
             typecheck: AppointmentUsersData.appointment.type
+        }));
+        setState((prevState) => ({
+            ...prevState,
+            appointmentDater: AppointmentUsersData.appointment.appointmentDate,
+            appointmentTimer: AppointmentUsersData.appointment.appointmentTime,
+            appointmentCasuer: AppointmentUsersData.appointment.appointmentCasue,
+            appointmentSymptomr: AppointmentUsersData.appointment.appointmentSymptom,
+            appointmentNotationr: AppointmentUsersData.appointment.appointmentNotation,
+            typecheckr: AppointmentUsersData.appointment.type
         }));
         let [day, month, year] = AppointmentUsersData.appointment.appointmentDate.split("/");
         setDatePicker(new Date(year, month-1, day))

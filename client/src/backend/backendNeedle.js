@@ -88,6 +88,7 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                     return optionValue === selectedValue;
                 })?.label;
                 const userDocRef = doc(db, 'users', userId);
+                const appointmentsCollection = collection(db, 'appointment');
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
                     html: `ยืนยันที่จะนัดหมายวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
@@ -101,30 +102,60 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                         confirmButton: 'custom-confirm-button',
                         cancelButton: 'custom-cancel-button',
                     }
-                }).then((result) => {
+                    
+                }).then(async(result) => {
                     if (result.isConfirmed) {
                         try {
-                            Swal.fire(
-                                {
-                                    title: 'สําเร็จ!',
-                                    text: `การเพิ่มนัดหมายสำเร็จ!`,
-                                    icon: 'success',
-                                    confirmButtonText: 'ตกลง',
-                                    confirmButtonColor: '#263A50',
-                                    customClass: {
-                                        confirmButton: 'custom-confirm-button',
-                                    }
-                                }
-                            ).then(async (result) => {
                                 if (result.isConfirmed) {
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
+                                    await new Promise(resolve => setTimeout(resolve, 1500));
+                                    const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                                        appointmentsCollection,
+                                        where('appointmentDate', '==', appointmentInfo.appointmentDate),
+                                        where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                                        where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                                    ));
+                    
+                                    const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                                        id: doc.id,
+                                        ...doc.data(),
+                                    }));
+                                    
+                                    if (b.length > 1) { 
+                                        console.log('มีเอกสาร');
+                                        console.log('XD');
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "เกิดข้อผิดพลาด",
+                                            text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                        });
+                                        await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                                        return;
+                                    }
                                     await updateDoc(userDocRef, {
                                         appointments: arrayUnion(appointmentRef.id),
                                     });
+                                    Swal.fire(
+                                        {
+                                            title: 'สําเร็จ!',
+                                            text: `การเพิ่มนัดหมายสำเร็จ!`,
+                                            icon: 'success',
+                                            confirmButtonText: 'ตกลง',
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                confirmButton: 'custom-confirm-button',
+                                            }
+                                        }
+                                    )
                                     window.location.reload();
                                 }
-                            });
-                        } catch (firebaseError) {
+
+                        } catch(firebaseError) {
                             Swal.fire(
                                 {
                                     title: 'เกิดข้อผิดพลาด!',
@@ -188,7 +219,7 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
     }
 }
 
-export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid) => {
+export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr) => {
     try {
         const timetableRef = doc(db, 'appointment', uid);
         console.log(uid);
@@ -206,6 +237,16 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
             clinic: "คลินิกฝังเข็ม",
             status: "ลงทะเบียนแล้ว",
         };
+        const updatedTimetableRollBack = {
+            appointmentDate: appointmentDater,
+            appointmentTime: appointmentTimer,
+            appointmentId: appointmentIdr,
+            appointmentCasue: appointmentCasuer,
+            appointmentSymptom: appointmentSymptomr,
+            appointmentNotation: appointmentNotationr,
+            clinic: "คลินิกฝังเข็ม",
+            status: "ลงทะเบียนแล้ว",
+        };
 
         if (typecheck === "talk") {
             if (foundUser) {
@@ -213,6 +254,7 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                     const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                     return optionValue === selectedValue;
                 })?.label;
+                const appointmentsCollection = collection(db, 'appointment');
                 if (selectedTimeLabel != undefined) {
                     Swal.fire({
                         title: 'ยืนยันแก้นัดหมาย',
@@ -227,25 +269,56 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "การอัปเดตการนัดหมายสำเร็จ!",
-                                    text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
-                                    confirmButtonText: 'ตกลง',
-                                    confirmButtonColor: '#263A50',
-                                    customClass: {
-                                        confirmButton: 'custom-confirm-button',
+
+                                    await updateDoc(timetableRef, updatedTimetable); 
+                                    await new Promise(resolve => setTimeout(resolve, 1500));
+                                    const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                                        appointmentsCollection,
+                                        where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                                        where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                                        where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                                    ));
+                    
+                                    const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                                        id: doc.id,
+                                        ...doc.data(),
+                                    }));
+                                    
+                                    if (b.length > 1) { 
+                                        console.log('มีเอกสาร');
+                                        console.log('XD');
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "เกิดข้อผิดพลาด",
+                                            text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                        });
+                                        await updateDoc(timetableRef, updatedTimetableRollBack);
+                                        return;
                                     }
-                                }
-                                ).then(async (result) => {
-                                    if (result.isConfirmed) {
-                                        await updateDoc(timetableRef, updatedTimetable);
-                                        window.location.reload();
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "การอัปเดตการนัดหมายสำเร็จ!",
+                                        text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
+                                        confirmButtonText: 'ตกลง',
+                                        confirmButtonColor: '#263A50',
+                                        customClass: {
+                                            confirmButton: 'custom-confirm-button',
+                                        }
                                     }
-                                });
+                                    ).then(async (result) => {
+                                        if (result.isConfirmed) {
+                                            await updateDoc(timetableRef, updatedTimetable);
+                                            window.location.reload();
+                                        }
+                                    });
                             } catch (firebaseError) {
                                 Swal.fire(
                                     {
@@ -292,25 +365,57 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "การอัปเดตการนัดหมายสำเร็จ!",
-                                    text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
-                                    confirmButtonText: 'ตกลง',
-                                    confirmButtonColor: '#263A50',
-                                    customClass: {
-                                        confirmButton: 'custom-confirm-button',
-                                    }
-                                }
-                                ).then(async (result) => {
-                                    if (result.isConfirmed) {
+
                                         await updateDoc(timetableRef, updatedTimetable);
-                                        window.location.reload();
+                                        
+                                    await new Promise(resolve => setTimeout(resolve, 1500));
+                                    const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                                        appointmentsCollection,
+                                        where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                                        where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                                        where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                                    ));
+                    
+                                    const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                                        id: doc.id,
+                                        ...doc.data(),
+                                    }));
+                                    
+                                    if (b.length > 1) { 
+                                        console.log('มีเอกสาร');
+                                        console.log('XD');
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "เกิดข้อผิดพลาด",
+                                            text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                        });
+                                        await updateDoc(timetableRef, updatedTimetableRollBack);
+                                        return;
                                     }
-                                });
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "การอัปเดตการนัดหมายสำเร็จ!",
+                                        text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
+                                        confirmButtonText: 'ตกลง',
+                                        confirmButtonColor: '#263A50',
+                                        customClass: {
+                                            confirmButton: 'custom-confirm-button',
+                                        }
+                                    }
+                                    ).then(async (result) => {
+                                        if (result.isConfirmed) {
+                                            await updateDoc(timetableRef, updatedTimetable);
+                                            window.location.reload();
+                                        }
+                                    });
                             } catch (firebaseError) {
                                 Swal.fire(
                                     {

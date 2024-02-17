@@ -107,17 +107,18 @@ const AddNeedleAppointmentUser = () => {
                         
                         const timeOptionsFromTimetable = [
                             { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
-                            ...availableTimeSlots
-                                .sort((a, b) => {
-                                    const timeA = new Date(`01/01/2000 ${a.start}`);
-                                    const timeB = new Date(`01/01/2000 ${b.start}`);
-                                    return timeA - timeB;
-                                })
-                                .map((timeSlot) => ({
-                                    label: `${timeSlot.start} - ${timeSlot.end}`,
-                                    value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
-                                })),
-                        ];
+                                ...availableTimeSlots
+                                .filter(timeSlot => timeSlot.type === 'talk')
+                                    .sort((a, b) => {
+                                        const timeA = new Date(`01/01/2000 ${a.start}`);
+                                        const timeB = new Date(`01/01/2000 ${b.start}`);
+                                        return timeA - timeB;
+                                    })
+                                    .map((timeSlot) => ({
+                                        label: `${timeSlot.start} - ${timeSlot.end}`,
+                                        value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
+                                    })),
+                            ];
 
                         if (timeOptionsFromTimetable.length <= 1) {
                             console.log("Time table not found for selected day and clinic");
@@ -230,27 +231,6 @@ const AddNeedleAppointmentUser = () => {
             };
             await runTransaction(db, async (transaction) => {
                 const appointmentsCollection = collection(db, 'appointment');
-                const existingAppointmentsQuerySnapshot = await getDocs(query(
-                    appointmentsCollection,
-                    where('appointmentDate', '==', appointmentInfo.appointmentDate),
-                    where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
-                    where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
-                ));
-
-                if (!existingAppointmentsQuerySnapshot.empty) {
-                    console.log('XD')
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด",
-                        text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
-                        confirmButtonText: "ตกลง",
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            cancelButton: 'custom-cancel-button',
-                        }
-                    });
-                    return;
-                }
 
                 const usersCollection = collection(db, 'users');
                 const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
@@ -262,7 +242,35 @@ const AddNeedleAppointmentUser = () => {
 
                 if (foundUser) {
                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                        appointmentsCollection,
+                        where('appointmentDate', '==', appointmentInfo.appointmentDate),
+                        where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                        where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                    ));
+    
+                    const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    
+                    if (b.length > 1) { 
+                        console.log('มีเอกสาร');
+                        console.log('XD');
+                        Swal.fire({
+                            icon: "error",
+                            title: "เกิดข้อผิดพลาด",
+                            text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                            confirmButtonText: "ตกลง",
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            }
+                        });
+                        await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                        return;
+                    }
                     const userDocRef = doc(db, 'users', userId);
 
                     await updateDoc(userDocRef, {

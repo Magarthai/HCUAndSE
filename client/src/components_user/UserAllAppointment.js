@@ -38,8 +38,33 @@ const UserAllAppointment = () => {
 
 const handleDateSelect = (selectedDate) => {
     console.log("Selected Date in AppointmentManager:", selectedDate);
+    if (isLoading2 == true) {
+        if (selectedDate) {
+            const today = new Date();
+            if (
+                selectedDate.day === today.getDate() &&
+                selectedDate.month === today.getMonth() + 1 &&
+                selectedDate.year === today.getFullYear()
+            ) {
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถแก้ไข้นัดหมายวันปัจจุบันได้',
+                    confirmButtonText: 'ตกลง',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                      },
+                    confirmButtonColor: '#263A50',
+                
+                });
+    
+                return;
+            }
+        }
+        }
     setAllAppointmentUsersData([]);
     setSelectedDate(selectedDate);
+
     
     if (!isInitialRender) {
         console.log("location",selectedDate)
@@ -48,7 +73,8 @@ const handleDateSelect = (selectedDate) => {
   };
   
   const [isLoading, setIsLoading] = useState(true);
-  
+
+  const [isLoading2, setIsLoading2] = useState(false);
   useEffect(() => {
     document.title = 'Health Care Unit';
   
@@ -58,8 +84,10 @@ const handleDateSelect = (selectedDate) => {
   
     const timeout = setTimeout(() => {
       setIsLoading(false);
+      
     }, 500);
     setIsInitialRender(false); 
+    setIsLoading2(true);
     console.log("AppointmentUsersData", AppointmentUsersData);
   
     return () => clearTimeout(timeout);

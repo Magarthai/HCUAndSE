@@ -215,40 +215,48 @@ const submitForm = async (e) => {
             appointmentTime2: [],
         };
         await runTransaction(db, async (transaction) => {
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
             const appointmentsCollection = collection(db, 'appointment');
-            const existingAppointmentsQuerySnapshot = await getDocs(query(
-                appointmentsCollection,
-                where('appointmentDate', '==', appointmentInfo.appointmentDate),
-                where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
-                where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
-            ));
-
-            if (!existingAppointmentsQuerySnapshot.empty) {
-                console.log('XD')
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
-                    confirmButtonText: "ตกลง",
-                    confirmButtonColor: '#263A50',
-                    customClass: {
-                        cancelButton: 'custom-cancel-button',
-                    }
-                });
-                return;
-            }
-
             const usersCollection = collection(db, 'users');
             const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
             const userDocuments = userQuerySnapshot.docs;
 
+            
+        
             console.log("userDocuments", userDocuments, appointmentId)
             const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
             const userId = userDocuments.length > 0 ? userDocuments[0].id : null;
 
             if (foundUser) {
                 const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate', '==', appointmentInfo.appointmentDate),
+                    where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                    where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                ));
+
+                const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                
+                if (b.length > 1) { 
+                    console.log('มีเอกสาร');
+                    console.log('XD');
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                    return;
+                }
 
                 const userDocRef = doc(db, 'users', userId);
 

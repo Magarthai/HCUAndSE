@@ -74,6 +74,14 @@ const AppointmentManagerPhysicComponent = (props) => {
         timelength: "",
         appointmentTime: "",
         typecheck: "",
+        appointmentDater: "",
+        appointmentIdr: "",
+        appointmentCasuer: "",
+        appointmentSymptomr: "",
+        appointmentNotationr: "",
+        clinicr: "",
+        appointmentTimer: "",
+        typecheckr: "",
         ...Array.from({ length: 10 }, (_, i) => ({
             [`appointmentTime${i + 1}`]: "",
             [`appointmentDate${i + 1}`]: "",
@@ -90,7 +98,7 @@ const AppointmentManagerPhysicComponent = (props) => {
         appointmentDate2, appointmentDate3, appointmentDate4, appointmentDate5, selectedDate1,
         selectedDate2, selectedDate3, selectedDate4, selectedDate5, selectedDate6, selectedDate7, selectedDate8,
         selectedDate9, selectedDate10, timeOptions1, timeOptions2, timeOptions3, timeOptions4,
-        timeOptions5, timeOptions6, timeOptions7, timeOptions8, timeOptions9, timeOptions10, typecheck
+        timeOptions5, timeOptions6, timeOptions7, timeOptions8, timeOptions9, timeOptions10, typecheck,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr
 
     } = state;
 
@@ -397,7 +405,7 @@ const AppointmentManagerPhysicComponent = (props) => {
 
     const handleFormEdit = async (e) => {
         e.preventDefault();
-        await editFormPhysic(selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid);
+        await editFormPhysic(selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr);
     };
 
     const [saveDetailId, setsaveDetailId] = useState([])
@@ -499,6 +507,17 @@ const AppointmentManagerPhysicComponent = (props) => {
             clinic: AppointmentUsersData.appointment.clinic,
             uid: AppointmentUsersData.appointment.appointmentuid,
             typecheck: AppointmentUsersData.appointment.type
+        }));
+        setState((prevState) => ({
+            ...prevState,
+            appointmentDater: AppointmentUsersData.appointment.appointmentDate,
+            appointmentTimer: AppointmentUsersData.appointment.appointmentTime,
+            appointmentIdr: AppointmentUsersData.appointment.appointmentId,
+            appointmentCasuer: AppointmentUsersData.appointment.appointmentCasue,
+            appointmentSymptomr: AppointmentUsersData.appointment.appointmentSymptom,
+            appointmentNotationr: AppointmentUsersData.appointment.appointmentNotation,
+            clinicr: AppointmentUsersData.appointment.clinic,
+            typecheckr: AppointmentUsersData.appointment.type
         }));
         let [day, month, year] = AppointmentUsersData.appointment.appointmentDate.split("/");
         setDatePickerEdit(new Date(year, month-1, day))

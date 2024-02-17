@@ -454,7 +454,10 @@ const formatDateForDisplay = (isoDate) => {
         setIsOpen(!isOpen);
       };
       
-    
+      const today = new Date();
+      const nextThreeMonths = new Date();
+      nextThreeMonths.setMonth(today.getMonth() + 3);
+      
     return (
         <div className="user">
             <div style={{display:"none"}}>
@@ -482,16 +485,18 @@ const formatDateForDisplay = (isoDate) => {
                         <h4 className="colorPrimary-800">เลือกดูวันที่</h4>
                     </div>
                     <div className="center-container">
-                            <input
-                                type="date"
-                                className="form-control"
-                                onChange={(e) => {
-                                    inputValue("appointmentDate")(e);
-                                    const formattedDate = formatDateForDisplay(e.target.value);
-                                    console.log("Formatted Date:", formattedDate);
-                                    fetchMainTimeTableData();
-                                }}
-                            />
+                    <input
+                        type="date"
+                        className="form-control"
+                        min={today.toISOString().split('T')[0]} 
+                        max={nextThreeMonths.toISOString().split('T')[0]} 
+                        onChange={(e) => {
+                            inputValue("appointmentDate")(e);
+                            const formattedDate = formatDateForDisplay(e.target.value);
+                            console.log("Formatted Date:", formattedDate);
+                            fetchMainTimeTableData();
+                        }}
+                    />
                              {/* <DatePicker selected={date}  onChange={(e) => {handleChange(e);}} onClick={(e) => {handleChange(e);}}dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"
                                 wrapperClassName="custom-datepicker-wrapper" placeholderText="Please select a date"    closeOnSelect={true}  open={isOpen}
                                 onClickOutside={() => setIsOpen(false)}/>
