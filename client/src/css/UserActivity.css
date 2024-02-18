@@ -100,12 +100,13 @@
     border: 0px solid #12121200;
     padding: 16px;
     border-radius: 20px;
-    /* height: 25%; */
+    gap:5px;
+    height: 150px;
 }
 #user-Activity_card-registed{
     display: flex;
     flex-direction: column;
-    width: 75%;
+    width: 80%;
     justify-content: center;
     margin: 0;
 }
@@ -113,7 +114,7 @@
     background-color: #263A50;
     border-radius: 12px;
     border: none;
-    width: 25%;
+    width: 20%;
     color:#FBFFFF;
 }
 #user-ticket_disabled {

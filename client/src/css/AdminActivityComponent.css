@@ -34,6 +34,14 @@
     box-sizing: border-box;
     width: 50%;
 }
+.admin-activity-today-hearder-box1{
+    box-sizing: border-box;
+    width: 80%;
+}
+.admin-activity-today-hearder-box2{
+    box-sizing: border-box;
+    width: 20%;
+}
 .icon-activity{
     width: 26px;
     margin-top: -3px;
@@ -284,4 +292,10 @@
 .admin-activity-queue-cards-all1::-webkit-scrollbar-track {
     background-color: #D1D1D1;
     border-radius: 5px;
+}
+.admin-queue-card-activity{
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 8px;
+    height: 300px;
 }

@@ -60,6 +60,11 @@ const ActivityDetail = (props) =>{
             console.log(activities, "activities")
         }
     }, [user]);
+    const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
+        return formattedDate;
+      };
 
     return (
 
@@ -72,6 +77,13 @@ const ActivityDetail = (props) =>{
                 <div className="user-body-activity-detail">
                     <div className="user-activity-vaccine_title_container">
                         <h3>รายการกิจกรรม : {activityName}</h3>
+                    </div>
+
+                    <div className="user-activity-vaccine_date_container">
+                        <h5>วันที่เปิดลงทะเบียน</h5>
+                        <p className="textBody-medium colorPrimary-800" >
+                            {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
+                        </p>
                     </div>
 
                     <div className="user-activity-vaccine_detail_container">

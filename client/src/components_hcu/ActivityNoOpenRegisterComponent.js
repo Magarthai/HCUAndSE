@@ -217,22 +217,26 @@ const ActivityNoOpenRegisterComponent = (props) => {
                             activities.map((activities, index) => (
                                 <div className="admin-activity-item">
                                     <div className="admin-activity-today-hearder-flexbox">
-                                        <div className="admin-activity-today-hearder-box">
+                                        <div className="admin-activity-today-hearder-box1">
                                             <h2 className="colorPrimary-800">กิจกรรม : {activities.activityName}</h2>
-                                            <p className="admin-textBody-big colorPrimary-800">
-                                                <img src={calendarFlat_icon} className="icon-activity" /> : {formatDate(activities.openQueenDate)}
+                                            <p className="admin-textBody-big colorPrimary-800" >
+                                               ช่วงวันที่เปิดลงทะเบียน : {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
                                             </p>
+                                            
                                             <p className="admin-textBody-big colorPrimary-800">
                                                 {activities.timeSlots
                                                     .map((timeSlot, slotIndex) => (
                                                         <div>
+                                                            <p className="admin-textBody-big colorPrimary-800" >
+                                                                <img src={calendarFlat_icon} className="icon-activity" /> วันที่เปิดกิจกรรม : {formatDate(timeSlot.date)}
+                                                            </p>
                                                             <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime}
                                                         </div>
                                                     ))}
                                             </p>
                                             <p className="admin-textBody-big colorPrimary-800"><a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
                                         </div>
-                                        <div className="admin-activity-today-hearder-box admin-right">
+                                        <div className="admin-activity-today-hearder-box2 admin-right">
                                             <a href="/adminActivityEditComponent" target="_parent"><img src={edit} className="icon" onClick={() => EditActivity(activities)} /></a>
                                             <img onClick={() => deletedActivity(activities)} src={icon_delete} className="icon" />
                                         </div>
@@ -253,8 +257,8 @@ const ActivityNoOpenRegisterComponent = (props) => {
 
                             ))
                         ) : (
-                            <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                {/* Content for the case when activities are not available */}
+                            <div className="admin-queue-card-activity" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <p  className="admin-textBody-large colorPrimary-800" >ไม่มีกิจกรรม</p>
                             </div>
                         )}
 

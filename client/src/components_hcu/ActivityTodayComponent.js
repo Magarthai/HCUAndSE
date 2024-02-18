@@ -203,8 +203,8 @@ const ActivityTodayComponent = (props) => {
                             </div>
                         ))
                     ) : (
-                        <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            {/* Content for the case when activities are not available */}
+                        <div className="admin-queue-card-activity" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <p  className="admin-textBody-large colorPrimary-800" >ไม่มีกิจกรรม</p>
                         </div>
                     )}
 

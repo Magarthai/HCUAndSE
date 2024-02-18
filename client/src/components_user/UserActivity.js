@@ -113,10 +113,11 @@ const UserActivity = (props) => {
                             activities.map((activities, index) => (
                                 <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
                                     <h4>{activities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/>  {formatDate(activities.openQueenDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
                                                     <div>
+                                                                                            <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
                                                         <img src={ClockFlat_icon}/> {timeSlot.startTime} - {timeSlot.endTime} 
                                                         </div>
                                                    
@@ -125,12 +126,11 @@ const UserActivity = (props) => {
                                 </div>
                                 ))
                                 ) : (
-                                <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <div className="user-Activity_card gap-16" >
-                                                                <h4 style={{display:"flex",alignItems:"center",justifyContent:"center"}}>ไม่มีกิจกกรมในวันนี้</h4>
-                                                                
-                                                            </div>
-                                </div>
+                               
+                                    <div className="user-Activity_card gap-16" >
+                                        <h4 style={{display:"flex",alignItems:"center",justifyContent:"center", height:"60px"}}>ไม่มีกิจกรรมในวันนี้</h4>                        
+                                    </div>
+                            
                                 )}
                             </div>
 
@@ -142,7 +142,8 @@ const UserActivity = (props) => {
                                 <div className="user-Activity_card_registed_container gap-16">
                                     <div className="gap-16" id="user-Activity_card-registed">
                                         <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่ 2567</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/>  14/12/2023</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/>  วันกิจกรรม: 20/12/2023</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt=""/>  10:01 - 10:06</p>
                                     </div>
                                     <button className="user-Activity_ticket_btn" onClick={UserActivityGetQ}>
@@ -154,7 +155,8 @@ const UserActivity = (props) => {
                                 <div className="user-Activity_card_registed_container gap-16">
                                     <div className="gap-16" id="user-Activity_card-registed">
                                         <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/>  14/12/2023</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/> วันกิจกรรม: 20/12/2023</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt=""/>  10:01 - 10:06</p>
                                     </div>
                                     <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
