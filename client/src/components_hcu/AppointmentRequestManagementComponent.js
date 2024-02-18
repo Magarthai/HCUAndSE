@@ -202,8 +202,8 @@ const AppointmentRequestManagementComponent = (props) => {
         try {
             const timetableRef = doc(db, 'appointment', AppointmentUserData.appointmentuid);
             const updatedTimetable = {
-                appointmentDate: AppointmentUserData.appointment.appointmentDate2,
-                appointmentTime: AppointmentUserData.appointment.appointmentTime2,
+                appointmentDate: AppointmentUserData.appointment.appointmentDate,
+                appointmentTime: AppointmentUserData.appointment.appointmentTime,
                 appointmentSymptom: AppointmentUserData.appointment.appointmentSymptom2 || null,
                 status: "ลงทะเบียนแล้ว",
                 status2: "เสร็จสิ้น",
@@ -213,7 +213,7 @@ const AppointmentRequestManagementComponent = (props) => {
     
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate2} จากเดิม ${AppointmentUserData.appointment.appointmentDate}<br/> เวลา ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end} จากเดิม ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end}`,
+                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate} จากเดิม ${AppointmentUserData.appointment.appointmentDate2}<br/> เวลา ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end} จากเดิม ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',
@@ -260,8 +260,8 @@ const AppointmentRequestManagementComponent = (props) => {
         try {
             const timetableRef = doc(db, 'appointment', AppointmentUserData.appointmentuid);
             const updatedTimetable = {
-                appointmentDate: AppointmentUserData.appointment.appointmentDate,
-                appointmentTime: AppointmentUserData.appointment.appointmentTime,
+                appointmentDate: AppointmentUserData.appointment.appointmentDate2,
+                appointmentTime: AppointmentUserData.appointment.appointmentTime2,
                 status: "ไม่สำเร็จ",
                 status2: "ไม่สำเร็จ",
                 subject: "ขอเลื่อนนัดหมาย",
@@ -370,10 +370,10 @@ const AppointmentRequestManagementComponent = (props) => {
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.firstName} {AppointmentUserData.lastName}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.tel}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.clinic}</td>
-                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate2}</td>
-                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</td>
+                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate1}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot2.start} - {AppointmentUserData.timeslot2.end}</td>
+                                <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentSymptom}</td>
                                 <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentNotation}</td>
                                 <td>

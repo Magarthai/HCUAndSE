@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
+import { runTransaction } from "firebase/firestore";
 import { useUserAuth } from "../context/UserAuthContext";
 const UserEditAppointmentNeedle = (props) => {
     const [selectedDate, setSelectedDate] = useState();
@@ -258,8 +259,10 @@ const UserEditAppointmentNeedle = (props) => {
             const timetableRef = doc(db, 'appointment', uid);
             const appointmentsCollection = collection(db, 'appointment');
             const updatedTimetable = {
-                appointmentDate2: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
-                appointmentTime2: appointmentTime2,
+                appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                appointmentDate2: appointmentDate,
+                appointmentTime: appointmentTime2,
+                appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
                 status: "ยื่นแก้ไข้",
                 status2: "กำลังดำเนินการ",
@@ -311,7 +314,7 @@ const UserEditAppointmentNeedle = (props) => {
                     cancelButton: 'custom-cancel-button',
                 }
             }).then(async (result) => {
-                
+                await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
                 await updateDoc(timetableRef, updatedTimetable);
                 await new Promise(resolve => setTimeout(resolve, 1500));
@@ -353,7 +356,8 @@ const UserEditAppointmentNeedle = (props) => {
                 });  
                 
                 navigate('/appointment');
-                }
+                
+            }
                 else {
                     Swal.fire({
                         title: "แก้ไขไม่สําเร็จ",
@@ -365,7 +369,7 @@ const UserEditAppointmentNeedle = (props) => {
                         }
                     });
                 }
-            });
+            })});
             
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);
