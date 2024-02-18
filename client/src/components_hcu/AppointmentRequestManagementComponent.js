@@ -209,6 +209,10 @@ const AppointmentRequestManagementComponent = (props) => {
                 status2: "เสร็จสิ้น",
                 postPone: "yes",
                 appove : "อนุมัติ",
+                appointmentDate2: "",
+                appointmentTime2: [],
+                appointmentDateOld: AppointmentUserData.appointment.appointmentDate2,
+                appointmentTimeOld: AppointmentUserData.appointment.appointmentTime2,
             };
     
             Swal.fire({
@@ -267,7 +271,10 @@ const AppointmentRequestManagementComponent = (props) => {
                 subject: "ขอเลื่อนนัดหมาย",
                 postPone: "yes",
                 appove : "ไม่อนุมัติ",
-
+                appointmentDate2: "",
+                appointmentTime2: [],
+                appointmentDateOld: AppointmentUserData.appointment.appointmentDate2,
+                appointmentTimeOld: AppointmentUserData.appointment.appointmentTime2,
             };
     
             Swal.fire({

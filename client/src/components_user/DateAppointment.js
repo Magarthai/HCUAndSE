@@ -504,31 +504,31 @@ const formatDateForDisplay = (isoDate) => {
                         </div>
                 </div>
                 <div className="user-DateAppointment-AppointmentList_container ">
-                    {selectedDate &&<h4 className="colorPrimary-800 user-DateAppointment-card-h4">นัดหมายวันที่ {selectedDate.day}/{selectedDate.month}/{selectedDate.year}</h4>}
-                    <div className="user-DateAppointment-cardList_container">
-                    {AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
-    AppointmentUserData.appointment.status === "ไม่สำเร็จ").length > 0 ? 
-    AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
-    AppointmentUserData.appointment.status === "ไม่สำเร็จ").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
-                            <div className="user-DateAppointment-card gap-16" style={{ marginTop: 25 }}>
-                                <div className="user-DateAppointment-card_header">
-                                    <h4 className="textButton-Normal2">{AppointmentUserData.appointment.clinic}</h4>
-                                    <div className="user-DateAppointment-icon">
-                                        <a onClick={() => EditAppointment(AppointmentUserData)}><img className="user-DateAppointment-icon_edit" src={Edit_icon} alt="" /></a>
-                                        <a onClick={() => DeleteAppointment(AppointmentUserData, AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)}><img className="user-DateAppointment-icon_delete" src={Delete_icon} alt="" /></a>
-                                    </div>
-                                </div>
-                                {
-  AppointmentUserData.appointment.type && (
-    <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}>
-      {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
-        AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายพูดคุย'
-      ) : (
-        AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายพูดคุย'
-      )}
-    </p>
-  )
-}
+                        {selectedDate &&<h4 className="colorPrimary-800 user-DateAppointment-card-h4">นัดหมายวันที่ {selectedDate.day}/{selectedDate.month}/{selectedDate.year}</h4>}
+                        <div className="user-DateAppointment-cardList_container">
+                        {AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
+                            AppointmentUserData.appointment.status === "ไม่สำเร็จ").length > 0 ? 
+                            AppointmentUsersData.filter(AppointmentUserData => AppointmentUserData.appointment.status === "ลงทะเบียนแล้ว" || 
+                            AppointmentUserData.appointment.status === "ไม่สำเร็จ").sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
+                                                    <div className="user-DateAppointment-card gap-16" style={{ marginTop: 25 }}>
+                                                        <div className="user-DateAppointment-card_header">
+                                                            <h4 className="textButton-Normal2">{AppointmentUserData.appointment.clinic}</h4>
+                                                            <div className="user-DateAppointment-icon">
+                                                                <a onClick={() => EditAppointment(AppointmentUserData)}><img className="user-DateAppointment-icon_edit" src={Edit_icon} alt="" /></a>
+                                                                <a onClick={() => DeleteAppointment(AppointmentUserData, AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)}><img className="user-DateAppointment-icon_delete" src={Delete_icon} alt="" /></a>
+                                                            </div>
+                                                        </div>
+                                                        {
+                        AppointmentUserData.appointment.type && (
+                            <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}>
+                            {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายพูดคุย'
+                            ) : (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายพูดคุย'
+                            )}
+                            </p>
+                        )
+                        }
 
                                 <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}> <img src={CalendarFlat_icon} alt="" /> {AppointmentUserData.appointment.appointmentDate} </p>
                                 <p className="textBody-big" style={{ marginBottom: 0 }}> <img src={ClockFlat_icon} alt="" /> {AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</p>

@@ -54,7 +54,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
             appointmentCasue,
             appointmentSymptom,
             appointmentNotation,
-            clinic: "คลินิกกายภาพ",
+            clinic: "คลินิกฝังเข็ม",
             type: "talk",
             status: "ลงทะเบียนแล้ว",
             status2: "เสร็จสิ้น",
@@ -91,7 +91,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                 const appointmentsCollection = collection(db, 'appointment');
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
-                    html: `ชื่อ-นามสกุล : ${foundUser.firstName} ${foundUser.lastName} </br> รหัสนักศึกษา/พนักงาน : ${appointmentId} </br> วันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
+                    html: `ยืนยันที่จะนัดหมายวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ตกลง',
@@ -102,6 +102,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                         confirmButton: 'custom-confirm-button',
                         cancelButton: 'custom-cancel-button',
                     }
+                    
                 }).then(async(result) => {
                     if (result.isConfirmed) {
                         try {
@@ -114,11 +115,24 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                                         where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
                                         where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
                                     ));
+                
+                                    const existingAppointmentsQuerySnapshot3 = await getDocs(query(
+                                        appointmentsCollection,
+                                        where('appointmentDate2', '==', appointmentInfo.appointmentDate),
+                                        where('appointmentTime2.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                                        where('appointmentTime2.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                                    ));
                     
                                     const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
                                         id: doc.id,
                                         ...doc.data(),
                                     }));
+                
+                                    const c = existingAppointmentsQuerySnapshot3.docs.map((doc) => ({
+                                        id: doc.id,
+                                        ...doc.data(),
+                                    }));
+
                                     
                                     if (b.length > 1) { 
                                         console.log('มีเอกสาร');
@@ -127,6 +141,22 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                                             icon: "error",
                                             title: "เกิดข้อผิดพลาด",
                                             text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                        });
+                                        await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                                        return;
+                                    }
+                                    if (c.length > 0) { 
+                                        console.log('มีเอกสาร');
+                                        console.log('XD');
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "เกิดข้อผิดพลาด",
+                                            text: "มีคนเลื่อนนัดหมายโดยใช้เวลานี้แล้วโปรดเลือกเวลาใหม่!",
                                             confirmButtonText: "ตกลง",
                                             confirmButtonColor: '#263A50',
                                             customClass: {
@@ -218,6 +248,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
     }
 }
 
+
 export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr) => {
     try {
         const timetableRef = doc(db, 'appointment', uid);
@@ -246,6 +277,7 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
             clinic: "คลินิกกายภาพ",
             status: "ลงทะเบียนแล้ว",
         };
+
         if (typecheck === "talk") {
             if (foundUser) {
                 const selectedTimeLabel = timeOptions.find((timeOption) => {
@@ -280,7 +312,19 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                         where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
                                     ));
                     
+                                    const existingAppointmentsQuerySnapshot3 = await getDocs(query(
+                                        appointmentsCollection,
+                                        where('appointmentDate2', '==', updatedTimetable.appointmentDate),
+                                        where('appointmentTime2.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                                        where('appointmentTime2.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                                    ));
+                    
                                     const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                                        id: doc.id,
+                                        ...doc.data(),
+                                    }));
+                    
+                                    const c = existingAppointmentsQuerySnapshot3.docs.map((doc) => ({
                                         id: doc.id,
                                         ...doc.data(),
                                     }));
@@ -292,6 +336,22 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                             icon: "error",
                                             title: "เกิดข้อผิดพลาด",
                                             text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                        });
+                                        await updateDoc(timetableRef, updatedTimetableRollBack);
+                                        return;
+                                    }
+                                    if (c.length > 0) { 
+                                        console.log('มีเอกสาร');
+                                        console.log('XD');
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "เกิดข้อผิดพลาด",
+                                            text: "มีคนเลื่อนนัดหมายโดยใช้เวลานี้แล้วโปรดเลือกเวลาใหม่!",
                                             confirmButtonText: "ตกลง",
                                             confirmButtonColor: '#263A50',
                                             customClass: {
@@ -609,6 +669,7 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
 }
 
 
+
 export const fetchUserDataWithAppointmentsPhysic = async (user, selectedDate) => {
     try {
         if (user && selectedDate && selectedDate.dayName) {
@@ -700,11 +761,14 @@ export const availableTimeSlotsPhysic = async (filteredTimeTableData, selectedDa
 
     const appointmentsCollection = collection(db, 'appointment');
     const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
-
+    const appointmentQuerySnapshot2 = await getDocs(query(appointmentsCollection, where('appointmentDate2', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
     const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
-
+    const existingAppointments2 = appointmentQuerySnapshot2.docs.map((doc) => doc.data().appointmentTime2);
+    
     const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
         !existingAppointments.some(existingSlot =>
+            existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+        ) && !existingAppointments2.some(existingSlot =>
             existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
         )
     );

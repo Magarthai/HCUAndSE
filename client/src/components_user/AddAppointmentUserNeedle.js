@@ -80,22 +80,17 @@ const AddNeedleAppointmentUser = () => {
 
                         const appointmentsCollection = collection(db, 'appointment');
                         const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
-
+                        const appointmentQuerySnapshot2 = await getDocs(query(appointmentsCollection, where('appointmentDate2', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
                         const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
-
-                        if (existingAppointments.length > 0) {
-                            console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
-                        } else {
-                            console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
-                        }
-
+                        const existingAppointments2 = appointmentQuerySnapshot2.docs.map((doc) => doc.data().appointmentTime2);
+                        
                         const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
                             !existingAppointments.some(existingSlot =>
                                 existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+                            ) && !existingAppointments2.some(existingSlot =>
+                                existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
                             )
                         );
-
-
 
                         console.log("availableTimeSlots", availableTimeSlots)
                         const initialIsChecked = availableTimeSlots.reduce((acc, timetableItem) => {
@@ -213,7 +208,7 @@ const AddNeedleAppointmentUser = () => {
 
             const appointmentInfo = {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
-                appointmentTime,
+                appointmentTime:appointmentTime,
                 appointmentId: appointmentId || null,
                 appointmentCasue: "ตรวจรักษาโรค",
                 appointmentSymptom: appointmentSymptom,
@@ -228,6 +223,8 @@ const AddNeedleAppointmentUser = () => {
                 postPone: "",
                 appointmentNotation: "",
                 appointmentTime2: [],
+                appointmentTimeOld: appointmentTime,
+                appointmentDateOld: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
             };
             await runTransaction(db, async (transaction) => {
                 const appointmentsCollection = collection(db, 'appointment');
@@ -249,12 +246,24 @@ const AddNeedleAppointmentUser = () => {
                         where('appointmentTime.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
                         where('appointmentTime.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
                     ));
+
+                    const existingAppointmentsQuerySnapshot3 = await getDocs(query(
+                        appointmentsCollection,
+                        where('appointmentDate2', '==', appointmentInfo.appointmentDate),
+                        where('appointmentTime2.timetableId', '==', appointmentInfo.appointmentTime.timetableId),
+                        where('appointmentTime2.timeSlotIndex', '==', appointmentInfo.appointmentTime.timeSlotIndex)
+                    ));
     
                     const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
                         id: doc.id,
                         ...doc.data(),
                     }));
-                    
+
+                    const c = existingAppointmentsQuerySnapshot3.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    console.log(c,appointmentInfo.appointmentTime.timetableId,appointmentInfo.appointmentTime.timeSlotIndex,"XAFFASFASASFSAFSFA")
                     if (b.length > 1) { 
                         console.log('มีเอกสาร');
                         console.log('XD');
@@ -262,6 +271,23 @@ const AddNeedleAppointmentUser = () => {
                             icon: "error",
                             title: "เกิดข้อผิดพลาด",
                             text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                            confirmButtonText: "ตกลง",
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            }
+                        });
+                        await deleteDoc(doc(db, 'appointment', appointmentRef.id));
+                        return;
+                    }
+
+                    if (c.length > 0) { 
+                        console.log('มีเอกสาร');
+                        console.log('XD');
+                        Swal.fire({
+                            icon: "error",
+                            title: "เกิดข้อผิดพลาด",
+                            text: "มีคนเลื่อนนัดหมายโดยใช้เวลานี้แล้วโปรดเลือกเวลาใหม่!",
                             confirmButtonText: "ตกลง",
                             confirmButtonColor: '#263A50',
                             customClass: {

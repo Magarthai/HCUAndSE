@@ -289,13 +289,41 @@ const AppointmentManagerNeedleComponent = (props) => {
 
     const fetchTimeTableData = async () => {
         try {
-
+            
             const timeTableData = await fetchTimeTableDataNeedle(user, selectedDate);
             if (timeTableData.length > 0) {
                 const filteredTimeTableData = timeTableData
                 if (filteredTimeTableData.length > 0) {
-                    const availableTimeSlots = await availableTimeSlotsNeedle(filteredTimeTableData, selectedDate, db);
+                        const allTimeableLists = filteredTimeTableData.reduce((acc, item) => {
+                            if (item.timeablelist && Array.isArray(item.timeablelist)) {
+                                acc.push(
+                                    ...item.timeablelist.map((timeSlot, index) => ({
+                                        ...timeSlot,
+                                        timeTableId: item.id,
+                                        timeSlotIndex: index
+                                    }))
+                                );
+                            }
+                            return acc;
+                        }, []);
+                    
+                        const appointmentsCollection = collection(db, 'appointment');
+                        const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
+                        const appointmentQuerySnapshot2 = await getDocs(query(appointmentsCollection, where('appointmentDate2', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
+                        const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
+                        const existingAppointments2 = appointmentQuerySnapshot2.docs.map((doc) => doc.data().appointmentTime2);
+                        
+
+                        const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
+                            !existingAppointments.some(existingSlot =>
+                                existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+                            ) && !existingAppointments2.some(existingSlot =>
+                                existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+                            )
+                        );
+                            
                     console.log("availableTimeSlots", availableTimeSlots)
+                    console.log("existingAppointments2", existingAppointments2)
                     const initialIsChecked = availableTimeSlots.reduce((acc, timetableItem) => {
                         acc[timetableItem.id] = timetableItem.status === "Enabled";
                         return acc;
@@ -555,6 +583,7 @@ const AppointmentManagerNeedleComponent = (props) => {
         }
     };
     let count = parseInt(time);
+    let notimeforthisday = 0;
 
     const submitFormAddContinue = async () => {
         let x = document.getElementById("admin-add-appointment-connected2");
@@ -832,6 +861,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     appointmentPopupItem.appendChild(divElement);
                                 } else {
                                     count += 1;
+                                    notimeforthisday +=1;
                                     setState((prevState) => ({
                                         ...prevState,
                                         [`time`]: count,
@@ -851,6 +881,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                         } else {
                             console.log("Time table not found");
                             count += 1;
+                            notimeforthisday +=1;
                             console.log("origi count", count)
                             setState((prevState) => ({
                                 ...prevState,
@@ -868,6 +899,21 @@ const AppointmentManagerNeedleComponent = (props) => {
                     };
                     for (let i = 1; i <= Math.min(count, 10); i++) {
                         await processAppointment(i);
+                        if (notimeforthisday >= 5) {
+                            Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: `ไม่พบช่วงเวลาให้เลือกมากกว่า 5 ครั้งโปรดตั้งค่าการเพิ่มนัดหมายต่อเนื่องใหม่!`,
+                                icon: 'warning',
+                                confirmButtonText: 'ย้อนกลับ',
+                                confirmButtonColor: '#263A50',
+                                reverseButtons: true,
+                                customClass: {
+                                    confirmButton: 'custom-confirm-button',
+                                    cancelButton: 'custom-cancel-button',
+                                },
+                            })
+                            return;
+                        }
                     }
                 }
             } else {

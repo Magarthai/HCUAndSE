@@ -4,6 +4,7 @@ import "../css/Component.css";
 import NavbarUserComponent from '../components_user/NavbarComponent';
 import CalendarUserComponentDate from "./CalendarUserComponentDate";
 import Swal from "sweetalert2";
+import { runTransaction } from "firebase/firestore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
@@ -28,6 +29,10 @@ const UserEditAppointmentPhysic = (props) => {
         appointmentSymptom2: "",
         appointmentTime2: "",
         appointmentDate2:"",
+        status: "",
+        subject: "",
+        status: "",
+        timetableId: "",
     })
 
     const fetchTimeTableData = async () => {
@@ -44,6 +49,7 @@ const UserEditAppointmentPhysic = (props) => {
                     id: doc.id,
                     ...doc.data(),
                 }));
+                
                 console.log("timeTableData selectedDate", selectedDate)
                 console.log("timeTableData", timeTableData)
 
@@ -65,17 +71,14 @@ const UserEditAppointmentPhysic = (props) => {
 
                         const appointmentsCollection = collection(db, 'appointment');
                         const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
-
+                        const appointmentQuerySnapshot2 = await getDocs(query(appointmentsCollection, where('appointmentDate2', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
                         const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
-
-                        if (existingAppointments.length > 0) {
-                            console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
-                        } else {
-                            console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
-                        }
-
+                        const existingAppointments2 = appointmentQuerySnapshot2.docs.map((doc) => doc.data().appointmentTime2);
+                        
                         const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
                             !existingAppointments.some(existingSlot =>
+                                existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+                            ) && !existingAppointments2.some(existingSlot =>
                                 existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
                             )
                         );
@@ -139,7 +142,7 @@ const UserEditAppointmentPhysic = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-    const { appointmentDate2,appointmentSymptom2,appointmentTime2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID } = state
+    const { appointmentDate2,appointmentSymptom2,appointmentTime2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId} = state
     const handleDateSelect = (selectedDate) => {
         setSelectedDate(selectedDate);
         setState({
@@ -180,7 +183,14 @@ const UserEditAppointmentPhysic = (props) => {
                 uid: AppointmentUserData.appointmentuid || "",
                 timeablelist: AppointmentUserData.appointment.timeablelist || "",
                 userID: AppointmentUserData.appointment.userID || "",
-            });
+                appointmentDate2: AppointmentUserData.appointment.appointmentDate2 || "",
+                appointmentTime2: AppointmentUserData.appointment.appointmentTime2 || "",
+                appointmentSymptom2: AppointmentUserData.appointment.appointmentSymptom2 || "",
+                status: AppointmentUserData.appointment.status || "", 
+                status2:AppointmentUserData.appointment.status2 || "",
+                subject:AppointmentUserData.appointment.subject || "",
+                timetableId:AppointmentUserData.appointment.timetableId || "",
+            }); 
         }
     }, [AppointmentUserData, navigate,selectedDate]);
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -259,13 +269,30 @@ const UserEditAppointmentPhysic = (props) => {
         e.preventDefault();
         try {
             const timetableRef = doc(db, 'appointment', uid);
+            const appointmentsCollection = collection(db, 'appointment');
             const updatedTimetable = {
-                appointmentDate2: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
-                appointmentTime2: appointmentTime2,
+                appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                appointmentDate2: appointmentDate,
+                appointmentTime: appointmentTime2,
+                appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
                 status: "ยื่นแก้ไข้",
                 status2: "กำลังดำเนินการ",
                 subject: "ขอเลื่อนนัดหมาย",
+            };
+            const updatedTimetableRollBack = {
+                appointmentDate: appointmentDate,
+                appointmentTime: appointmentTime,
+                appointmentId: appointmentId,
+                appointmentCasue: appointmentCasue,
+                appointmentSymptom: appointmentSymptom,
+                appointmentNotation: appointmentNotation,
+                status: status,
+                appointmentDate2: appointmentDate2,
+                appointmentTime2: appointmentTime2,
+                appointmentSymptom2: appointmentSymptom2,
+                status2: status2,
+                subject: subject,
             };
 
             const selectedTimeLabel = timeOptions.find((timeOption) => {
@@ -274,7 +301,8 @@ const UserEditAppointmentPhysic = (props) => {
             })?.label;
             if (selectedTimeLabel === undefined) {
                 Swal.fire({
-                    title: "แก้ไขไม่สําเร็จ กรุณาเลือกช่วงเวลา",
+                    title: "แก้ไขไม่สําเร็จ",
+                    text : "กรุณาเลือกช่วงเวลา",
                     icon: "error",
                     confirmButtonText: "ตกลง",
                     confirmButtonColor: '#263A50',
@@ -299,22 +327,79 @@ const UserEditAppointmentPhysic = (props) => {
                     cancelButton: 'custom-cancel-button',
                 }
             }).then(async (result) => {
-                
+                await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
-                Swal.fire({
-                    title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
-                    icon: "success",
-                    confirmButtonText: "ตกลง",
+                await updateDoc(timetableRef, updatedTimetable);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                    where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                    where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                ));
+
+                const existingAppointmentsQuerySnapshot3 = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate2', '==', updatedTimetable.appointmentDate),
+                    where('appointmentTime2.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                    where('appointmentTime2.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                ));
+
+                const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+
+                const c = existingAppointmentsQuerySnapshot3.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                
+                if (b.length > 1) { 
+                    console.log('มีเอกสาร');
+                    console.log('XD');
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',
                         customClass: {
                             cancelButton: 'custom-cancel-button',
                         }
-
-                });  
-                await updateDoc(timetableRef, updatedTimetable);
-                clearState();
-                navigate('/appointment');
+                    });
+                    await updateDoc(timetableRef, updatedTimetableRollBack);
+                    return;
                 }
+                if (c.length > 0) { 
+                    console.log('มีเอกสาร');
+                    console.log('XD');
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลื่อนนัดหมายโดยใช้เวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    await updateDoc(timetableRef, updatedTimetableRollBack);
+                    return;
+                }
+                Swal.fire({
+                    title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
+                    icon: "success",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                });  
+                
+                navigate('/appointment');
+                
+            }
                 else {
                     Swal.fire({
                         title: "แก้ไขไม่สําเร็จ",
@@ -326,7 +411,7 @@ const UserEditAppointmentPhysic = (props) => {
                         }
                     });
                 }
-            });
+            })});
             
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);

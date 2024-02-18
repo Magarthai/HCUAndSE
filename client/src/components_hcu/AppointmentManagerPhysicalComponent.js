@@ -566,13 +566,14 @@ const AppointmentManagerPhysicComponent = (props) => {
         }
     };
     let count = parseInt(time);
-
+    let notimeforthisday = 0;
     const submitFormAddContinue = async () => {
         let x = document.getElementById("admin-add-appointment-connected2");
         let y = document.getElementById("admin-add-appointment-connected");
         if (window.getComputedStyle(x).display === "none") {
             x.style.display = "block";
             y.style.display = "none";
+            
             setState((prevState) => ({
                 ...prevState,
                 appointmentTime1: appointmentTime,
@@ -595,7 +596,6 @@ const AppointmentManagerPhysicComponent = (props) => {
                 const handleSelectChanges = () => {
                     setSelectedCount(selectedCount + 1);
                     console.log(selectedCount)
-
                 };
                 if (Number(time) > 10) {
                     Swal.fire({
@@ -673,6 +673,8 @@ const AppointmentManagerPhysicComponent = (props) => {
                 
                 else {
                     const processAppointment = async (i) => {
+                        console.log(notimeforthisday,"notimeforthisday")
+                        
                         const instanceDate = new Date(formattedAppointmentDate);
 
                         instanceDate.setDate(instanceDate.getDate() + (i - 1) * timelength);
@@ -850,6 +852,9 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     appointmentPopupItem.appendChild(divElement);
                                 } else {
                                     count += 1;
+                                    notimeforthisday +=1;
+                                    console.log(notimeforthisday,"notimeforthisdazy")
+                                    
                                     setState((prevState) => ({
                                         ...prevState,
                                         [`time`]: count,
@@ -869,6 +874,9 @@ const AppointmentManagerPhysicComponent = (props) => {
                         } else {
                             console.log("Time table not found");
                             count += 1;
+                            notimeforthisday +=1;
+                            console.log(notimeforthisday,"notimeforthisdazy")
+                            
                             console.log("origi count", count)
                             setState((prevState) => ({
                                 ...prevState,
@@ -886,6 +894,21 @@ const AppointmentManagerPhysicComponent = (props) => {
                     };
                     for (let i = 1; i <= Math.min(count, 10); i++) {
                         await processAppointment(i);
+                        if (notimeforthisday >= 5) {
+                            Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: `ไม่พบช่วงเวลาให้เลือกมากกว่า 5 ครั้งโปรดตั้งค่าการเพิ่มนัดหมายต่อเนื่องใหม่!`,
+                                icon: 'warning',
+                                confirmButtonText: 'ย้อนกลับ',
+                                confirmButtonColor: '#263A50',
+                                reverseButtons: true,
+                                customClass: {
+                                    confirmButton: 'custom-confirm-button',
+                                    cancelButton: 'custom-cancel-button',
+                                },
+                            })
+                            return;
+                        }
                     }
                 }
             } else {
@@ -929,6 +952,7 @@ const AppointmentManagerPhysicComponent = (props) => {
         return formattedDate;
     };
 
+    
     const submitFormAddContinue2 = async (e) => {
         handleSelectChange();
         e.preventDefault();

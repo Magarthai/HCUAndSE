@@ -37,7 +37,7 @@ const TimetablePhysicalComponent = (props) => {
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
 
     const isSubmitEnabled =
-        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment || !timeAppointmentMainStart || ! timeAppointmentMainEnd || !numberMainAppointment;
+        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
 
 
     const [isChecked, setIsChecked] = useState({});
@@ -199,6 +199,7 @@ const TimetablePhysicalComponent = (props) => {
             return;
         }
 
+        if (numberMainAppointment < 0) {
         if (
             timeAppointmentMainStart >= timeAppointmentMainEnd 
         ) {
@@ -245,7 +246,7 @@ const TimetablePhysicalComponent = (props) => {
             });
             return;
         }
-
+    }
 
         const timeablelist = [];
 
@@ -270,6 +271,7 @@ const TimetablePhysicalComponent = (props) => {
             });
         }
 
+        if (numberMainAppointment < 0)  {
         const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
         const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
         const duration2 = (end2 - start2) / 60000;
@@ -294,9 +296,10 @@ const TimetablePhysicalComponent = (props) => {
                 type:"main"
             });
         }
-
+    }
 
         try {
+            
             const additionalTImeTable = {
                 addDay: addDay,
                 timeStart: timeStart,
@@ -306,13 +309,12 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentMainStart:timeAppointmentMainStart,
                 timeAppointmentMainEnd:timeAppointmentMainEnd,
                 numberAppointment: numberAppointment,
-                numberMainAppointment: numberMainAppointment,
+                numberMainAppointment: numberMainAppointment === "" ? "0" : numberMainAppointment,
                 clinic: "คลินิกกายภาพ",
                 timeablelist: timeablelist,
                 status: "Enabled",
             };
-            
-
+        
             const isInputMainAppointmentTimeOverlap = () => {
                 const appointmentStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
                 const appointmentEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);

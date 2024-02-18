@@ -70,8 +70,8 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                     for (const appointment of existingAppointments) {
                         const timeSlotIndex = appointment.appointmentTime.timeSlotIndex;
                         const timeTableId = appointment.appointmentTime.timetableId;
-                        const timeSlotIndex2 = appointment.appointmentTime2.timeSlotIndex;
-                        const timeTableId2 = appointment.appointmentTime2.timetableId;
+                        const timeSlotIndex2 = appointment.appointmentTimeOld.timeSlotIndex;
+                        const timeTableId2 = appointment.appointmentTimeOld.timetableId;
                         try {
                             const timetableDocRef = doc(timeTableCollection, timeTableId);
                             const timetableDocSnapshot = await getDoc(timetableDocRef);

@@ -86,11 +86,7 @@ const AppointmentManagerComponent = (props) => {
 
                     const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
 
-                    if (existingAppointments.length > 0) {
 
-                    } else {
-
-                    }
 
                     const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
                         !existingAppointments.some(existingSlot =>

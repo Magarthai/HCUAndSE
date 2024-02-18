@@ -70,17 +70,14 @@ const UserEditAppointmentNeedle = (props) => {
 
                         const appointmentsCollection = collection(db, 'appointment');
                         const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
-
+                        const appointmentQuerySnapshot2 = await getDocs(query(appointmentsCollection, where('appointmentDate2', '==', `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
                         const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
-
-                        if (existingAppointments.length > 0) {
-                            console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
-                        } else {
-                            console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
-                        }
-
+                        const existingAppointments2 = appointmentQuerySnapshot2.docs.map((doc) => doc.data().appointmentTime2);
+                        
                         const availableTimeSlots = allTimeableLists.filter((timeSlot) =>
                             !existingAppointments.some(existingSlot =>
+                                existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
+                            ) && !existingAppointments2.some(existingSlot =>
                                 existingSlot.timetableId === timeSlot.timeTableId && existingSlot.timeSlotIndex === timeSlot.timeSlotIndex
                             )
                         );
@@ -320,11 +317,24 @@ const UserEditAppointmentNeedle = (props) => {
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                     appointmentsCollection,
-                    where('appointmentDate', '==', updatedTimetable.appointmentDate2),
-                    where('appointmentTime.timetableId', '==', timetableId),
-                    where('appointmentTime.timeSlotIndex', '==', updatedTimetableRollBack.appointmentTime.timeSlotIndex)
+                    where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                    where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                    where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
                 ));
+
+                const existingAppointmentsQuerySnapshot3 = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate2', '==', updatedTimetable.appointmentDate),
+                    where('appointmentTime2.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                    where('appointmentTime2.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                ));
+
                 const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+
+                const c = existingAppointmentsQuerySnapshot3.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
@@ -336,6 +346,22 @@ const UserEditAppointmentNeedle = (props) => {
                         icon: "error",
                         title: "เกิดข้อผิดพลาด",
                         text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    await updateDoc(timetableRef, updatedTimetableRollBack);
+                    return;
+                }
+                if (c.length > 0) { 
+                    console.log('มีเอกสาร');
+                    console.log('XD');
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลื่อนนัดหมายโดยใช้เวลานี้แล้วโปรดเลือกเวลาใหม่!",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',
                         customClass: {
