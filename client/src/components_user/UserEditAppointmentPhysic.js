@@ -264,6 +264,7 @@ const UserEditAppointmentPhysic = (props) => {
             userID: "",
         });
     };
+    
     const [selectedValue, setSelectedValue] = useState("");
     const submitEditForm = async (e) => {
         e.preventDefault();
@@ -446,7 +447,6 @@ const UserEditAppointmentPhysic = (props) => {
                     selectedDate={selectedDate}
                     setSelectedDate={setSelectedDate}
                     onDateSelect={handleDateSelect}
-                    
                     />
 
                 </div>

@@ -141,6 +141,7 @@ const ProfileEditComponent = (props) => {
         if (!userData && !isInitialRender) {
             console.log("no userData")
         } else {
+            if (userData) {
             setState({
                 firstName: userData.firstName || "",
                 lastName: userData.lastName || "",
@@ -148,7 +149,7 @@ const ProfileEditComponent = (props) => {
                 id: userData.id || "",
                 tel: userData.tel || "",
                 gender: userData.gender || "",
-            });
+            })};
             setIsInitialRender(true)
         }
     },[userData])

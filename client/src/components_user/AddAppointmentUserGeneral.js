@@ -228,7 +228,6 @@ const submitForm = async (e) => {
 
             if (foundUser) {
                 const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-                await new Promise(resolve => setTimeout(resolve, 1500));
                 const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                     appointmentsCollection,
                     where('appointmentDate', '==', appointmentInfo.appointmentDate),
