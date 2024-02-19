@@ -2012,7 +2012,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายพูดคุย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2130,7 +2130,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายพูดคุย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"

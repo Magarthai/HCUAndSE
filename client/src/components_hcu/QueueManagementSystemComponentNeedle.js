@@ -95,7 +95,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
         const intervalId = setInterval(() => {
             updateAppointmentsStatus();
             fetchUserDataWithAppointments();
-        }, 6000);
+        }, 60000);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
@@ -147,6 +147,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
     };
 
     const handleToggle = async (id, AppointmentUserData) => {
+        let x = document.getElementById("detail-appointment");
         Swal.fire({
             title: 'Confirm',
             text: `ยืนยันคิว ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`,
@@ -182,6 +183,10 @@ const QueueManagementSystemComponentSpecial = (props) => {
                     ).then((result) => {
                         if (result.isConfirmed) {
                             fetchUserDataWithAppointments();
+                            if (window.getComputedStyle(x).display === "block") {
+                                x.style.display = "none";
+                                adminQueueCards.forEach(card => card.classList.remove('focused'));
+                            }
                         }
                     });
                 } catch {
@@ -327,6 +332,9 @@ const QueueManagementSystemComponentSpecial = (props) => {
             statusElementDetail.classList.remove(...statusElementDetail.classList);
             statusElementDetail.classList.add("failed-background");
         } else if (AppointmentUsersData.appointment.status === 'ลงทะเบียนแล้ว') {
+            statusElementDetail.classList.remove(...statusElementDetail.classList);
+            statusElementDetail.classList.add("pending-confirmation-background");
+        }else if (AppointmentUsersData.appointment.status === 'รอยืนยันสิทธิ์') {
             statusElementDetail.classList.remove(...statusElementDetail.classList);
             statusElementDetail.classList.add("pending-confirmation-background");
         }

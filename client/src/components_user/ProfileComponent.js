@@ -61,7 +61,7 @@ const ProfileUserComponent = (props) => {
             <p className="textButton-Normal colorPrimary-800">เบอร์โทร</p>
             {userData && <p className="colorPrimary-800 user-profile-detail textBody-big">{userData.tel}</p>}
             <p className="textButton-Normal colorPrimary-800">เพศ</p>
-            {userData && <p className="colorPrimary-800 user-profile-detail textBody-big">{userData.gender}</p>}
+            {userData && <p className="colorPrimary-800 user-profile-detail textBody-big">{userData.gender == "female"? "หญิง" : userData.gender == "male"? "ชาย" : "อื่นๆ" }</p>}
             <a a className="btn btn-primary" href="/profile/edit" role="button" target="_parent">แก้ไขข้อมูลส่วนตัว</a>
           </div>
 

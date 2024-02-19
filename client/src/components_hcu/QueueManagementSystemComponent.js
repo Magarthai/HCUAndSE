@@ -107,7 +107,7 @@ const QueueManagementSystemComponent = (props) => {
     
         updateAppointments();
     
-        const intervalId = setInterval(updateAppointments, 6000);
+        const intervalId = setInterval(updateAppointments, 60000);
     
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
@@ -151,6 +151,7 @@ const QueueManagementSystemComponent = (props) => {
     };
 
     const handleToggle = async (id, AppointmentUserData) => {
+        let x = document.getElementById("detail-appointment");
         Swal.fire({
             title: 'Confirm',
             text: `ยืนยันคิว ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`,
@@ -186,6 +187,10 @@ const QueueManagementSystemComponent = (props) => {
                     ).then((result) => {
                         if (result.isConfirmed) {
                             fetchUserDataWithAppointments();
+                            if (window.getComputedStyle(x).display === "block") {
+                                x.style.display = "none";
+                                adminQueueCards.forEach(card => card.classList.remove('focused'));
+                            }
                         }
                     });
                 } catch {
@@ -218,13 +223,20 @@ const QueueManagementSystemComponent = (props) => {
     const adminQueueCards = document.querySelectorAll('.admin-queue-card');
 
     function handleCardClick(event) {
-        adminQueueCards.forEach(card => card.classList.remove('focused'));
-        event.currentTarget.classList.add('focused');
+        let currentCard = event.currentTarget
+        let isFocused = currentCard.classList.contains('focused')
+        if(isFocused){
+            currentCard.classList.remove('focused');
+
+        }else{
+            adminQueueCards.forEach(card => card.classList.remove('focused'));
+            currentCard.classList.add('focused');
+        }
     }
 
-    adminQueueCards.forEach(card => {
-        card.addEventListener('click', handleCardClick);
-    });
+    // adminQueueCards.forEach(card => {
+    //     card.addEventListener('click', handleCardClick);
+    // });
 
     const statusElements = document.querySelectorAll('.admin-queue-card-status p');
 
@@ -335,6 +347,9 @@ const QueueManagementSystemComponent = (props) => {
         } else if (AppointmentUsersData.appointment.status === 'ลงทะเบียนแล้ว') {
             statusElementDetail.classList.remove(...statusElementDetail.classList);
             statusElementDetail.classList.add("pending-confirmation-background");
+        }else if (AppointmentUsersData.appointment.status === 'รอยืนยันสิทธิ์') {
+            statusElementDetail.classList.remove(...statusElementDetail.classList);
+            statusElementDetail.classList.add("pending-confirmation-background");
         }
         setsaveEditId("")
         setsaveDetailId(AppointmentUsersData.appointmentuid)
@@ -401,32 +416,32 @@ const QueueManagementSystemComponent = (props) => {
                             <h2 className="colorPrimary-800">นัดหมายคลินิกทั่วไป</h2>
                             {AppointmentUsersData && AppointmentUsersData.length > 0 ? (
                                 AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
-                                    <div className="admin-queue-card" onClick={() => openDetailAppointment(AppointmentUserData)} key={index}>
-                                    <div className="admin-queue-card-time colorPrimary-800">
-                                        <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
-                                    </div>
-                                    <div className="admin-queue-card-info colorPrimary-800">
-                                        <p className="admin-textBody-huge">{AppointmentUserData.id}</p>
-                                        <p className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
-                                    </div>
-                                    <div className="admin-queue-card-status">
-                                        <p className="admin-textBody-small">{AppointmentUserData.appointment.status}</p>
-                                    </div>
-                                    {AppointmentUserData.appointment.status === 'ยืนยันสิทธิ์แล้ว' ? (
+                                    <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index}>
+                                        <div className="admin-queue-card-time colorPrimary-800">
+                                            <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
+                                        </div>
+                                        <div className="admin-queue-card-info colorPrimary-800">
+                                            <p className="admin-textBody-huge">{AppointmentUserData.id}</p>
+                                            <p className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
+                                        </div>
+                                        <div className="admin-queue-card-status">
+                                            <p className="admin-textBody-small">{AppointmentUserData.appointment.status}</p>
+                                        </div>
+                                        {AppointmentUserData.appointment.status === 'ยืนยันสิทธิ์แล้ว' ? (
                                         <div className="admin-queue-card-function-succeed" onClick={() => handleToggle(AppointmentUserData.appointment.appointmentuid, AppointmentUserData)}>
-                                        <img src={verify_rights_icon} className="admin-queue-card-icon" alt="verify_rights_icon" />
+                                            <img src={verify_rights_icon} className="admin-queue-card-icon" alt="verify_rights_icon" />
                                         </div>
-                                    ) : (
+                                        ) : (
                                         <div className="admin-queue-card-function">
-                                        <img src={verify_rights_icon} className="admin-queue-card-icon" alt="verify_rights_icon" />
+                                            <img src={verify_rights_icon} className="admin-queue-card-icon" alt="verify_rights_icon" />
                                         </div>
-                                    )}
+                                        )}
                                     </div>
                                 ))
                                 ) : (
                                     <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <ScaleLoader color={"#54B2B0"} size={25} />
-                                </div>
+                                        <ScaleLoader color={"#54B2B0"} size={25} />
+                                    </div>
                                 )}
 
 

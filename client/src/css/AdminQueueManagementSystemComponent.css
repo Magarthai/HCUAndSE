@@ -29,10 +29,12 @@
     box-sizing: border-box;
     padding: 0px;
     margin: 15px 0px;
+    cursor: pointer;
+    user-select: none;
 
 }
 .admin-queue-card.focused{
-    border: 2px solid #D1D1D1;
+    /* border: 1px solid #D1D1D1; */
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
 
@@ -83,15 +85,17 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    background-color: #D1D1D1;
+    background-color: #b4b4b4;
     width: 10%;
     border-radius: 0px 8px 8px 0px;
     height: 72px;
+    cursor: pointer;
 }
 .admin-queue-card-icon{
     width: 40px;
     height: 40px;
 }
+
 .admin-queue-card-function-succeed{
     display: flex;
     flex-direction: row;
@@ -103,6 +107,7 @@
     width: 10%;
     border-radius: 0px 8px 8px 0px;
     height: 72px;
+    cursor: pointer;
 }
 .admin-queue-detail-header{
     display: flex;

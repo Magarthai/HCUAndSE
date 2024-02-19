@@ -108,7 +108,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
     
         updateAppointments();
     
-        const intervalId = setInterval(updateAppointments, 1200);
+        const intervalId = setInterval(updateAppointments, 60000);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
@@ -160,6 +160,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
     };
 
     const handleToggle = async (id, AppointmentUserData) => {
+        let x = document.getElementById("detail-appointment");
         Swal.fire({
             title: 'Confirm',
             text: `ยืนยันคิว ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`,
@@ -195,6 +196,10 @@ const QueueManagementSystemComponentSpecial = (props) => {
                     ).then((result) => {
                         if (result.isConfirmed) {
                             fetchUserDataWithAppointments();
+                            if (window.getComputedStyle(x).display === "block") {
+                                x.style.display = "none";
+                                adminQueueCards.forEach(card => card.classList.remove('focused'));
+                            }
                         }
                     });
                 } catch {
@@ -345,6 +350,9 @@ const QueueManagementSystemComponentSpecial = (props) => {
         } else if (AppointmentUsersData.appointment.status === 'ลงทะเบียนแล้ว') {
             statusElementDetail.classList.remove(...statusElementDetail.classList);
             statusElementDetail.classList.add("pending-confirmation-background");
+        }else if (AppointmentUsersData.appointment.status === 'รอยืนยันสิทธิ์') {
+            statusElementDetail.classList.remove(...statusElementDetail.classList);
+            statusElementDetail.classList.add("pending-confirmation-background");
         }
         setsaveEditId("")
         setsaveDetailId(AppointmentUsersData.appointmentuid)
@@ -401,7 +409,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                         <a href="/adminQueueManagementSystemComponent" target="_parent" >คลินิกทั่วไป</a>
                         <a href="/adminQueueManagementSystemComponentSpecial" target="_parent" id="select">คลินิกเฉพาะทาง</a>
                         <a href="/adminQueueManagementSystemComponentPhysic" target="_parent" >คลินิกกายภาพ</a>
-                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" id="select">คลินิกฝังเข็ม</a>
+                        <a href="/adminQueueManagementSystemComponentNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                     </div>
 
                 </div>

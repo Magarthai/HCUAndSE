@@ -457,6 +457,9 @@ const formatDateForDisplay = (isoDate) => {
       const today = new Date();
       const nextThreeMonths = new Date();
       nextThreeMonths.setMonth(today.getMonth() + 3);
+      const tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 1); 
+      
       
     return (
         <div className="user">
@@ -488,7 +491,7 @@ const formatDateForDisplay = (isoDate) => {
                     <input
                         type="date"
                         className="form-control"
-                        min={today.toISOString().split('T')[0]} 
+                        min={tomorrow.toISOString().split('T')[0]} 
                         max={nextThreeMonths.toISOString().split('T')[0]} 
                         onChange={(e) => {
                             inputValue("appointmentDate")(e);
@@ -522,9 +525,9 @@ const formatDateForDisplay = (isoDate) => {
                         AppointmentUserData.appointment.type && (
                             <p className="textBody-big" style={{ marginBottom: 8, marginTop: 5 }}>
                             {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
-                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายพูดคุย'
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายเพื่อปรึกษา'
                             ) : (
-                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายพูดคุย'
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายเพื่อปรึกษา'
                             )}
                             </p>
                         )

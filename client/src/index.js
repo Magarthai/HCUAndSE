@@ -48,6 +48,7 @@ import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeed
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
+import ErrorPage from './components_all/ErrorPage.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "/confirmResetPassword",
     element: <ConfirmResetPassowrd />
+  },
+  {
+    path: "*",
+    element: <ErrorPage/>
   },
   {
     path: "/homeUser",

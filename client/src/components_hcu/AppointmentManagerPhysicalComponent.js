@@ -1382,7 +1382,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     <h2 className="center">แก้ไขนัดหมาย</h2>
                                     <label className="admin-textBody-large colorPrimary-800">วันที่</label>
                                     <div className="date-picker-container">
-                                        <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                        {/* <label className="admin-textBody-large colorPrimary-800">วันที่</label> */}
                                         {selectedDate && (
                                             <input
                                                 type="date"

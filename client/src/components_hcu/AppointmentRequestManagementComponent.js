@@ -217,7 +217,7 @@ const AppointmentRequestManagementComponent = (props) => {
     
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
-                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate} จากเดิม ${AppointmentUserData.appointment.appointmentDate2}<br/> เวลา ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end} จากเดิม ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end}`,
+                html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate}  เวลา ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end} <br/> จากเดิม ${AppointmentUserData.appointment.appointmentDate2} เวลา  ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end}`,
                 showConfirmButton: true,
                 showCancelButton: true,
                 icon: 'warning',

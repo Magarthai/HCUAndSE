@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "../css/UserEditAppointment.css";
 import "../css/Component.css";
-import NavbarUserComponent from './NavbarUserComponent';
+import NavbarUserComponent from './NavbarComponent';
 import CalendarUserComponentDate from "./CalendarUserComponentDate";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
