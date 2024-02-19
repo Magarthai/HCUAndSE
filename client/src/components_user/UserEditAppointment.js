@@ -25,7 +25,9 @@ const UserEditAppointment = (props) => {
         uid: "",
         timeablelist: "",
         userID: "",
-    })
+    });
+
+    
 
     const fetchTimeTableData = async () => {
         try {
@@ -277,8 +279,6 @@ const UserEditAppointment = (props) => {
                     customClass: {
                         confirmButton: 'custom-confirm-button',
                     }
-                
-
                 });  
                 navigate('/appointment');
                 clearState();

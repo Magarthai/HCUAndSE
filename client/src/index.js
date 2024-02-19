@@ -47,6 +47,7 @@ import UserQueue from './components_user/UserQueue.js';
 import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeedle.js';
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
+import Test from './components_user/test.js'
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
@@ -68,6 +69,14 @@ const router = createBrowserRouter([
   {
     path: "/resetPassword",
     element: <ForgetPasswordComponent />
+  },
+  {
+    path: "/resetPassword",
+    element: <ForgetPasswordComponent />
+  },
+  {
+    path: "/test",
+    element: <Test />
   },
   {
     path: "/",

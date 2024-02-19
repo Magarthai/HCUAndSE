@@ -289,8 +289,6 @@ const submitForm = async (e) => {
 };
 
 
-    
-
     const checkTimeSlotAvailability = () => {
         try {
             if (timeOptions.length === 0) {
