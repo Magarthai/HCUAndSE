@@ -48,7 +48,7 @@ const handleDateSelect = (selectedDate) => {
             ) {
                 Swal.fire({
                     title: 'เกิดข้อผิดพลาด',
-                    text: 'ไม่สามารถแก้ไข้นัดหมายวันปัจจุบันได้',
+                    text: 'ไม่สามารถแก้ไขนัดหมายวันปัจจุบันได้',
                     confirmButtonText: 'ตกลง',
                     customClass: {
                         confirmButton: 'custom-confirm-button',
