@@ -108,7 +108,6 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                         try {
                                 if (result.isConfirmed) {
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', appointmentInfo.appointmentDate),
@@ -304,7 +303,6 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                             try {
 
                                     await updateDoc(timetableRef, updatedTimetable); 
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', updatedTimetable.appointmentDate),
@@ -428,8 +426,6 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                             try {
 
                                         await updateDoc(timetableRef, updatedTimetable);
-                                        
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', updatedTimetable.appointmentDate),
@@ -894,7 +890,7 @@ const DeleteAppointmentPhysic = async (appointmentuid, uid,AppointmentUserData) 
                 await updateDoc(userRef, {
                     "appointments": arrayRemove("appointments", appointmentuid)
                 });
-                window.location.reload();
+                
                 Swal.fire(
                     {
                         title: 'การลบการนัดหมายสำเร็จ!',
@@ -905,7 +901,13 @@ const DeleteAppointmentPhysic = async (appointmentuid, uid,AppointmentUserData) 
                         customClass: {
                             confirmButton: 'custom-confirm-button',
                         }
-                    })
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            window.location.reload();
+                        }
+                    });
             } catch (firebaseError) {
                 console.error('DeleteAppointment :', firebaseError);
             }

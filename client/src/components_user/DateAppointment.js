@@ -113,6 +113,15 @@ const selectedDateFromLocation = location.state?.selectedDate || null;
 useEffect(() => {
     document.title = 'Health Care Unit';
     console.log(user);
+    if (!selectedDateFromLocation) {
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'กรุณาเลือกวันก่อน!',
+        }).then(() => {
+            navigate('/appointment');
+        });
+    return}
     
     fetchMainTimeTableData();
 
@@ -123,14 +132,7 @@ useEffect(() => {
         }));
     }
 
-    if (!selectedDateFromLocation) {
-        Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'กรุณาเลือกวันก่อน!',
-        }).then(() => {
-            navigate('/appointment');
-        });}
+    
 }, [userData, selectedDate]);
 
 useEffect(() => {

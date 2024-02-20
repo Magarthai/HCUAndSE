@@ -481,6 +481,44 @@ const AppointmentManagerNeedleComponent = (props) => {
 
         }
     }
+
+    const closeEditAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            appointmentDater: "",
+            appointmentTimer: "",
+            appointmentCasuer:"",
+            appointmentSymptomr: "",
+            appointmentNotationr: "",
+            typecheckr: "",
+        }));
+        adminCards.forEach(card => card.classList.remove('focused'));
+        let x = document.getElementById("add-appointment");
+        let y = document.getElementById("detail-appointment");
+        let z = document.getElementById("edit-appointment");
+        if (window.getComputedStyle(x).display === "none") {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        } else {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        }
+    }
     const openAddAppointment = () => {
         setState((prevState) => ({
             ...prevState,
@@ -1373,7 +1411,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="เป็นไข้หวัดทั่วไป" />
                                 </div>
                                 <div className="admin-timetable-btn">
-                                    <button type="button" onClick={openAddAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                    <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                     <input type="submit" value="เพิ่มนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                 </div>
                             </form>
@@ -1477,7 +1515,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" />
                                     </div>
                                     <div className="admin-timetable-btn">
-                                        <button type="button" onClick={openEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                        <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                         <input type="submit" value="แก้ไขนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                     </div>
                                 </form>

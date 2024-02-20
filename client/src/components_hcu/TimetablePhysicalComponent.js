@@ -112,6 +112,32 @@ const TimetablePhysicalComponent = (props) => {
             })
             return;
         }
+        if (numberAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายพูดคุยได้ไม่เกิน 10 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (numberMainAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (numberAppointment <= 0) {
             Swal.fire({
                 icon: "error",
@@ -747,6 +773,32 @@ const TimetablePhysicalComponent = (props) => {
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
                 text: "กรุณากรอกช่วงเวลานัดหมายใหม่!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (numberAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายพูดคุยได้ไม่เกิน 10 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (numberMainAppointment > 10) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {

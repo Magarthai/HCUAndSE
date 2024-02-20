@@ -260,6 +260,7 @@ const AppointmentRequestManagementComponent = (props) => {
         }
     };
 
+    
     const submitDelete = async (AppointmentUserData) => {
         try {
             const timetableRef = doc(db, 'appointment', AppointmentUserData.appointmentuid);

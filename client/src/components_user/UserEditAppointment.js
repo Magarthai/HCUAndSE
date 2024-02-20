@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import { useUserAuth } from "../context/UserAuthContext";
+import { runTransaction } from "firebase/firestore";
 const UserEditAppointment = (props) => {
     const [selectedDate, setSelectedDate] = useState();
     const { user, userData } = useUserAuth();
@@ -25,10 +26,15 @@ const UserEditAppointment = (props) => {
         uid: "",
         timeablelist: "",
         userID: "",
-    });
-
-    
-
+        appointmentSymptom2: "",
+        status: "",
+        subject: "",
+        status: "",
+        timetableId: "",
+        datebackup: "",
+        timebackup:"",
+    })
+    const [selectedValue, setSelectedValue] = useState("");
     const fetchTimeTableData = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
@@ -36,8 +42,7 @@ const UserEditAppointment = (props) => {
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
                     where('addDay', '==', selectedDate.dayName),
-                    where('clinic', '==', 'คลินิกทั่วไป'),
-                    where('status', '==', 'Enabled'),
+                    where('clinic', '==', 'คลินิกทั่วไป')
                 ));
 
                 const timeTableData = querySnapshot.docs.map((doc) => ({
@@ -137,7 +142,7 @@ const UserEditAppointment = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-    const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID } = state
+    const { appointmentSymptom2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId,datebackup,timebackup} = state
     const handleDateSelect = (selectedDate) => {
         setTimeOptions([]);
         setSelectedCount(1);
@@ -155,40 +160,24 @@ const UserEditAppointment = (props) => {
 
     const location = useLocation();
     const { AppointmentUserData } = location.state || {};
-    const clearState = () => {
-        setState({
-            appointmentDate: "",
-            appointmentTime: "",
-            appointmentId: "",
-            appointmentCasue: "",
-            appointmentSymptom: "",
-            appointmentNotation: "",
-            clinic: "",
-            uid: "",
-            timeablelist: "",
-            userID: "",
-        });
-    };
+
     useEffect(() => {
         console.log('Data from state:', AppointmentUserData);
         fetchTimeTableData();
         if (!AppointmentUserData) {
             Swal.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'ไม่มีข้อมูลการนัดหมาย',
-                confirmButtonColor: '#263A50',
-                customClass: {
-                    
-                    confirmButton: 'custom-confirm-button',
-                }
+                title: 'Oops...',
+                text: 'Appointment data is missing!',
             }).then(() => {
                 navigate('/appointment');
             });
         } else {
             setState({
                 appointmentDate: AppointmentUserData.appointment.appointmentDate || "",
+                datebackup: AppointmentUserData.appointment.appointmentDate || "",
                 appointmentTime: AppointmentUserData.appointment.appointmentTime || "",
+                timebackup: AppointmentUserData.appointment.appointmentTime || "",
                 appointmentId: AppointmentUserData.appointment.appointmentId || "",
                 appointmentCasue: AppointmentUserData.appointment.appointmentCasue || "",
                 appointmentSymptom: AppointmentUserData.appointment.appointmentSymptom || "",
@@ -197,6 +186,11 @@ const UserEditAppointment = (props) => {
                 uid: AppointmentUserData.appointmentuid || "",
                 timeablelist: AppointmentUserData.appointment.timeablelist || "",
                 userID: AppointmentUserData.appointment.userID || "",
+                appointmentSymptom2: AppointmentUserData.appointment.appointmentSymptom2 || "",
+                status: AppointmentUserData.appointment.status || "", 
+                status2:AppointmentUserData.appointment.status2 || "",
+                subject:AppointmentUserData.appointment.subject || "",
+                timetableId:AppointmentUserData.appointment.timetableId || "",
             });
         }
     }, [AppointmentUserData, navigate,selectedDate]);
@@ -226,10 +220,11 @@ const UserEditAppointment = (props) => {
       }, [AppointmentUserData]);
     
     const [calendarSelectedDate, setCalendarSelectedDate] = useState(null);
-    const [selectedValue, setSelectedValue] = useState("");
+    
     const submitEditForm = async (e) => {
         e.preventDefault();
         try {
+            const appointmentsCollection = collection(db, 'appointment');
             const timetableRef = doc(db, 'appointment', uid);
             const updatedTimetable = {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
@@ -243,6 +238,18 @@ const UserEditAppointment = (props) => {
                 status2: "เสร็จสิ้น",
                 subject: "ขอเลื่อนนัดหมาย",
             };
+            const updatedTimetableRollBack = {
+                appointmentDate: datebackup,
+                appointmentTime: timebackup,
+                appointmentId: appointmentId,
+                appointmentCasue: appointmentCasue,
+                appointmentSymptom: appointmentSymptom,
+                appointmentNotation: appointmentNotation,
+                status: status,
+                appointmentSymptom2: appointmentSymptom2,
+                status2: status2,
+                subject: subject,
+            };
             
             const selectedTimeLabel = timeOptions.find((timeOption) => {
                 const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
@@ -250,7 +257,8 @@ const UserEditAppointment = (props) => {
             })?.label;
             if (selectedTimeLabel === undefined) {
                 Swal.fire({
-                    title: "แก้ไขไม่สําเร็จ กรุณาเลือกช่วงเวลา",
+                    title: "แก้ไขไม่สําเร็จ",
+                    text : "กรุณาเลือกช่วงเวลา",
                     icon: "error",
                     confirmButtonText: "ตกลง",
                     confirmButtonColor: '#263A50',
@@ -274,22 +282,52 @@ const UserEditAppointment = (props) => {
                     confirmButton: 'custom-confirm-button',
                     cancelButton: 'custom-cancel-button',
                 }
-            }).then(async(result) => {
+            }).then(async (result) => {
+                await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
-                    await updateDoc(timetableRef, updatedTimetable);
+                await updateDoc(timetableRef, updatedTimetable);
+                const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                    appointmentsCollection,
+                    where('appointmentDate', '==', updatedTimetable.appointmentDate),
+                    where('appointmentTime.timetableId', '==', updatedTimetable.appointmentTime.timetableId),
+                    where('appointmentTime.timeSlotIndex', '==', updatedTimetable.appointmentTime.timeSlotIndex)
+                ));
+
+                const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                
+                if (b.length > 1) { 
+                    console.log('มีเอกสาร');
+                    console.log('XD');
+                    await updateDoc(timetableRef, updatedTimetableRollBack);
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
+                    });
+                    return;
+                }
                 Swal.fire({
                     title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                     icon: "success",
                     confirmButtonText: "ตกลง",
                     confirmButtonColor: '#263A50',
-                    customClass: {
-                        confirmButton: 'custom-confirm-button',
-                    }
+                        customClass: {
+                            cancelButton: 'custom-cancel-button',
+                        }
                 });  
+                
                 navigate('/appointment');
-                clearState();
-                }
-                else{
+                
+            }
+                else {
                     Swal.fire({
                         title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
@@ -300,17 +338,18 @@ const UserEditAppointment = (props) => {
                         }
                     });
                 }
-            });
+            })});
             
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);
         }
     };
+
     const [selectedCount, setSelectedCount] = useState(1);
     const handleSelectChange = () => {
         setSelectedCount(selectedCount + 1);
     };
-    const [selectedTimeLabel, setSelectedTimeLabel] = useState(""); // Add this state
+    const [selectedTimeLabel, setSelectedTimeLabel] = useState("");
     return (
 
         <div className="user">

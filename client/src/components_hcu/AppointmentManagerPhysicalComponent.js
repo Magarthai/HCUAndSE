@@ -555,6 +555,43 @@ const AppointmentManagerPhysicComponent = (props) => {
             x.style.display = "none";
         }
     };
+    const closeEditAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            appointmentDater: "",
+            appointmentTimer: "",
+            appointmentCasuer:"",
+            appointmentSymptomr: "",
+            appointmentNotationr: "",
+            typecheckr: "",
+        }));
+        adminCards.forEach(card => card.classList.remove('focused'));
+        let x = document.getElementById("add-appointment");
+        let y = document.getElementById("detail-appointment");
+        let z = document.getElementById("edit-appointment");
+        if (window.getComputedStyle(x).display === "none") {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        } else {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        }
+    }
     const openContinueAddinAppointment2 = () => {
         let x = document.getElementById("admin-add-appointment-connected2");
         let y = document.getElementById("admin-add-appointment-connected");
@@ -573,7 +610,6 @@ const AppointmentManagerPhysicComponent = (props) => {
         if (window.getComputedStyle(x).display === "none") {
             x.style.display = "block";
             y.style.display = "none";
-            
             setState((prevState) => ({
                 ...prevState,
                 appointmentTime1: appointmentTime,
@@ -587,15 +623,16 @@ const AppointmentManagerPhysicComponent = (props) => {
                 appointmentTime9: appointmentTime,
                 appointmentTime10: appointmentTime,
             }));
+            handleSelectChange();
             cleanUpOldPopups();
             const appointmentPopupItem = document.querySelector(".admin-appointmemt-popup-item.two");
             if (selectedDates) {
-                handleSelectChange();
                 const formattedAppointmentDate = formatToDDMMYYYY(`${selectedDates.day}/${selectedDates.month}/${selectedDates.year}`);
 
                 const handleSelectChanges = () => {
                     setSelectedCount(selectedCount + 1);
                     console.log(selectedCount)
+
                 };
                 if (Number(time) > 10) {
                     Swal.fire({
@@ -670,11 +707,8 @@ const AppointmentManagerPhysicComponent = (props) => {
                     x.style.display = "none";
                 }
                 
-                
                 else {
                     const processAppointment = async (i) => {
-                        console.log(notimeforthisday,"notimeforthisday")
-                        
                         const instanceDate = new Date(formattedAppointmentDate);
 
                         instanceDate.setDate(instanceDate.getDate() + (i - 1) * timelength);
@@ -700,7 +734,6 @@ const AppointmentManagerPhysicComponent = (props) => {
 
                             return formattedSelectedDate;
                         };
-                        handleSelectChange();
                         const xd = formatDmy(formatdate)
                         console.log("xdformat", xd)
                         const divElement = document.createElement('div');
@@ -735,9 +768,9 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 }, []);
                                 const appointmentsCollection = collection(db, 'appointment');
                                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==', `${xd.day}/${xd.month}/${xd.year}`),where('clinic', '==', 'คลินิกกายภาพ'),where('type', '==', 'main')));
-                                const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data());
+                                const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => doc.data().appointmentTime);
                                 if (existingAppointments.length > 0) {
-                                    console.log(existingAppointments,'existingAppointments')
+
                                     console.log(`Appointments found for ${xd.day}/${xd.month}/${xd.year}:`, existingAppointments);
                                 } else {
                                     console.log(`No appointments found for ${xd.day}/${xd.month}/${xd.year}`);
@@ -749,6 +782,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 );
 
 
+
                                 console.log("availableTimeSlots", availableTimeSlots)
                                 const initialIsChecked = availableTimeSlots.reduce((acc, timetableItem) => {
                                     acc[timetableItem.id] = timetableItem.status === "Enabled";
@@ -758,12 +792,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 setIsChecked(initialIsChecked);
 
                                 const timeOptionsFromTimetable = [
-                                    { 
-                                        label: "กรุณาเลือกช่วงเวลา", 
-                                        value: "", 
-                                        disabled: true, 
-                                        hidden: true 
-                                    },
+                                    { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
                                     ...availableTimeSlots
                                         .filter(timeSlot => timeSlot.type === 'main')
                                         .sort((a, b) => {
@@ -776,7 +805,6 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
                                         })),
                                 ];
-                                
 
                                 console.log("Before setTimeOptions", timeOptionsFromTimetable);
                                 if (timeOptionsFromTimetable.length > 1) {
@@ -853,8 +881,6 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 } else {
                                     count += 1;
                                     notimeforthisday +=1;
-                                    console.log(notimeforthisday,"notimeforthisdazy")
-                                    
                                     setState((prevState) => ({
                                         ...prevState,
                                         [`time`]: count,
@@ -875,8 +901,6 @@ const AppointmentManagerPhysicComponent = (props) => {
                             console.log("Time table not found");
                             count += 1;
                             notimeforthisday +=1;
-                            console.log(notimeforthisday,"notimeforthisdazy")
-                            
                             console.log("origi count", count)
                             setState((prevState) => ({
                                 ...prevState,
@@ -1372,7 +1396,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="เป็นไข้หวัดทั่วไป" />
                                     </div>
                                     <div className="admin-timetable-btn">
-                                        <button type="button" onClick={openAddAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                        <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                         <input type="submit" value="เพิ่มนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                     </div>
                                 </form>
@@ -1479,7 +1503,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" />
                                     </div>
                                     <div className="admin-timetable-btn">
-                                        <button type="button" onClick={openEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                        <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                         <input type="submit" value="แก้ไขนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                     </div>
                                 </form>

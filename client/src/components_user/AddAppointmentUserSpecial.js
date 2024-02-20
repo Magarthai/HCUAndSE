@@ -25,6 +25,7 @@ const AddSpecialAppointmentUser = () => {
         setSelectedCount(selectedCount + 1);
     };
     
+    const [selectedValue, setSelectedValue] = useState("");
 
     const navigate = useNavigate();
     const { user, userData } = useUserAuth();
@@ -239,6 +240,25 @@ const AddSpecialAppointmentUser = () => {
                 postPone: "",
                 appointmentTime2: [],
             };
+            const selectedTimeLabel = timeOptions.find((timeOption) => {
+                const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
+                return optionValue === selectedValue;
+            })?.label;
+            Swal.fire({
+                title: 'ยินยันนัดหมาย',
+                html: `ยืนยันที่จะนัดหมายเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#263A50',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                    cancelButton: 'custom-cancel-button',
+                }
+            }).then(async(result) => {
+                if (result.isConfirmed) {
             await runTransaction(db, async (transaction) => {
                 const appointmentsCollection = collection(db, 'appointment');
 
@@ -252,7 +272,6 @@ const AddSpecialAppointmentUser = () => {
 
                 if (foundUser) {
                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-                    await new Promise(resolve => setTimeout(resolve, 1500));
                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                         appointmentsCollection,
                         where('appointmentDate', '==', appointmentInfo.appointmentDate),
@@ -302,22 +321,29 @@ const AddSpecialAppointmentUser = () => {
                     const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
                     navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
                 }
-            });
-        } catch (firebaseError) {
+            });}else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    {
+                        title: 'เกิดข้อผิดพลาด!',
+                        text: `นัดหมายไม่สําเร็จ`,
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    }
+                )
+            }});
+        } 
+        catch (firebaseError) {
             console.error('Firebase submit error:', firebaseError);
             console.error('Firebase error response:', firebaseError);
-            Swal.fire({
-                icon: "error",
-                title: "เกิดข้อผิดพลาด",
-                text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
-                confirmButtonText: "ตกลง",
-                confirmButtonColor: '#263A50',
-                customClass: {
-                    cancelButton: 'custom-cancel-button',
-                }
-            });
+            return;
         } finally {
-            isLoading = false;
+            isLoading = false; 
         }
     };
     
@@ -354,6 +380,7 @@ const AddSpecialAppointmentUser = () => {
                             name="time"
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
+                                setSelectedValue(e.target.value);
                                 handleSelectChange();
                                 const selectedValue = JSON.parse(e.target.value);
 

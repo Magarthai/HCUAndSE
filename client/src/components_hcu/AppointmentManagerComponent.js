@@ -47,6 +47,8 @@ const AppointmentManagerComponent = (props) => {
         clinicr: "",
         uidr: "",
         timeablelistr: "",
+        datebackup: "",
+        timebackup: "",
     })
 
     const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist ,appointmentDater,appointmentTimer,appointmentCasuer,appointmentSymptomr,appointmentNotationr} = state
@@ -249,7 +251,7 @@ const AppointmentManagerComponent = (props) => {
 
                                         const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
                                         const appointmentsCollection = collection(db, 'appointment');
-                                        await new Promise(resolve => setTimeout(resolve, 1500));
+                                        
                                         const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                             appointmentsCollection,
                                             where('appointmentDate', '==', appointmentInfo.appointmentDate),
@@ -408,7 +410,6 @@ const AppointmentManagerComponent = (props) => {
                     try {
                         const appointmentsCollection = collection(db, 'appointment');
                         await updateDoc(timetableRef, updatedTimetable);
-                        await new Promise(resolve => setTimeout(resolve, 1500));
                         const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                             appointmentsCollection,
                             where('appointmentDate', '==', updatedTimetable.appointmentDate),
@@ -598,6 +599,43 @@ const AppointmentManagerComponent = (props) => {
 
     }
 
+    const closeEditAppointment = () => {
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+            appointmentId: "",
+            appointmentCasue: "",
+            appointmentSymptom: "",
+            appointmentNotation: "",
+            clinic: "",
+            uid: "",
+            appointmentDater: "",
+            appointmentTimer: "",
+            appointmentCasuer:"",
+            appointmentSymptomr: "",
+            appointmentNotationr: "",
+            typecheckr: "",
+        }));
+        adminCards.forEach(card => card.classList.remove('focused'));
+        let x = document.getElementById("add-appointment");
+        let y = document.getElementById("detail-appointment");
+        let z = document.getElementById("edit-appointment");
+        if (window.getComputedStyle(x).display === "none") {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        } else {
+            x.style.display = "none";
+            y.style.display = "none";
+            z.style.display = "none";
+            setsaveDetailId("")
+            setsaveEditId("")
+            setSelectedCount(1)
+        }
+    }
     const openEditAppointment = async (element,AppointmentUsersData) => {
         console.log("Edit appointment data:", AppointmentUsersData.appointment.appointmentuid);
         console.log(AppointmentUsersData.appointment.appointmentuid)
@@ -986,7 +1024,7 @@ const AppointmentManagerComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" />
                                     </div>
                                     <div className="admin-timetable-btn">
-                                        <button type="button" onClick={openAddAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                        <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                         <input type="submit" value="เพิ่มนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                     </div>
                                 </form>
@@ -1063,8 +1101,6 @@ const AppointmentManagerComponent = (props) => {
                                         {timeOption.label}
                                     </option>
                                 ))}
-
-
                                         </select>
                                     </div>
                                     <div>
@@ -1084,7 +1120,7 @@ const AppointmentManagerComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" />
                                     </div>
                                     <div className="admin-timetable-btn">
-                                        <button type="button" onClick={openEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
+                                        <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
                                         <input type="submit" value="แก้ไขนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
                                     </div>
                                 </form>

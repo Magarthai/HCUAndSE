@@ -107,7 +107,6 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                         try {
                                 if (result.isConfirmed) {
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', appointmentInfo.appointmentDate),
@@ -275,7 +274,6 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             try {
 
                                     await updateDoc(timetableRef, updatedTimetable); 
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', updatedTimetable.appointmentDate),
@@ -399,8 +397,6 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             try {
 
                                         await updateDoc(timetableRef, updatedTimetable);
-                                        
-                                    await new Promise(resolve => setTimeout(resolve, 1500));
                                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                                         appointmentsCollection,
                                         where('appointmentDate', '==', updatedTimetable.appointmentDate),

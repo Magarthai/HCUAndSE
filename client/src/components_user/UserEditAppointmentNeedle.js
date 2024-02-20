@@ -33,6 +33,7 @@ const UserEditAppointmentNeedle = (props) => {
         subject: "",
         status: "",
         timetableId: "",
+        type: "",
     })
 
     const fetchTimeTableData = async () => {
@@ -94,18 +95,18 @@ const UserEditAppointmentNeedle = (props) => {
 
                         const timeOptionsFromTimetable = [
                             { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
-                                ...availableTimeSlots
-                                .filter(timeSlot => timeSlot.type === 'talk')
-                                    .sort((a, b) => {
-                                        const timeA = new Date(`01/01/2000 ${a.start}`);
-                                        const timeB = new Date(`01/01/2000 ${b.start}`);
-                                        return timeA - timeB;
-                                    })
-                                    .map((timeSlot) => ({
-                                        label: `${timeSlot.start} - ${timeSlot.end}`,
-                                        value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
-                                    })),
-                            ];
+                            ...availableTimeSlots
+                                .filter(timeSlot => type && type === "talk" ? timeSlot.type === 'talk' : timeSlot.type === 'main')
+                                .sort((a, b) => {
+                                    const timeA = new Date(`01/01/2000 ${a.start}`);
+                                    const timeB = new Date(`01/01/2000 ${b.start}`);
+                                    return timeA - timeB;
+                                })
+                                .map((timeSlot) => ({
+                                    label: `${timeSlot.start} - ${timeSlot.end}`,
+                                    value: { timetableId: timeSlot.timeTableId, timeSlotIndex: timeSlot.timeSlotIndex },
+                                })),
+                        ];
 
 
                             if (timeOptionsFromTimetable.length <= 1) {
@@ -141,7 +142,7 @@ const UserEditAppointmentNeedle = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-    const { appointmentDate2,appointmentSymptom2,appointmentTime2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId} = state
+    const { type,appointmentDate2,appointmentSymptom2,appointmentTime2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId} = state
     const handleDateSelect = (selectedDate) => {
         setTimeOptions([]);
         setSelectedCount(1);
@@ -195,6 +196,7 @@ const UserEditAppointmentNeedle = (props) => {
                 status2:AppointmentUserData.appointment.status2 || "",
                 subject:AppointmentUserData.appointment.subject || "",
                 timetableId:AppointmentUserData.appointment.timetableId || "",
+                type: AppointmentUserData.appointment.type || "",
             });
         }
     }, [AppointmentUserData, navigate,selectedDate]);
@@ -320,7 +322,6 @@ const UserEditAppointmentNeedle = (props) => {
                 await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
                 await updateDoc(timetableRef, updatedTimetable);
-                await new Promise(resolve => setTimeout(resolve, 1500));
                 const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                     appointmentsCollection,
                     where('appointmentDate', '==', updatedTimetable.appointmentDate),

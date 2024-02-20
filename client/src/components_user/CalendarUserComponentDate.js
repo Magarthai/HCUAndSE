@@ -31,7 +31,9 @@ const CalendarAddUserComponent = (props) => {
     console.log("currentMonth",currentMonth)
     setSelectedYearIndex(currentYear)
     setSelectedDate(formattedSelectedDate);
+    if (selectedDate) {
     renderCalendar();
+    }
     props.onDateSelect(formattedSelectedDate);
 };
 
@@ -45,10 +47,9 @@ const renderCalendar = () => {
   for (let i = firstDayofMonth; i > 0; i--) {
     days.push(<li key={`inactive-prev-${lastDateofLastMonth - i + 1}`} className="inactive">{lastDateofLastMonth - i + 1}</li>);
   }
-
+  if (selectedDateFromLocation){
   for (let i = 1; i <= lastDateofMonth; i++) {
     const isToday = i === new Date().getDate() && currentMonth === new Date().getMonth() + 1 && currentYear === new Date().getFullYear() ? "inactive active grey-cantselect" : "";
-
     const isSelected = i === selectedDateIndex && currentMonth === selectedMonthIndex && currentYear === selectedYearIndex ? "focused" : "";
     const DateOld = i === selectedDateFromLocation.day && currentMonth === selectedDateFromLocation.month && currentYear === selectedDateFromLocation.year  ? "active " : "";
     const handleClick = () => handleDateClick(i);
@@ -66,7 +67,7 @@ const renderCalendar = () => {
       days.push(<li key={`inactive-current-${i}`} className="inactive">{i}</li>);
     }
   }
-
+  }
   for (let i = lastDayofMonth; i < 6; i++) {
     days.push(<li key={`inactive-next-${i - lastDayofMonth + 1}`} className="inactive">{i - lastDayofMonth + 1}</li>);
   }
@@ -82,7 +83,9 @@ const handleSelectedDate = (dateData) => {
       setCurrentYear(dateData.year);
       setSelectedMonthIndex(dateData.month);
       setSelectedYearIndex(dateData.year);
+      if (selectedDate) {
       renderCalendar();
+      }
       setIsLoading(true);
   }
 };
@@ -90,7 +93,9 @@ const handleSelectedDate = (dateData) => {
 // First useEffect
 useEffect(() => {
   console.log("Selected DateXX:", selectedDate);
+  if(selectedDate){
   renderCalendar();
+  }
 }, [currentMonth, currentYear, selectedDate]);
 
 // Second useEffect
@@ -101,7 +106,9 @@ useEffect(() => {
       handleDateClick(currentDate.getDate());
       if (props.selectedDate) {
           setSelectedDate(props.selectedDate);
+          if(selectedDate){
           renderCalendar();
+          }
       }
   } else {
       if (!isLoading && selectedDateFromLocation) {

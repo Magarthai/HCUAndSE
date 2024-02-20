@@ -112,7 +112,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายฝังเข็มได้ไม่เกิน 10 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -793,7 +793,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายฝังเข็มได้ไม่เกิน 10 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
