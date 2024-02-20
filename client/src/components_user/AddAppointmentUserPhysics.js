@@ -11,6 +11,12 @@ import { useNavigate } from "react-router-dom";
 const AddAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
     const handleDateSelect = (selectedDate) => {
+        setTimeOptions([]);
+        setSelectedCount(1);
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+          }));
         setAllAppointmentUsersData([]);
         setSelectedDate(selectedDate);
     };

@@ -13,7 +13,7 @@ const firebaseConfig = {
     storageBucket: "hcu-test.appspot.com",
     messagingSenderId: "1043366648624",
     appId: "1:1043366648624:web:69e71a9886b747e49506f5"
-  };
+};
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);

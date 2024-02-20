@@ -10,10 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { runTransaction } from "firebase/firestore";
 const AddNeedleAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
-    const handleDateSelect = (selectedDate) => {
-        setAllAppointmentUsersData([]);
-        setSelectedDate(selectedDate);
-    };
+    
+    
     const handleSelectChange = () => {
         setSelectedCount(selectedCount + 1);
     };
@@ -159,28 +157,6 @@ const AddNeedleAppointmentUser = () => {
         console.log("Updated timeOptions:", timeOptions);
     }, [timeOptions]);
     let isLoading = false;
-    const checkTimeSlotAvailability = () => {
-        try {
-            if (timeOptions.length === 0) {
-                return false;
-            }
-    
-            const selectedTimeSlot = appointmentTime;
-            const existingAppointments = AllAppointmentUsersData.map(appointment => appointment.appointmentTime);
-    
-            const isSlotAvailable = timeOptions.some(timeSlot => {
-                if (JSON.stringify(timeSlot.value) === JSON.stringify(selectedTimeSlot)) {
-                    return !existingAppointments.includes(JSON.stringify(selectedTimeSlot));
-                }
-                return false;
-            });
-    
-            return isSlotAvailable;
-        } catch (error) {
-            console.error('Error checking time slot availability:', error);
-            return false;
-        }
-    };
     const submitForm = async (e) => {
         e.preventDefault();
         console.log(appointmentId);
@@ -191,20 +167,7 @@ const AddNeedleAppointmentUser = () => {
         try {
             isLoading = true;
 
-            const isTimeSlotAvailable = checkTimeSlotAvailability();
-            if (!isTimeSlotAvailable) {
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    text: "ไม่เหลือช่วงเวลาว่างสําหรับวันนี้ โปรดเลือกวันอื่น",
-                    confirmButtonText: "ตกลง",
-                    confirmButtonColor: '#263A50',
-                    customClass: {
-                        cancelButton: 'custom-cancel-button',
-                    }
-                });
-                return;
-            }
+            
 
             const appointmentInfo = {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
@@ -239,7 +202,7 @@ const AddNeedleAppointmentUser = () => {
 
                 if (foundUser) {
                     const appointmentRef = await addDoc(collection(db, 'appointment'), appointmentInfo);
-                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    await new Promise(resolve => setTimeout(resolve, 100));
                     const existingAppointmentsQuerySnapshot2 = await getDocs(query(
                         appointmentsCollection,
                         where('appointmentDate', '==', appointmentInfo.appointmentDate),
@@ -263,7 +226,7 @@ const AddNeedleAppointmentUser = () => {
                         id: doc.id,
                         ...doc.data(),
                     }));
-                    console.log(c,appointmentInfo.appointmentTime.timetableId,appointmentInfo.appointmentTime.timeSlotIndex,"XAFFASFASASFSAFSFA")
+                    console.log(c,appointmentInfo.appointmentTime.timetableId,appointmentInfo.appointmentTime.timeSlotIndex,)
                     if (b.length > 1) { 
                         console.log('มีเอกสาร');
                         console.log('XD');
@@ -336,7 +299,16 @@ const AddNeedleAppointmentUser = () => {
             isLoading = false;
         }
     };
-
+    const handleDateSelect = (selectedDate) => {
+        setTimeOptions([]);
+        setSelectedCount(1);
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+          }));
+        setAllAppointmentUsersData([]);
+        setSelectedDate(selectedDate);
+    };
     return (
         <div className="user">
             <header className="user-header">

@@ -136,6 +136,12 @@ const UserEditAppointmentSpecial = (props) => {
 
     const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID } = state
     const handleDateSelect = (selectedDate) => {
+        setTimeOptions([]);
+        setSelectedCount(1);
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+          }));
         setSelectedDate(selectedDate);
         setState({
             ...state,

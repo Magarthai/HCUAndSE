@@ -8,8 +8,8 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import HCU from "../picture/HCU.jpg";
 import { getDocs, query, where } from 'firebase/firestore';
 import "../css/Component.css";
-
-
+import { sendEmailVerification } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
 
 const SignupComponent = (props) => {
     const [state, setState] = useState({
@@ -197,8 +197,11 @@ const SignupComponent = (props) => {
             throw new Error("Failed to create user account.");
           }
       
+          
+
           const { user } = userCredential;
-      
+          sendEmailVerification(user);
+          
           const additionalUserInfo = {
             uid: user.uid,
             firstName,
@@ -298,6 +301,7 @@ const SignupComponent = (props) => {
             value={firstName}
             onChange={inputValue("firstName")}
             placeholder="ชื่อจริง"
+            pattern="[A-Za-z0-9]*" title="กรุณาป้อนเฉพาะตัวอักษรและตัวเลขเท่านั้น"
           />
         </div>
 
@@ -309,6 +313,7 @@ const SignupComponent = (props) => {
             value={lastName}
             onChange={inputValue("lastName")}
             placeholder="นามสกุล"
+            pattern="[A-Za-z0-9]*" title="กรุณาป้อนเฉพาะตัวอักษรและตัวเลขเท่านั้น"
           />
         </div>
 

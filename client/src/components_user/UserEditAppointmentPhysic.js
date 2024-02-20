@@ -144,6 +144,12 @@ const UserEditAppointmentPhysic = (props) => {
 
     const { appointmentDate2,appointmentSymptom2,appointmentTime2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId} = state
     const handleDateSelect = (selectedDate) => {
+        setTimeOptions([]);
+        setSelectedCount(1);
+        setState((prevState) => ({
+            ...prevState,
+            appointmentTime: "",
+          }));
         setSelectedDate(selectedDate);
         setState({
             ...state,

@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signOut,
   sendPasswordResetEmail,
+  sendEmailVerification,
   confirmPasswordReset
 } from 'firebase/auth';
 import { collection, getDocs, query } from 'firebase/firestore';
@@ -29,6 +30,12 @@ export function UserAuthContextProvider({ children }) {
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
   }
+
+  function sendEmailVerify(email) {
+    return sendEmailVerification(auth, email);
+  }
+
+
 
   function resetPassword2(oobCode, newPassword) {
     return confirmPasswordReset(auth, oobCode, newPassword)
@@ -98,7 +105,7 @@ export function UserAuthContextProvider({ children }) {
 
 
   return (
-    <userAuthContext.Provider value={{ user, userData, logIn, signUp, logOut,resetPassword,resetPassword2 }}>
+    <userAuthContext.Provider value={{ user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
       {children}
     </userAuthContext.Provider>
   );
