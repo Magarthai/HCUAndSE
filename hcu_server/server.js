@@ -5,16 +5,20 @@ const { getFirestore } = require('firebase/firestore');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const firebaseConfig = require('./firebase');
-const fetchAvailableActivities = require('./allapi/checkEnableAcitivity/activityOpenerQueen');
-const CloseAvailableActivities = require('./allapi/checkEnableAcitivity/activityCloserQueen');
+const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueen');
+const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueen');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const dataRoute = require('./allapi/dataRoute');
-
+const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
+const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
 app.use('/api', dataRoute);
-
+app.use('/api', fetchOpenActivity);
+app.use('/api', activityAddFromUser);
 let AppointmentUsersData = [];
 
 

@@ -10,7 +10,7 @@ import Ticket_disabled_icon from "../picture/icon_ticket_disabled.png"
 import Swal from "sweetalert2";
 import { fetchOpenActivity, fetchUserAllActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
 const UserActivity = (props) => {
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
     const [activities, setActivities] = useState([]);
@@ -26,22 +26,25 @@ const UserActivity = (props) => {
         const formattedDate = `${year}-${month}-${day}`;
         return formattedDate;
     }
+
+
     const fetchOpenActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const openActivity = await fetchUserAllActivity(user, checkCurrentDate);
-                if (openActivity) {
-                    setActivities(openActivity);
-                    setIsCheckedActivity(true);
-                }
+                const response = await axios.get('http://localhost:5000/api/fetchOpenActivity');
+                setActivities(response.data);
+                console.log(response.data);
             } catch (error) {
-                console.error('Error fetching today activity:', error);
+                console.error('Error fetching data:', error);
             }
         }
     };
+
+
+
     const toActivityVaccine = (activities) => {
         if (activities) {
-            navigate('/activitty/detail', { state: { activities: activities } });
+            navigate('/activity/detail', { state: { activities: activities } });
         }
     }
 
@@ -55,14 +58,15 @@ const UserActivity = (props) => {
             cancelButtonText: "ยกเลิก",
             reverseButtons: true
         }).then((result) => {
+
             if (result.isConfirmed) {
-            Swal.fire({
-                title: "รับคิวสำเร็จ",
-                icon: "success",
-                confirmButtonText: "ตกลง",
-            }).then(function() {
-                window.location = "http://localhost:3000/queue";
-            });
+                Swal.fire({
+                    title: "รับคิวสำเร็จ",
+                    icon: "success",
+                    confirmButtonText: "ตกลง",
+                }).then(function () {
+                    window.location = "http://localhost:3000/queue";
+                });
             }
         })
     }
@@ -83,18 +87,18 @@ const UserActivity = (props) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
         return formattedDate;
-      };
+    };
 
     return (
-        
+
         <div className="user">
             <header className="user-header">
-                    <div>
-                        <h2>กิจกรรม</h2>
-                        <h3>กิจกรรมทั้งหมด</h3>
-                    </div>
+                <div>
+                    <h2>กิจกรรม</h2>
+                    <h3>กิจกรรมทั้งหมด</h3>
+                </div>
 
-                    <NavbarUserComponent/>
+                <NavbarUserComponent />
             </header>
 
             <div className="user-body">
@@ -104,75 +108,74 @@ const UserActivity = (props) => {
                     </div>
 
                     <div className="user-Activity_tab_container">
-                            <input type="radio" className="user-Activity_tab_radio" id="user-Activity_all" name="user-activity" checked/> 
-                            <label for="user-Activity_all" className="user-Activity_label center" id="user-Activitty_tab_all">
-                                <h4>ทั้งหมด</h4>
-                            </label>
-                            <div className="user-Activity_tab_all_content">
+                        <input type="radio" className="user-Activity_tab_radio" id="user-Activity_all" name="user-activity" checked />
+                        <label for="user-Activity_all" className="user-Activity_label center" id="user-Activitty_tab_all">
+                            <h4>ทั้งหมด</h4>
+                        </label>
+                        <div className="user-Activity_tab_all_content">
                             {activities && activities.length > 0 ? (
-                            activities.map((activities, index) => (
-                                <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
-                                    <h4>{activities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}</p>
-                                    <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
+                                activities.map((activities, index) => (
+                                    <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
+                                        <h4>{activities.activityName}</h4>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}</p>
+                                        <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
-                                                    <div>
-                                                                                            <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
-                                                        <img src={ClockFlat_icon}/> {timeSlot.startTime} - {timeSlot.endTime} 
-                                                        </div>
-                                                   
+                                                <div>
+                                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
+                                                    <img src={ClockFlat_icon} /> {timeSlot.startTime} - {timeSlot.endTime}
+                                                </div>
+
 
                                             ))}</p>
-                                </div>
+                                    </div>
                                 ))
-                                ) : (
-                               
-                                    <div className="user-Activity_card gap-16" >
-                                        <h4 style={{display:"flex",alignItems:"center",justifyContent:"center", height:"60px"}}>ไม่มีกิจกรรมในวันนี้</h4>                        
-                                    </div>
-                            
-                                )}
-                            </div>
-
-                            <input type="radio" className="user-Activity_tab_radio" id="user-Activity_registed" name="user-activity"/> 
-                            <label for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed">
-                                <h4>ลงทะเบียนแล้ว</h4>
-                            </label>
-                            <div className="user-Activity_tab_all_content">
-                                <div className="user-Activity_card_registed_container gap-16">
-                                    <div className="gap-16" id="user-Activity_card-registed">
-                                        <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่ 2567</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/>  วันกิจกรรม: 20/12/2023</p>
-                                        <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt=""/>  10:01 - 10:06</p>
-                                    </div>
-                                    <button className="user-Activity_ticket_btn" onClick={UserActivityGetQ}>
-                                        <img className="gap-8" src={Ticket_icon} alt=""/>
-                                        <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
-                                    </button>
+                            ) : (
+                                <div className="user-Activity_card gap-16" >
+                                    <h4 style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "60px" }}>ไม่มีกิจกรรมในวันนี้</h4>
                                 </div>
 
-                                <div className="user-Activity_card_registed_container gap-16">
-                                    <div className="gap-16" id="user-Activity_card-registed">
-                                        <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt=""/> วันกิจกรรม: 20/12/2023</p>
-                                        <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt=""/>  10:01 - 10:06</p>
-                                    </div>
-                                    <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
-                                        <img className="gap-8" src={Ticket_disabled_icon} alt=""/>
-                                        <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
-                                    </button>
+                            )}
+                        </div>
+
+                        <input type="radio" className="user-Activity_tab_radio" id="user-Activity_registed" name="user-activity" />
+                        <label for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed">
+                            <h4>ลงทะเบียนแล้ว</h4>
+                        </label>
+                        <div className="user-Activity_tab_all_content">
+                            <div className="user-Activity_card_registed_container gap-16">
+                                <div className="gap-16" id="user-Activity_card-registed">
+                                    <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่ 2567</h4>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: 20/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  10:01 - 10:06</p>
                                 </div>
-
-
+                                <button className="user-Activity_ticket_btn" onClick={UserActivityGetQ}>
+                                    <img className="gap-8" src={Ticket_icon} alt="" />
+                                    <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
+                                </button>
                             </div>
+
+                            <div className="user-Activity_card_registed_container gap-16">
+                                <div className="gap-16" id="user-Activity_card-registed">
+                                    <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: 20/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  10:01 - 10:06</p>
+                                </div>
+                                <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
+                                    <img className="gap-8" src={Ticket_disabled_icon} alt="" />
+                                    <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
+                                </button>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
-         
-           
-            
+
+
+
         </div>
 
     );

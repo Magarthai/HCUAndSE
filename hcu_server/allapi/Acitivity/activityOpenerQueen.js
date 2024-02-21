@@ -21,10 +21,10 @@ const selectedDate = {
 };
 
 
-const CloseAvailableActivities = async () => {
+const fetchAvailableActivities = async () => {
     try {
         const activitiesCollection = collection(db, 'activities');
-        const activitiesCollectionSnapshot = await getDocs(query(activitiesCollection, where('activityStatus', '==', 'open')));
+        const activitiesCollectionSnapshot = await getDocs(query(activitiesCollection, where('activityStatus', '==', 'close')));
         const activitiesToday = activitiesCollectionSnapshot.docs.map((doc) => {
             const activitiesData = doc.data();
             return {
@@ -35,13 +35,13 @@ const CloseAvailableActivities = async () => {
             };
         });
         if (activitiesToday.length > 0) {
-            const filteredActivities = activitiesToday.filter(activity => activity.closeDateFormat > today);
+            const filteredActivities = activitiesToday.filter(activity => activity.openDateFormat <= today);
             if (filteredActivities.length > 0) {
                 await Promise.all(filteredActivities.map(async (activity) => {
                     try {
                         const activityRef = doc(db, 'activities', activity.activitiesId);
-                        await updateDoc(activityRef, { activityStatus: "close" });
-                        console.log(`updated activity : ${activity.activityName} to close`)
+                        await updateDoc(activityRef, { activityStatus: "open" });
+                        console.log(`updated activity : ${activity.activityName}`)
                     } catch (error) {
                         console.log('something went wrong : ', error)
                     }
@@ -50,14 +50,14 @@ const CloseAvailableActivities = async () => {
                 console.log('There are no activity updated')
             };
         } else {
-            console.log('No any activity opening')
+            console.log('No any activity closed')
         }
         return activitiesToday
     } catch (error) {
         console.log(`fetch activities error : `, error)
     } finally {
-        setTimeout(CloseAvailableActivities, 6000);
+        setTimeout(fetchAvailableActivities, 600000);
     }
 };
 
-module.exports = CloseAvailableActivities;
+module.exports = fetchAvailableActivities;

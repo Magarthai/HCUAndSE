@@ -194,7 +194,7 @@ const AddNeedleAppointmentUser = () => {
                 return optionValue === selectedValue;
             })?.label;
             Swal.fire({
-                title: 'ยินยันนัดหมาย',
+                title: 'ยืนยันนัดหมาย',
                 html: `ยืนยันที่จะนัดหมายเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
                 icon: 'warning',
                 showCancelButton: true,
