@@ -283,11 +283,11 @@ const router = createBrowserRouter([
     element: <ProtectRoute><UserProfileEditComponent/></ProtectRoute>
   },
   {
-    path: "/activitty",
+    path: "/activity",
     element: <ProtectRoute><UserActivity/></ProtectRoute>
   },
   {
-    path: "/activitty/detail",
+    path: "/activity/detail",
     element: <ProtectRoute><UserActivityDetail/></ProtectRoute>
   },
   {

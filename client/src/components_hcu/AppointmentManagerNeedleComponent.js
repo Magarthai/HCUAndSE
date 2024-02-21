@@ -949,6 +949,13 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     confirmButton: 'custom-confirm-button',
                                     cancelButton: 'custom-cancel-button',
                                 },
+                            }).then(async(result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                } else {
+                                    window.location.reload();
+                                }
+
                             })
                             return;
                         }

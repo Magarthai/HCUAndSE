@@ -8,13 +8,14 @@ import calendarFlat_icon from "../picture/calendar-flat.png";
 import Swal from "sweetalert2";
 import { addDoc,doc } from "firebase/firestore";
 import { setDoc } from 'firebase/firestore';
+import { useNavigate } from "react-router-dom";
 import { ref, uploadBytes,getStorage, getDownloadURL } from 'firebase/storage';
 const ActivityAddComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-
+    const navigate = useNavigate();
     const [state, setState] = useState({
         activityName: "",
         activityDetail: "",
@@ -191,6 +192,7 @@ const submitForm = async (e) => {
               confirmButton: 'custom-confirm-button',
             },
           });
+          navigate('/adminActivityAllComponent')
         } else {
           Swal.fire({
             title: 'สร้างไม่สําเร็จ',

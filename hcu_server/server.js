@@ -5,35 +5,23 @@ const { getFirestore } = require('firebase/firestore');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDmwM30APYs62qlMx4HSNxrUQ5cFcTB5IM",
-    authDomain: "hcu-test.firebaseapp.com",
-    projectId: "hcu-test",
-    storageBucket: "hcu-test.appspot.com",
-    messagingSenderId: "1043366648624",
-    appId: "1:1043366648624:web:69e71a9886b747e49506f5"
-};
-
+const firebaseConfig = require('./firebase');
+const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueen');
+const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueen');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-
-app.get('/data', async (req,res) => {
-    try {
-        const dataRef = collection(db,'users');
-        const dataSnapShot = await getDocs(dataRef);
-        const data = [];
-        dataSnapShot.forEach(doc => {
-            data.push(doc.data());
-        })
-        res.json(data);
-    } catch (error) {
-        console.error(`Error fetching data: ${error}`);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-})
-
+const dataRoute = require('./allapi/dataRoute');
+const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
+const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
+app.use('/api', dataRoute);
+app.use('/api', fetchOpenActivity);
+app.use('/api', activityAddFromUser);
 let AppointmentUsersData = [];
+
+
 
 const fetchUserDataWithAppointments = async () => {
     try {
@@ -112,7 +100,7 @@ const fetchUserDataWithAppointments = async () => {
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }finally {
-        setTimeout(fetchUserDataWithAppointments, 6000);
+        setTimeout(fetchUserDataWithAppointments, 600000);
     }
 };
 
@@ -129,7 +117,7 @@ const updateAppointmentsStatus = async () => {
         const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
         const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
 
-        const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 60000);
+        const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 600000);
 
         console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
 
@@ -159,19 +147,19 @@ const updateAppointmentsStatus = async () => {
         }
     });
     }finally {
-        setTimeout(updateAppointmentsStatus, 6000);
+        setTimeout(updateAppointmentsStatus, 600000);
     }}; 
 
 const dateUpdate = async () => {
     try {
-
         console.log('Data updated:', selectedDate);
     } catch (error) {
         console.error(`Error fetching data: ${error}`);
     } finally {
-        setTimeout(dateUpdate, 6000);
+        setTimeout(dateUpdate, 600000);
     }
 };
+
 const locale = 'en';
 const today = new Date();
 const month = today.getMonth() + 1;
@@ -186,26 +174,10 @@ const selectedDate = {
     dayName: day,
 };
 dateUpdate();
-fetchUserDataWithAppointments();
-updateAppointmentsStatus();
-// fetchDataAndUpdate();
-
-// const fetchDataAndUpdate = async () => {
-//     try {
-//         const dataRef = collection(db, 'users');
-//         const dataSnapShot = await getDocs(dataRef);
-//         const data = [];
-//         dataSnapShot.forEach(doc => {
-//             data.push(doc.data());
-//         });
-//         console.log('Data updated:', data);
-//     } catch (error) {
-//         console.error(`Error fetching data: ${error}`);
-//     } finally {
-//         setTimeout(fetchDataAndUpdate, 10000);
-//     }
-// };
-
+// fetchUserDataWithAppointments();
+// updateAppointmentsStatus();
+// fetchAvailableActivities();
+CloseAvailableActivities();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

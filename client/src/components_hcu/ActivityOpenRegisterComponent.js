@@ -160,7 +160,7 @@ const ActivityOpenRegisterComponent = (props) => {
                     } catch (firebaseError) {
                         throw new Error(firebaseError);
                     }
-
+                    window.location.reload();
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {

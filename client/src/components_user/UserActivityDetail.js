@@ -5,7 +5,8 @@ import activity1 from "../picture/activity1.png";
 import Swal from "sweetalert2";
 import NavbarUserComponent from './NavbarComponent';
 import { useUserAuth } from "../context/UserAuthContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { json, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 const UserActivityDetail = (props) =>{
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -15,17 +16,17 @@ const UserActivityDetail = (props) =>{
         activityDetail: "",
         activityType: "",
         endQueenDate: "",
-        id: "",
         imageURL: "",
         openQueenDate: "",
         queenStatus: "",
+        activityId: "",
     });
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
+    const { activityName, activityDetail, activityType, endQueenDate, imageURL, openQueenDate,activityId } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -37,7 +38,6 @@ const UserActivityDetail = (props) =>{
                 text: 'ไม่มีข้อมูลกิจกรรม',
                 confirmButtonColor: '#263A50',
                 customClass: {
-
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
@@ -49,18 +49,42 @@ const UserActivityDetail = (props) =>{
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
                 endQueenDate: activities.endQueenDate || "",
-                id: activities.id || "",
+                activityId: activities.activityId || "",
                 imageURL: activities.imageURL || "",
                 openQueenDate: activities.openQueenDate || "",
                 queenStatus: activities.queenStatus || "",
             });
-            setTimeSlots(activities.timeSlots)
-            setImgSrc(activities.imageURL)
-            console.log(activities, "activities")
+            setImgSrc(activities.imageURL);
+            const updatedTimeSlots = activities.timeSlots.map((slot, index) => ({
+                ...slot,
+                index: index ,
+                activityId: activityId || "",
+            }));
+            setTimeSlots(updatedTimeSlots);
+            console.log(activities, "activities");
+            console.log(timeSlots, "timeSlots");
         }
     }, [user]);
-
-    const UserActivityRegister = () => {
+    
+    const UserActivityRegister = async (e) => {
+        e.preventDefault();
+        console.log(selectedValue)
+        const selectedSlot = e.target.value;
+        const appointmentInfo = {
+            activityName: activities.activityName || "",
+            activityId: activities.activityId || "",
+            timeSlots: selectedValue,
+            userData: {
+                userID:userData.userID,
+                id:userData.id,
+                email:userData.email,
+                tel:userData.tel,
+                firstName:userData.firstName,
+                lastName:userData.lastName,
+                gender:userData.gender,
+                userLineID:userData.userLineID,
+            },
+        };
         Swal.fire({
             title: "ลงทะเบียน",
             html: "โครงการฉีดวัคซีนไข้หวัดใหญ่ตามฤดูกาล 2566<br>วันที่ 20/12/2023 (09.00-12.00)",
@@ -69,18 +93,53 @@ const UserActivityDetail = (props) =>{
             confirmButtonText: "ลงทะเบียน",
             cancelButtonText: "ยกเลิก",
             reverseButtons: true
-        }).then((result) => {
+            
+        }).then(async(result) => {
             if (result.isConfirmed) {
-            Swal.fire({
-                title: "ลงทะเบียนสำเร็จ",
-                icon: "success",
-                confirmButtonText: "กลับ",
-            }).then(function() {
-                window.location = "http://localhost:3000/activity";
-            });
+                console.log(appointmentInfo)
+                try {
+                    const response = await axios.post('http://localhost:5000/api/addUserActivity', appointmentInfo, {
+                        activityName: activities.activityName || "",
+                        id: activities.id || "",
+                        timeSlots: selectedValue,
+                        activityName: activities.activityName || "",
+                        activityId: activities.activityId || "",
+                        timeSlots: selectedValue,
+                        userData: {
+                            userID:userData.userID,
+                            id:userData.id,
+                            email:userData.email,
+                            tel:userData.tel,
+                            firstName:userData.firstName,
+                            lastName:userData.lastName,
+                            gender:userData.gender,
+                            userLineID:userData.userLineID,
+                        },
+                    });
+                    
+                    console.log(response.data);
+    
+                    Swal.fire({
+                        title: "ลงทะเบียนสำเร็จ",
+                        icon: "success",
+                        confirmButtonText: "กลับ",
+                    }).then(function() {
+                        navigate("/activity");
+                    });
+                } catch (error) {
+                    console.error("Error registering activity:", error);
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "ไม่สามารถลงทะเบียนกิจกรรมได้",
+                        icon: "error",
+                        confirmButtonText: "ตกลง"
+                    });
+                }
             }
-        })
+        });
     }
+    
+    const [selectedValue, setSelectedValue] = useState([]);
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
@@ -124,13 +183,20 @@ const UserActivityDetail = (props) =>{
 
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่</h5>
-                        <select className="user-activity-vaccine_date">
+                        <select 
+                            onChange={(e) => {
+                                setSelectedValue(e.target.value);
+                                console.log(e.target.value);
+                            }}
+                            className="user-activity-vaccine_date"
+                        >
                         <option hidden>กรุณาเลือกช่วงเวลา</option>
-                        {timeSlots.map((slot, index) => (
-                            <option key={index} value={index}>
+                        {timeSlots.map((slot) => (
+                            <option key={slot.id} value={JSON.stringify(slot)}>
                                 {`${slot.date} (${slot.startTime}-${slot.endTime})`}
                             </option>
                         ))}
+
                     </select>
                     </div>
                     <div className="user-activity-vaccine_button_container">
