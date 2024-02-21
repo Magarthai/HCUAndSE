@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import CalendarUserComponent from "./CalendarUserComponent";
+
 import "../css/Login&SignupComponent.css";
-import NavbarUserComponent from './NavbarUserComponent';
+import NavbarUserComponent from './NavbarComponent';
 
 
 const ExampleComponent = (props) => {
@@ -19,9 +19,7 @@ const ExampleComponent = (props) => {
                     <NavbarUserComponent/>
             </header>
             <div className="user-body">
-                <div className="profile">
-                    <CalendarUserComponent/>
-                </div>
+
             </div>
          
            

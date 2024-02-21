@@ -119,8 +119,8 @@ const HomeComponent = (props) => {
                     <a href="#" role="button"  target="_parent" className="user-home-list-box2"><img src={function3}/><p>สถานะคิว</p></a>
                     <a href="/timetable" role="button"  target="_parent" className="user-home-list-box2"><img src={function4}/><p>ช่วงเวลาเข้าทําการแพทย์</p></a>
                     <a href="#" role="button"  target="_parent" className="user-home-list-box2"><img src={function5}/><p>ตำแหน่งที่ตั้ง</p></a>
-                    <a href="#" role="button"  target="_parent" className="user-home-list-box2"><img src={function6}/><p>ข้อมูลทั่วไป</p></a>
-                    <a href="#" role="button"  target="_parent" className="user-home-list-box2"><img src={function7}/><p>ประเมินความพึงพอใจ</p></a>
+                    <a href="/information" role="button"  target="_parent" className="user-home-list-box2"><img src={function6}/><p>ข้อมูลทั่วไป</p></a>
+                    <a href="/feedback" role="button"  target="_parent" className="user-home-list-box2"><img src={function7}/><p>ประเมินความพึงพอใจ</p></a>
                     <a href="#" role="button"  target="_parent" className="user-home-list-box2"><img src={function8}/><p>คู่มือการใช้งาน</p></a>
                     {/* <a href="/appointment" role="button"  target="_parent"><img src={function1}/><p>นัดหมาย</p></a>
                     <a href="#" role="button"  target="_parent"><img src={function2} /></a>

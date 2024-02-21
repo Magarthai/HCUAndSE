@@ -1,0 +1,37 @@
+.user-body-infomation{
+    padding: 0 5%;
+}
+.user-card-infornation-flexbox{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    width:  100%;
+    border-radius: 8px;
+    margin-top: 15px;
+    height: 120px;
+}
+.user-card-infornation-box-img{
+    box-sizing: border-box;
+    width: 40%;
+}
+.user-card-infornation-box-img img{
+    width: 100%;
+    border-radius: 8px 0px 0px 8px;
+    height: 120px;
+}
+.user-card-infornation-box-name{
+    padding: 10px 5%;
+    box-sizing: border-box;
+    width: 60%;
+    background-color: #263A50;
+    color: #ffffff;
+    border-radius: 0px 8px 8px 0px;
+}
+.user-information-preview{
+    width: 100%;
+    padding: 0px 5%;
+    margin-bottom: 10px;
+}

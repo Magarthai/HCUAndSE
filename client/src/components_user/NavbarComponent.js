@@ -67,8 +67,8 @@ const NavbarComponent = (props) => {
               <a href="/queue" role="button"  target="_parent"><p>สถานะคิว</p></a>
               <a href="/timetable" role="button"  target="_parent"><p>ช่วงเวลาเข้าทําการแพทย์</p></a>
               <a href="/" role="button"  target="_parent"><p>ตำแหน่งที่ตั้ง</p></a>
-              <a href="/" role="button"  target="_parent"><p>ข้อมูลทั่วไป</p></a>
-              <a href="/" role="button"  target="_parent"><p>ประเมินความพึงพอใจ</p></a>
+              <a href="/information" role="button"  target="_parent"><p>ข้อมูลทั่วไป</p></a>
+              <a href="/feedback" role="button"  target="_parent"><p>ประเมินความพึงพอใจ</p></a>
               <a href="/manual" role="button"  target="_parent"><p>คู่มือการใช้งาน</p></a>
             </div>
             <p  className="colorPrimary-800" onClick={handleLogout} style={{cursor:"pointer"}}><img className="user-navbar-icon-logout"src={logout}/>ออกจากระบบ</p>

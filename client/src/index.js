@@ -64,7 +64,13 @@ import QueueManagementSystemComponentNeedle from './components_hcu/QueueManageme
 import AddAppointmentUserNeedle from './components_user/AddAppointmentUserNeedle.js';
 import AddAppointmentUserPhysic from './components_user/AddAppointmentUserPhysics.js';
 import AddAppointmentUserSpecial from './components_user/AddAppointmentUserSpecial.js';
-
+import UserInformationAllComponent from './components_user/InformationAllComponent.js';
+import UserInformationPreviewComponent from './components_user/InformationPreviewComponent.js';
+import UserFeedbackComponent from './components_user/FeedbackComponent.js';
+import UserFeedbackComponentGeneral from './components_user/FeedbackComponentGeneral.js';
+import UserFeedbackComponentSpecial from "./components_user/FeedbackComponentSpecial.js"
+import UserFeedbackComponentPhysical from "./components_user/FeedbackComponentPhysical.js"
+import UserFeedbackComponentNeedle from './components_user/FeedbackComponentNeedle.js';
 
 const router = createBrowserRouter([
   {
@@ -291,6 +297,34 @@ const router = createBrowserRouter([
   {
     path: "/manual",
     element: <ProtectRoute><UserManual/></ProtectRoute>
+  },
+  {
+    path: "/information",
+    element: <ProtectRoute><UserInformationAllComponent/></ProtectRoute>
+  },
+  {
+    path: "/information/preview",
+    element: <ProtectRoute><UserInformationPreviewComponent/></ProtectRoute>
+  },
+  {
+    path: "/feedback",
+    element: <ProtectRoute><UserFeedbackComponent/></ProtectRoute>
+  },
+  {
+    path: "/feedback/general",
+    element: <ProtectRoute><UserFeedbackComponentGeneral/></ProtectRoute>
+  },
+  {
+    path: "/feedback/special",
+    element: <ProtectRoute><UserFeedbackComponentSpecial/></ProtectRoute>
+  },
+  {
+    path: "/feedback/physical",
+    element: <ProtectRoute><UserFeedbackComponentPhysical/></ProtectRoute>
+  },
+  {
+    path: "/feedback/needle",
+    element: <ProtectRoute><UserFeedbackComponentNeedle/></ProtectRoute>
   },
 ])
 
