@@ -74,6 +74,16 @@ const UserActivityDetail = (props) =>{
             activityName: activities.activityName || "",
             activityId: activities.activityId || "",
             timeSlots: selectedValue,
+            userData: {
+                userID:userData.userID,
+                id:userData.id,
+                email:userData.email,
+                tel:userData.tel,
+                firstName:userData.firstName,
+                lastName:userData.lastName,
+                gender:userData.gender,
+                userLineID:userData.userLineID,
+            },
         };
         Swal.fire({
             title: "ลงทะเบียน",
@@ -92,6 +102,19 @@ const UserActivityDetail = (props) =>{
                         activityName: activities.activityName || "",
                         id: activities.id || "",
                         timeSlots: selectedValue,
+                        activityName: activities.activityName || "",
+                        activityId: activities.activityId || "",
+                        timeSlots: selectedValue,
+                        userData: {
+                            userID:userData.userID,
+                            id:userData.id,
+                            email:userData.email,
+                            tel:userData.tel,
+                            firstName:userData.firstName,
+                            lastName:userData.lastName,
+                            gender:userData.gender,
+                            userLineID:userData.userLineID,
+                        },
                     });
                     
                     console.log(response.data);
