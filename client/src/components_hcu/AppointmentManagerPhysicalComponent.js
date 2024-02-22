@@ -604,6 +604,7 @@ const AppointmentManagerPhysicComponent = (props) => {
     };
     let count = parseInt(time);
     let notimeforthisday = 0;
+
     const submitFormAddContinue = async () => {
         let x = document.getElementById("admin-add-appointment-connected2");
         let y = document.getElementById("admin-add-appointment-connected");
@@ -930,6 +931,13 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     confirmButton: 'custom-confirm-button',
                                     cancelButton: 'custom-cancel-button',
                                 },
+                            }).then(async(result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                } else {
+                                    window.location.reload();
+                                }
+
                             })
                             return;
                         }
@@ -950,6 +958,8 @@ const AppointmentManagerPhysicComponent = (props) => {
             }
         }
     };
+
+    
 
     function cleanUpOldPopups() {
         const appointmentPopupItem = document.querySelector(".admin-appointmemt-popup-item.two");

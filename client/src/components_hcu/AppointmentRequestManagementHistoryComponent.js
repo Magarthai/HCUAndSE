@@ -247,7 +247,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.firstName} {AppointmentUserData.lastName}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.tel}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.clinic}</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate2}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDateOld}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.appointment.appointmentDate}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot2.start} - {AppointmentUserData.timeslot2.end}</td>
                             <td className="admin-textBody-huge2 colorPrimary-800">{AppointmentUserData.timeslot.start} - {AppointmentUserData.timeslot.end}</td>

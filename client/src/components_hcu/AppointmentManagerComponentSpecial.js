@@ -481,7 +481,6 @@ const AppointmentManagerComponentSpecial = (props) => {
                     )
                 }
             })
-
         }
             catch (firebaseError) {
                 console.error('Firebase submit error:', firebaseError);
@@ -1012,8 +1011,6 @@ const AppointmentManagerComponentSpecial = (props) => {
                         <p id="detail-appointment-casue" className="admin-textBody-big"><b>สาเหตุการนัดหมาย</b>: ตรวจรักษาโรค</p>
                         <p id="detail-appointment-symptom" className="admin-textBody-big"><b>อาการเบื้องต้น</b>: มีอาการปวดหัว อาเจียน</p>
                         <p id="detail-appointment-notation" className="admin-textBody-big"><b>หมายเหตุ</b>: -</p>
-
-
                     </div>
                     <div id="add-appointment" className="colorPrimary-800">
                         <form onSubmit={submitForm}>
