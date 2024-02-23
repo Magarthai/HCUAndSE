@@ -21,9 +21,6 @@
     line-height: normal;
     margin: 0%;
 }
-
-.AppointList-body-card-item
-
 .AppointList-body-card-item-outDate{
     color: #263A50;
     font-size: 18px;
@@ -115,12 +112,11 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin: 0%;
-    margin-left: 20px;
+    margin: 0% 5%;
 }
 
 .AppointList-body-cardCommitted-item-innerCard{
-    margin: 20px;
+    margin: 0px 5%;
     margin-top: 5px;
     padding: 16px;
     border-radius: var(--Radius-Card, 20px);

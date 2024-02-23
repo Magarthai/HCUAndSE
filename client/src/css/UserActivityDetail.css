@@ -10,7 +10,8 @@
 }
 .user-activity-vaccine_image{
     width: 90%;
-    height: 25vh;
+    max-width: 500px;
+    height: 32vh;
     margin-top: -40px;
     padding: 0px;
     margin-left: 5%;
