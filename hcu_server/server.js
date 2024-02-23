@@ -174,9 +174,9 @@ const selectedDate = {
     dayName: day,
 };
 dateUpdate();
-// fetchUserDataWithAppointments();
-// updateAppointmentsStatus();
-// fetchAvailableActivities();
+fetchUserDataWithAppointments();
+updateAppointmentsStatus();
+fetchAvailableActivities();
 CloseAvailableActivities();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

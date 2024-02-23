@@ -461,7 +461,6 @@ const ListAppointmentUser = () => {
       {AppointmentUsersData.length > 0 ?
 
   AppointmentUsersData.filter(appointmentData => appointmentData.appointment.status != "สำเร็จ" && appointmentData.appointment.status != "ไม่สำเร็จ").sort((a, b) => {
-
   const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
   const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
 
