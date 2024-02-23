@@ -310,12 +310,12 @@ const ActivityEditComponent = (props) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" }
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" }]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
