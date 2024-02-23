@@ -19,14 +19,15 @@ const InformationPreviewComponent = (props) => {
                     <NavbarUserComponent/>
             </header>
             <div className="user-body">
-                <div className="user-body-infomation colorPrimary-800">
+                <div className="user-body-infomation-preview colorPrimary-800">
                     <h3>รถฉุกเฉินในมจธ.</h3>
-                    <img src={information} className="user-information-preview"/>
-                    <p>dsgdddddddddddddddddddddddddddddddddddd</p>
+                    <div className="center">
+                        <img src={information} className="user-information-preview-img"/>
+                    </div>
+                   
+                    <p className="textBody-large">dsgdddddddddddddddasfaaaffsgdddddddddddddddasfaaaff</p>
                     
                 </div>
-                
-                
             </div>
          
            

@@ -1,4 +1,5 @@
 .user-body-infomation{
+    width: 100%;
     padding: 0 5%;
 }
 .user-card-infornation-flexbox{
@@ -30,8 +31,29 @@
     color: #ffffff;
     border-radius: 0px 8px 8px 0px;
 }
-.user-information-preview{
+.user-body-infomation-preview{
     width: 100%;
-    padding: 0px 5%;
+    padding: 0 5%;
+}
+.user-body-infomation-preview p{
+    word-wrap: break-word
+}
+.user-information-preview-img{
+    width: 100%;
     margin-bottom: 10px;
+}
+
+@media (min-width: 600px) and (max-width: 1025px) {
+    .user-card-infornation-flexbox{
+        height: 150px;
+    }
+    .user-card-infornation-box-img{
+        width: 30%;
+    }
+    .user-card-infornation-box-img img{
+        height: 150px;
+    }
+    .user-card-infornation-box-name{
+        width: 70%;
+    }
 }
