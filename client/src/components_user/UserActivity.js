@@ -158,7 +158,7 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16">
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> ลงทะเบียน: 14/12/2023 - 16/12/2023</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: 20/12/2023</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  10:01 - 10:06</p>
                                 </div>

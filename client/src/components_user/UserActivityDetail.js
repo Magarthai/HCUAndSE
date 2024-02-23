@@ -158,7 +158,7 @@ const UserActivityDetail = (props) =>{
             </header>
 
             <div className="user-body" id="user-event-body">
-                <div>
+                <div className="center">
                     <img  className="user-activity-vaccine_image" alt="" src={imgSrc}/>
                 </div>
 
