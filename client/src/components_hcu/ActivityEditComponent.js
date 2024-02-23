@@ -377,7 +377,7 @@ const ActivityEditComponent = (props) => {
                 <br></br>
                 <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
                 <input
-                    type="text"
+                    type="number"
                     className="form-control timeable"
                     placeholder="40"
                     value={timeSlot.registeredCount}
@@ -498,7 +498,7 @@ const ActivityEditComponent = (props) => {
                                         </div>
                                         <div>
                                             <label className="admin-textBody-large colorPrimary-800">จำนวนเปิดรับผู้ลงทะเบียนทั้งหมด</label><br></br>
-                                            <input type="text" className="form-control timeable" placeholder="40" disabled value={totalRegisteredCount}/>
+                                            <input type="number" className="form-control timeable" placeholder="40" disabled value={totalRegisteredCount}/>
                                             <span className="admin-textBody-large"> คน</span>
                                         </div>
                                     </div>

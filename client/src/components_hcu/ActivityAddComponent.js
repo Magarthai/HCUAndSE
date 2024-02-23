@@ -47,8 +47,10 @@ const ActivityAddComponent = (props) => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Invalid Date',
-                    text: 'End date should be greater than or equal to start date',
+                    text: 'ช่วงเวลาลงทะเบียนวันสุดท้ายควรมากกว่าวันเปิด',
                 });
+                setState({ ...state, [name]: "" });
+                
             } else {
                 setState({ ...state, [name]: event.target.value });
             }
@@ -143,6 +145,20 @@ const submitForm = async (e) => {
     const file = fileInput?.files[0];
 
     if (file) {
+        const fileType = file.type.split("/")[0];
+        if (fileType !== "image") {
+            throw new Error("ไฟล์ที่อัปโหลดไม่ใช่รูปภาพ");
+        }
+        const allowedExtensions = ["jpg", "jpeg", "png"];
+        const fileExtension = file.name.split(".").pop().toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+            throw new Error("ไฟล์ที่อัปโหลดมีนามสกุลไม่ถูกต้อง");
+        }
+
+        const maxSize = 3145728;
+        if (file.size > maxSize) {
+            throw new Error("ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป");
+        }
       const storageRef = ref(storage, `activity_images/${file.name}`);
 
       await uploadBytes(storageRef, file);
@@ -163,7 +179,7 @@ const submitForm = async (e) => {
         activityStatus: activityStatusForCurrentDate ? "open" : "close",
         };
 
-      const newActivityRef = await addDoc(activitiesCollection, activityInfo);
+      
 
       Swal.fire({
         title: 'สร้างกิจกรรม',
@@ -181,6 +197,7 @@ const submitForm = async (e) => {
         },
       }).then(async (result) => {
         if (result.isConfirmed) {
+         const newActivityRef = await addDoc(activitiesCollection, activityInfo);
           await setDoc(doc(db, 'activities', newActivityRef.id), { imageURL: downloadURL }, { merge: true });
 
           Swal.fire({
@@ -245,12 +262,12 @@ const submitForm = async (e) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" }
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" }]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
@@ -303,7 +320,7 @@ const submitForm = async (e) => {
                 <br></br>
                 <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
                 <input
-                    type="text"
+                    type="number"
                     className="form-control timeable"
                     placeholder="40"
                     value={timeSlot.registeredCount}
@@ -468,7 +485,7 @@ const submitForm = async (e) => {
                                     value="เพิ่มกิจกรรม" 
                                     className="btn-primary btn-systrm" 
                                     target="_parent" 
-                                    disabled={timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}
+                                    disabled={openQueenDate === "" || endQueenDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "" || slot.openQueenDate === "" || slot.endQueenDate === "")}
                                 />
                             </div>
                         </div>

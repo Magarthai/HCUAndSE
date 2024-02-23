@@ -654,7 +654,7 @@ const ListAppointmentUser = () => {
     })
 ) : (
   <div className="user-DateAppointment-card_noAppointment gap-16">
-    <h3 className="user-DateAppointment-noAppointment center">ไม่มีการนัดหมาย</h3>
+    <h3 className="user-DateAppointment-noAppointment center">ไม่มีการนัดหมายที่ดําเนินการสําเร็จ</h3>
   </div>
 )}
 

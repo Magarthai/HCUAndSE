@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+ import { useEffect, useState, useRef } from "react";
 import "../css/Component.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
@@ -125,6 +125,8 @@ const ActivityOpenRegisterComponent = (props) => {
 
     const deletedActivity = (activities) => {
         if (activities) {
+            const a = activities.id
+            console.log(a)
             Swal.fire({
                 title: 'ลบกิจกรรม',
                 text: `คุณแน่ใจว่าจะลบกิจกรรม : ${activities.activityName} ?`,
@@ -138,29 +140,35 @@ const ActivityOpenRegisterComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                     cancelButton: 'custom-cancel-button',
                 }
-            }).then((result) => {
+            }).then(async(result) => {
                 if (result.isConfirmed) {
                     try {
                         const activitiesRef = doc(db, 'activities', `${activities.id}`);
-                        deleteDoc(activitiesRef, `${activities.id}`)
+                        await deleteDoc(activitiesRef, `${activities.id}`)
                         console.log(`${activities.id}`);
-                        Swal.fire(
-                            {
-                                title: 'การลบการนัดหมายสำเร็จ!',
-                                text: `การนัดหมายถูกลบเรียบร้อยแล้ว!`,
-                                icon: 'success',
-                                confirmButtonText: 'ตกลง',
-                                confirmButtonColor: '#263A50',
-                                customClass: {
-                                    confirmButton: 'custom-confirm-button',
-                                }
+                        Swal.fire({
+                            title: 'การลบการนัดหมายสำเร็จ!',
+                            text: 'การนัดหมายถูกลบเรียบร้อยแล้ว!',
+                            icon: 'success',
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                confirmButton: 'custom-confirm-button',
                             }
-                        )
-                        fetchOpenActivityAndSetState();
+                        }).then((result) => {
+
+                            if (result.isConfirmed) {
+                                window.location.reload()
+                            } else {
+                                window.location.reload()
+                            }
+                        });
+
+                        
                     } catch (firebaseError) {
                         throw new Error(firebaseError);
                     }
-                    window.location.reload();
+
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
