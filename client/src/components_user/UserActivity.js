@@ -64,10 +64,10 @@ const UserActivity = (props) => {
         }
     }
 
-    const UserActivityGetQ = () => {
+    const UserActivityGetQ = (Queueactivities) => {
         Swal.fire({
             title: "รับคิว",
-            html: "โครงการฉีดวัคซีนไข้หวัดใหญ่ตามฤดูกาล 2566<br>วันที่ 20/12/2023 (09.00-12.00)",
+            html: `${Queueactivities.activityName}<br>วันที่ ${Queueactivities.data.date} (${Queueactivities.data.startTime}-${Queueactivities.data.endTime})`,
             showConfirmButton: true,
             showCancelButton: true,
             confirmButtonText: "รับคิว",
@@ -166,19 +166,20 @@ const UserActivity = (props) => {
                         </label>
                         <div className="user-Activity_tab_all_content">
                         {Queueactivities && Queueactivities.length > 0 ? (
+                            Queueactivities.map((Queueactivities, index) => (
                             <div className="user-Activity_card_registed_container gap-16">
                                 <div className="gap-16" id="user-Activity_card-registed">
-                                    <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่ 2567</h4>
+                                    <h4>{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: 20/12/2023</p>
-                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  10:01 - 10:06</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
-                                <button className="user-Activity_ticket_btn" onClick={UserActivityGetQ}>
+                                <button className="user-Activity_ticket_btn" onClick={() => UserActivityGetQ(Queueactivities)}>
                                     <img className="gap-8" src={Ticket_icon} alt="" />
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
                             </div>
-                        ) : (
+                        ) )): (
                             <div className="user-Activity_card_registed_container gap-16">
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
@@ -191,7 +192,7 @@ const UserActivity = (props) => {
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
                             </div>
-
+                        
                         )}
                         </div>
                     </div>

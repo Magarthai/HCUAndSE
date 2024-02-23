@@ -24,7 +24,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
         console.log(userActivityList);
         const promises = userActivityList.map(activity => getDoc(doc(db, 'activities', activity.activityId)));
         const activityDocs = await Promise.all(promises);
-        const formattedDocs = activityDocs.map(docSnapshot => {
+        const formattedDocs = activityDocs.map((docSnapshot, index) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
                 data.timeSlots = JSON.stringify(data.timeSlots)
@@ -40,7 +40,8 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                     }
                 }
                 if (hasMatch) {
-                    return { id: docSnapshot.id, data: data };
+
+                    return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
                 } else {
                     return null;
                 }
@@ -49,11 +50,11 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
             }
         }).filter(doc => doc !== null);
         if (formattedDocs.length > 0) {
-
             console.log(`user have ${formattedDocs.length} activity`)
+            console.log(formattedDocs,"formattedDocs")
             res.json(formattedDocs);
         } else {
-            console.log("no activivity registered")
+            console.log("no activity registered")
         }
 
     } catch (error) {
@@ -61,5 +62,6 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 })
+
 
 module.exports = router;
