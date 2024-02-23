@@ -117,6 +117,8 @@ const ListAppointmentUser = () => {
   };
   const { appointmentDate, userID } = state
   const [AppointmentUsersData, setAllAppointmentUsersData] = useState([]);
+  const [FAppointmentUsersData, setFAllAppointmentUsersData] = useState([]);
+  const [F2AppointmentUsersData, setF2AllAppointmentUsersData] = useState([]);
   const [timeOptionss, setTimeOptionss] = useState([]);
   const [isChecked, setIsChecked] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
@@ -240,7 +242,33 @@ const ListAppointmentUser = () => {
         }));
 
         const filteredAppointmentUsersDataArray = AppointmentUsersDataArray.filter(userDetails => userDetails !== null);
+        const filteredAppointmentUsersDataArrays = AppointmentUsersDataArray.sort((a, b) => {
+        
+          // เรียงลำดับตามวันที่
+          const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+          const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+          if (dateA < dateB) return -1;
+          if (dateA > dateB) return 1;
+        
+          // เรียงลำดับตามเวลา
+          const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
+          const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
+          return timeA - timeB;
+        }).filter(appointmentData => appointmentData.appointment.status === "สำเร็จ" || appointmentData.appointment.status === "ไม่สำเร็จ");
 
+        const filtered2AppointmentUsersDataArrays = AppointmentUsersDataArray.sort((a, b) => {
+        
+          // เรียงลำดับตามวันที่
+          const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+          const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+          if (dateA < dateB) return -1;
+          if (dateA > dateB) return 1;
+        
+          // เรียงลำดับตามเวลา
+          const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
+          const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
+          return timeA - timeB;
+        }).filter(appointmentData => appointmentData.appointment.status !== "สำเร็จ" || appointmentData.appointment.status !== "ไม่สำเร็จ");
         if (filteredAppointmentUsersDataArray.length > 0) {
           setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
           console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
@@ -249,8 +277,11 @@ const ListAppointmentUser = () => {
         }
 
         console.log("AppointmentUsersDataArray", filteredAppointmentUsersDataArray);
+        console.log("filteredAppointmentUsersDataArrays",filteredAppointmentUsersDataArrays)
         setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
         console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
+        setFAllAppointmentUsersData(filteredAppointmentUsersDataArrays)
+        setF2AllAppointmentUsersData(filtered2AppointmentUsersDataArrays)
       } else {
         console.log(`No appointments found`);
       }
@@ -317,15 +348,22 @@ const ListAppointmentUser = () => {
           }));
 
           const filteredAppointmentUsersDataArray = AppointmentUsersDataArray.filter(userDetails => userDetails !== null);
+          const filteredAppointmentUsersDataArrays = AppointmentUsersDataArray.filter(appointmentData => appointmentData.appointment.status !== "สำเร็จ" && appointmentData.appointment.status !== "ไม่สำเร็จ");
 
+          
           if (filteredAppointmentUsersDataArray.length > 0) {
             setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
             console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
+           
+
+
+
           } else {
             console.log("No user details found for any appointmentId");
           }
 
           console.log("AppointmentUsersDataArray", filteredAppointmentUsersDataArray);
+          console.log("filteredAppointmentUsersDataArrays",filteredAppointmentUsersDataArrays)
           setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
           console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
         } else {
@@ -458,26 +496,29 @@ const ListAppointmentUser = () => {
 
         <div className="AppointList-body-card">
 
-      {AppointmentUsersData.length > 0 ?
+        {F2AppointmentUsersData.length > 0 ? (
+  F2AppointmentUsersData
+    .sort((a, b) => {
+      // เรียงลำดับตามวันที่
+      const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+      const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+      if (dateA < dateB) return -1;
+      if (dateA > dateB) return 1;
 
-  AppointmentUsersData.filter(appointmentData => appointmentData.appointment.status != "สำเร็จ" && appointmentData.appointment.status != "ไม่สำเร็จ").sort((a, b) => {
-  const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
-  const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+      // เรียงลำดับตามเวลา
+      return a.timeslot.start.localeCompare(b.timeslot.start);
+    })
+    .map((AppointmentUserData, index) => {
+      const previousAppointment = index > 0 ? F2AppointmentUsersData[index - 1] : null;
+      const currentDate = AppointmentUserData.appointment.appointmentDate;
+      const previousDate = previousAppointment ? previousAppointment.appointment.appointmentDate : null;
 
+      return (
+        <div className="AppointList-body-cardCommitted-item" key={index}>
 
-  if (dateA < dateB) return -1;
-  if (dateA > dateB) return 1;
-
-
-  const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
-  const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
-  return timeA - timeB;
-}).map((AppointmentUserData, index) => (
-    <div className="AppointList-body-card-item" key={index}>
-
-{index === 0 || AppointmentUserData.appointment.appointmentDate !== AppointmentUsersData[index - 1].appointment.appointmentDate ? (
-        <p className="AppointList-body-card-item-outDate">{AppointmentUserData.appointment.appointmentDate}</p>
-      ) : null}
+          {previousDate !== currentDate && (
+            <p className="AppointList-body-cardCommitted-item-outDate">{AppointmentUserData.appointment.appointmentDate}</p>
+          )}
 
       <div className="AppointList-body-card-item-innerCard">
 
@@ -547,7 +588,8 @@ const ListAppointmentUser = () => {
         </div>
       </div>
     </div>
-  )) : (
+    )})
+      ) : (
               <div className="user-DateAppointment-card_noAppointment gap-16">
                 <h3 className="user-DateAppointment-noAppointment center">ไม่มีการนัดหมาย</h3>
               </div>
@@ -561,26 +603,37 @@ const ListAppointmentUser = () => {
 
 
         <div className="AppointList-body-cardCommited">
-  {AppointmentUsersData.filter(appointmentData => appointmentData.appointment.status === "สำเร็จ" || appointmentData.appointment.status === "ไม่สำเร็จ").length > 0 ? (
-    AppointmentUsersData
-      .filter(appointmentData => appointmentData.appointment.status === "สำเร็จ" || appointmentData.appointment.status === "ไม่สำเร็จ")
-      .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
-      .map((AppointmentUserData, index) => ( 
+        {FAppointmentUsersData.length > 0 ? (
+  FAppointmentUsersData
+    .sort((a, b) => {
+      // เรียงลำดับตามวันที่
+      const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+      const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+      if (dateA < dateB) return -1;
+      if (dateA > dateB) return 1;
+
+      // เรียงลำดับตามเวลา
+      return a.timeslot.start.localeCompare(b.timeslot.start);
+    })
+    .map((AppointmentUserData, index) => {
+      const previousAppointment = index > 0 ? FAppointmentUsersData[index - 1] : null;
+      const currentDate = AppointmentUserData.appointment.appointmentDate;
+      const previousDate = previousAppointment ? previousAppointment.appointment.appointmentDate : null;
+
+      return (
         <div className="AppointList-body-cardCommitted-item" key={index}>
 
-          {index === 0 || AppointmentUserData.appointment.appointmentDate !== AppointmentUsersData[index - 1].appointment.appointmentDate ? (
+          {previousDate !== currentDate && (
             <p className="AppointList-body-cardCommitted-item-outDate">{AppointmentUserData.appointment.appointmentDate}</p>
-          ) : null}
+          )}
 
           <div className="AppointList-body-cardCommitted-item-innerCard">
             <div className="AppointList-body-cardCommitted-item-innerCard-ClinicAndStatus">
 
               <p className="AppointList-body-cardCommitted-item-innerCard-ClinicName">{AppointmentUserData.appointment.clinic}</p>
 
-
               <p className="AppointList-body-cardCommitted-item-innerCard-StatusRed">{AppointmentUserData.appointment.status}</p>
             </div>
-
 
             <div className="AppointList-body-cardCommitted-item-innerCard-DescDate">
               <img className="mini-card-icon" src={item1} alt="icon-calen" />
@@ -597,14 +650,14 @@ const ListAppointmentUser = () => {
             </div>
           </div>
         </div>
-      )
-    ) ): (
+      );
+    })
+) : (
+  <div className="user-DateAppointment-card_noAppointment gap-16">
+    <h3 className="user-DateAppointment-noAppointment center">ไม่มีการนัดหมาย</h3>
+  </div>
+)}
 
-      <div className="user-DateAppointment-card_noAppointment gap-16">
-        <h3 className="user-DateAppointment-noAppointment center">ไม่มีการนัดหมาย</h3>
-      </div>
-    )
-  }
 </div>
 
 
