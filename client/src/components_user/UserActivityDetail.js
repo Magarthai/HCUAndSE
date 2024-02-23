@@ -41,7 +41,7 @@ const UserActivityDetail = (props) =>{
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
-                navigate('/adminActivityNoOpenRegisterComponent');
+                navigate('/activity');
             });
         } else {
             setState({
@@ -117,7 +117,7 @@ const UserActivityDetail = (props) =>{
                         },
                     });
                     
-                    console.log(response.data);
+                    if (response.data == "success") {
     
                     Swal.fire({
                         title: "ลงทะเบียนสำเร็จ",
@@ -126,6 +126,21 @@ const UserActivityDetail = (props) =>{
                     }).then(function() {
                         navigate("/activity");
                     });
+                } else if (response.data == "already-exits") {
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
+                        icon: "error",
+                        confirmButtonText: "กลับ",
+                    })
+                } else {
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
+                        icon: "error",
+                        confirmButtonText: "กลับ",
+                    })
+                }
                 } catch (error) {
                     console.error("Error registering activity:", error);
                     Swal.fire({
@@ -168,9 +183,11 @@ const UserActivityDetail = (props) =>{
                     </div>
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่เปิดลงทะเบียน</h5>
+                        {activities &&
                         <p className="textBody-medium colorPrimary-800" >
                             {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
                         </p>
+}
                     </div>
 
                     <div className="user-activity-vaccine_detail_container">

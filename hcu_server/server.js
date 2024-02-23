@@ -174,10 +174,10 @@ const selectedDate = {
     dayName: day,
 };
 dateUpdate();
-fetchUserDataWithAppointments();
-updateAppointmentsStatus();
-fetchAvailableActivities();
-CloseAvailableActivities();
+// fetchUserDataWithAppointments();
+// updateAppointmentsStatus();
+// fetchAvailableActivities();
+// CloseAvailableActivities();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

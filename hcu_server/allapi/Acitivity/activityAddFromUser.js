@@ -1,5 +1,5 @@
 const express = require('express');
-const { collection,addDoc,doc,updateDoc,arrayUnion} = require('firebase/firestore');
+const { collection,addDoc,doc,updateDoc,arrayUnion,getDoc} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
 
@@ -15,19 +15,34 @@ router.post('/addUserActivity', async (req, res) => {
         const appointmentInfo = req.body;
         appointmentInfo.timeSlots = JSON.parse(appointmentInfo.timeSlots)
         console.log(appointmentInfo);
-        const appointmentRef = await addDoc(collection(db, 'userActivity'), appointmentInfo);
+        
         const userDocRef = doc(db, 'users', appointmentInfo.userData.userID);
         const activitiesDocRef = doc(db, 'activities', appointmentInfo.activityId);
 
-        await updateDoc(activitiesDocRef, {
-            userActivity: arrayUnion(appointmentInfo.userData),
-        });
+        const userDoc = doc(db, 'users', appointmentInfo.userData.userID);
+        const querySnapshot = await getDoc(userDoc);
 
-        await updateDoc(userDocRef, {
-            userActivity: arrayUnion(appointmentInfo.activityId),
-        });
+        if (querySnapshot.exists()) {
+            const userData = querySnapshot.data();
+            if (userData.userActivity && userData.userActivity.includes(appointmentInfo.activityId)) {
+                console.log("Activity already exists for this user.");
+                res.json("already-exits");
+                return;
+            } else {
+                const appointmentRef = await addDoc(collection(db, 'userActivity'), appointmentInfo);
+                await updateDoc(activitiesDocRef, {
+                    userActivity: arrayUnion(appointmentInfo.userData),
+                });
         
-        res.json(appointmentRef);
+                await updateDoc(userDocRef, {
+                    userActivity: arrayUnion(appointmentInfo.activityId),
+                });
+                console.log("Activity does not exist for this user.");
+                res.json("success");
+            }
+        } 
+        
+       
     } catch (error) {
         console.error(`Error fetching data: ${error}`);
         res.status(500).json({ error: 'Internal server error' });
