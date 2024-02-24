@@ -461,8 +461,8 @@ const formatDateForDisplay = (isoDate) => {
       nextThreeMonths.setMonth(today.getMonth() + 3);
       const tomorrow = new Date();
       tomorrow.setDate(today.getDate() + 1); 
-      
-      
+
+
     return (
         <div className="user">
             <div style={{display:"none"}}>
@@ -493,8 +493,10 @@ const formatDateForDisplay = (isoDate) => {
                     <input
                         type="date"
                         className="form-control"
+                        
                         min={tomorrow.toISOString().split('T')[0]} 
-                        max={nextThreeMonths.toISOString().split('T')[0]} 
+                        max={nextThreeMonths.toISOString().split('T')[0] } 
+                        
                         onChange={(e) => {
                             inputValue("appointmentDate")(e);
                             const formattedDate = formatDateForDisplay(e.target.value);

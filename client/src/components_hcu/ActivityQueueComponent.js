@@ -169,6 +169,20 @@ const ActivityQueueComponent = (props) => {
     const day = today.toLocaleDateString(locale, { weekday: 'long' });
     const currentDate = `${day} ${month}/${date}/${year}`;
 
+    const statusElements = document.querySelectorAll('.admin-queue-activity-card-status');
+
+    function changeStatusTextColor(element) {
+        if (element.textContent.trim() === 'สําเร็จ') {
+            element.style.color = '#098B66';
+        }
+        else if (element.textContent.trim() === 'ไม่สําเร็จ') {
+            element.style.color = '#C11F1F';
+        }
+    }
+
+    statusElements.forEach(changeStatusTextColor);
+
+
 
     return (
 
@@ -193,25 +207,29 @@ const ActivityQueueComponent = (props) => {
             <div className="admin-activity-queue-flexbox-box colorPrimary-800">
                 <h2>กิจกรรม : {Queueactivities.activityName}</h2>
                 <h3>คิวปัจจุบัน</h3>
-                {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] && (
+                {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] ? (
                 <div className="center">
                 
                     <p style={{fontSize:"60px"}}>{Queueactivities.Queuelist[0].queue}</p>
                     <p className="admin-textBody-large">{Queueactivities.Queuelist[0].userID}</p>
                     <p className="admin-textBody-huge">{Queueactivities.Queuelist[0].firstName} {Queueactivities.Queuelist[0].lastName}</p>
                 </div>
-                )}
+                ):(<div className="center">
+                    <p style={{fontSize:"60px"}}>ไม่มีคิว</p>
+                    <p className="admin-textBody-large">รหัส: - </p>
+                    <p className="admin-textBody-huge">ชื่อ-นามสกุล: - </p>
+                </div>)}
                 <div className="admin-activity-queue-btn">
                     <button onClick={() => ShiftQueuePass(Queueactivities)} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
                     <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
                 </div>
-                <p className="admin-textBody-huge">คิวทั้งหมด</p>
+                <p className="admin-textBody-huge colorPrimary-800">คิวทั้งหมด</p>
                 {Queueactivities.Queuelist.map((queue,index) => 
                         <div className="admin-activity-queue-cards-all">
-                            <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ {index+1}</p></div>
+                            <div className="admin-activity-queue-cards colorPrimary-800"> 
+                                <div className="admin-activity-queue-card1"><p className="admin-textBody-small">ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2">
-                                    <p>รหัส : {queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
+                                    <p className="admin-textBody-huge">รหัส : {queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
                                   
                                 </div>
                             </div>
@@ -221,15 +239,15 @@ const ActivityQueueComponent = (props) => {
                     )}
                     {Queueactivities && Queueactivities.SuccessList && (
                     <div className="admin-activity-queue-flexbox-box">
-                        <h2 className="center" style={{marginTop:"15px"}}>ดำเนินการเสร็จสิ้น</h2>
+                        <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>ดำเนินการเสร็จสิ้น</h2>
                         
                         <div className="admin-activity-queue-cards-all1">
                         {Queueactivities.SuccessList.map((queue,index) => 
                             <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ {index+1}</p></div>
-                                <div className="admin-activity-queue-card2">
-                                    <p>{queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
-                                    <p style={{paddingRight:"10%"}}>{queue.status}</p>
+                                <div className="admin-activity-queue-card1 colorPrimary-800 admin-textBody-small"><p>ลำดับที่ {index+1}</p></div>
+                                <div className="admin-activity-queue-card2 colorPrimary-800">
+                                    <p className="admin-textBody-huge">{queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
+                                    <p style={{paddingRight:"10%"}} className="admin-queue-activity-card-status admin-textBody-small">{queue.status}</p>
  
                                 </div>
                             </div>
