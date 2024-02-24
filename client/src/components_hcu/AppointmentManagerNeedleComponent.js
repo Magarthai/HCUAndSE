@@ -69,6 +69,7 @@ const AppointmentManagerNeedleComponent = (props) => {
         uid: "",
         timeablelist: "",
         time: "",
+        time2: "",
         timelength: "",
         appointmentTime: "",
         typecheck: "",
@@ -89,7 +90,7 @@ const AppointmentManagerNeedleComponent = (props) => {
     })
 
     const {
-        appointmentDate, appointmentDates, appointmentId, appointmentCasue, appointmentSymptom,
+        time2,appointmentDate, appointmentDates, appointmentId, appointmentCasue, appointmentSymptom,
         appointmentNotation, clinic, uid, timeablelist, time, timelength, appointmentTime, appointmentTime1,
         appointmentTime2, appointmentTime3, appointmentTime4, appointmentTime5, appointmentTime6,
         appointmentTime7, appointmentTime8, appointmentTime9, appointmentTime10, appointmentDate1,
@@ -624,6 +625,10 @@ const AppointmentManagerNeedleComponent = (props) => {
     let notimeforthisday = 0;
 
     const submitFormAddContinue = async () => {
+        setState((prevState) => ({
+            ...prevState,
+            [`time2`]: time,
+        }));
         let x = document.getElementById("admin-add-appointment-connected2");
         let y = document.getElementById("admin-add-appointment-connected");
         if (window.getComputedStyle(x).display === "none") {
@@ -653,6 +658,36 @@ const AppointmentManagerNeedleComponent = (props) => {
                     console.log(selectedCount)
 
                 };
+                if (Number(time) <= 0) {
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        text: `กรอกจํานวนครั้งให้มากกว่า 0 ครั้ง!`,
+                        icon: 'warning',
+                        confirmButtonText: 'ย้อนกลับ',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                            cancelButton: 'custom-cancel-button',
+                        },
+                    })
+                    x.style.display = "none";
+                }
+                if (Number(timelength) <= 0) {
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        text: `กรอกระยะห่างวันให้มากกว่า 0 วัน!`,
+                        icon: 'warning',
+                        confirmButtonText: 'ย้อนกลับ',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                            cancelButton: 'custom-cancel-button',
+                        },
+                    })
+                    x.style.display = "none";
+                }
                 if (Number(time) > 10) {
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
@@ -908,10 +943,6 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         ...prevState,
                                         [`appointmentDate${i}`]: "",
                                     }));
-                                    setState((prevState) => ({
-                                        ...prevState,
-                                        [`appointmentTime${i}`]: "",
-                                    }));
                                 }
                             } else {
                                 console.log("Time table not found for selected day and clinic");
@@ -928,10 +959,6 @@ const AppointmentManagerNeedleComponent = (props) => {
                             setState((prevState) => ({
                                 ...prevState,
                                 [`appointmentDate${i}`]: "",
-                            }));
-                            setState((prevState) => ({
-                                ...prevState,
-                                [`appointmentTime${i}`]: "",
                             }));
                         }
                     };
@@ -1003,6 +1030,7 @@ const AppointmentManagerNeedleComponent = (props) => {
     };
 
     const submitFormAddContinue2 = async (e) => {
+        handleSelectChange();
         e.preventDefault();
         try {
             const usersCollection = collection(db, 'users');
@@ -1016,7 +1044,6 @@ const AppointmentManagerNeedleComponent = (props) => {
             } else {
                 console.log("No user found with the specified appointmentId");
             }
-            
             if (foundUser.role === "admin") {
                 Swal.fire({
                     icon: "error",                    
@@ -1027,7 +1054,9 @@ const AppointmentManagerNeedleComponent = (props) => {
                     customClass: {
                         confirmButton: 'custom-confirm-button',
                     }
-                })} else {
+                })
+            } else {
+            
             if (foundUser) {
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
@@ -1045,51 +1074,69 @@ const AppointmentManagerNeedleComponent = (props) => {
                 }).then( async(result) => {
                     if (result.isConfirmed) {
                         try {
+                            let check = 0
                             for (let i = 1; i <= time; i++) {
-                                if (state[`appointmentDate${i}`] != "" ) {
-                                console.log(time, "timesubmitFormAddContinue2")
-                                const updatedTimetable = {
-                                    appointmentDate: state[`appointmentDate${i}`],
-                                    appointmentTime: state[`appointmentTime${i}`],
-                                    appointmentId: appointmentId,
-                                    appointmentCasue: appointmentCasue,
-                                    appointmentSymptom: appointmentSymptom,
-                                    appointmentNotation: appointmentNotation,
-                                    clinic: "คลินิกฝังเข็ม",
-                                    status: "ลงทะเบียนแล้ว",
-                                    status2: "เสร็จสิ้น",
-                                    subject: "เพิ่มนัดหมาย",
-                                    type: "main",
-                                    appove: "",
-                                    appointmentSymptom2: "",
-                                    appointmentDate2: "",
-                                    postPone: "",
-                                    appointmentTime2: [],
-                                };
-            
-                                const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
-            
-                                const userDocRef = doc(db, 'users', userId);
-            
-                                await updateDoc(userDocRef, {
-                                    appointments: arrayUnion(appointmentRef.id),
+                                const variableName = `appointmentTime${i}`;
+                                console.log(variableName, state[variableName]);
+                                if(state[variableName] != "") {
+                                    check += 1
+                                }
+                                console.log(time2)
+                            } if (check == time2) {
+                                for (let i = 1; i <= time; i++) {
+                                    if (state[`appointmentDate${i}`] != "" ) {
+                                    console.log(time, "timesubmitFormAddContinue2")
+                                    const updatedTimetable = {
+                                        appointmentDate: state[`appointmentDate${i}`],
+                                        appointmentTime: state[`appointmentTime${i}`],
+                                        appointmentId: appointmentId,
+                                        appointmentCasue: appointmentCasue,
+                                        appointmentSymptom: appointmentSymptom,
+                                        appointmentNotation: appointmentNotation,
+                                        clinic: "คลินิกกายภาพ",
+                                        status: "ลงทะเบียนแล้ว",
+                                        type: "main",
+                                        status2: "เสร็จสิ้น",
+                                        subject: "เพิ่มนัดหมาย",
+                                    };
+                
+                                    const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
+                
+                                    const userDocRef = doc(db, 'users', userId);
+                
+                                    await updateDoc(userDocRef, {
+                                        appointments: arrayUnion(appointmentRef.id),
+                                    });
+                            }}
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "เกิดข้อผิดพลาด!",
+                                    text: "กรอกเวลาไม่ครบ!",
+                                    confirmButtonText: 'ตกลง',
+                                    confirmButtonColor: '#263A50',
+                                    customClass: {
+                                        confirmButton: 'custom-confirm-button',
+                                    }
+                                });
+                                return;
+                            }
+                            
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "การนัดหมายสำเร็จ!",
+                                    text: "การนัดหมายถูกสร้างเรียบร้อยแล้ว!",
+                                    confirmButtonText: 'ตกลง',
+                                    confirmButtonColor: '#263A50',
+                                    customClass: {
+                                        confirmButton: 'custom-confirm-button',
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        resetForm();
+                                    }
                                 });
                             
-                        }}
-                        Swal.fire({
-                            icon: "success",
-                            title: "การนัดหมายสำเร็จ!",
-                            text: "การนัดหมายถูกสร้างเรียบร้อยแล้ว!",
-                            confirmButtonText: 'ตกลง',
-                            confirmButtonColor: '#263A50',
-                            customClass: {
-                                confirmButton: 'custom-confirm-button',
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                resetForm();
-                            }
-                        });
                         } catch(firebaseError) {
                             Swal.fire(
                                 {
@@ -1146,7 +1193,7 @@ const AppointmentManagerNeedleComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ไม่สามารถสร้างนัดหมายต่อเนื่องได้ กรุณาลองอีกครั้งในภายหลัง",
+                text: "ไม่พบรหัสนักศึกษา กรุณาลองอีกครั้งในภายหลัง",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
