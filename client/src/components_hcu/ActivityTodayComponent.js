@@ -65,7 +65,7 @@ const ActivityTodayComponent = (props) => {
             try {
                 const todayActivity = await fetchTodayActivity(user, checkCurrentDate);
                 const initialIsChecked = todayActivity.reduce((acc, timetableItem) => {
-                    acc[timetableItem.id] = timetableItem.queenStatus === "open";
+                    acc[timetableItem.id] = timetableItem.queueStatus === "open";
                     return acc;
                 }, {});
                 setIsChecked(initialIsChecked);
@@ -112,7 +112,7 @@ const ActivityTodayComponent = (props) => {
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
             const docRef = doc(db, 'activities', id);
-            updateDoc(docRef, { queenStatus: updatedStatus ? "open" : "close" }).catch(error => {
+            updateDoc(docRef, { queueStatus: updatedStatus ? "open" : "close" }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
 
@@ -161,7 +161,7 @@ const ActivityTodayComponent = (props) => {
                                     <div className="admin-activity-today-hearder-box">
                                         <h2 className="colorPrimary-800">กิจกรรม : {activities.activityName}</h2>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueenDate)}
+                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
                                 </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                 {activities.timeSlots

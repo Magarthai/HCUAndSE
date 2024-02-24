@@ -8,40 +8,32 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const locale = 'en';
 const today = new Date();
-const month = today.getMonth() + 1;
-const year = today.getFullYear();
-const date = today.getDate();
-const day = today.toLocaleDateString(locale, { weekday: 'long' });
-const currentDate = `${day} ${month}/${date}/${year}`;
-const selectedDate = {
-    day: date,
-    month: month,
-    year: year,
-    dayName: day,
-};
+today.setHours(0, 0, 0, 0); 
 
 
-const fetchAvailableActivities = async () => {
+const CloseAvailableActivities = async () => {
     try {
         const activitiesCollection = collection(db, 'activities');
-        const activitiesCollectionSnapshot = await getDocs(query(activitiesCollection, where('activityStatus', '==', 'close')));
+        const activitiesCollectionSnapshot = await getDocs(query(activitiesCollection, where('activityStatus', '==', 'open')));
         const activitiesToday = activitiesCollectionSnapshot.docs.map((doc) => {
             const activitiesData = doc.data();
+            const closeDate = new Date(activitiesData.endQueueDate);
+            closeDate.setHours(0, 0, 0, 0); 
             return {
                 activitiesId: doc.id,
-                openDateFormat: new Date(activitiesData.openQueenDate),
-                closeDateFormat: new Date(activitiesData.endQueenDate),
+                openDateFormat: new Date(activitiesData.openQueueDate),
+                closeDateFormat: closeDate,
                 ...activitiesData,
             };
         });
         if (activitiesToday.length > 0) {
-            const filteredActivities = activitiesToday.filter(activity => activity.openDateFormat <= today);
+            const filteredActivities = activitiesToday.filter(activity => activity.closeDateFormat < today);
             if (filteredActivities.length > 0) {
                 await Promise.all(filteredActivities.map(async (activity) => {
                     try {
                         const activityRef = doc(db, 'activities', activity.activitiesId);
-                        await updateDoc(activityRef, { activityStatus: "open" });
-                        console.log(`updated activity : ${activity.activityName}`)
+                        await updateDoc(activityRef, { activityStatus: "close" });
+                        console.log(`updated activity : ${activity.activityName} to close`)
                     } catch (error) {
                         console.log('something went wrong : ', error)
                     }
@@ -50,14 +42,14 @@ const fetchAvailableActivities = async () => {
                 console.log('There are no activity updated')
             };
         } else {
-            console.log('No any activity closed')
+            console.log('No any activity opening')
         }
         return activitiesToday
     } catch (error) {
         console.log(`fetch activities error : `, error)
     } finally {
-        setTimeout(fetchAvailableActivities, 600000);
+        setTimeout(CloseAvailableActivities, 600000);
     }
 };
 
-module.exports = fetchAvailableActivities;
+module.exports = CloseAvailableActivities;

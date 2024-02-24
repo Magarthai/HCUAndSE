@@ -2,6 +2,7 @@ const express = require('express');
 const { collection,addDoc,doc,updateDoc,arrayUnion,getDoc} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
+const { runTransaction } = require('firebase/firestore');
 
 const firebaseConfig = require('../../firebase');
 const firebaseApp = initializeApp(firebaseConfig);
@@ -29,14 +30,24 @@ router.post('/addUserActivity', async (req, res) => {
                 res.json("already-exits");
                 return;
             } else {
-                const appointmentRef = await addDoc(collection(db, 'userActivity'), appointmentInfo);
-                await updateDoc(activitiesDocRef, {
-                    userActivity: arrayUnion(appointmentInfo.userData),
+                await runTransaction(db, async (transaction) => {
+                    // ดึงข้อมูลจาก Firestore
+                    const docSnapshot = await transaction.get(activitiesDocRef);
+                    const existingData = docSnapshot.data();
+                
+                    // อัพเดตข้อมูล
+                    existingData.timeSlots[appointmentInfo.timeSlots.index].userList.push(appointmentInfo.userData.userID);
+
+                    transaction.update(activitiesDocRef, {
+                        timeSlots: existingData.timeSlots
+                    });
                 });
-        
+                
+
                 await updateDoc(userDocRef, {
                     userActivity: arrayUnion(appointmentInfo.activityId),
                 });
+                
                 console.log("Activity does not exist for this user.");
                 res.json("success");
             }

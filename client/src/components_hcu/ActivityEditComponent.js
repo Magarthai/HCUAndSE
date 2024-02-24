@@ -21,17 +21,17 @@ const ActivityEditComponent = (props) => {
         activityName: "",
         activityDetail: "",
         activityType: "",
-        endQueenDate: "",
+        endQueueDate: "",
         id: "",
         imageURL: "",
-        openQueenDate: "",
+        openQueueDate: "",
         timeSlots: "",
         totalRegisteredCount: "",
     });
     const checkCurrentDate = getCurrentDate();
     const location = useLocation();
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
+    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
 
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
@@ -68,11 +68,11 @@ const ActivityEditComponent = (props) => {
                 activityName: activities.activityName || "",
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
-                endQueenDate: activities.endQueenDate || "",
+                endQueueDate: activities.endQueueDate || "",
                 id: activities.id || "",
                 imageURL: activities.imageURL || "",
-                openQueenDate: activities.openQueenDate || "",
-                queenStatus: activities.queenStatus || "",
+                openQueueDate: activities.openQueueDate || "",
+                queueStatus: activities.queueStatus || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -173,12 +173,12 @@ const ActivityEditComponent = (props) => {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
-                    openQueenDate: openQueenDate,
-                    endQueenDate: endQueenDate,
+                    openQueueDate: openQueueDate,
+                    endQueueDate: endQueueDate,
                     timeSlots: timeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: downloadURL,
-                    queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
               
@@ -231,12 +231,12 @@ const ActivityEditComponent = (props) => {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
-                    openQueenDate: openQueenDate,
-                    endQueenDate: endQueenDate,
+                    openQueueDate: openQueueDate,
+                    endQueueDate: endQueueDate,
                     timeSlots: timeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: imageURL,
-                    queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                     };
 
@@ -310,12 +310,12 @@ const ActivityEditComponent = (props) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
@@ -481,9 +481,9 @@ const ActivityEditComponent = (props) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("openQueenDate")(e);
+                                                    inputValue("openQueueDate")(e);
                                                 }}
-                                                value={openQueenDate}
+                                                value={openQueueDate}
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
                                             <input
@@ -491,9 +491,9 @@ const ActivityEditComponent = (props) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("endQueenDate")(e);
+                                                    inputValue("endQueueDate")(e);
                                                 }}
-                                                value={endQueenDate}
+                                                value={endQueueDate}
                                             />
                                         </div>
                                         <div>

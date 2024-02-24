@@ -15,18 +15,18 @@ const ActivityDetail = (props) =>{
         activityName: "",
         activityDetail: "",
         activityType: "",
-        endQueenDate: "",
+        endQueueDate: "",
         id: "",
         imageURL: "",
-        openQueenDate: "",
-        queenStatus: "",
+        openQueueDate: "",
+        queueStatus: "",
     });
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
+    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -49,11 +49,11 @@ const ActivityDetail = (props) =>{
                 activityName: activities.activityName || "",
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
-                endQueenDate: activities.endQueenDate || "",
+                endQueueDate: activities.endQueueDate || "",
                 id: activities.id || "",
                 imageURL: activities.imageURL || "",
-                openQueenDate: activities.openQueenDate || "",
-                queenStatus: activities.queenStatus || "",
+                openQueueDate: activities.openQueueDate || "",
+                queueStatus: activities.queueStatus || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -82,7 +82,7 @@ const ActivityDetail = (props) =>{
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่เปิดลงทะเบียน</h5>
                         <p className="textBody-medium colorPrimary-800" >
-                            {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
+                            {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}
                         </p>
                     </div>
 

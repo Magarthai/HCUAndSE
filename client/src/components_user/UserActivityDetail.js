@@ -15,10 +15,10 @@ const UserActivityDetail = (props) =>{
         activityName: "",
         activityDetail: "",
         activityType: "",
-        endQueenDate: "",
+        endQueueDate: "",
         imageURL: "",
-        openQueenDate: "",
-        queenStatus: "",
+        openQueueDate: "",
+        queueStatus: "",
         activityId: "",
     });
     const [timeSlots, setTimeSlots] = useState([
@@ -26,7 +26,7 @@ const UserActivityDetail = (props) =>{
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueenDate, imageURL, openQueenDate,activityId } = state
+    const { activityName, activityDetail, activityType, endQueueDate, imageURL, openQueueDate,activityId } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -48,17 +48,16 @@ const UserActivityDetail = (props) =>{
                 activityName: activities.activityName || "",
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
-                endQueenDate: activities.endQueenDate || "",
+                endQueueDate: activities.endQueueDate || "",
                 activityId: activities.activityId || "",
                 imageURL: activities.imageURL || "",
-                openQueenDate: activities.openQueenDate || "",
-                queenStatus: activities.queenStatus || "",
+                openQueueDate: activities.openQueueDate || "",
+                queueStatus: activities.queueStatus || "",
             });
             setImgSrc(activities.imageURL);
             const updatedTimeSlots = activities.timeSlots.map((slot, index) => ({
                 ...slot,
                 index: index ,
-                activityId: activityId || "",
             }));
             setTimeSlots(updatedTimeSlots);
             console.log(activities, "activities");
@@ -185,7 +184,7 @@ const UserActivityDetail = (props) =>{
                         <h5>วันที่เปิดลงทะเบียน</h5>
                         {activities &&
                         <p className="textBody-medium colorPrimary-800" >
-                            {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
+                            {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}
                         </p>
 }
                     </div>

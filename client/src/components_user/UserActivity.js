@@ -13,7 +13,9 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 const UserActivity = (props) => {
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
+    const [isCheckedQueueActivity, setIsCheckedQueueActivity] = useState(false);
     const [activities, setActivities] = useState([]);
+    const [Queueactivities, setQueueActivities] = useState([]);
     const checkCurrentDate = getCurrentDate();
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -36,6 +38,20 @@ const UserActivity = (props) => {
                 console.log(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+            }
+        }
+    };
+
+    const fetchOpenQueueActivityAndSetState = async () => {
+        if (!isCheckedActivity) {
+            try {
+                const response = await axios.post('http://localhost:5000/api/fetchOpenQueueTodayActivity', userData, {
+                        activity: userData.userActivity
+                    });
+                setQueueActivities(response.data);
+                console.log("fetchOpenQueueActivityAndSetState",response.data);
+            } catch (error) {
+                console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
             }
         }
     };
@@ -72,14 +88,21 @@ const UserActivity = (props) => {
     }
     useEffect(() => {
         document.title = 'Health Care Unit';
-        console.log(user);
-        console.log(userData);
+        console.log(user,"user");
+        if (user) {
+        console.log("userData",userData);
+        
+        }
 
         if (!isCheckedActivity) {
             fetchOpenActivityAndSetState();
+            
+        }
+        if (userData) {
+            fetchOpenQueueActivityAndSetState();
         }
 
-    }, [user, isCheckedActivity]);
+    }, [user, userData,isCheckedActivity]);
     useEffect(() => {
         console.log("todayActivity", activities);
     }, [activities]);
@@ -117,7 +140,7 @@ const UserActivity = (props) => {
                                 activities.map((activities, index) => (
                                     <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
                                         <h4>{activities.activityName}</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
                                                 <div>

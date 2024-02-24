@@ -53,7 +53,7 @@ export const fetchUserAllActivity = async (user, checkCurrentDate) => {
 
             const querySnapshot = await getDocs(query(
                 activitiesCollection,
-                where('openQueenDate', '<=', checkCurrentDate),
+                where('openQueueDate', '<=', checkCurrentDate),
             ));
 
             const activitiesData = querySnapshot.docs

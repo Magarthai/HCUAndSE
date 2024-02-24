@@ -9,8 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const firebaseConfig = require('./firebase');
-const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueen');
-const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueen');
+const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
+const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
+const QueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityOpenQueueToday');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const dataRoute = require('./allapi/dataRoute');
@@ -19,6 +20,7 @@ const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
+app.use('/api', QueueTodayAvailableActivities);
 let AppointmentUsersData = [];
 
 
@@ -174,10 +176,10 @@ const selectedDate = {
     dayName: day,
 };
 dateUpdate();
-// fetchUserDataWithAppointments();
-// updateAppointmentsStatus();
-// fetchAvailableActivities();
-// CloseAvailableActivities();
+fetchUserDataWithAppointments();
+updateAppointmentsStatus();
+fetchAvailableActivities();
+CloseAvailableActivities();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

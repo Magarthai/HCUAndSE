@@ -21,10 +21,10 @@ const ActivityEditOpenRegistartComponent = (props) => {
         activityName: "",
         activityDetail: "",
         activityType: "",
-        endQueenDate: "",
+        endQueueDate: "",
         id: "",
         imageURL: "",
-        openQueenDate: "",
+        openQueueDate: "",
         timeSlots: "",
         totalRegisteredCount: "",
     });
@@ -32,7 +32,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
     const location = useLocation();
     const [lengthTimeslot, setlengthTimeslot] = useState();
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
+    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
 
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
@@ -68,11 +68,11 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 activityName: activities.activityName || "",
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
-                endQueenDate: activities.endQueenDate || "",
+                endQueueDate: activities.endQueueDate || "",
                 id: activities.id || "",
                 imageURL: activities.imageURL || "",
-                openQueenDate: activities.openQueenDate || "",
-                queenStatus: activities.queenStatus || "",
+                openQueueDate: activities.openQueueDate || "",
+                queueStatus: activities.queueStatus || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -175,12 +175,12 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
-                    openQueenDate: openQueenDate,
-                    endQueenDate: endQueenDate,
+                    openQueueDate: openQueueDate,
+                    endQueueDate: endQueueDate,
                     timeSlots: timeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: downloadURL,
-                    queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
               
@@ -233,12 +233,12 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
-                    openQueenDate: openQueenDate,
-                    endQueenDate: endQueenDate,
+                    openQueueDate: openQueueDate,
+                    endQueueDate: endQueueDate,
                     timeSlots: timeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: imageURL,
-                    queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+                    queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
 
@@ -526,9 +526,9 @@ const ActivityEditOpenRegistartComponent = (props) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("openQueenDate")(e);
+                                                    inputValue("openQueueDate")(e);
                                                 }}
-                                                value={openQueenDate}
+                                                value={openQueueDate}
                                                 disabled
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
@@ -537,9 +537,9 @@ const ActivityEditOpenRegistartComponent = (props) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("endQueenDate")(e);
+                                                    inputValue("endQueueDate")(e);
                                                 }}
-                                                value={endQueenDate}
+                                                value={endQueueDate}
                                             />
                                         </div>
                                         <div>

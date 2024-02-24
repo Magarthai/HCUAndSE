@@ -20,8 +20,8 @@ const ActivityAddComponent = (props) => {
         activityName: "",
         activityDetail: "",
         activityType: "yes",
-        openQueenDate: "",
-        endQueenDate: "",
+        openQueueDate: "",
+        endQueueDate: "",
     });
     
     const inputValue = (name) => (event) => {
@@ -36,14 +36,14 @@ const ActivityAddComponent = (props) => {
               text: 'Activity detail should not exceed 10 MB',
             });
           }
-        } else if (name === 'openQueenDate') {
-            // Handle openQueenDate
+        } else if (name === 'openQueueDate') {
+
             setState({ ...state, [name]: event.target.value });
-        } else if (name === 'endQueenDate') {
-            // Handle endQueenDate
-            const openQueenDate = state.openQueenDate;
+        } else if (name === 'enQueueDate') {
+
+            const openQueueDate = state.openQueueDate;
     
-            if (event.target.value < openQueenDate) {
+            if (event.target.value < openQueueDate) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Invalid Date',
@@ -62,13 +62,13 @@ const ActivityAddComponent = (props) => {
     
 
     
-    const { activityName, activityDetail, activityType, openQueenDate , endQueenDate } = state;
+    const { activityName, activityDetail, activityType, openQueueDate , endQueueDate } = state;
 
     const handleRadioChange = inputValue('activityType');
 
     useEffect(() => {
-        console.log(openQueenDate);
-    }, [openQueenDate]);
+        console.log(openQueueDate);
+    }, [openQueueDate]);
 
 
     useEffect(() => {
@@ -170,12 +170,12 @@ const submitForm = async (e) => {
         activityName: activityName,
         activityDetail: activityDetail,
         activityType: activityType,
-        openQueenDate: openQueenDate,
-        endQueenDate: endQueenDate,
+        openQueueDate: openQueueDate,
+        endQueueDate: endQueueDate,
         timeSlots: timeSlots,
         totalRegisteredCount: totalRegisteredCount,
         imageURL: downloadURL,
-        queenStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+        QueueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
         activityStatus: activityStatusForCurrentDate ? "open" : "close",
         };
 
@@ -209,7 +209,7 @@ const submitForm = async (e) => {
               confirmButton: 'custom-confirm-button',
             },
           });
-          navigate('/adminActivityAllComponent')
+        //   navigate('/adminActivityAllComponent')
         } else {
           Swal.fire({
             title: 'สร้างไม่สําเร็จ',
@@ -262,12 +262,12 @@ const submitForm = async (e) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : []}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queenOpen: "no", queenCount: 0}]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],userList : []}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
@@ -441,7 +441,7 @@ const submitForm = async (e) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("openQueenDate")(e);
+                                                    inputValue("openQueueDate")(e);
                                                 }}
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
@@ -450,7 +450,7 @@ const submitForm = async (e) => {
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
                                                 onChange={(e) => {
-                                                    inputValue("endQueenDate")(e);
+                                                    inputValue("endQueueDate")(e);
                                                 }}
                                             />
                                         </div>
@@ -485,7 +485,7 @@ const submitForm = async (e) => {
                                     value="เพิ่มกิจกรรม" 
                                     className="btn-primary btn-systrm" 
                                     target="_parent" 
-                                    disabled={openQueenDate === "" || endQueenDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "" || slot.openQueenDate === "" || slot.endQueenDate === "")}
+                                    disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}
                                 />
                             </div>
                         </div>
