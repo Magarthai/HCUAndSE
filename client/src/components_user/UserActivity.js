@@ -33,7 +33,7 @@ const UserActivity = (props) => {
     const fetchOpenActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.get('http://192.168.2.37:5000/api/fetchOpenActivity');
+                const response = await axios.get('http://localhost:5000/api/fetchOpenActivity');
                 setActivities(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -45,7 +45,7 @@ const UserActivity = (props) => {
     const fetchOpenQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post('http://192.168.2.37:5000/api/fetchOpenQueueTodayActivity', userData, {
+                const response = await axios.post('http://localhost:5000/api/fetchOpenQueueTodayActivity', userData, {
                         activity: userData.userActivity
                     });
                 setQueueActivities(response.data);
@@ -81,7 +81,7 @@ const UserActivity = (props) => {
                     icon: "success",
                     confirmButtonText: "ตกลง",
                 }).then(function () {
-                    navigate("/queue");
+                    window.location = "http://localhost:3000/queue";
                 });
             }
         })
@@ -165,10 +165,11 @@ const UserActivity = (props) => {
                             <h4>ลงทะเบียนแล้ว</h4>
                         </label>
                         <div className="user-Activity_tab_all_content">
+                        {Queueactivities && Queueactivities.length > 0 ? (
                             <div className="user-Activity_card_registed_container gap-16">
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่ 2567</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: 14/12/2023 - 16/12/2023</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: 20/12/2023</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  10:01 - 10:06</p>
                                 </div>
@@ -177,7 +178,7 @@ const UserActivity = (props) => {
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
                             </div>
-
+                        ) : (
                             <div className="user-Activity_card_registed_container gap-16">
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4>โครงการฉีดวัคชีนไข้หวัดใหญ่</h4>
@@ -191,7 +192,7 @@ const UserActivity = (props) => {
                                 </button>
                             </div>
 
-
+                        )}
                         </div>
                     </div>
                 </div>

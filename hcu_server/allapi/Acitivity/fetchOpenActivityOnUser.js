@@ -12,7 +12,6 @@ const router = express.Router();
 router.get('/fetchOpenActivity', async (req,res) => {
     try {
         const activitiesCollection = collection(db, 'activities');
-
         const querySnapshot = await getDocs(query(
             activitiesCollection,
             where('activityStatus', '==', 'open'),

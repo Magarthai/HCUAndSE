@@ -20,23 +20,23 @@ function isSameDay(date1, date2) {
 router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
     try {
         const userInfo = req.body;
-        const userActivityList = userInfo.userActivity
-        const promises = userActivityList.map(id => getDoc(doc(db, 'activities', id)));
+        const userActivityList = userInfo.userActivity;
+        console.log(userActivityList);
+        const promises = userActivityList.map(activity => getDoc(doc(db, 'activities', activity.activityId)));
         const activityDocs = await Promise.all(promises);
-
         const formattedDocs = activityDocs.map(docSnapshot => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
                 data.timeSlots = JSON.stringify(data.timeSlots)
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots)
-                let hasMatch = false; // สร้างตัวแปรเพื่อตรวจสอบว่ามีวันที่ตรงกับวันปัจจุบันหรือไม่
-                for (const timeSlot of data.timeSlots) { // วนลูปเช็คทุก index ใน timeSlots
+                let hasMatch = false;
+                for (const timeSlot of data.timeSlots) { 
                     console.log(timeSlot.date);
                     const activityDate = new Date(timeSlot.date);
                     if (data.activityType === "yes" && isSameDay(activityDate, today)) {
-                        hasMatch = true; // ถ้าพบวันที่ตรงกับวันปัจจุบันให้กำหนดให้ hasMatch เป็น true
-                        break; // ออกจากลูปเมื่อพบวันที่ตรงกับวันปัจจุบัน
+                        hasMatch = true; 
+                        break; 
                     }
                 }
                 if (hasMatch) {
@@ -48,9 +48,6 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 return null; 
             }
         }).filter(doc => doc !== null);
-        
-        
-
         if (formattedDocs.length > 0) {
 
             console.log(`user have ${formattedDocs.length} activity`)

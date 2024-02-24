@@ -5,6 +5,8 @@ const { getFirestore } = require('firebase/firestore');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -22,8 +24,6 @@ app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
 let AppointmentUsersData = [];
-
-
 
 const fetchUserDataWithAppointments = async () => {
     try {
@@ -175,14 +175,15 @@ const selectedDate = {
     year: year,
     dayName: day,
 };
+
+
 dateUpdate();
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
 fetchAvailableActivities();
 CloseAvailableActivities();
 const PORT = process.env.PORT || 5000;
-const IPV4_ADDRESS = '192.168.2.37';
-app.listen(PORT, IPV4_ADDRESS, () => {
-    console.log(`Server is running on http://${IPV4_ADDRESS}:${PORT}`);
-  });
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
