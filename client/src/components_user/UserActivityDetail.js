@@ -5,8 +5,7 @@ import activity1 from "../picture/activity1.png";
 import Swal from "sweetalert2";
 import NavbarUserComponent from './NavbarComponent';
 import { useUserAuth } from "../context/UserAuthContext";
-import { json, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 const UserActivityDetail = (props) =>{
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -15,18 +14,18 @@ const UserActivityDetail = (props) =>{
         activityName: "",
         activityDetail: "",
         activityType: "",
-        endQueueDate: "",
+        endQueenDate: "",
+        id: "",
         imageURL: "",
-        openQueueDate: "",
-        queueStatus: "",
-        activityId: "",
+        openQueenDate: "",
+        queenStatus: "",
     });
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueueDate, imageURL, openQueueDate,activityId } = state
+    const { activityName, activityDetail, activityType, endQueenDate, id, imageURL, openQueenDate } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -38,52 +37,30 @@ const UserActivityDetail = (props) =>{
                 text: 'ไม่มีข้อมูลกิจกรรม',
                 confirmButtonColor: '#263A50',
                 customClass: {
+
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
-                navigate('/activity');
+                navigate('/adminActivityNoOpenRegisterComponent');
             });
         } else {
             setState({
                 activityName: activities.activityName || "",
                 activityDetail: activities.activityDetail || "",
                 activityType: activities.activityType || "",
-                endQueueDate: activities.endQueueDate || "",
-                activityId: activities.activityId || "",
+                endQueenDate: activities.endQueenDate || "",
+                id: activities.id || "",
                 imageURL: activities.imageURL || "",
-                openQueueDate: activities.openQueueDate || "",
-                queueStatus: activities.queueStatus || "",
+                openQueenDate: activities.openQueenDate || "",
+                queenStatus: activities.queenStatus || "",
             });
-            setImgSrc(activities.imageURL);
-            const updatedTimeSlots = activities.timeSlots.map((slot, index) => ({
-                ...slot,
-                index: index ,
-            }));
-            setTimeSlots(updatedTimeSlots);
-            console.log(activities, "activities");
-            console.log(timeSlots, "timeSlots");
+            setTimeSlots(activities.timeSlots)
+            setImgSrc(activities.imageURL)
+            console.log(activities, "activities")
         }
     }, [user]);
-    
-    const UserActivityRegister = async (e) => {
-        e.preventDefault();
-        console.log(selectedValue)
-        const selectedSlot = e.target.value;
-        const appointmentInfo = {
-            activityName: activities.activityName || "",
-            activityId: activities.activityId || "",
-            timeSlots: selectedValue,
-            userData: {
-                userID:userData.userID,
-                id:userData.id,
-                email:userData.email,
-                tel:userData.tel,
-                firstName:userData.firstName,
-                lastName:userData.lastName,
-                gender:userData.gender,
-                userLineID:userData.userLineID,
-            },
-        };
+
+    const UserActivityRegister = () => {
         Swal.fire({
             title: "ลงทะเบียน",
             html: "โครงการฉีดวัคซีนไข้หวัดใหญ่ตามฤดูกาล 2566<br>วันที่ 20/12/2023 (09.00-12.00)",
@@ -92,79 +69,18 @@ const UserActivityDetail = (props) =>{
             confirmButtonText: "ลงทะเบียน",
             cancelButtonText: "ยกเลิก",
             reverseButtons: true
-            
-        }).then(async(result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                console.log(appointmentInfo)
-                try {
-                    const response = await axios.post('http://localhost:5000/api/addUserActivity', appointmentInfo, {
-                        activityName: activities.activityName || "",
-                        id: activities.id || "",
-                        timeSlots: selectedValue,
-                        activityName: activities.activityName || "",
-                        activityId: activities.activityId || "",
-                        timeSlots: selectedValue,
-                        userData: {
-                            userID:userData.userID,
-                            id:userData.id,
-                            email:userData.email,
-                            tel:userData.tel,
-                            firstName:userData.firstName,
-                            lastName:userData.lastName,
-                            gender:userData.gender,
-                            userLineID:userData.userLineID,
-                        },
-                    });
-                    
-                    if (response.data == "success") {
-    
-                    Swal.fire({
-                        title: "ลงทะเบียนสำเร็จ",
-                        icon: "success",
-                        confirmButtonText: "กลับ",
-                    }).then(function() {
-                        navigate("/activity");
-                    });
-                } else if (response.data == "already-exits") {
-                    Swal.fire({
-                        title: "เกิดข้อผิดพลาด",
-                        text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
-                        icon: "error",
-                        confirmButtonText: "กลับ",
-                    })
-                    return;
-                } else if (response.data == "already-full") {
-                    Swal.fire({
-                        title: "เกิดข้อผิดพลาด",
-                        text: "กิจกรรมนี้ผู้เข้าร่วมเต็มแล้ว",
-                        icon: "error",
-                        confirmButtonText: "กลับ",
-                    })
-                    return;
-                }
-                else {
-                    Swal.fire({
-                        title: "เกิดข้อผิดพลาด",
-                        text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
-                        icon: "error",
-                        confirmButtonText: "กลับ",
-                    })
-                    return;
-                }
-                } catch (error) {
-                    console.error("Error registering activity:", error);
-                    Swal.fire({
-                        title: "เกิดข้อผิดพลาด",
-                        text: "ไม่สามารถลงทะเบียนกิจกรรมได้",
-                        icon: "error",
-                        confirmButtonText: "ตกลง"
-                    });
-                }
+            Swal.fire({
+                title: "ลงทะเบียนสำเร็จ",
+                icon: "success",
+                confirmButtonText: "กลับ",
+            }).then(function() {
+                navigate("/activity");
+            });
             }
-        });
+        })
     }
-    
-    const [selectedValue, setSelectedValue] = useState([]);
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
@@ -183,7 +99,7 @@ const UserActivityDetail = (props) =>{
             </header>
 
             <div className="user-body" id="user-event-body">
-                <div className="center">
+                <div>
                     <img  className="user-activity-vaccine_image" alt="" src={imgSrc}/>
                 </div>
 
@@ -193,11 +109,9 @@ const UserActivityDetail = (props) =>{
                     </div>
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่เปิดลงทะเบียน</h5>
-                        {activities &&
                         <p className="textBody-medium colorPrimary-800" >
-                            {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}
+                            {formatDate(activities.openQueenDate)} - {formatDate(activities.endQueenDate)}
                         </p>
-}
                     </div>
 
                     <div className="user-activity-vaccine_detail_container">
@@ -210,20 +124,13 @@ const UserActivityDetail = (props) =>{
 
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่</h5>
-                        <select 
-                            onChange={(e) => {
-                                setSelectedValue(e.target.value);
-                                console.log(e.target.value);
-                            }}
-                            className="user-activity-vaccine_date"
-                        >
+                        <select className="user-activity-vaccine_date">
                         <option hidden>กรุณาเลือกช่วงเวลา</option>
-                        {timeSlots.map((slot) => (
-                            <option key={slot.id} value={JSON.stringify(slot)}>
+                        {timeSlots.map((slot, index) => (
+                            <option key={index} value={index}>
                                 {`${slot.date} (${slot.startTime}-${slot.endTime})`}
                             </option>
                         ))}
-
                     </select>
                     </div>
                     <div className="user-activity-vaccine_button_container">

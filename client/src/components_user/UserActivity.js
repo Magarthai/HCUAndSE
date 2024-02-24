@@ -33,7 +33,7 @@ const UserActivity = (props) => {
     const fetchOpenActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.get('http://localhost:5000/api/fetchOpenActivity');
+                const response = await axios.get('http://192.168.2.37:5000/api/fetchOpenActivity');
                 setActivities(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -45,7 +45,7 @@ const UserActivity = (props) => {
     const fetchOpenQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post('http://localhost:5000/api/fetchOpenQueueTodayActivity', userData, {
+                const response = await axios.post('http://192.168.2.37:5000/api/fetchOpenQueueTodayActivity', userData, {
                         activity: userData.userActivity
                     });
                 setQueueActivities(response.data);
@@ -81,7 +81,7 @@ const UserActivity = (props) => {
                     icon: "success",
                     confirmButtonText: "ตกลง",
                 }).then(function () {
-                    window.location = "http://localhost:3000/queue";
+                    navigate("/queue");
                 });
             }
         })
