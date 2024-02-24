@@ -45,6 +45,7 @@ const ActivityQueueComponent = (props) => {
         document.title = 'Health Care Unit';
         console.log(user);
         console.log(userData)
+        
         const responsivescreen = () => {
         const innerWidth = window.innerWidth;
         const baseWidth = 1920;
@@ -52,6 +53,7 @@ const ActivityQueueComponent = (props) => {
         setZoomLevel(newZoomLevel);
         
         };
+        const interval = setInterval(() => {
         if (!activityQueue) {
             Swal.fire({
                 icon: 'error',
@@ -69,7 +71,7 @@ const ActivityQueueComponent = (props) => {
             fetchQueueActivity();
             console.log(activityQueue,"activityQueue");
         }
-
+    }, 60000);
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -115,12 +117,35 @@ const ActivityQueueComponent = (props) => {
         console.log(a);
         setQueueActivities(response.data);
         console.log("fetchOpenQueueActivityAndSetState",response.data);
-    
-        a.Queuelist.shift();
-        console.log(a);
         console.log(a.Queuelist);
 
         const responseUpdateQueue = await axios.post('http://localhost:5000/api/adminUpdateQueueShifting', a);
+        const b = responseUpdateQueue.data
+        if (b === "success") {
+            Swal.fire({
+                title: "อัพเดตคิวสําเร็จ",
+                icon: "success",
+                confirmButtonText: "ตกลง",
+            }).then(function () {
+            });
+        }
+
+    } catch (error) {
+        console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+    }
+    }
+
+    const ShiftQueuePass = async () => {
+        try {
+        console.log(activityQueue)
+        const response = await axios.post('http://localhost:5000/api/adminGetQueueActivity', activityQueue);
+        const a = response.data
+        console.log(a);
+        setQueueActivities(response.data);
+        console.log("fetchOpenQueueActivityAndSetState",response.data);
+        console.log(a.Queuelist);
+
+        const responseUpdateQueue = await axios.post('http://localhost:5000/api/adminUpdateQueueShiftingPass', a);
         const b = responseUpdateQueue.data
         if (b === "success") {
             Swal.fire({
@@ -162,61 +187,59 @@ const ActivityQueueComponent = (props) => {
             <a onClick={() => window.history.back()}><img src={arrow_icon} className="approval-icon admin-back-arrow"/></a>
             
     <div className="admin">
-    {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] && (
+    
         <div className="admin-activity-queue-flexbox">
+        {Queueactivities && Queueactivities.Queuelist &&  (
             <div className="admin-activity-queue-flexbox-box colorPrimary-800">
                 <h2>กิจกรรม : {Queueactivities.activityName}</h2>
                 <h3>คิวปัจจุบัน</h3>
+                {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] && (
                 <div className="center">
+                
                     <p style={{fontSize:"60px"}}>{Queueactivities.Queuelist[0].queue}</p>
                     <p className="admin-textBody-large">{Queueactivities.Queuelist[0].userID}</p>
                     <p className="admin-textBody-huge">{Queueactivities.Queuelist[0].firstName} {Queueactivities.Queuelist[0].lastName}</p>
                 </div>
+                )}
                 <div className="admin-activity-queue-btn">
-                    <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
-                    <button className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
+                    <button onClick={() => ShiftQueuePass(Queueactivities)} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
+                    <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
                 </div>
                 <p className="admin-textBody-huge">คิวทั้งหมด</p>
+                {Queueactivities.Queuelist.map((queue,index) => 
                         <div className="admin-activity-queue-cards-all">
                             <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ 1</p></div>
+                                <div className="admin-activity-queue-card1"><p>ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2">
-                                    <p>64090500444 <br></br>Rawisada Anruttikun</p>
-                                  
-                                </div>
-                            </div>
-                            <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ 1</p></div>
-                                <div className="admin-activity-queue-card2">
-                                    <p>64090500444 <br></br>Rawisada Anruttikun</p>
+                                    <p>รหัส : {queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
                                   
                                 </div>
                             </div>
                         </div>
-
+                    )}
                     </div>
+                    )}
+                    {Queueactivities && Queueactivities.SuccessList && (
                     <div className="admin-activity-queue-flexbox-box">
                         <h2 className="center" style={{marginTop:"15px"}}>ดำเนินการเสร็จสิ้น</h2>
+                        
                         <div className="admin-activity-queue-cards-all1">
+                        {Queueactivities.SuccessList.map((queue,index) => 
                             <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ 1</p></div>
+                                <div className="admin-activity-queue-card1"><p>ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2">
-                                    <p>64090500444 <br></br>Rawisada Anruttikun</p>
-                                  
+                                    <p>{queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
+                                    <p style={{paddingRight:"10%"}}>{queue.status}</p>
+ 
                                 </div>
                             </div>
-                            <div className="admin-activity-queue-cards"> 
-                                <div className="admin-activity-queue-card1"><p>ลำดับที่ 1</p></div>
-                                <div className="admin-activity-queue-card2">
-                                    <p>64090500444 <br></br>Rawisada Anruttikun</p>
-                                  
-                                </div>
-                            </div>
+                              )}
                         </div>
+                      
                     </div>
-
+                    )}
                 </div>
-                )}
+                
             </div>
         </div>
 

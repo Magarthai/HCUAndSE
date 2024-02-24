@@ -42,7 +42,7 @@ const limitRequests = (req, res, next) => {
 
 
 
-router.post('/adminUpdateQueueShifting', limitRequests, async (req, res) => {
+router.post('/adminUpdateQueueShiftingPass', limitRequests, async (req, res) => {
     try {
         let activityInfo = {}
         activityInfo = req.body;
@@ -59,11 +59,11 @@ router.post('/adminUpdateQueueShifting', limitRequests, async (req, res) => {
             if (activityData.timeSlots[activityInfo.index].SuccessList === undefined) {
                 activityData.timeSlots[activityInfo.index].SuccessList = [];
                 const QueuelistInfoStatus = activityInfo.Queuelist[0];
-                QueuelistInfoStatus.status = "สําเร็จ";
+                QueuelistInfoStatus.status = "ไม่สําเร็จ";
                 activityData.timeSlots[activityInfo.index].SuccessList.push(QueuelistInfoStatus);
             } else {
                 const QueuelistInfoStatus = activityInfo.Queuelist[0];
-                QueuelistInfoStatus.status = "สําเร็จ";
+                QueuelistInfoStatus.status = "ไม่สําเร็จ";
                 activityData.timeSlots[activityInfo.index].SuccessList.push(QueuelistInfoStatus);
             }
             

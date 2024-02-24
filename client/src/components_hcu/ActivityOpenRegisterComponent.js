@@ -14,7 +14,7 @@ import { fetchOpenActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { doc, deleteDoc } from "firebase/firestore";
-
+import axios from 'axios';
 const ActivityOpenRegisterComponent = (props) => {
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -24,6 +24,25 @@ const ActivityOpenRegisterComponent = (props) => {
     const [isChecked, setIsChecked] = useState({});
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
     const [activities, setActivities] = useState([])
+    const [Queueactivities, setQueueActivities] = useState([]);
+    const [state, setState] = useState({
+        QueueInfo: "",
+    });
+
+    const getRegisteredListActivity = async (activities) => {
+
+        try {
+            console.log(activities)
+            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const a = response.data
+            setQueueActivities(response.data);
+            console.log("fetchOpenQueueActivityAndSetState",response.data);
+            navigate("/adminActivityListOfPeopleComponent", {state: {data: a}})
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+        }
+        
+    };
 
     function getCurrentDate() {
         const currentDate = new Date();
@@ -265,7 +284,8 @@ const ActivityOpenRegisterComponent = (props) => {
                                         {activities.activityDetail}
                                     </p>
                                     <div className="admin-right">
-                                        <a href="/adminActivityListOfPeopleComponent" target="_parent" className="btn btn-primary">รายชื่อ</a>
+
+                                        <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn btn-primary">รายชื่อ</a>
                                     </div>
                                 </div>
                             ))

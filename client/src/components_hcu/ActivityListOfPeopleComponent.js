@@ -5,15 +5,17 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import "../css/AdminActivityComponent.css";
 import arrow_icon from "../picture/arrow.png";
-
+import { useLocation,useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const ActivityListOfPeopleComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
     const [isChecked, setIsChecked] = useState({});
-  
-    
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { activityData } = location.state || {};
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -25,6 +27,7 @@ const ActivityListOfPeopleComponent = (props) => {
         setZoomLevel(newZoomLevel);
         };
 
+       
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -36,7 +39,21 @@ const ActivityListOfPeopleComponent = (props) => {
         };
   
         animationFrameRef.current = requestAnimationFrame(updateShowTime);
-    
+        if (!activityData) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่มีข้อมูลกิจกรรม',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            }).then(() => {
+                navigate('/activity');
+            });
+        } else {
+            console.log("activityData",activityData)
+        }
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);

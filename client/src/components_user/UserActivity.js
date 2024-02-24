@@ -137,9 +137,21 @@ const UserActivity = (props) => {
     function handleClick1() {
         let button1 = document.getElementById("user-Activitty_tab_all");
         let button2 = document.getElementById("user-Activitty_tab_registed");
+        let elements = document.getElementsByClassName("user-Activity_card");
+        let x = document.getElementById("user-Activity_tab_all_content");  
+        let y = document.getElementById("user-Activity_tab_all_content2");  
+        let element2 = document.getElementsByClassName("user-Activity_card_registed_container");
         if (button1) {
             button1.classList.add("focus");
             button2.classList.remove("focus");
+            x.style.display = "initial";
+            y.style.display = "none";
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = "block";
+            }
+            for (var i = 0; i < element2.length; i++) {
+                element2[i].style.display = "none";
+            }
         }
         
     }
@@ -147,9 +159,21 @@ const UserActivity = (props) => {
     function handleClick2() {
         let button1 = document.getElementById("user-Activitty_tab_registed");
         let button2 = document.getElementById("user-Activitty_tab_all");
+        let x = document.getElementById("user-Activity_tab_all_content");  
+        let y = document.getElementById("user-Activity_tab_all_content2");  
+        let elements = document.getElementsByClassName("user-Activity_card");
+        let element2 = document.getElementsByClassName("user-Activity_card_registed_container");
         if (button1) {
             button1.classList.add("focus");
             button2.classList.remove("focus");
+            x.style.display = "none";
+            y.style.display = "initial";
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = "none";
+            }
+            for (var i = 0; i < element2.length; i++) {
+                element2[i].style.display = "flex";
+            }
         }
         
     }
@@ -174,10 +198,10 @@ const UserActivity = (props) => {
 
                     <div className="user-Activity_tab_container">
                         {/* <input type="radio" className="user-Activity_tab_radio focus" id="user-Activity_all" name="user-activity" checked /> */}
-                        <button for="user-Activity_all" className="user-Activity_label center focus" id="user-Activitty_tab_all" onClick={handleClick1}>
+                        <button for="user-Activity_all" className="user-Activity_label center focus" id="user-Activitty_tab_all" onClick={() => handleClick1()}>
                             <h4>ทั้งหมด</h4>
                         </button>
-                        <div className="user-Activity_tab_all_content">
+                        <div id="user-Activity_tab_all_content">
                             {activities && activities.length > 0 ? (
                                 activities.map((activities, index) => (
                                     <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
@@ -202,13 +226,13 @@ const UserActivity = (props) => {
                             )}
                         </div>
                         {/* <input type="radio" className="user-Activity_tab_radio" id="user-Activity_registed"  name="user-activity"/> */}
-                        <button for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed" onClick={handleClick2}>
+                        <button for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed" onClick={() => handleClick2()}>
                             <h4>ลงทะเบียนแล้ว</h4>
                         </button>
-                        <div className="user-Activity_tab_all_content">
+                        <div id="user-Activity_tab_all_content2">
                         {Queueactivities && Queueactivities.length > 0 ? (
                             Queueactivities.map((Queueactivities, index) => (
-                            <div className="user-Activity_card_registed_container gap-16">
+                            <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4>{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>

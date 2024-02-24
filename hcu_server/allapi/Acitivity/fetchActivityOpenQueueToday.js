@@ -34,7 +34,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 for (const timeSlot of data.timeSlots) { 
                     console.log(timeSlot.date);
                     const activityDate = new Date(timeSlot.date);
-                    if (data.activityType === "yes" && isSameDay(activityDate, today)) {
+                    if (data.queueStatus === "open" && isSameDay(activityDate, today)) {
                         hasMatch = true; 
                         break; 
                     }

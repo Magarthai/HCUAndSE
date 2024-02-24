@@ -42,42 +42,31 @@ const limitRequests = (req, res, next) => {
 
 
 
-router.post('/adminUpdateQueueShifting', limitRequests, async (req, res) => {
+router.post('/adminGetRegisteredListActivity', limitRequests, async (req, res) => {
     try {
         let activityInfo = {}
         activityInfo = req.body;
         console.log(activityInfo.id);
         const activityDoc = doc(db, 'activities', activityInfo.id);
         const queryActivitySnapshot = await getDoc(activityDoc);
-        const activityData = queryActivitySnapshot.data();
-        
+        const activityData = queryActivitySnapshot.data(); 
+        console.log(activityData,"activityData")
+        const timeSlots = activityData.timeSlots.map((slot, index) => ({
+            ...slot,
+            id: activityInfo.id,
+            activityName: activityData.activityName,
+            openQueueDate: activityData.openQueueDate,
+            endQueueDate: activityData.endQueueDate,
+            activityType: activityData.activityType,
+            activityStatus: activityData.activityStatus,
+            index: index 
+        }));
 
-        if(activityData.length <= 0) {
+        console.log(timeSlots,"timeSlots")
+        if(timeSlots.length <= 0) {
             return res.json("error");
         } else {
-            await runTransaction(db, async (transaction) => {
-            if (activityData.timeSlots[activityInfo.index].SuccessList === undefined) {
-                activityData.timeSlots[activityInfo.index].SuccessList = [];
-                const QueuelistInfoStatus = activityInfo.Queuelist[0];
-                QueuelistInfoStatus.status = "สําเร็จ";
-                activityData.timeSlots[activityInfo.index].SuccessList.push(QueuelistInfoStatus);
-            } else {
-                const QueuelistInfoStatus = activityInfo.Queuelist[0];
-                QueuelistInfoStatus.status = "สําเร็จ";
-                activityData.timeSlots[activityInfo.index].SuccessList.push(QueuelistInfoStatus);
-            }
-            
-            activityInfo.Queuelist.shift();
-            activityData.timeSlots[activityInfo.index].Queuelist = activityInfo.Queuelist;
-            
-            console.log(activityData.timeSlots[activityInfo.index].Queuelist,"test")
-            console.log(activityData.timeSlots)
-
-            transaction.update(activityDoc, {
-                timeSlots: activityData.timeSlots
-            });
-            return res.json("success");
-            });
+            return res.json(timeSlots);
         }
 
         
@@ -86,8 +75,5 @@ router.post('/adminUpdateQueueShifting', limitRequests, async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' }); 
     }
 });
-
-
-
 
 module.exports = router;

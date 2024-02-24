@@ -62,7 +62,16 @@ router.post('/userGetQueueActivity', limitRequests, async (req, res) => {
             if (activityData.timeSlots[activityInfo.index].Queuelist.some(activity => activity.id === activityInfo.userData.userID)) {
                 console.log("Activity already exists for this user."); 
                 return res.json("already-exists");
-            } else {
+            } else if (activityData.timeSlots[activityInfo.index].SuccessList.some(activity => activity.id === activityInfo.userData.userID)) {
+                console.log("Activity already exists for this user."); 
+                return res.json("already-exists");
+            }
+            
+            else {
+
+                
+
+
                 console.log("XD")
                 await runTransaction(db, async (transaction) => {
 

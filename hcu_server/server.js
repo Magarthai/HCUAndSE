@@ -21,8 +21,10 @@ const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
 const userGetQueueActivity = require('./allapi/Acitivity/userGetQueueActivity');
 const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
 const fetchUserActivityQueue = require('./allapi/Acitivity/fetchUserActivityQueue');
+const getRegisteredListActivity = require('./allapi/Acitivity/admin/GetRegisteredListActivity');
 const fetchQueueActivity = require('./allapi/Acitivity/admin/fetchQueueActivity');
 const adminUpdateQueueShifting = require('./allapi/Acitivity/admin/updateQueueShifting');
+const adminUpdateQueueShiftingPass = require('./allapi/Acitivity/admin/updateQueueShiftingPass');
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
@@ -31,6 +33,8 @@ app.use('/api', userGetQueueActivity);
 app.use('/api', fetchUserActivityQueue);
 app.use('/api', fetchQueueActivity);
 app.use('/api', adminUpdateQueueShifting);
+app.use('/api', adminUpdateQueueShiftingPass);
+app.use('/api', getRegisteredListActivity);
 let AppointmentUsersData = [];
 
 const fetchUserDataWithAppointments = async () => {
