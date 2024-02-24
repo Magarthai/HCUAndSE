@@ -145,8 +145,6 @@ const ActivityOpenRegisterComponent = (props) => {
 
     const deletedActivity = (activities) => {
         if (activities) {
-            const a = activities.id
-            console.log(a)
             Swal.fire({
                 title: 'ลบกิจกรรม',
                 text: `คุณแน่ใจว่าจะลบกิจกรรม : ${activities.activityName} ?`,
@@ -163,28 +161,36 @@ const ActivityOpenRegisterComponent = (props) => {
             }).then(async(result) => {
                 if (result.isConfirmed) {
                     try {
-                        const activitiesRef = doc(db, 'activities', `${activities.id}`);
-                        await deleteDoc(activitiesRef, `${activities.id}`)
-                        console.log(`${activities.id}`);
-                        Swal.fire({
-                            title: 'การลบการนัดหมายสำเร็จ!',
-                            text: 'การนัดหมายถูกลบเรียบร้อยแล้ว!',
-                            icon: 'success',
-                            confirmButtonText: 'ตกลง',
-                            confirmButtonColor: '#263A50',
-                            customClass: {
-                                confirmButton: 'custom-confirm-button',
+                        const response = await axios.post('http://localhost:5000/api/adminDeleteActivity', activities);
+                        const a = response.data
+                        if (a === "success") {
+                        Swal.fire(
+                            {
+                                title: 'การลบการนัดหมายสำเร็จ!',
+                                text: `การนัดหมายถูกลบเรียบร้อยแล้ว!`,
+                                icon: 'success',
+                                confirmButtonText: 'ตกลง',
+                                confirmButtonColor: '#263A50',
+                                customClass: {
+                                    confirmButton: 'custom-confirm-button',
+                                }
                             }
-                        }).then((result) => {
-
-                            if (result.isConfirmed) {
-                                window.location.reload()
-                            } else {
-                                window.location.reload()
-                            }
-                        });
-
-                        
+                        )
+                        fetchOpenActivityAndSetState();
+                        } else {
+                            Swal.fire(
+                                {
+                                    title: 'เกิดข้อผิดพลาด!',
+                                    text: `การนัดหมายไม่สําเร็จ!`,
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง',
+                                    confirmButtonColor: '#263A50',
+                                    customClass: {
+                                        confirmButton: 'custom-confirm-button',
+                                    }
+                                }
+                            )
+                        }
                     } catch (firebaseError) {
                         throw new Error(firebaseError);
                     }

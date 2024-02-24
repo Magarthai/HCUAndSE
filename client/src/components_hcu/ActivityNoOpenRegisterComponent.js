@@ -151,12 +151,12 @@ const ActivityNoOpenRegisterComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                     cancelButton: 'custom-cancel-button',
                 }
-            }).then((result) => {
+            }).then(async(result) => {
                 if (result.isConfirmed) {
                     try {
-                        const activitiesRef = doc(db, 'activities', `${activities.id}`);
-                        deleteDoc(activitiesRef, `${activities.id}`)
-                        console.log(`${activities.id}`);
+                        const response = await axios.post('http://localhost:5000/api/adminDeleteActivity', activities);
+                        const a = response.data
+                        if (a === "success") {
                         Swal.fire(
                             {
                                 title: 'การลบการนัดหมายสำเร็จ!',
@@ -170,6 +170,20 @@ const ActivityNoOpenRegisterComponent = (props) => {
                             }
                         )
                         fetchOpenActivityAndSetState();
+                        } else {
+                            Swal.fire(
+                                {
+                                    title: 'เกิดข้อผิดพลาด!',
+                                    text: `การนัดหมายไม่สําเร็จ!`,
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง',
+                                    confirmButtonColor: '#263A50',
+                                    customClass: {
+                                        confirmButton: 'custom-confirm-button',
+                                    }
+                                }
+                            )
+                        }
                     } catch (firebaseError) {
                         throw new Error(firebaseError);
                     }
