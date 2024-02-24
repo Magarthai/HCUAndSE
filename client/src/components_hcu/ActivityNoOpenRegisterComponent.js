@@ -13,9 +13,10 @@ import edit from "../picture/icon_edit.jpg";
 import icon_delete from "../picture/icon_delete.jpg";
 import { fetchCloseActivity, fetchOpenActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Swal from "sweetalert2";
 const ActivityNoOpenRegisterComponent = (props) => {
-    
+    const [Queueactivities, setQueueActivities] = useState([]);
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -35,7 +36,21 @@ const ActivityNoOpenRegisterComponent = (props) => {
         return formattedDate;
     }
     const checkCurrentDate = getCurrentDate();
+    const getRegisteredListActivity = async (activities) => {
 
+        try {
+            console.log(activities)
+            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const a = response.data
+            console.log(response.data,"response.data")
+            setQueueActivities(response.data);
+            console.log("ActivityOpenRegisterComponent",response.data);
+            navigate("/adminActivityListOfPeopleComponent", {state: {data: response.data}})
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+        }
+        
+    };
     const fetchOpenActivityAndSetState = async () => {
         try {
             const openActivity = await fetchCloseActivity(user, checkCurrentDate);
@@ -251,7 +266,7 @@ const ActivityNoOpenRegisterComponent = (props) => {
                                         {activities.activityDetail}
                                     </p>
                                     <div className="admin-right">
-                                        <a href="/adminActivityListOfPeopleComponent" target="_parent" className="btn btn-primary">รายชื่อ</a>
+                                        <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn btn-primary">รายชื่อ</a>
                                     </div>
                                 </div>
 

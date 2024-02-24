@@ -35,9 +35,10 @@ const ActivityOpenRegisterComponent = (props) => {
             console.log(activities)
             const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
             const a = response.data
+            console.log(response.data,"response.data")
             setQueueActivities(response.data);
-            console.log("fetchOpenQueueActivityAndSetState",response.data);
-            navigate("/adminActivityListOfPeopleComponent", {state: {data: a}})
+            console.log("ActivityOpenRegisterComponent",response.data);
+            navigate("/adminActivityListOfPeopleComponent", {state: {data: response.data}})
         } catch (error) {
             console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
         }

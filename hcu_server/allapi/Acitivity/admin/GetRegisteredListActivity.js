@@ -66,6 +66,7 @@ router.post('/adminGetRegisteredListActivity', limitRequests, async (req, res) =
         if(timeSlots.length <= 0) {
             return res.json("error");
         } else {
+            console.log("SUCCESS")
             return res.json(timeSlots);
         }
 

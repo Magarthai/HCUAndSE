@@ -15,7 +15,7 @@ const ActivityListOfPeopleComponent = (props) => {
     const [isChecked, setIsChecked] = useState({});
     const location = useLocation();
     const navigate = useNavigate();
-    const { activityData } = location.state || {};
+    const { data } = location.state || {};
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -26,7 +26,19 @@ const ActivityListOfPeopleComponent = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if (!data){
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่มีข้อมูลกิจกรรม',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            }).then(() => {
+                navigate('/adminActivityOpenRegisterComponent');
+            });
+        }
        
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
@@ -39,27 +51,9 @@ const ActivityListOfPeopleComponent = (props) => {
         };
   
         animationFrameRef.current = requestAnimationFrame(updateShowTime);
-        if (!activityData) {
-            Swal.fire({
-                icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'ไม่มีข้อมูลกิจกรรม',
-                confirmButtonColor: '#263A50',
-                customClass: {
-                    confirmButton: 'custom-confirm-button',
-                }
-            }).then(() => {
-                navigate('/activity');
-            });
-        } else {
-            console.log("activityData",activityData)
-        }
-        return () => {
-            cancelAnimationFrame(animationFrameRef.current);
-            window.removeEventListener("resize", responsivescreen);
-        };
+        console.log("activityData",data)
     
-    }, [user]); 
+    }, [user,data]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -104,10 +98,13 @@ const ActivityListOfPeopleComponent = (props) => {
         </div>
         <a onClick={() => window.history.back()}><img src={arrow_icon} className="approval-icon admin-back-arrow"/></a>
         <div className="admin">
-            <div className="admin-body">
-                <p className="admin-textBody-large colorPrimary-800">กิจกรรม : <br></br> รายชื่อ</p>       
+    {data && data.length > 0 ? (
+        data.map((item, index) => (
+            <div key={index} className="admin-body">
+                <p className="admin-textBody-large colorPrimary-800">กิจกรรม : {item.activityName} วันที่ : {item.date} เวลา : {item.startTime} - {item.endTime}<br /> รายชื่อ: {item.userList.length}</p>
                 
-                <table class="table table-striped">
+                <table className="table table-striped">
+                
                     <thead>
                         <tr className="center colorPrimary-800">
                             <th className="admin-textBody-large colorPrimary-800" id="th_id_acticity">รหัสนักศึกษา/รหัสพนักงาน</th>
@@ -116,22 +113,25 @@ const ActivityListOfPeopleComponent = (props) => {
                             <th className="admin-textBody-large colorPrimary-800" id="th_email_acticity">Email</th>
                         </tr>
                     </thead>
-                    <tbody >
-                        <tr >
-                            <td className="admin-textBody-huge2 colorPrimary-800" >64090500444</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">รวิษฎา อนุรุตติกุล</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">0630810573</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">rawisada2310@gmail.com</td>
-
-
+                    {item.userList.map((item, index) => (
+                    <tbody>
+                        <tr key={item.id}>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{item.id}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{item.firstName} {item.lastName}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{item.tel}</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">{item.email}</td>
                         </tr>
-            
                     </tbody>
+                    ))}
                 </table>
+               
             </div>
-           
-        </div>
-        
+        ))
+    ) : (
+        <div className="admin-body"></div>
+    )}
+</div>
+
     </div>
 
     );
