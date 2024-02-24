@@ -132,13 +132,24 @@ const UserActivityDetail = (props) =>{
                         icon: "error",
                         confirmButtonText: "กลับ",
                     })
-                } else {
+                    return;
+                } else if (response.data == "already-full") {
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "กิจกรรมนี้ผู้เข้าร่วมเต็มแล้ว",
+                        icon: "error",
+                        confirmButtonText: "กลับ",
+                    })
+                    return;
+                }
+                else {
                     Swal.fire({
                         title: "เกิดข้อผิดพลาด",
                         text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
                         icon: "error",
                         confirmButtonText: "กลับ",
                     })
+                    return;
                 }
                 } catch (error) {
                     console.error("Error registering activity:", error);

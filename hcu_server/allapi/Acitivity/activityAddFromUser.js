@@ -31,25 +31,26 @@ router.post('/addUserActivity', async (req, res) => {
                 return;
             } else {
                 await runTransaction(db, async (transaction) => {
-                    // ดึงข้อมูลจาก Firestore
                     const docSnapshot = await transaction.get(activitiesDocRef);
                     const existingData = docSnapshot.data();
-                
-                    // อัพเดตข้อมูล
+                    const checkLength = existingData.timeSlots[appointmentInfo.timeSlots.index].userList
+
+                    console.log(checkLength.length, "XD")
+                    if (checkLength.length < parseInt(existingData.timeSlots[appointmentInfo.timeSlots.index].registeredCount)){
                     existingData.timeSlots[appointmentInfo.timeSlots.index].userList.push(appointmentInfo.userData.userID);
 
                     transaction.update(activitiesDocRef, {
                         timeSlots: existingData.timeSlots
                     });
+                    await updateDoc(userDocRef, {
+                        userActivity: arrayUnion(appointmentInfo.activityId),
+                    });
+                    res.json("success");
+                } else {
+                    res.json("already-full");
+                }
                 });
                 
-
-                await updateDoc(userDocRef, {
-                    userActivity: arrayUnion(appointmentInfo.activityId),
-                });
-                
-                console.log("Activity does not exist for this user.");
-                res.json("success");
             }
         } 
         
