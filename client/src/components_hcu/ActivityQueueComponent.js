@@ -53,7 +53,6 @@ const ActivityQueueComponent = (props) => {
         setZoomLevel(newZoomLevel);
         
         };
-        const interval = setInterval(() => {
         if (!activityQueue) {
             Swal.fire({
                 icon: 'error',
@@ -71,7 +70,6 @@ const ActivityQueueComponent = (props) => {
             fetchQueueActivity();
             console.log(activityQueue,"activityQueue");
         }
-    }, 60000);
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -127,9 +125,10 @@ const ActivityQueueComponent = (props) => {
                 icon: "success",
                 confirmButtonText: "ตกลง",
             }).then(function () {
+                window.location.reload();
             });
         }
-
+        
     } catch (error) {
         console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
     }
@@ -153,6 +152,7 @@ const ActivityQueueComponent = (props) => {
                 icon: "success",
                 confirmButtonText: "ตกลง",
             }).then(function () {
+                window.location.reload();
             });
         }
 
