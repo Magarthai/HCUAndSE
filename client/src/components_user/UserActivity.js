@@ -112,6 +112,26 @@ const UserActivity = (props) => {
         return formattedDate;
     };
 
+    function handleClick1() {
+        let button1 = document.getElementById("user-Activitty_tab_all");
+        let button2 = document.getElementById("user-Activitty_tab_registed");
+        if (button1) {
+            button1.classList.add("focus");
+            button2.classList.remove("focus");
+        }
+        
+    }
+
+    function handleClick2() {
+        let button1 = document.getElementById("user-Activitty_tab_registed");
+        let button2 = document.getElementById("user-Activitty_tab_all");
+        if (button1) {
+            button1.classList.add("focus");
+            button2.classList.remove("focus");
+        }
+        
+    }
+
     return (
 
         <div className="user">
@@ -131,10 +151,10 @@ const UserActivity = (props) => {
                     </div>
 
                     <div className="user-Activity_tab_container">
-                        <input type="radio" className="user-Activity_tab_radio" id="user-Activity_all" name="user-activity" checked />
-                        <label for="user-Activity_all" className="user-Activity_label center" id="user-Activitty_tab_all">
+                        {/* <input type="radio" className="user-Activity_tab_radio focus" id="user-Activity_all" name="user-activity" checked /> */}
+                        <button for="user-Activity_all" className="user-Activity_label center focus" id="user-Activitty_tab_all" onClick={handleClick1}>
                             <h4>ทั้งหมด</h4>
-                        </label>
+                        </button>
                         <div className="user-Activity_tab_all_content">
                             {activities && activities.length > 0 ? (
                                 activities.map((activities, index) => (
@@ -145,7 +165,7 @@ const UserActivity = (props) => {
                                             .map((timeSlot, slotIndex) => (
                                                 <div>
                                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
-                                                    <img src={ClockFlat_icon} /> {timeSlot.startTime} - {timeSlot.endTime}
+                                                    <p className="textBody-medium" id="user-Activity_card_date"><img src={ClockFlat_icon} /> {timeSlot.startTime} - {timeSlot.endTime}</p>
                                                 </div>
 
 
@@ -159,11 +179,10 @@ const UserActivity = (props) => {
 
                             )}
                         </div>
-
-                        <input type="radio" className="user-Activity_tab_radio" id="user-Activity_registed" name="user-activity" />
-                        <label for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed">
+                        {/* <input type="radio" className="user-Activity_tab_radio" id="user-Activity_registed"  name="user-activity"/> */}
+                        <button for="user-Activity_registed" className="user-Activity_label center" id="user-Activitty_tab_registed" onClick={handleClick2}>
                             <h4>ลงทะเบียนแล้ว</h4>
-                        </label>
+                        </button>
                         <div className="user-Activity_tab_all_content">
                         {Queueactivities && Queueactivities.length > 0 ? (
                             Queueactivities.map((Queueactivities, index) => (
