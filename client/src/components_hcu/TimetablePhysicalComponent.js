@@ -116,7 +116,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายพูดคุยได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 10 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -785,7 +785,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายพูดคุยได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 10 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -1582,7 +1582,8 @@ const TimetablePhysicalComponent = (props) => {
         y.style.display = "none";
         z.style.display = "none";
     }
-
+    const [minnumber, setminnumber] = useState([])
+    const [minnumber2, setminnumber2] = useState([])
     const openEdittimetable = (element, timetable) => {
         let x = document.getElementById("Edittimetable");
         let y = document.getElementById("Addtimetable");
@@ -1603,6 +1604,8 @@ const TimetablePhysicalComponent = (props) => {
             status: "Enabled",
             timetableId: timetable.id,
         }));
+        setminnumber(timetable.numberAppointment)
+        setminnumber2(timetable.numberMainAppointment)
         if (window.getComputedStyle(x).display === "none") {
             if(window.getComputedStyle(z).display === "block" && saveDetailId === timetable.id ){
                 element.stopPropagation();
@@ -1687,7 +1690,7 @@ const TimetablePhysicalComponent = (props) => {
                 console.log(TimeArrayMain[i])
             }
         
-            document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายพูดคุย</b> : ${listtimetable}`
+            document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา</b> : ${listtimetable}`
             document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทํากายภาพ</b> : ${listmaintable}`
             // window.history.replaceState({}, null, `/timeTablePhysicalAdmin/${timetable.id}`);
         } else {
@@ -1738,7 +1741,7 @@ const TimetablePhysicalComponent = (props) => {
                     console.log(TimeArrayMain[i])
                 }
             
-                document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายพูดคุย</b> : ${listtimetable}`
+                document.getElementById("Detail").innerHTML = `<b>ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา</b> : ${listtimetable}`
                 document.getElementById("Detail2").innerHTML = `<b>ช่วงเวลาทํากายภาพ</b> : ${listmaintable}`
             }
         }
@@ -1870,7 +1873,7 @@ const TimetablePhysicalComponent = (props) => {
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดเพื่อปรึกษา {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1903,7 +1906,7 @@ const TimetablePhysicalComponent = (props) => {
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดเพื่อปรึกษา {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1931,7 +1934,7 @@ const TimetablePhysicalComponent = (props) => {
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดเพื่อปรึกษา {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1959,7 +1962,7 @@ const TimetablePhysicalComponent = (props) => {
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดเพื่อปรึกษา {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -1987,7 +1990,7 @@ const TimetablePhysicalComponent = (props) => {
                                     <a className="card-detail colorPrimary-800" onClick={(event) => openDetailtimetable(event, timetable)}>
                                         <p className="admin-textBody-large">{timetable.timeStart} - {timetable.timeEnd}</p>
                                         <p className="admin-textBody-big">เปิดให้นัดหมาย {timetable.timeAppointmentStart} - {timetable.timeAppointmentEnd} </p>
-                                        <p className="admin-textBody-big">จำนวนนัดพูดคุย {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
+                                        <p className="admin-textBody-big">จำนวนนัดเพื่อปรึกษา {timetable.numberAppointment} คิว / จำนวนนัดกายภาพ {timetable.numberMainAppointment} คิว</p>
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
@@ -2207,7 +2210,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div>
                                 <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="text" disabled className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
+                                {/* <input type="text" className="form-control timeable" value={numberMainAppointment} 
+                                    onChange={(e) => {const valuenumber = e.target.value;
+                                        if (parseInt(valuenumber) >= minnumber || valuenumber === "") {
+                                            inputValue("numberAppointment")(e); // อัปเดตค่าใน state
+                                        }}}
+                                    placeholder="5" /> */}
+                                <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
@@ -2238,7 +2247,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div>
                                 <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="text" disabled className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
+                                {/* <input type="text" className="form-control timeable" value={numberMainAppointment} 
+                                    onChange={(e) => {const valuenumber = e.target.value;
+                                        if (parseInt(valuenumber) >= minnumber2 || valuenumber === "") {
+                                            inputValue("numberMainAppointment")(e); // อัปเดตค่าใน state
+                                        }}}
+                                    placeholder="5" /> */}
+                                <input type="text" className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
@@ -2256,7 +2271,7 @@ const TimetablePhysicalComponent = (props) => {
                         <p id="Detailtimeall" className="admin-textBody-big">ช่วงเวลาเปิดให้บริการ :</p>
                         <p id="Detailtime" className="admin-textBody-big">ช่วงเวลาเปิดให้นัดหมาย :</p>
                         <p id="Detailqueue" className="admin-textBody-big">จำนวนคิวนัดหมาย :</p>
-                        <p id="Detail" className="admin-textBody-big">ช่วงเวลาเปิดให้นัดหมายพูดคุย :</p>
+                        <p id="Detail" className="admin-textBody-big">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา :</p>
                         <p id="Detail2" className="admin-textBody-big">ช่วงเวลาทํากายภาพ :</p>
                     </div>
                 </div>

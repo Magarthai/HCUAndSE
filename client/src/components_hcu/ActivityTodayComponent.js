@@ -182,7 +182,7 @@ const ActivityTodayComponent = (props) => {
                                              </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800">
-                                                <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].registeredCount} คน <img src={annotaion_icon} className="icon-activity" />
+                                                <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" />
                                             </a>
                                         </p>
                                     </div>
@@ -203,7 +203,7 @@ const ActivityTodayComponent = (props) => {
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
-                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity">จัดการคิว</a>
+                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity" style={{textDecorationLine:"none"}}>จัดการคิว</a>
                                 </div>
                             </div>
                        ))))
