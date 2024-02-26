@@ -1390,8 +1390,8 @@ const TimetableSpecialComponent = (props) => {
                     console.log(`${timetable.id}`);
                     Swal.fire(
                         {
-                            title: 'การลบการนัดหมายสำเร็จ!',
-                            text: `การนัดหมายถูกลบเรียบร้อยแล้ว!`,
+                            title: 'การลบช่วงเวลาทำการสำเร็จ!',
+                            text: `การนัดหมายในวันทำการถูกลบเรียบร้อยแล้ว`,
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',

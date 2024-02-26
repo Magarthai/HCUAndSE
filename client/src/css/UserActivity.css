@@ -31,6 +31,7 @@
     cursor: pointer;
     width: 50%;
     height: 10%;
+    border: 0px;
 }
 .user-Activity_label h4{
     margin: 0;
@@ -58,11 +59,19 @@
     overflow: hidden;
     overflow-y: scroll;
 }
-.user-Activity_tab_radio:checked + .user-Activity_label{
+/* .user-Activity_tab_radio.focus + .user-Activity_label{
+    color: #263A50 !important;
+    background-color: #96CFCF !important;
+} */
+.user-Activity_label.focus{
     color: #263A50 !important;
     background-color: #96CFCF !important;
 }
-.user-Activity_tab_radio:checked + .user-Activity_label + .user-Activity_tab_all_content{
+/* .user-Activity_tab_radio + .user-Activity_label + .user-Activity_tab_all_content{
+    display: initial;
+} */
+
+.user-Activity_tab_all_content{
     display: initial;
 }
 .user-Activity_card{
