@@ -326,6 +326,7 @@ const AddNeedleAppointmentUser = () => {
         }
     };
     const handleDateSelect = (selectedDate) => {
+        setSelectedValue("");
         setTimeOptions([]);
         setSelectedCount(1);
         setState((prevState) => ({

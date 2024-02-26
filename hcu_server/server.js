@@ -18,11 +18,19 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const dataRoute = require('./allapi/dataRoute');
 const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
+const userGetQueueActivity = require('./allapi/Acitivity/userGetQueueActivity');
 const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
+const fetchUserActivityQueue = require('./allapi/Acitivity/fetchUserActivityQueue');
+const fetchQueueActivity = require('./allapi/Acitivity/admin/fetchQueueActivity');
+const adminUpdateQueueShifting = require('./allapi/Acitivity/admin/updateQueueShifting');
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
+app.use('/api', userGetQueueActivity);
+app.use('/api', fetchUserActivityQueue);
+app.use('/api', fetchQueueActivity);
+app.use('/api', adminUpdateQueueShifting);
 let AppointmentUsersData = [];
 
 const fetchUserDataWithAppointments = async () => {

@@ -16,10 +16,33 @@ function isSameDay(date1, date2) {
            date1.getMonth() === date2.getMonth() &&
            date1.getDate() === date2.getDate();
 }
+function findIndexById(queueList, id) {
+    return queueList.findIndex(queue => queue.id === id);
+}
 
-router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
+function findQueueById(queueList, id) {
+    const foundQueue = queueList.find(queue => queue.id === id);
+    return foundQueue ? foundQueue.queue : null;
+}
+
+function getAllQueuelists(formattedDocs,userID,activityName) {
+    const allQueuelists = [];
+    formattedDocs.forEach(doc => {
+        const queuelist = doc.data.Queuelist;
+        let queueInfo = {};
+        const findIndex = findIndexById(queuelist,userID)
+        const queue = findQueueById(queuelist,userID)
+        queueInfo.activityName = doc.activityName;
+        queueInfo.queueIndex = findIndex;
+        queueInfo.userQueue = queue;
+        allQueuelists.push(queueInfo);
+    });
+    return allQueuelists;
+}
+router.post('/fetchUserQueueTodayActivity', async (req,res) => {
     try {
         const userInfo = req.body;
+        console.log(userInfo,"userInfo")
         const userActivityList = userInfo.userActivity;
         console.log(userActivityList);
         const promises = userActivityList.map(activity => getDoc(doc(db, 'activities', activity.activityId)));
@@ -40,7 +63,6 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                     }
                 }
                 if (hasMatch) {
-
                     return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
                 } else {
                     return null;
@@ -51,8 +73,9 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
         }).filter(doc => doc !== null);
         if (formattedDocs.length > 0) {
             console.log(`user have ${formattedDocs.length} activity`)
-            console.log(formattedDocs,"formattedDocs")
-            res.json(formattedDocs);
+            const allQueuelists = getAllQueuelists(formattedDocs,userInfo.userID);
+            console.log(allQueuelists)
+            res.json(allQueuelists);
         } else {
             console.log("no activity registered")
         }

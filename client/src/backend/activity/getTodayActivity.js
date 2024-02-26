@@ -9,11 +9,24 @@ export const fetchTodayActivity = async (user, checkCurrentDate) => {
             const querySnapshot = await getDocs(activitiesCollection);
 
             const activitiesData = querySnapshot.docs
-                .map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }))
-                .filter((activity) => activity.timeSlots.some(slot => slot.date === checkCurrentDate));
+            .map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            .map((activity) => ({
+                ...activity,
+                timeSlots: activity.timeSlots.map((slot, index) => ({
+                    ...slot,
+                    id: activity.id,
+                    activityName: activity.activityName,
+                    openQueueDate: activity.openQueueDate,
+                    endQueueDate: activity.endQueueDate,
+                    activityType: activity.activityType,
+                    activityStatus: activity.activityStatus,
+                    index: index 
+                })),
+            }))
+            .filter((activity) => activity.timeSlots.some(slot => slot.date === checkCurrentDate));
 
             return activitiesData;
         }

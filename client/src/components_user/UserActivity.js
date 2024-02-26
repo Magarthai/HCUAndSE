@@ -73,16 +73,38 @@ const UserActivity = (props) => {
             confirmButtonText: "รับคิว",
             cancelButtonText: "ยกเลิก",
             reverseButtons: true
-        }).then((result) => {
-
+        }).then(async(result) => {
             if (result.isConfirmed) {
+                Queueactivities.userData = userData
+                const response = await axios.post('http://localhost:5000/api/userGetQueueActivity', Queueactivities, {
+                    Queueactivities: Queueactivities
+                    });
+                if (response.data == "success") {
                 Swal.fire({
                     title: "รับคิวสำเร็จ",
                     icon: "success",
                     confirmButtonText: "ตกลง",
                 }).then(function () {
-                    window.location = "http://localhost:3000/queue";
+                    navigate("/queue");
                 });
+                
+            } else if (response.data == "already-exists") {
+                Swal.fire({
+                    title: "รับคิวไม่สำเร็จ",
+                    icon: "error",
+                    html: "คุณได้รับคิวกิจกรรมนี้ไปแล้ว",
+                    confirmButtonText: "ตกลง",
+                }).then(function () {
+                    navigate("/queue");
+                });
+            } else {
+                Swal.fire({
+                    title: "รับคิวไม่สำเร็จ",
+                    html: 'กรุณาทํารายการใหม่อีกครั้ง',
+                    icon: "error",
+                    confirmButtonText: "ตกลง",
+                })
+            }
             }
         })
     }

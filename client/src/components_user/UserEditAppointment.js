@@ -144,6 +144,7 @@ const UserEditAppointment = (props) => {
 
     const { appointmentSymptom2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId,datebackup,timebackup} = state
     const handleDateSelect = (selectedDate) => {
+        setSelectedValue("");
         setTimeOptions([]);
         setSelectedCount(1);
         setState((prevState) => ({

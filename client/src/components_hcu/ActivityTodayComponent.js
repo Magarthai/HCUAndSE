@@ -9,12 +9,14 @@ import clockFlat_icon from "../picture/clock-flat.png";
 import person_icon from "../picture/person-dark.png";
 import annotaion_icon from "../picture/annotation-dark.png";
 import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
+import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 const ActivityTodayComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
+    const navigate = useNavigate();
     const [isChecked, setIsChecked] = useState({});
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
     const [activities, setActivities] = useState([])
@@ -56,7 +58,6 @@ const ActivityTodayComponent = (props) => {
         zoom: zoomLevel,
     };
     useEffect(() => {
-        // This useEffect will run whenever 'activities' state changes
         console.log("todayActivity", activities);
     }, [activities]);
 
@@ -76,6 +77,14 @@ const ActivityTodayComponent = (props) => {
             }
         }
     };
+
+    const OpenTimeSlotsQueue = (timeSlots) =>  {
+        if (timeSlots) {
+            console.log(timeSlots,"timeSlot")
+            navigate('/adminActivityQueueComponent',{state: {activityQueue:timeSlots}})
+        }
+    }
+
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -156,6 +165,8 @@ const ActivityTodayComponent = (props) => {
                 <div className="admin-body">
                     {activities && activities.length > 0 ? (
                         activities.map((activities, index) => (
+                            activities.timeSlots
+                                .map((timeSlot, slotIndex) => (
                             <div className="admin-activity-today" key={index}>
                                 <div className="admin-activity-today-hearder-flexbox">
                                     <div className="admin-activity-today-hearder-box">
@@ -164,17 +175,11 @@ const ActivityTodayComponent = (props) => {
                                 <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
                                 </p>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                {activities.timeSlots
-                                            .map((timeSlot, slotIndex) => (
+
                                                     <div>
                                                         <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime} 
                                                         </div>
-                                                   
-
-                                            ))}
                                              </p>
-
-
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800">
                                                 <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].registeredCount} คน <img src={annotaion_icon} className="icon-activity" />
@@ -198,10 +203,10 @@ const ActivityTodayComponent = (props) => {
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
-                                    <a href="/adminActivityQueueComponent" target="_parent" className="btn-activity">จัดการคิว</a>
+                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity">จัดการคิว</a>
                                 </div>
                             </div>
-                        ))
+                       ))))
                     ) : (
                         <div className="admin-queue-card-activity" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p  className="admin-textBody-large colorPrimary-800" >ไม่มีกิจกรรม</p>

@@ -48,19 +48,28 @@ router.post('/addUserActivity', limitRequests, async (req, res) => {
                     const existingData = docSnapshot.data();
                     const checkLength = existingData.timeSlots[appointmentInfo.timeSlots.index].userList;
 
+                    const userInfo = {
+                        firstName: appointmentInfo.userData.firstName,
+                        lastName: appointmentInfo.userData.lastName,
+                        id: appointmentInfo.userData.id,
+                        userID: appointmentInfo.userData.userID,
+                        tel: appointmentInfo.userData.tel,
+                        email: appointmentInfo.userData.email,
+                    }
                     console.log(checkLength.length, "XD");
                     if (checkLength.length < parseInt(existingData.timeSlots[appointmentInfo.timeSlots.index].registeredCount)) {
-                        existingData.timeSlots[appointmentInfo.timeSlots.index].userList.push(appointmentInfo.userData.userID);
+                        existingData.timeSlots[appointmentInfo.timeSlots.index].userList.push(appointmentInfo.userData);
 
                         transaction.update(activitiesDocRef, {
                             timeSlots: existingData.timeSlots
                         });
+                        
                         await updateDoc(userDocRef, {
                             userActivity: arrayUnion({activityId: appointmentInfo.activityId, index: appointmentInfo.timeSlots.index}),
                         });
-                        return res.json("success"); // ให้คืนค่าและหยุดการทำงานที่นี่
+                        return res.json("success");
                     } else {
-                        return res.json("already-full"); // ให้คืนค่าและหยุดการทำงานที่นี่
+                        return res.json("already-full");
                     }
                 });
             }

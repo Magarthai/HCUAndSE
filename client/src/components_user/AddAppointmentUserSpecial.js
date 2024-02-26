@@ -11,6 +11,7 @@ import { runTransaction } from "firebase/firestore";
 const AddSpecialAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
     const handleDateSelect = (selectedDate) => {
+        setSelectedValue("");
         setTimeOptions([]);
         setSelectedCount(1);
         setState((prevState) => ({
