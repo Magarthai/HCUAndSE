@@ -1170,7 +1170,7 @@ const TimetableGeneralComponent = (props) => {
             z.style.display = "none";
 
     }
-
+    const [minnumber, setminnumber] = useState([])
     const openEdittimetable = (element, timetable) => {
         let x = document.getElementById("Edittimetable");
         let y = document.getElementById("Addtimetable");
@@ -1190,6 +1190,7 @@ const TimetableGeneralComponent = (props) => {
             status: "Enabled",
             timetableId: timetable.id,
         }));
+        setminnumber(timetable.numberAppointment)
         if (window.getComputedStyle(x).display === "none") {
             if(window.getComputedStyle(z).display === "block" && saveDetailId === timetable.id ){
                 element.stopPropagation();
@@ -1372,6 +1373,8 @@ const TimetableGeneralComponent = (props) => {
             currentCard.classList.add('focused');
         }
     }
+
+   
 
     return (
         <div style={containerStyle}>
@@ -1714,13 +1717,13 @@ const TimetableGeneralComponent = (props) => {
                             </div>
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} disabled onChange={inputValue("numberAppointment")} placeholder="5" />
+                                <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" onClick={() => closeEditTimeTable()} className="btn-secondary btn-systrm" >กลับ</button>
-                                <input type="submit" value="แก้ไขนัดหมาย" className="btn-primary btn-systrm" target="_parent" />
+                                <input type="submit" value="แก้ไขช่วงเวลา" className="btn-primary btn-systrm" target="_parent" />
                             </div>
                         </form>
                     </div>
