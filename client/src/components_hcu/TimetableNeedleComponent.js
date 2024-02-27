@@ -28,12 +28,13 @@ const TimetablePhysicalComponent = (props) => {
         timeAppointmentMainStart: "",
         timeAppointmentMainEnd: "",
         numberMainAppointment: "",
+        numberMainAppointmentCheck: "",
         clinic: "",
         timetableId: id || "", 
     })
 
 
-    const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
+    const { numberMainAppointmentCheck,addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
 
     const isSubmitEnabled =
     !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
@@ -271,54 +272,55 @@ const TimetablePhysicalComponent = (props) => {
 
     }
 
-        const timeablelist = [];
+    const timeablelist = [];
 
-        const interval = Math.floor(duration / numberAppointment);
+    const interval = Math.floor(duration / numberAppointment);
 
-        for (let i = 0; i < numberAppointment; i++) {
-            const slotStart = new Date(start.getTime() + i * interval * 60000);
-            const slotEnd = new Date(slotStart.getTime() + interval * 60000);
-        
-            if (slotEnd.getTime() > end.getTime()) {
-                timeablelist.push({
-                    start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                    end: end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
-                });
-                break;
-            }
-        
+    for (let i = 0; i < numberAppointment; i++) {
+        const slotStart = new Date(start.getTime() + i * interval * 60000);
+        const slotEnd = new Date(slotStart.getTime() + interval * 60000);
+    
+        if (slotEnd.getTime() > end.getTime()) {
             timeablelist.push({
                 start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                type:"talk"
+                end: end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
             });
+            break;
         }
-        if (numberMainAppointment < 0)  {
-        const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
-        const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
-        const duration2 = (end2 - start2) / 60000;
-
-        const interval2 = Math.floor(duration2 / numberMainAppointment);
-
-        for (let i = 0; i < numberMainAppointment; i++) {
-            const slotStart = new Date(start2.getTime() + i * interval2 * 60000);
-            const slotEnd = new Date(slotStart.getTime() + interval2 * 60000);
-        
-            if (slotEnd.getTime() > end2.getTime()) {
-                timeablelist.push({
-                    start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                    end: end2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
-                });
-                break;
-            }
-        
-            timeablelist.push({
-                start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-                type:"main"
-            });
-        }
+    
+        timeablelist.push({
+            start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            type:"talk"
+        });
     }
+
+    if (numberMainAppointment > 0)  {
+    const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
+    const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
+    const duration2 = (end2 - start2) / 60000;
+
+    const interval2 = Math.floor(duration2 / numberMainAppointment);
+
+    for (let i = 0; i < numberMainAppointment; i++) {
+        const slotStart = new Date(start2.getTime() + i * interval2 * 60000);
+        const slotEnd = new Date(slotStart.getTime() + interval2 * 60000);
+    
+        if (slotEnd.getTime() > end2.getTime()) {
+            timeablelist.push({
+                start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+                end: end2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+            });
+            break;
+        }
+    
+        timeablelist.push({
+            start: slotStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            type:"main"
+        });
+    }
+}
 
         try {
             const additionalTImeTable = {
@@ -331,8 +333,10 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentMainEnd:timeAppointmentMainEnd,
                 numberAppointment: numberAppointment,
                 numberMainAppointment: numberMainAppointment === "" ? "0" : numberMainAppointment,
+                numberMainAppointmentCheck: numberMainAppointment === "" ? "0" : numberMainAppointment,
                 clinic: "คลินิกฝังเข็ม",
                 timeablelist: timeablelist,
+                appointmentList: [],
                 status: "Enabled",
             };
             
@@ -776,6 +780,19 @@ const TimetablePhysicalComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
+        if(numberMainAppointment < numberMainAppointmentCheck){
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                html: `ไม่สามรถแก้ไข้จํานวนคิวช่วงเวลากายภาพน้อยกว่าตอนแรกได้! <br/> (${numberMainAppointmentCheck} คิว)`,
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (numberAppointment > 10) {
             Swal.fire({
                 icon: "error",
@@ -1006,6 +1023,7 @@ const TimetablePhysicalComponent = (props) => {
             const updatedTimetable = {
                 addDay: addDay,
                 timeStart: timeStart,
+                numberMainAppointment: numberMainAppointment,
                 timeEnd: timeEnd,
                 timeAppointmentStart: timeAppointmentStart,
                 timeAppointmentEnd: timeAppointmentEnd,
@@ -1609,6 +1627,7 @@ const TimetablePhysicalComponent = (props) => {
             timeablelist: timetable.timeablelist,
             status: "Enabled",
             timetableId: timetable.id,
+            numberMainAppointmentCheck: timetable.numberMainAppointmentCheck,
         }));
         setminnumber(timetable.numberAppointment)
         setminnumber2(timetable.numberMainAppointment)

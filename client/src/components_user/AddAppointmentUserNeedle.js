@@ -210,7 +210,7 @@ const AddNeedleAppointmentUser = () => {
                 if (result.isConfirmed) {
             await runTransaction(db, async (transaction) => {
                 const appointmentsCollection = collection(db, 'appointment');
-
+                const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
                 const usersCollection = collection(db, 'users');
                 const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
                 const userDocuments = userQuerySnapshot.docs;
@@ -281,10 +281,13 @@ const AddNeedleAppointmentUser = () => {
                     }
                     const userDocRef = doc(db, 'users', userId);
 
+                    const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: appointmentInfo.appointmentDate}
                     await updateDoc(userDocRef, {
                         appointments: arrayUnion(appointmentRef.id),
                     });
-
+                    await updateDoc(timeTableDocRef, {
+                        appointmentList: arrayUnion(timeTableAppointment),
+                    });
                     Swal.fire({
                         icon: "success",
                         title: "การนัดหมายสําเร็จ!",

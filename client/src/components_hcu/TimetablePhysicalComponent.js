@@ -30,11 +30,12 @@ const TimetablePhysicalComponent = (props) => {
         timeAppointmentMainEnd: "",
         numberMainAppointment: "",
         clinic: "",
+        numberMainAppointmentCheck:"",
         timetableId: id || "", 
     })
 
 
-    const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
+    const { numberMainAppointmentCheck,addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
 
     const isSubmitEnabled =
         !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
@@ -297,7 +298,7 @@ const TimetablePhysicalComponent = (props) => {
             });
         }
 
-        if (numberMainAppointment < 0)  {
+        if (numberMainAppointment > 0)  {
         const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
         const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
         const duration2 = (end2 - start2) / 60000;
@@ -336,8 +337,10 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentMainEnd:timeAppointmentMainEnd,
                 numberAppointment: numberAppointment,
                 numberMainAppointment: numberMainAppointment === "" ? "0" : numberMainAppointment,
+                numberMainAppointmentCheck: numberMainAppointment === "" ? "0" : numberMainAppointment,
                 clinic: "คลินิกกายภาพ",
                 timeablelist: timeablelist,
+                appointmentList: [],
                 status: "Enabled",
             };
         
@@ -767,7 +770,19 @@ const TimetablePhysicalComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
-    
+        if(numberMainAppointment < numberMainAppointmentCheck){
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                html: `ไม่สามรถแก้ไข้จํานวนคิวช่วงเวลากายภาพน้อยกว่าตอนแรกได้! <br/> (${numberMainAppointmentCheck} คิว)`,
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (duration <= 0) {
             Swal.fire({
                 icon: "error",
@@ -1003,6 +1018,7 @@ const TimetablePhysicalComponent = (props) => {
                 timeAppointmentStart: timeAppointmentStart,
                 timeAppointmentEnd: timeAppointmentEnd,
                 numberAppointment: numberAppointment,
+                numberMainAppointment: numberMainAppointment,
                 clinic: "คลินิกกายภาพ",
                 timeablelist: timeablelist,
                 status: "Enabled",
@@ -1601,6 +1617,7 @@ const TimetablePhysicalComponent = (props) => {
             numberMainAppointment: timetable.numberMainAppointment,
             clinic: "คลินิกกายภาพ",
             timeablelist: timetable.timeablelist,
+            numberMainAppointmentCheck: timetable.numberMainAppointmentCheck,
             status: "Enabled",
             timetableId: timetable.id,
         }));
@@ -2210,13 +2227,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div>
                                 <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
-                                {/* <input type="text" className="form-control timeable" value={numberMainAppointment} 
+                                <input type="text" className="form-control timeable" value={numberMainAppointment} 
                                     onChange={(e) => {const valuenumber = e.target.value;
                                         if (parseInt(valuenumber) >= minnumber || valuenumber === "") {
                                             inputValue("numberAppointment")(e); // อัปเดตค่าใน state
                                         }}}
-                                    placeholder="5" /> */}
-                                <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
+                                    placeholder="5" />
+                                {/* <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" /> */}
                                 <span> คิว</span>
 
                             </div>

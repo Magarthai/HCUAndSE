@@ -232,6 +232,7 @@ const AppointmentManagerComponent = (props) => {
                         return optionValue === selectedValue;
                     })?.label;
                     const userDocRef = doc(db, 'users', userId);
+                    const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
                     Swal.fire({
                         title: 'ยืนยันเพิ่มนัดหมาย',
                         html: `ยืนยันที่จะนัดหมายวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
@@ -280,8 +281,12 @@ const AppointmentManagerComponent = (props) => {
                                             await deleteDoc(doc(db, 'appointment', appointmentRef.id));
                                             return;
                                         }
+                                        const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: appointmentInfo.appointmentDate}
                                         await updateDoc(userDocRef, {
                                             appointments: arrayUnion(appointmentRef.id),
+                                        });
+                                        await updateDoc(timeTableDocRef, {
+                                            appointmentList: arrayUnion(timeTableAppointment),
                                         });
                                         Swal.fire(
                                             {
@@ -436,6 +441,33 @@ const AppointmentManagerComponent = (props) => {
                             });
                             await updateDoc(timetableRef, updatedTimetableRollBack);
                             return;
+                        } else {
+                            const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
+                            const timeTableDocNew = doc(db, 'timeTable', appointmentTime.timetableId);
+                                getDoc(timeTableDocRef)
+                                .then(async(docSnapshot) => {
+                                    if (docSnapshot.exists()) {
+                                    const timeTableData = docSnapshot.data();
+                                    const appointmentList = timeTableData.appointmentList || [];
+
+                                    const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+
+                                    await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                                    const timeTableAppointment = {appointmentId: uid, appointmentDate: updatedTimetable.appointmentDate}
+                                    await updateDoc(timeTableDocNew, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
+                                    });
+                                    } else {
+                                    console.log('ไม่พบเอกสาร timeTable');
+                                    }
+                                })
+                                .then(() => {
+                                    console.log('การอัปเดตข้อมูลสำเร็จ');
+                                })
+                                .catch((error) => {
+                                    console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                                });
+
                         }
                         Swal.fire({
                             icon: "success",
@@ -1097,10 +1129,14 @@ const AppointmentManagerComponent = (props) => {
                                             className={selectedCount >= 2 ? 'selected' : ''}
                                         >
                                             {timeOptions.map((timeOption, index) => (
-                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                        {timeOption.label}
-                                    </option>
-                                ))}
+                                <option
+                                    key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                    value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                    hidden={index===0}
+                                >
+                                    {timeOption.label}
+                                </option>
+                            ))}
                                         </select>
                                     </div>
                                     <div>

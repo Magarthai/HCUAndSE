@@ -106,7 +106,8 @@ const AppointmentManagerPhysicComponent = (props) => {
     const isSubmitEnabled =
         !appointmentDate || !appointmentTime || !appointmentId;
 
-        let isAutoSubmitEnabled = !appointmentDate || !appointmentId || !time || !timelength || appointmentTime1;
+        const isAutoSubmitEnabled =
+        !appointmentDate || !appointmentId || !time || !timelength;
 
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
@@ -730,10 +731,6 @@ const AppointmentManagerPhysicComponent = (props) => {
                 }
                 
                 else {
-                    for (let i = 1; i <= time; i++) {
-                        const variableName = `appointmentTime${i}`;
-                        isAutoSubmitEnabled = isAutoSubmitEnabled && variableName;
-                    }
 
                     const processAppointment = async (i) => {
                         const instanceDate = new Date(formattedAppointmentDate);
@@ -881,23 +878,25 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     };
 
                                     const templateCommon = `
-                            <div class="center-container">
-                            </div>
-                            <div class="center-container">
-                                <select
-                                    name="time"
-                                    value=""
-                                    class=${selectedCount >= 2 ? 'selected' : ''}
-                                >
-                                    ${timeOptionsFromTimetable.map((timeOption) =>
-                                        `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                            ${timeOption.label}
-                                        </option>`
-                                    )}
-                                </select>
-                            </div>
-                            <br>
-                        `;
+                                        <div class="center-container">
+                                        </div>
+                                        <div class="center-container">
+                                            <select
+                                                name="time"
+                                                value=""
+                                                class=${selectedCount >= 2 ? 'selected' : ''}
+                                            >
+                                                ${timeOptionsFromTimetable.map((timeOption, index) =>
+                                                    `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        ${index === 0 ? 'style="display: none;"' : ''}>
+                                                        ${timeOption.label}
+                                                    </option>`
+                                                )}
+                                            </select>
+                                        </div>
+                                        <br>
+                                    `;
+
 
                                     divElement.innerHTML = `
                                     
@@ -1077,11 +1076,14 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     };
                 
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
-                
+                                    const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
                                     const userDocRef = doc(db, 'users', userId);
-                
+                                    const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: updatedTimetable.appointmentDate}
                                     await updateDoc(userDocRef, {
                                         appointments: arrayUnion(appointmentRef.id),
+                                    });
+                                    await updateDoc(timeTableDocRef, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
                                     });
                             }}
                             } else {
@@ -1521,12 +1523,20 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         >
                                             {typecheck === 'talk' ?
                                                 timeOptions.map((timeOption, index) => (
-                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
+                                                    <option
+                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        hidden={index===0}
+                                                    >
                                                         {timeOption.label}
                                                     </option>
                                                 )) :
-                                                timeOptionsss.map((timeOption, index) => (
-                                                    <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
+                                                timeOptions.map((timeOption, index) => (
+                                                    <option
+                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        hidden={index===0}
+                                                    >
                                                         {timeOption.label}
                                                     </option>
                                                 ))

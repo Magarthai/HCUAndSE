@@ -200,8 +200,8 @@ const AppointmentRequestManagementComponent = (props) => {
 
     const submitEditForm = async (AppointmentUserData) => {
         try {
-            const timetableRef = doc(db, 'appointment', AppointmentUserData.appointmentuid);
-            const updatedTimetable = {
+            const appointmentRef = doc(db, 'appointment', AppointmentUserData.appointmentuid);
+            const updatedAppointment = {
                 appointmentDate: AppointmentUserData.appointment.appointmentDate,
                 appointmentTime: AppointmentUserData.appointment.appointmentTime,
                 appointmentSymptom: AppointmentUserData.appointment.appointmentSymptom2 || null,
@@ -231,7 +231,8 @@ const AppointmentRequestManagementComponent = (props) => {
                 }
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await updateDoc(timetableRef, updatedTimetable);
+                    await updateDoc(appointmentRef, updatedAppointment);
+
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
@@ -295,6 +296,31 @@ const AppointmentRequestManagementComponent = (props) => {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await updateDoc(timetableRef, updatedTimetable);
+                    const timeTableDocRef = doc(db, 'timeTable', AppointmentUserData.appointment.appointmentTime.timetableId);
+                    const timeTableDocNew = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+                        getDoc(timeTableDocRef)
+                        .then(async(docSnapshot) => {
+                            if (docSnapshot.exists()) {
+                            const timeTableData = docSnapshot.data();
+                            const appointmentList = timeTableData.appointmentList || [];
+
+                            const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+
+                            await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                            const timeTableAppointment = {appointmentId: uid, appointmentDate: updatedTimetable.appointmentDate}
+                            await updateDoc(timeTableDocNew, {
+                                appointmentList: arrayUnion(timeTableAppointment),
+                            });
+                            } else {
+                            console.log('ไม่พบเอกสาร timeTable');
+                            }
+                        })
+                        .then(() => {
+                            console.log('การอัปเดตข้อมูลสำเร็จ');
+                        })
+                        .catch((error) => {
+                            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                        });
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",

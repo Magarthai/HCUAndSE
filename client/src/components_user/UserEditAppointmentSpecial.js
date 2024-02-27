@@ -33,6 +33,7 @@ const UserEditAppointmentSpecial = (props) => {
         timetableId: "",
         datebackup: "",
         timebackup:"",
+        appointmentTimer:"",
     })
     const [selectedValue, setSelectedValue] = useState("");
     const fetchTimeTableData = async () => {
@@ -142,7 +143,7 @@ const UserEditAppointmentSpecial = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-    const { appointmentSymptom2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId,datebackup,timebackup} = state
+    const { appointmentTimer,appointmentSymptom2,appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist, userID ,status,status2,subject,timetableId,datebackup,timebackup} = state
     const handleDateSelect = (selectedDate) => {
         setSelectedValue("");
         setTimeOptions([]);
@@ -192,6 +193,7 @@ const UserEditAppointmentSpecial = (props) => {
                 status2:AppointmentUserData.appointment.status2 || "",
                 subject:AppointmentUserData.appointment.subject || "",
                 timetableId:AppointmentUserData.appointment.timetableId || "",
+                appointmentTimer: AppointmentUserData.appointment.appointmentTime || "",
             });
         }
     }, [AppointmentUserData, navigate,selectedDate]);
@@ -313,6 +315,33 @@ const UserEditAppointmentSpecial = (props) => {
                         }
                     });
                     return;
+                }else {
+                    const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
+                            const timeTableDocNew = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+                                getDoc(timeTableDocRef)
+                                .then(async(docSnapshot) => {
+                                    if (docSnapshot.exists()) {
+                                    const timeTableData = docSnapshot.data();
+                                    const appointmentList = timeTableData.appointmentList || [];
+
+                                    const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+
+                                    await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                                    const timeTableAppointment = {appointmentId: uid, appointmentDate: updatedTimetable.appointmentDate}
+                                    await updateDoc(timeTableDocNew, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
+                                    });
+                                    } else {
+                                    console.log('ไม่พบเอกสาร timeTable');
+                                    }
+                                })
+                                .then(() => {
+                                    console.log('การอัปเดตข้อมูลสำเร็จ');
+                                })
+                                .catch((error) => {
+                                    console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                                });
+
                 }
                 Swal.fire({
                     title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",

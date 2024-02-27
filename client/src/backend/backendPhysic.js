@@ -89,6 +89,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                 })?.label;
                 const userDocRef = doc(db, 'users', userId);
                 const appointmentsCollection = collection(db, 'appointment');
+                const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
                     html: `ยืนยันที่จะนัดหมายวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
@@ -165,8 +166,12 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                                         await deleteDoc(doc(db, 'appointment', appointmentRef.id));
                                         return;
                                     }
+                                    const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: appointmentInfo.appointmentDate}
                                     await updateDoc(userDocRef, {
                                         appointments: arrayUnion(appointmentRef.id),
+                                    });
+                                    await updateDoc(timeTableDocRef, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
                                     });
                                     Swal.fire(
                                         {
@@ -359,6 +364,31 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                         await updateDoc(timetableRef, updatedTimetableRollBack);
                                         return;
                                     }
+                                    const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
+                                    const timeTableDocNew = doc(db, 'timeTable', appointmentTime.timetableId);
+                                        getDoc(timeTableDocRef)
+                                        .then(async(docSnapshot) => {
+                                            if (docSnapshot.exists()) {
+                                            const timeTableData = docSnapshot.data();
+                                            const appointmentList = timeTableData.appointmentList || [];
+
+                                            const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+
+                                            await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                                            const timeTableAppointment = {appointmentId: uid, appointmentDate: updatedTimetable.appointmentDate}
+                                            await updateDoc(timeTableDocNew, {
+                                                appointmentList: arrayUnion(timeTableAppointment),
+                                            });
+                                            } else {
+                                            console.log('ไม่พบเอกสาร timeTable');
+                                            }
+                                        })
+                                        .then(() => {
+                                            console.log('การอัปเดตข้อมูลสำเร็จ');
+                                        })
+                                        .catch((error) => {
+                                            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                                        });
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",

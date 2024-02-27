@@ -908,23 +908,25 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     };
 
                                     const templateCommon = `
-                            <div class="center-container">
-                            </div>
-                            <div class="center-container">
-                                <select
-                                    name="time"
-                                    value=""
-                                    class=${selectedCount >= 2 ? 'selected' : ''}
-                                >
-                                    ${timeOptionsFromTimetable.map((timeOption) =>
-                                        `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                            ${timeOption.label}
-                                        </option>`
-                                    )}
-                                </select>
-                            </div>
-                            <br>
-                        `;
+                                        <div class="center-container">
+                                        </div>
+                                        <div class="center-container">
+                                            <select
+                                                name="time"
+                                                value=""
+                                                class=${selectedCount >= 2 ? 'selected' : ''}
+                                            >
+                                                ${timeOptionsFromTimetable.map((timeOption, index) =>
+                                                    `<option key="${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}" value=${JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        ${index === 0 ? 'style="display: none;"' : ''}>
+                                                        ${timeOption.label}
+                                                    </option>`
+                                                )}
+                                            </select>
+                                        </div>
+                                        <br>
+                                    `;
+
 
                                     divElement.innerHTML = `
                                     
@@ -1101,11 +1103,14 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     };
                 
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
-                
+                                    const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
                                     const userDocRef = doc(db, 'users', userId);
-                
+                                    const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: updatedTimetable.appointmentDate}
                                     await updateDoc(userDocRef, {
                                         appointments: arrayUnion(appointmentRef.id),
+                                    });
+                                    await updateDoc(timeTableDocRef, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
                                     });
                             }}
                             } else {

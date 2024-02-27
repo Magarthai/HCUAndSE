@@ -53,6 +53,7 @@ const AddAppointmentUser = () => {
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
     };
+
     const fetchTimeTableData = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
@@ -243,6 +244,7 @@ const submitForm = async (e) => {
             const usersCollection = collection(db, 'users');
             const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
             const userDocuments = userQuerySnapshot.docs;
+            const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
 
             
         
@@ -283,8 +285,12 @@ const submitForm = async (e) => {
 
                 const userDocRef = doc(db, 'users', userId);
 
+                const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: appointmentInfo.appointmentDate}
                 await updateDoc(userDocRef, {
                     appointments: arrayUnion(appointmentRef.id),
+                });
+                await updateDoc(timeTableDocRef, {
+                    appointmentList: arrayUnion(timeTableAppointment),
                 });
 
                 Swal.fire({

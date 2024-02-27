@@ -204,6 +204,7 @@ const TimetableGeneralComponent = (props) => {
                 numberAppointment: numberAppointment,
                 clinic: "คลินิกทั่วไป",
                 timeablelist: timeablelist,
+                appointmentList: [],
                 status: "Enabled",
             };
             

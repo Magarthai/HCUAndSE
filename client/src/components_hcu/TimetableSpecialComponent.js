@@ -239,6 +239,7 @@ const TimetableSpecialComponent = (props) => {
                 numberAppointment: numberAppointment,
                 clinic: "คลินิกเฉพาะทาง",
                 timeablelist: timeablelist,
+                appointmentList: [],
                 status: "Enabled",
             };
             

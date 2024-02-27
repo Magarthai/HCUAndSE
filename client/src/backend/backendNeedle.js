@@ -88,6 +88,7 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                     return optionValue === selectedValue;
                 })?.label;
                 const userDocRef = doc(db, 'users', userId);
+                const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
                 const appointmentsCollection = collection(db, 'appointment');
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
@@ -137,8 +138,12 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                                         await deleteDoc(doc(db, 'appointment', appointmentRef.id));
                                         return;
                                     }
+                                    const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: appointmentInfo.appointmentDate}
                                     await updateDoc(userDocRef, {
                                         appointments: arrayUnion(appointmentRef.id),
+                                    });
+                                    await updateDoc(timeTableDocRef, {
+                                        appointmentList: arrayUnion(timeTableAppointment),
                                     });
                                     Swal.fire(
                                         {
@@ -219,7 +224,7 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
     }
 }
 
-export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr) => {
+export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr) => {
     try {
         const timetableRef = doc(db, 'appointment', uid);
         console.log(uid);
@@ -327,9 +332,33 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                                 cancelButton: 'custom-cancel-button',
                                             }
                                         });
-                                        await updateDoc(timetableRef, updatedTimetableRollBack);
                                         return;
                                     }
+                                    const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
+                                        const timeTableDocNew = doc(db, 'timeTable', appointmentTime.timetableId);
+                                            getDoc(timeTableDocRef)
+                                            .then(async(docSnapshot) => {
+                                                if (docSnapshot.exists()) {
+                                                const timeTableData = docSnapshot.data();
+                                                const appointmentList = timeTableData.appointmentList || [];
+
+                                                const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+
+                                                await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                                                const timeTableAppointment = {appointmentId: uid, appointmentDate: updatedTimetable.appointmentDate}
+                                                await updateDoc(timeTableDocNew, {
+                                                    appointmentList: arrayUnion(timeTableAppointment),
+                                                });
+                                                } else {
+                                                console.log('ไม่พบเอกสาร timeTable');
+                                                }
+                                            })
+                                            .then(() => {
+                                                console.log('การอัปเดตข้อมูลสำเร็จ');
+                                            })
+                                            .catch((error) => {
+                                                console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                                            });
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",
