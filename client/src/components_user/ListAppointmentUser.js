@@ -524,8 +524,19 @@ const ListAppointmentUser = () => {
 
         <p className="AppointList-body-card-item-innerCard-ClinicName">{AppointmentUserData.appointment.clinic}</p>
 
+        {AppointmentUserData.appointment.type && (
+                            <p className="textBody-big" style={{ marginBottom: 10, marginTop:"-5px"}}>
+                            {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายเพื่อปรึกษา'
+                            ) : (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายเพื่อปรึกษา'
+                            )}
+                            </p>
+                        )
+                }
 
-        <div className="AppointList-body-card-item-innerCard-DescDate">
+
+        <div className="AppointList-body-card-item-innerCard-DescDate" style={{ marginBottom: -8}}>
           <img className="mini-card-icon" src={item1} alt="icon-calen" />
           <p className="AppointList-body-card-item-innerCard-DescDate-txt">{AppointmentUserData.appointment.appointmentDate}</p>
         </div>
@@ -552,14 +563,26 @@ const ListAppointmentUser = () => {
           >
 
             <div className="BlackBackground">
-              <div className="Popup-ListAppointment-ref">
+              <div className="Popup-ListAppointment-ref colorPrimary-800">
 
                 <div className="Popup-ListAppointment-ref-ClinicNameAndCloseBtn">
                   <p className="Popup-ListAppointment-ref-ClinicName">{AppointmentUserData.appointment.clinic}</p>
                   <img className="PopupCloseBtn" src={item4} alt="icon-close" onClick={() => handleClosePopup(AppointmentUserData.appointmentuid)} />
                 </div>
 
-                <div className="Popup-ListAppointment-ref-DescDate">
+                {AppointmentUserData.appointment.type && (
+                            <p className="textBody-big" style={{ marginBottom: 10, marginTop:"-10px"}}>
+                            {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายเพื่อปรึกษา'
+                            ) : (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายเพื่อปรึกษา'
+                            )}
+                            </p>
+                        )
+                }
+
+
+                <div className="Popup-ListAppointment-ref-DescDate" style={{ marginBottom: -8}}>
                   <img className="mini-card-icon" src={item1} alt="icon-calen" />
                   <p className="Popup-ListAppointment-ref-DescDate-txt">{AppointmentUserData.appointment.appointmentDate}</p>
                 </div>
@@ -635,7 +658,19 @@ const ListAppointmentUser = () => {
               <p className="AppointList-body-cardCommitted-item-innerCard-StatusRed">{AppointmentUserData.appointment.status}</p>
             </div>
 
-            <div className="AppointList-body-cardCommitted-item-innerCard-DescDate">
+            {AppointmentUserData.appointment.type && (
+                            <p className="textBody-big" style={{ marginBottom: 10, marginTop:"-5px"}}>
+                            {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายเพื่อปรึกษา'
+                            ) : (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายเพื่อปรึกษา'
+                            )}
+                            </p>
+                        )
+                }
+
+
+            <div className="AppointList-body-cardCommitted-item-innerCard-DescDate" style={{ marginBottom: -8}}>
               <img className="mini-card-icon" src={item1} alt="icon-calen" />
               <p className="AppointList-body-cardCommitted-item-innerCard-DescDate-txt">{AppointmentUserData.appointment.appointmentDate}</p>
             </div>

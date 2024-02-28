@@ -104,7 +104,7 @@ const HomeComponent = () => {
         <Link to="/adminActivityTodayComponent" className="function">
           <img className="function" src={function3} alt="Activity management system" />
         </Link>
-        <Link to="#" className="function">
+        <Link to="/adminDashboardService" className="function">
           <img className="function" src={function4} alt="Dashboard" />
         </Link>
         <Link to="#" className="function">

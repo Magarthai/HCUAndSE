@@ -25,3 +25,27 @@
     color: #ffcc00;
      
 }
+.rating2 {
+    display:  flex;
+    flex-direction: row-reverse; /* ปรับลำดับของสมาชิกในแนวนอน */
+    justify-content: center;
+    gap: 5px;
+
+}  
+.rating2 input {
+    display: none;
+    
+    
+}
+.rating2 label {
+    font-size: 50px;
+    color: #ddd;
+    cursor: pointer;
+    float: right;
+}
+.rating2 label:hover,
+.rating2 label:hover ~ label,
+.rating2 input:checked ~ label {
+    color: #ffcc00;
+     
+}

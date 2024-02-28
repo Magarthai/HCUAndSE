@@ -208,7 +208,12 @@ const submitForm = async (e) => {
             customClass: {
               confirmButton: 'custom-confirm-button',
             },
+          }).then((result) => {
+            if (result.isConfirmed) {
+                navigate('/adminActivityNoOpenRegisterComponent')
+            }
           });
+          
         //   navigate('/adminActivityAllComponent')
         } else {
           Swal.fire({

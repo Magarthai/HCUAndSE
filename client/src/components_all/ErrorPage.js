@@ -11,7 +11,7 @@ const ErrorPage = (props) => {
         <div className="errorpage colorPrimary-800">
             <p style={{fontSize:"100px", padding:0,margin:0}}>404</p>
             <p style={{fontSize:"30px"}}> OOPS! NOTHING WAS FOUND</p>
-            <p>The page you are might have been removed had its name changed or is temporarily unavaible. <a style={{textDecoration:"underline", cursor:"pointer"}}>Return to login</a></p>
+            <p>The page you are might have been removed had its name changed or is temporarily unavaible. <a style={{textDecoration:"underline", cursor:"pointer"}} href="/" className="colorPrimary-800">Return to login</a></p>
         </div>
 
     );

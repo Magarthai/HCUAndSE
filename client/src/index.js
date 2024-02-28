@@ -49,6 +49,7 @@ import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
 import Test from './components_user/test.js'
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
+import AdminDashboardServiceAll from './components_hcu/DashboardServiceAll.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
@@ -70,6 +71,7 @@ import UserFeedbackComponent from './components_user/FeedbackComponent.js';
 import UserFeedbackComponentGeneral from './components_user/FeedbackComponentGeneral.js';
 import UserFeedbackComponentSpecial from "./components_user/FeedbackComponentSpecial.js"
 import UserFeedbackComponentPhysical from "./components_user/FeedbackComponentPhysical.js"
+import UserFeedbackComponentPhysical2 from "./components_user/FeedbackComponentPhysical2.js"
 import UserFeedbackComponentNeedle from './components_user/FeedbackComponentNeedle.js';
 
 const router = createBrowserRouter([
@@ -206,6 +208,10 @@ const router = createBrowserRouter([
     element: <ProtectAdminRoute><AdminActivityQueueComponent/></ProtectAdminRoute>
   },
   {
+    path: "/adminDashboardService",
+    element: <ProtectAdminRoute><AdminDashboardServiceAll/></ProtectAdminRoute>
+  },
+  {
     path: "/appointment/detail/:id",
     element: <ProtectRoute><AppointmentDetail /></ProtectRoute>
   },
@@ -321,6 +327,10 @@ const router = createBrowserRouter([
   {
     path: "/feedback/physical",
     element: <ProtectRoute><UserFeedbackComponentPhysical/></ProtectRoute>
+  },
+  {
+    path: "/feedback/physical/service",
+    element: <ProtectRoute><UserFeedbackComponentPhysical2/></ProtectRoute>
   },
   {
     path: "/feedback/needle",
