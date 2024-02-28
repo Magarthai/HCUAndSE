@@ -168,7 +168,12 @@ const ActivityNoOpenRegisterComponent = (props) => {
                                     confirmButton: 'custom-confirm-button',
                                 }
                             }
-                        )
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                              // รีโหลดหน้าเว็บ
+                              navigate('/adminActivityNoOpenRegisterComponent')
+                            }
+                          });
                         fetchOpenActivityAndSetState();
                         } else {
                             Swal.fire(
@@ -276,11 +281,11 @@ const ActivityNoOpenRegisterComponent = (props) => {
                                         overflow: 'hidden',
                                         whiteSpace: 'pre-wrap',
                                         wordWrap: 'break-word'
-                                    }} className="admin-textBody-huge2 colorPrimary-800">
+                                    }} className="admin-textBody-huge2 colorPrimary-800 admin-activity-p">
                                         {activities.activityDetail}
                                     </p>
-                                    <div className="admin-right">
-                                        <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn btn-primary">รายชื่อ</a>
+                                    <div className="admin-btn-list-people ">
+                                        <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn btn-primary ">รายชื่อ</a>
                                     </div>
                                 </div>
 

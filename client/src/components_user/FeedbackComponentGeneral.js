@@ -5,30 +5,23 @@ import Swal from "sweetalert2";
 
 const FeedbackComponentGeneral = (props) => {
     const [state, setState] = useState({
-        typeFeedback:"",
-        score:"",
+        score1:"",
+        score2:"",
         detail:"",
       });
-    const {typeFeedback,score,detail} = state;
+    const {score1, score2, detail} = state;
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
       };
-    const stars = document.querySelectorAll('.rating input');
 
-    stars.forEach((star) => {
-        star.addEventListener('change', (e) => {
-            const selectedScore = e.target.value;
-            setState({ ...state, score: selectedScore });
-            console.log('คะแนนที่ถูกเลือก:', e.target.value);
-          // ทำสิ่งที่คุณต้องการกับคะแนนที่ถูกเลือกต่อไปนี้
-        });
-      }
-    )
-    const [selectedCount, setSelectedCount] = useState(1);
-    const handleSelectChange = () => {
-        setSelectedCount(selectedCount + 1);
-        console.log(selectedCount)
+    
+
+    const handleScoreChange = (category, value) => {
+        setState({ ...state, [category]: value });
+        console.log('คะแนนที่ถูกเลือก:', value);
+        // Additional logic if needed
     };
+
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -64,39 +57,37 @@ const FeedbackComponentGeneral = (props) => {
                 <form onSubmit={submitForm} className="user-body-feedback colorPrimary-800">
                     <h3>ประเมินความพึงพอใจ - คลินิกทั่วไป</h3>
                     <br></br>
-                    <div>
-                        <label className="textBody-big colorPrimary-800">ประเภทบริการ</label>
-                        <select
-                            name="typeFeedback"
-                            value={typeFeedback}
-                            onChange={(e) => {
-                                inputValue("typeFeedback")(e);
-                                handleSelectChange();
-                            }}
-                            className={selectedCount >= 2 ? 'selected' : ''}
-                        >
-                            <option value="" hidden>
-                                กรุณาเลือกประเภทบริการ
-                            </option>
-                            <option value="บริการตรวจรักษาโรคโดยแพทย์">บริการตรวจรักษาโรคโดยแพทย์</option>
-                            <option value="บริการจ่ายยาโดยพยาบาล">บริการจ่ายยาโดยพยาบาล</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
-                        </select>
+                
+                    <label className="textBody-big colorPrimary-800">บริการตรวจรักษาโรคโดยแพทย์</label>
+                     <div className="rating">
+                        {[5, 4, 3, 2, 1].map((value) => (
+                            <React.Fragment key={`star1-${value}`}>
+                                <input
+                                    type="radio"
+                                    id={`star1-${value}`}
+                                    name="rating1"
+                                    value={value}
+                                    onChange={() => handleScoreChange('score1', value)}
+                                />
+                                <label htmlFor={`star1-${value}`}>&#9733;</label>
+                            </React.Fragment>
+                        ))}
                     </div>
-        
-                    <div class="rating">
-                        <input type="radio" id="star5" name="rating" value="5" />
-                        <label for="star5">&#9733;</label>
-                        <input type="radio" id="star4" name="rating" value="4" />
-                        <label for="star4">&#9733;</label>
-                        <input type="radio" id="star3" name="rating" value="3" />
-                        <label for="star3">&#9733;</label>
-                        <input type="radio" id="star2" name="rating" value="2" />
-                        <label for="star2">&#9733;</label>
-                        <input type="radio" id="star1" name="rating" value="1" />
-                        <label for="star1">&#9733;</label>
+                    <label className="textBody-big colorPrimary-800">บริการจ่ายยาโดยพยาบาล</label>
+                    <div className="rating2">
+                        {[5, 4, 3, 2, 1].map((value) => (
+                            <React.Fragment key={`star2-${value}`}>
+                                <input
+                                    type="radio"
+                                    id={`star2-${value}`}
+                                    name="rating2"
+                                    value={value}
+                                    onChange={() => handleScoreChange('score2', value)}
+                                />
+                                <label htmlFor={`star2-${value}`}>&#9733;</label>
+                            </React.Fragment>
+                        ))}
                     </div>
-                    
                     <div>
                         <label className="textBody-big colorPrimary-800">เพิ่มเติม</label>
                         <textarea className="acivity-detail" rows="5" value={detail} onChange={inputValue("detail")}></textarea>

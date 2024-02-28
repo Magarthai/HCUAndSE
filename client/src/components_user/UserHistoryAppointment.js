@@ -404,7 +404,18 @@ AppointmentUsersData.sort((a, b) => {
 
               <h2 className="HistoryAppointment-body-card-item-innerCard-ClinicName">{AppointmentUserData.appointment.clinic}</h2>
 
-              <div className="HistoryAppointment-body-card-item-innerCard-DescDate">
+              {AppointmentUserData.appointment.type && (
+                            <p className="textBody-big" style={{ marginBottom: 10, marginTop:"-10px"}}>
+                            {AppointmentUserData.appointment.clinic === 'คลินิกกายภาพ' ? (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายทํากายภาพ' : 'นัดหมายเพื่อปรึกษา'
+                            ) : (
+                                AppointmentUserData.appointment.type === 'main' ? ' นัดหมายฝังเข็ม' : 'นัดหมายเพื่อปรึกษา'
+                            )}
+                            </p>
+                        )
+                }
+
+              <div className="HistoryAppointment-body-card-item-innerCard-DescDate" style={{ marginBottom: -8}}>
                 <img className="mini-card-icon" src={item1} alt="icon-calen" />
                 <p className="HistoryAppointment-body-card-item-innerCard-DescDate-txt">{AppointmentUserData.appointment.appointmentDate} </p>
               </div>

@@ -3,7 +3,7 @@ import "../css/UserFeedbackComponent.css";
 import NavbarUserComponent from './NavbarComponent';
 import Swal from "sweetalert2";
 
-const FeedbackComponentPhysical = (props) => {
+const FeedbackComponentPhysical2 = (props) => {
     const [state, setState] = useState({
         typeFeedback:"",
         score:"",
@@ -64,7 +64,7 @@ const FeedbackComponentPhysical = (props) => {
                 <form onSubmit={submitForm} className="user-body-feedback colorPrimary-800">
                     <h3>ประเมินความพึงพอใจ - คลินิกกายภาพ</h3>
                     <br></br>
-                    <label className="textBody-big colorPrimary-800">บริการตรวจรักษาโรคโดยแพทย์</label>
+                    <label className="textBody-big colorPrimary-800">บริการกายภาพบำบัด</label>
                     <div class="rating">
                         <input type="radio" id="star5" name="rating" value="5" />
                         <label for="star5">&#9733;</label>
@@ -98,4 +98,4 @@ const FeedbackComponentPhysical = (props) => {
     );
 }
 
-export default FeedbackComponentPhysical;
+export default FeedbackComponentPhysical2;
