@@ -11,6 +11,7 @@ import { doc, updateDoc,where,query, addDoc, deleteDoc } from 'firebase/firestor
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { PulseLoader } from "react-spinners";
+import axios from "axios";
 const TimetablePhysicalComponent = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1); 
@@ -63,7 +64,8 @@ const TimetablePhysicalComponent = (props) => {
                 const timeTableCollection = collection(db, 'timeTable');
                 const timeTableSnapshot = await getDocs(query(
                     timeTableCollection,
-                    where('clinic', '==', 'คลินิกฝังเข็ม')
+                    where('clinic', '==', 'คลินิกฝังเข็ม'),
+                    where('isDelete', '==', 'No'),
                 ));
 
                 const timeTableData = timeTableSnapshot.docs.map((doc) => ({
@@ -95,7 +97,22 @@ const TimetablePhysicalComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
-        
+        const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
+        const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
+        const duration2 = (end2 - start2) / 60000;
+        if (duration2 <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณากรอกช่วงเวลานัดฝังเข็มหมายใหม่!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (numberAppointment > 10) {
             Swal.fire({
                 icon: "error",
@@ -140,6 +157,19 @@ const TimetablePhysicalComponent = (props) => {
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
                 text: "ใส่จํานวนคิวใหม่เนื่องจากน้อยกว่า 1 ครั้ง!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (numberMainAppointment <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ใส่จํานวนคิวฝังเข็มใหม่เนื่องจากน้อยกว่า 1 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -338,6 +368,7 @@ const TimetablePhysicalComponent = (props) => {
                 timeablelist: timeablelist,
                 appointmentList: [],
                 status: "Enabled",
+                isDelete: "No",
             };
             
 
@@ -1535,16 +1566,20 @@ const TimetablePhysicalComponent = (props) => {
 
 
 
-    const handleToggle = async (id) => {
+    const handleToggle = async (id,timetable) => {
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
-
-            // อัพเดต status จาก toggle
+            console.log(updatedStatus,"updatedStatus")
+            if (!updatedStatus) {
+            const response = axios.post('http://localhost:5000/api/adminToggleTimetable', timetable)
+            
+            console.log(response.data);
+        } else if (updatedStatus) {
             const docRef = doc(db, 'timeTable', id);
             updateDoc(docRef, { status: updatedStatus ? "Enabled" : "Disabled" }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
-
+        }
             return { ...prevState, [id]: updatedStatus };
         });
     };
@@ -1800,11 +1835,12 @@ const TimetablePhysicalComponent = (props) => {
                 confirmButton: 'custom-confirm-button',
                 cancelButton: 'custom-cancel-button',
             }
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                try{
-                    deleteDoc(timetableRef,`${timetable.id}`)
-                    console.log(`${timetable.id}`);
+                try {
+                    const response = await axios.post('http://localhost:5000/api/adminDeletTimetable', timetable)
+                    console.log(response.data);
+                    if (response.data === "success") {
                     Swal.fire(
                         {
                             title: 'การลบช่วงเวลาทำการสำเร็จ!',
@@ -1816,13 +1852,14 @@ const TimetablePhysicalComponent = (props) => {
                                 confirmButton: 'custom-confirm-button',
                             }
                         }
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                fetchTimeTableData();
-                            }
-                        });
-                } catch {
-
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            fetchTimeTableData();
+                        }
+                    });
+                }
+                } catch(error) {
+                    console.log(error);
                 }
                 
             } else if (
@@ -1905,7 +1942,7 @@ const TimetablePhysicalComponent = (props) => {
                                             <input
                                                 type="checkbox"
                                                 checked={isChecked[timetable.id]}
-                                                onChange={() => handleToggle(timetable.id)}
+                                                onChange={() => handleToggle(timetable.id,timetable)}
                                             />
                                             <div className="slider"></div>
                                         </label>
@@ -1963,7 +2000,7 @@ const TimetablePhysicalComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />
@@ -1991,7 +2028,7 @@ const TimetablePhysicalComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />
@@ -2019,7 +2056,7 @@ const TimetablePhysicalComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)}/>

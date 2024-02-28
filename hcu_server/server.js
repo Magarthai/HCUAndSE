@@ -26,6 +26,9 @@ const fetchQueueActivity = require('./allapi/Acitivity/admin/fetchQueueActivity'
 const adminUpdateQueueShifting = require('./allapi/Acitivity/admin/updateQueueShifting');
 const adminUpdateQueueShiftingPass = require('./allapi/Acitivity/admin/updateQueueShiftingPass');
 const deleteActivity = require('./allapi/Acitivity/admin/deleteActivity');
+const deleteTimeTable = require('./allapi/Acitivity/admin/TimeTable/deleteTimeTable');
+const toggleTimeTable = require('./allapi/Acitivity/admin/TimeTable/toggleTimeTable');
+
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
@@ -37,6 +40,9 @@ app.use('/api', adminUpdateQueueShifting);
 app.use('/api', adminUpdateQueueShiftingPass);
 app.use('/api', getRegisteredListActivity);
 app.use('/api', deleteActivity);
+app.use('/api', deleteTimeTable);
+app.use('/api', toggleTimeTable);
+
 let AppointmentUsersData = [];
 
 const fetchUserDataWithAppointments = async () => {

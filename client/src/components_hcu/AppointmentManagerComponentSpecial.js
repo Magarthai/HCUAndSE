@@ -198,9 +198,29 @@ const AppointmentManagerComponentSpecial = (props) => {
                 postPone: "",
                 appointmentTime2: [],
             };
-
+            
+            
             const usersCollection = collection(db, 'users');
             const timeTableDocRef = doc(db, 'timeTable', appointmentInfo.appointmentTime.timetableId);
+            const querySnapshot = await getDoc(timeTableDocRef);
+            if (querySnapshot.exists()){
+                const timeTableData = querySnapshot.data();
+                if (timeTableData.isDelete === "Yes" || timeTableData.status === "Disabled") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        html: `เวลาถูกปิดไม่ให้ไม่สามารถนัดหมายได้แล้ว!`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    }).then((result) => {
+                        window.location.reload();
+                    });
+                    return;
+                }
+            }
             const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointmentId)));
             const userDocuments = userQuerySnapshot.docs;
             const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
@@ -388,6 +408,26 @@ const AppointmentManagerComponentSpecial = (props) => {
                 clinic: "คลินิกเฉพาะทาง",
                 status: "ลงทะเบียนแล้ว",
             };
+            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+            const querySnapshot = await getDoc(timeTableDocRef);
+            if (querySnapshot.exists()){
+                const timeTableData = querySnapshot.data();
+                if (timeTableData.isDelete === "Yes" || timeTableData.status === "Disabled") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        html: `เวลาถูกปิดไม่ให้ไม่สามารถนัดหมายได้แล้ว!`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    }).then((result) => {
+                        window.location.reload();
+                    });
+                    return;
+                }
+            }
             const selectedTimeLabel = timeOptions.find((timeOption) => {
                 const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                 return optionValue === selectedValue;

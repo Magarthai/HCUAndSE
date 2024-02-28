@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { PulseLoader } from "react-spinners";
 import { getTimeablelist } from "../backend/backendGeneral";
+import axios from "axios";
 const TimetableSpecialComponent = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1); 
@@ -60,7 +61,8 @@ const TimetableSpecialComponent = (props) => {
                 const timeTableCollection = collection(db, 'timeTable');
                 const timeTableSnapshot = await getDocs(query(
                     timeTableCollection,
-                    where('clinic', '==', 'คลินิกเฉพาะทาง')
+                    where('clinic', '==', 'คลินิกเฉพาะทาง'),
+                    where('isDelete','==', 'No')
                 ));
 
                 const timeTableData = timeTableSnapshot.docs.map((doc) => ({
@@ -241,6 +243,7 @@ const TimetableSpecialComponent = (props) => {
                 timeablelist: timeablelist,
                 appointmentList: [],
                 status: "Enabled",
+                isDelete: "No",
             };
             
             if (addDay === "monday") {
@@ -740,6 +743,7 @@ const TimetableSpecialComponent = (props) => {
                 clinic: "คลินิกเฉพาะทาง",
                 timeablelist: timeablelist,
                 status: "Enabled",
+                isDelete: "No",
             };
             if (addDay === "monday") {
                 const mondayTimetable = timetable.filter(item => item.addDay === "monday" && item.id != timetableId);
@@ -1168,16 +1172,20 @@ const TimetableSpecialComponent = (props) => {
 
 
 
-    const handleToggle = async (id) => {
+    const handleToggle = async (id,timetable) => {
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
-
-            // อัพเดต status จาก toggle
+            console.log(updatedStatus,"updatedStatus")
+            if (!updatedStatus) {
+            const response = axios.post('http://localhost:5000/api/adminToggleTimetable', timetable)
+            
+            console.log(response.data);
+        } else if (updatedStatus) {
             const docRef = doc(db, 'timeTable', id);
             updateDoc(docRef, { status: updatedStatus ? "Enabled" : "Disabled" }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
-
+        }
             return { ...prevState, [id]: updatedStatus };
         });
     };
@@ -1385,15 +1393,17 @@ const TimetableSpecialComponent = (props) => {
                 confirmButton: 'custom-confirm-button',
                 cancelButton: 'custom-cancel-button',
             }
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                try{
-                    deleteDoc(timetableRef,`${timetable.id}`)
-                    console.log(`${timetable.id}`);
+                try {
+
+                    const response = await axios.post('http://localhost:5000/api/adminDeletTimetable', timetable)
+                    console.log(response.data);
+                    if (response.data === "success") {
                     Swal.fire(
                         {
                             title: 'การลบช่วงเวลาทำการสำเร็จ!',
-                            text: `การนัดหมายในวันทำการถูกลบเรียบร้อยแล้ว`,
+                            text: `การนัดหมายในวันทำการถูกลบเรียบร้อยแล้ว!`,
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -1401,13 +1411,14 @@ const TimetableSpecialComponent = (props) => {
                                 confirmButton: 'custom-confirm-button',
                             }
                         }
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                fetchTimeTableData();
-                            }
-                        });
-                } catch {
-
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            fetchTimeTableData();
+                        }
+                    });
+                }
+                } catch(error) {
+                    console.log(error);
                 }
                 
             } else if (
@@ -1495,7 +1506,7 @@ const TimetableSpecialComponent = (props) => {
                                             <input
                                                 type="checkbox"
                                                 checked={isChecked[timetable.id]}
-                                                onChange={() => handleToggle(timetable.id)}
+                                                onChange={() => handleToggle(timetable.id,timetable)}
                                             />
                                             <div className="slider"></div>
                                         </label>
@@ -1525,7 +1536,7 @@ const TimetableSpecialComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />
@@ -1553,7 +1564,7 @@ const TimetableSpecialComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />
@@ -1581,7 +1592,7 @@ const TimetableSpecialComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />
@@ -1609,7 +1620,7 @@ const TimetableSpecialComponent = (props) => {
                                     </a>
                                     <div className="card-funtion">
                                         <label className={`toggle-switch ${isChecked[timetable.id] ? 'checked' : ''}`}>
-                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id)} />
+                                            <input type="checkbox" checked={isChecked[timetable.id]} onChange={() => handleToggle(timetable.id,timetable)} />
                                             <div className="slider"></div>
                                         </label>
                                         <img src={edit} className="icon" onClick={(event) => openEdittimetable(event, timetable)} />

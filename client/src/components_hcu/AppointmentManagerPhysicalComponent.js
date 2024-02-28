@@ -3,7 +3,7 @@ import CalendarAdminComponent from "../components_hcu/CalendarAdminComponent";
 import edit from "../picture/icon_edit.jpg";
 import icon_delete from "../picture/icon_delete.jpg";
 import { useEffect, useState, useRef } from "react";
-import { query, where, arrayUnion, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { query, where, arrayUnion, addDoc, updateDoc, doc,getDoc } from 'firebase/firestore';
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -764,8 +764,11 @@ const AppointmentManagerPhysicComponent = (props) => {
                         const timeTableCollection = collection(db, 'timeTable');
                         const querySnapshot = await getDocs(query(
                             timeTableCollection,
+                            where('status', '==', 'Enabled'),
                             where('addDay', '==', xd.dayName),
-                            where('clinic', '==', 'คลินิกกายภาพ')
+                            where('clinic', '==', 'คลินิกกายภาพ'),
+                            where('isDelete', '==', 'No'),
+                            
                         ));
                         const timeTableData = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
@@ -1077,6 +1080,27 @@ const AppointmentManagerPhysicComponent = (props) => {
                 
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
                                     const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+                                    const querySnapshot = await getDoc(timeTableDocRef);
+                                    if (querySnapshot.exists()){
+                                        const timeTableData = querySnapshot.data();
+                                        if (timeTableData.isDelete === "Yes" || timeTableData.status === "Disabled") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "เกิดข้อผิดพลาด!",
+                                                html: `เวลาถูกปิดไม่ให้ใช้งานต่อแล้ว! <br/> ตั้งแต่วันที่ ${updatedTimetable.appointmentDate}`,
+                                                confirmButtonText: 'ตกลง',
+                                                confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    confirmButton: 'custom-confirm-button',
+                                                }
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    resetForm();
+                                                }
+                                            });
+                                            return;
+                                        }
+                                    }
                                     const userDocRef = doc(db, 'users', userId);
                                     const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: updatedTimetable.appointmentDate}
                                     await updateDoc(userDocRef, {
@@ -1423,10 +1447,14 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             className={selectedCount >= 2 ? 'selected' : ''}
                                         >
                                             {timeOptions.map((timeOption, index) => (
-                                                <option key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`} value={JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}>
-                                                    {timeOption.label}
-                                                </option>
-                                            ))}
+                                                    <option
+                                                        key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                                        value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                                        hidden={index===0}
+                                                    >
+                                                        {timeOption.label}
+                                                    </option>
+                                                ))}
                                         </select>
                                     </div>
                                     <div>

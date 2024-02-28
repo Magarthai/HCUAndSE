@@ -56,8 +56,7 @@ export const getTimeablelist = (duration,numberAppointment,start,end) => {
 export const fetchTimeTableDataGeneral = async () => {
   try {
       const timeTableCollection = collection(db, 'timeTable');
-      const timeTableSnapshot = await getDocs(query(timeTableCollection,where('clinic', '==', 'คลินิกทั่วไป')));
-      
+      const timeTableSnapshot = await getDocs(query(timeTableCollection, where('clinic', '==', 'คลินิกทั่วไป'), where('isDelete','==', 'No')));
       const timeTableData = timeTableSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -98,15 +97,16 @@ export const fetchUserDataWithAppointments = async (user, selectedDate, setAllAp
         const AppointmentUsersDataArray = await Promise.all(existingAppointments.map(async (appointment) => {
           const timeSlotIndex = appointment.appointmentTime.timeSlotIndex;
           const timeTableId = appointment.appointmentTime.timetableId;
+          console.log(timeSlotIndex,timeTableId,"timeSlotIndex,timeTableId")
 
           try {
               const timetableDocRef = doc(timeTableCollection, timeTableId);
               const timetableDocSnapshot = await getDoc(timetableDocRef);
-
+              const timetableData = timetableDocSnapshot.data();
+              console.log(timetableData,"timetableData")
               if (timetableDocSnapshot.exists()) {
                   const timetableData = timetableDocSnapshot.data();
                   const timeslot = timetableData.timeablelist[timeSlotIndex];
-
                   const userDetails = await getUserDataFromUserId(appointment, appointment.appointmentId, timeslot, appointment.appointmentuid);
 
                   if (userDetails) {

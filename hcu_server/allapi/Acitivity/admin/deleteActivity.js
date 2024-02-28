@@ -12,25 +12,11 @@ const router = express.Router();
 const requestCounts = {};
 const MAX_REQUESTS_PER_SECOND = 10;
 
-function addQueue(queueList, newId,firstName,lastName,userID) {
-    if (queueList.length === 0) {
-        queueList.push({ id: newId, queue: 'A001', firstName: firstName, lastName: lastName,userID:userID,status:""  });
-        return queueList;
-    } else {
-        const lastQueue = queueList[queueList.length - 1].queue;
-        const queueNumber = parseInt(lastQueue.substring(1)) + 1;
-        const newQueue = 'A' + queueNumber.toString().padStart(3, '0');
-        queueList.push({ id: newId, queue: newQueue, firstName: firstName, lastName: lastName,userID:userID,status:""  });
-        console.log(queueList,"queueListqueueListqueueListqueueListqueueListqueueListqueueListqueueListqueueListqueueListqueueListqueueList")
-        return queueList;
-    }
-}
-
 const limitRequests = (req, res, next) => {
     if (req.ip in requestCounts && requestCounts[req.ip] >= MAX_REQUESTS_PER_SECOND) {
         return res.status(429).send('Too Many Requests (Per Second)');
     }
-    
+
     requestCounts[req.ip] = (requestCounts[req.ip] || 0) + 1;
 
     setTimeout(() => {
@@ -39,8 +25,6 @@ const limitRequests = (req, res, next) => {
 
     next();
 };
-
-
 
 router.post('/adminDeleteActivity', limitRequests, async (req, res) => {
     try {

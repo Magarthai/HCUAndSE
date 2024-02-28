@@ -795,7 +795,9 @@ const AppointmentManagerNeedleComponent = (props) => {
                         const querySnapshot = await getDocs(query(
                             timeTableCollection,
                             where('addDay', '==', xd.dayName),
-                            where('clinic', '==', 'คลินิกฝังเข็ม')
+                            where('clinic', '==', 'คลินิกฝังเข็ม'),
+                            where('isDelete', '==', 'No'),
+                            where('status', '==', 'Enabled'),
                         ));
                         const timeTableData = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
