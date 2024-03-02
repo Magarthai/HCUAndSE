@@ -1500,6 +1500,8 @@ const TimetablePhysicalComponent = (props) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetchTimeTableData();
+                    let x = document.getElementById("Edittimetable");
+                    x.style.display = "none";
                 }
             });
         } catch (firebaseError) {

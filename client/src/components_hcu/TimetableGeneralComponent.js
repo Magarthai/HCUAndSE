@@ -1058,6 +1058,8 @@ const TimetableGeneralComponent = (props) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetchTimeTableData();
+                    let x = document.getElementById("Edittimetable");
+                    x.style.display = "none";
                 }
             });
         } catch (firebaseError) {
@@ -1478,7 +1480,7 @@ const TimetableGeneralComponent = (props) => {
                         {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic === "คลินิกทั่วไป").length === 0 && (
                             <div className="row" >
                                 <div className="card" onClick={handleCardClick}>
-                                    <p className="textBody-big">ไม่มีช่วงเวลาทําการ</p>
+                                    <p className="admin-textBody-big">ไม่มีช่วงเวลาทําการ</p>
                                 </div>
                             </div>
                         )}
