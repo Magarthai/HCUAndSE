@@ -2277,13 +2277,13 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
                             <div>
                                 <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
-                                <input type="text" className="form-control timeable" value={numberMainAppointment} 
+                                {/* <input type="text" className="form-control timeable" value={numberAppointment} 
                                     onChange={(e) => {const valuenumber = e.target.value;
                                         if (parseInt(valuenumber) >= minnumber || valuenumber === "") {
-                                            inputValue("numberAppointment")(e); // อัปเดตค่าใน state
+                                            inputValue("numberAppointment")(e); 
                                         }}}
-                                    placeholder="5" />
-                                {/* <input type="text" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" /> */}
+                                    placeholder="5" /> */}
+                                <input type="text" className="form-control timeable" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
@@ -2320,7 +2320,7 @@ const TimetablePhysicalComponent = (props) => {
                                             inputValue("numberMainAppointment")(e); // อัปเดตค่าใน state
                                         }}}
                                     placeholder="5" /> */}
-                                <input type="text" className="form-control timeable" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
+                                <input type="text" className="form-control timeable" value={numberMainAppointment} min={minnumber2} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
