@@ -21,13 +21,14 @@ const UserActivityDetail = (props) =>{
         openQueueDate: "",
         queueStatus: "",
         activityId: "",
+        editDetial:"",
     });
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueueDate, imageURL, openQueueDate,activityId } = state
+    const {editDetial, activityName, activityDetail, activityType, endQueueDate, imageURL, openQueueDate,activityId } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -54,6 +55,7 @@ const UserActivityDetail = (props) =>{
                 imageURL: activities.imageURL || "",
                 openQueueDate: activities.openQueueDate || "",
                 queueStatus: activities.queueStatus || "",
+                editDetial: activities.editDetial || "",
             });
             setImgSrc(activities.imageURL);
             const updatedTimeSlots = activities.timeSlots.map((slot, index) => ({
@@ -128,7 +130,8 @@ const UserActivityDetail = (props) =>{
                         icon: "success",
                         confirmButtonText: "กลับ",
                     }).then(function() {
-                        navigate("/activity");
+                        window.location.href = '/activity';
+
                     });
                 } else if (response.data == "already-exits") {
                     Swal.fire({
@@ -211,8 +214,14 @@ const UserActivityDetail = (props) =>{
                         {activityDetail}
                         </p>
                     </div>
-                    
-
+                    {editDetial &&
+                    <div className="user-activity-vaccine_detail_container">
+                        <h5>รายละเอียดแก้ไข้</h5>
+                        <p className="textBody-medium" style={{color:"red"}}>
+                        {editDetial}
+                        </p>
+                    </div>
+                    }
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่</h5>
                         <select 

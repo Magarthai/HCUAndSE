@@ -27,18 +27,62 @@ const ActivityEditComponent = (props) => {
         openQueueDate: "",
         timeSlots: "",
         totalRegisteredCount: "",
+        editDetial: "",
+        checkEndDate: "",
     });
     const checkCurrentDate = getCurrentDate();
     const location = useLocation();
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
+    const { editDetial,activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
 
     const inputValue = (name) => (event) => {
-        setState({ ...state, [name]: event.target.value });
-    };
-    
-    
+        if (name === 'activityDetail') {
+          const value = event.target.value;
+          if (value.length <= 10 * 1024 * 1024) {
+            setState({ ...state, [name]: value });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Limit Exceeded',
+              text: 'Activity detail should not exceed 10 MB',
+            });
+          }
+        } else if (name === 'openQueueDate') {
+            const endQueueDate = state.endQueueDate;
+        if(endQueueDate != ""){
+            if (event.target.value > endQueueDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Date',
+                    text: 'ช่วงเวลาเปิดลงทะเบียนควรอยู่ก่อนวันเปิด',
+                });
+                setState({ ...state, [name]: "" });
+                
+            } else {
+                setState({ ...state, [name]: event.target.value });
+            }
+        }
+        } else if (name === 'endQueueDate') {
 
+            const checkEndDate = state.checkEndDate;
+            
+            if (event.target.value < checkEndDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Date',
+                    text: 'ขยายเวลาเปิดกิจกรรมได้อย่างเดียว',
+                });
+                setState({ ...state, [name]: "" });
+                
+            } else {
+                setState({ ...state, [name]: event.target.value });
+            }
+        
+        } else {
+          setState({ ...state, [name]: event.target.value });
+        }
+      };
+    
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -73,6 +117,7 @@ const ActivityEditComponent = (props) => {
                 imageURL: activities.imageURL || "",
                 openQueueDate: activities.openQueueDate || "",
                 queueStatus: activities.queueStatus || "",
+                checkEndDate: activities.endQueueDate || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -135,13 +180,71 @@ const ActivityEditComponent = (props) => {
         e.preventDefault();
         try {
             const activitiesCollection = doc(db, 'activities', id);
-    
-
+            const activityStatusForCurrentDate = timeSlots.some(slot => slot.date >= checkCurrentDate);
+            console.log(activityStatusForCurrentDate,checkCurrentDate)
             const storage = getStorage();
           
             const fileInput = document.querySelector('.input-activity-img');
             const file = fileInput?.files[0];
-          
+            const wrongTimeInput = timeSlots.some(item => {
+                const startTime = new Date(`2000-01-01T${item.startTime}`);
+                const endTime = new Date(`2000-01-01T${item.endTime}`);
+        
+                return startTime >= endTime;
+              })
+              
+              const lowerChecker = timeSlots.some(item => {
+                const a = parseInt(item.registeredCountCheck)
+                const b = parseInt(item.registeredCount)
+                return b < a
+              });
+              console.log(timeSlots)
+              
+              const wrongDateInput = timeSlots.some(item => {
+                const startDate = new Date(item.date);
+                const EndRegisterActivity = new Date(endQueueDate);
+                return startDate < EndRegisterActivity;
+              })
+              if (lowerChecker) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'แก้จํานวนคนในกิจกรรมน้อยกว่าเดิม บางจุด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }
+              if (wrongTimeInput) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'ใส่ช่วงเวลาจัดกิจกรรมผิด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }
+              if (wrongDateInput) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'ใส่ช่วงวันจัดกิจกรรมผิด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }
+
             if (file) {
                 
                 const fileType = file.type.split("/")[0];
@@ -167,22 +270,33 @@ const ActivityEditComponent = (props) => {
                 if (!downloadURL.startsWith("https://firebasestorage.googleapis.com/")) {
                     throw new Error("เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
                 }
-                const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
-                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
+                const date1 = new Date(endQueueDate)
+                const date2 = new Date(checkCurrentDate)
+                if (date1 >= date2) {
+                    console.log(`${date1} is greater than or equal to ${date2}`);
+                } else {
+                    console.log(`${date1} is less than ${date2}`);
+                }
+                const activityStatusForCurrentDate = date1 >= date2;
+                console.log(activityStatusForCurrentDate)
+                const updatedTimeSlots = timeSlots.map(item => ({
+                    ...item,
+                    registeredCountCheck: item.registeredCount
+                }));
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
                     openQueueDate: openQueueDate,
                     endQueueDate: endQueueDate,
-                    timeSlots: timeSlots,
+                    timeSlots: updatedTimeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: downloadURL,
                     queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                 };
               
-                
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
                     html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
@@ -225,21 +339,33 @@ const ActivityEditComponent = (props) => {
                     }
                 });
             } else {
+                const updatedTimeSlots = timeSlots.map(item => ({
+                    ...item,
+                    registeredCountCheck: item.registeredCount
+                }));
                 const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const date1 = new Date(endQueueDate)
+                const date2 = new Date(checkCurrentDate)
+                if (date1 >= date2) {
+                    console.log(`${date1} is greater than or equal to ${date2}`);
+                } else {
+                    console.log(`${date1} is less than ${date2}`);
+                }
+               
+                const activityStatusForCurrentDate = date1 >= date2;
+                console.log(activityStatusForCurrentDate)
                     const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
                     openQueueDate: openQueueDate,
                     endQueueDate: endQueueDate,
-                    timeSlots: timeSlots,
+                    timeSlots: updatedTimeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: imageURL,
                     queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
                     };
-
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
                     html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
@@ -266,7 +392,10 @@ const ActivityEditComponent = (props) => {
                             customClass: {
                                 confirmButton: 'custom-confirm-button',
                             },
+                        }).then(() => {
+                            window.location.href = '/adminActivityTodayComponent';
                         });
+                        
                     } else {
                         Swal.fire({
                             title: 'สร้างไม่สําเร็จ',
@@ -310,12 +439,12 @@ const ActivityEditComponent = (props) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0}
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0,checkEndDate: "",}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0}]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,queueOpen: "no", queueCount: 0,checkEndDate: "",}]);
     };
 
     const handleInputChange = (index, name) => (event) => {

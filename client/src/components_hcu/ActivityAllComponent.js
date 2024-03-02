@@ -10,10 +10,12 @@ import person_icon from "../picture/person-dark.png";
 import annotaion_icon from "../picture/annotation-dark.png";
 import preview from "../picture/preview.png";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import { fetchAllActivity } from "../backend/activity/getTodayActivity";
 const ActivityAllComponent = (props) => {
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
+    const [Queueactivities, setQueueActivities] = useState([]);
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
@@ -28,7 +30,21 @@ const ActivityAllComponent = (props) => {
         return formattedDate;
     }
     const checkCurrentDate = getCurrentDate();
+    const getRegisteredListActivity = async (activities) => {
 
+        try {
+            console.log(activities)
+            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const a = response.data
+            console.log(response.data,"response.data")
+            setQueueActivities(response.data);
+            console.log("ActivityOpenRegisterComponent",response.data);
+            navigate("/adminActivityListOfPeopleComponent", {state: {data: response.data}})
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+        }
+        
+    };
     const fetchOpenActivityAndSetState = async () => {
         try {
             const openActivity = await fetchAllActivity(user, checkCurrentDate);
@@ -162,7 +178,7 @@ const ActivityAllComponent = (props) => {
                                                         </div>
                                                     ))}
                                             </p>
-                                            <p className="admin-textBody-big colorPrimary-800"><a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
+                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box2 admin-right">
                                             <a className="admin-activity-preview" onClick={() => PreviewActivity(activities)} role="button"  target="_parent">Preview <img src={preview} className="icon icon_preview" /></a>

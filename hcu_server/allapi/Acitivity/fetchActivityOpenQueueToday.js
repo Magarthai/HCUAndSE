@@ -32,15 +32,16 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 console.log(data.timeSlots)
                 let hasMatch = false;
                 for (const timeSlot of data.timeSlots) { 
-                    console.log(timeSlot.date);
+                    console.log(timeSlot.date,"const timeSlot of data.timeSlots");
                     const activityDate = new Date(timeSlot.date);
                     if (data.queueStatus === "open" && isSameDay(activityDate, today)) {
+                        if(data.timeSlots[userActivityList[index].index].QueueOpen == 'yes'){
                         hasMatch = true; 
                         break; 
+                        }
                     }
                 }
                 if (hasMatch) {
-
                     return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
                 } else {
                     return null;

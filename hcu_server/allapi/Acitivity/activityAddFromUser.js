@@ -1,5 +1,5 @@
 const express = require('express');
-const { collection,addDoc,doc,updateDoc,arrayUnion,getDoc} = require('firebase/firestore');
+const { collection,addDoc,doc,updateDoc,arrayUnion,getDoc,setDoc} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
 const { runTransaction } = require('firebase/firestore');
@@ -37,8 +37,18 @@ router.post('/addUserActivity', limitRequests, async (req, res) => {
         const querySnapshot = await getDoc(userDoc);
 
         if (querySnapshot.exists()) {
-            const userData = querySnapshot.data();
-            console.log(userData)
+            const userDataCheck = querySnapshot.data();
+            console.log("check error")
+            console.log(userDataCheck.userActivity);
+            if (userDataCheck.userActivity === undefined) {
+                await updateDoc(userDocRef, {
+                    userActivity: [],
+                  });
+                  console.log("check error2")
+            }
+            const querySnapshot2 = await getDoc(userDoc);
+            const userData = querySnapshot2.data();
+            console.log(userData,"userDatauserDatauserDatauserDatauserDatauserDatauserDatauserDatauserDatauserDatauserDatauserData")
             if (userData.userActivity.some(activity => activity.activityId === appointmentInfo.activityId)) {
                 console.log("Activity already exists for this user.");
                 return res.json("already-exists");
@@ -63,10 +73,11 @@ router.post('/addUserActivity', limitRequests, async (req, res) => {
                         transaction.update(activitiesDocRef, {
                             timeSlots: existingData.timeSlots
                         });
+                                await updateDoc(userDocRef, {
+                                    userActivity: arrayUnion({activityId: appointmentInfo.activityId, index: appointmentInfo.timeSlots.index}),
+                                });
+                            
                         
-                        await updateDoc(userDocRef, {
-                            userActivity: arrayUnion({activityId: appointmentInfo.activityId, index: appointmentInfo.timeSlots.index}),
-                        });
                         return res.json("success");
                     } else {
                         return res.json("already-full");

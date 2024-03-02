@@ -177,8 +177,7 @@ const ActivityOpenRegisterComponent = (props) => {
                             }
                         ).then((result) => {
                             if (result.isConfirmed) {
-                              // รีโหลดหน้าเว็บ
-                              navigate('/adminActivityOpenRegisterComponent')
+                              window.location.reload();
                             }
                           });
                         fetchOpenActivityAndSetState();
@@ -275,11 +274,9 @@ const ActivityOpenRegisterComponent = (props) => {
                                                             </p>
                                                             <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime}
                                                         </div>
-
-
                                                     ))}
                                             </p>
-                                            <p className="admin-textBody-big colorPrimary-800"><a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
+                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box2 admin-right">
                                             <a href="/adminActivityEditOpenRegistartComponent" target="_parent"><img src={edit} className="icon" onClick={() => EditActivity(activities)} /></a>

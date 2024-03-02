@@ -1658,6 +1658,8 @@ const TimetablePhysicalComponent = (props) => {
             timeEnd: timetable.timeEnd,
             timeAppointmentStart: timetable.timeAppointmentStart,
             timeAppointmentEnd: timetable.timeAppointmentEnd,
+            timeAppointmentMainEnd: timetable.timeAppointmentMainEnd,
+            timeAppointmentMainStart: timetable.timeAppointmentMainStart,
             numberAppointment: timetable.numberAppointment,
             numberMainAppointment: timetable.numberMainAppointment,
             clinic: "คลินิกฝังเข็ม",

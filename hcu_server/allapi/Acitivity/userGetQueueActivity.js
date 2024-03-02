@@ -58,7 +58,8 @@ router.post('/userGetQueueActivity', limitRequests, async (req, res) => {
             console.log(activityData)
             console.log(activityInfo.index)
             console.log(activityData.timeSlots[activityInfo.index])
-            
+            console.log(activityData.timeSlots[activityInfo.index].Queuelist,activityData.timeSlots[activityInfo.index].Queuelist.id,activityInfo.userData.userID,"activityData.timeSlots[activityInfo.index].Queuelist")
+            if (activityData.timeSlots[activityInfo.index].Queuelist && activityData.timeSlots[activityInfo.index].Queuelist.length > 0) {
             if (activityData.timeSlots[activityInfo.index].Queuelist.some(activity => activity.id === activityInfo.userData.userID)) {
                 console.log("Activity already exists for this user."); 
                 return res.json("already-exists");
@@ -66,12 +67,7 @@ router.post('/userGetQueueActivity', limitRequests, async (req, res) => {
                 console.log("Activity already exists for this user."); 
                 return res.json("already-exists");
             }
-            
             else {
-
-                
-
-
                 console.log("XD")
                 await runTransaction(db, async (transaction) => {
 
@@ -92,6 +88,38 @@ router.post('/userGetQueueActivity', limitRequests, async (req, res) => {
                     return res.json("success");
                 });
             }
+        } else {
+            if (activityData.timeSlots[activityInfo.index].Queuelist.some(activity => activity.id === activityInfo.userData.userID)) {
+                console.log("Activity already exists for this user."); 
+                return res.json("already-exists");
+            }
+            else if (activityData.timeSlots[activityInfo.index].SuccessList.some(activity => activity.id === activityInfo.userData.userID)) {
+                console.log("Activity already exists for this user."); 
+                return res.json("already-exists");
+            }
+            else {
+                console.log(activityData.timeSlots[activityInfo.index].SuccessList)
+            console.log("XD")
+                await runTransaction(db, async (transaction) => {
+
+                    const docSnapshot = await transaction.get(activityDoc);
+                    const existingData = docSnapshot.data();
+                    console.log(existingData,"existingData")
+                    const Queuelist = existingData.timeSlots[activityInfo.index].Queuelist
+                    console.log(Queuelist,"Queuelist",userDoc.id)
+                    const newQueueList = addQueue(Queuelist, userDoc.id,userData.firstName,userData.lastName,userData.id);
+                    console.log(newQueueList)
+                    existingData.timeSlots[activityInfo.index].Queuelist = newQueueList
+
+                    transaction.update(activityDoc, {
+                        timeSlots: existingData.timeSlots
+                    });
+                    
+                    console.log("userid", activityInfo.userData.userID)
+                    return res.json("success");
+                });
+            }
+        }
         } 
         
     } catch (error) {

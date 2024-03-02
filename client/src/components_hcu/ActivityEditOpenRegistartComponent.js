@@ -27,17 +27,15 @@ const ActivityEditOpenRegistartComponent = (props) => {
         openQueueDate: "",
         timeSlots: "",
         totalRegisteredCount: "",
+        editDetial: "",
+        checkEndDate: "",
+        
     });
     const checkCurrentDate = getCurrentDate();
     const location = useLocation();
     const [lengthTimeslot, setlengthTimeslot] = useState();
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
-
-    const inputValue = (name) => (event) => {
-        setState({ ...state, [name]: event.target.value });
-    };
-    
+    const { editDetial,activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
     
 
     useEffect(() => {
@@ -73,6 +71,8 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 imageURL: activities.imageURL || "",
                 openQueueDate: activities.openQueueDate || "",
                 queueStatus: activities.queueStatus || "",
+                editDetial: activities.editDetial || "",
+                checkEndDate: activities.endQueueDate || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -101,6 +101,52 @@ const ActivityEditOpenRegistartComponent = (props) => {
     const containerStyle = {
         zoom: zoomLevel,
     };
+    const inputValue = (name) => (event) => {
+        if (name === 'activityDetail') {
+          const value = event.target.value;
+          if (value.length <= 10 * 1024 * 1024) {
+            setState({ ...state, [name]: value });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Limit Exceeded',
+              text: 'Activity detail should not exceed 10 MB',
+            });
+          }
+        } else if (name === 'openQueueDate') {
+            const endQueueDate = state.endQueueDate;
+    
+            if (event.target.value > endQueueDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Date',
+                    text: 'ช่วงเวลาเปิดลงทะเบียนควรอยู่ก่อนวันเปิด',
+                });
+                setState({ ...state, [name]: "" });
+                
+            } else {
+                setState({ ...state, [name]: event.target.value });
+            }
+        } else if (name === 'endQueueDate') {
+
+            const checkEndDate = state.checkEndDate;
+    
+            if (event.target.value < checkEndDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Date',
+                    text: 'ขยายเวลาเปิดกิจกรรมได้อย่างเดียว',
+                });
+                setState({ ...state, [name]: "" });
+                
+            } else {
+                setState({ ...state, [name]: event.target.value });
+            }
+        
+        } else {
+          setState({ ...state, [name]: event.target.value });
+        }
+      };
 
     function getShowTime() {
         const today = new Date();
@@ -137,13 +183,70 @@ const ActivityEditOpenRegistartComponent = (props) => {
         e.preventDefault();
         try {
             const activitiesCollection = doc(db, 'activities', id);
-    
-
             const storage = getStorage();
           
             const fileInput = document.querySelector('.input-activity-img');
             const file = fileInput?.files[0];
           
+            const wrongTimeInput = timeSlots.some(item => {
+                const startTime = new Date(`2000-01-01T${item.startTime}`);
+                const endTime = new Date(`2000-01-01T${item.endTime}`);
+        
+                return startTime >= endTime;
+              })
+              
+              const lowerChecker = timeSlots.some(item => {
+                const a = parseInt(item.registeredCountCheck)
+                const b = parseInt(item.registeredCount)
+                return b < a
+              });
+              console.log(timeSlots)
+              
+              const wrongDateInput = timeSlots.some(item => {
+                const startDate = new Date(item.date);
+                const EndRegisterActivity = new Date(endQueueDate);
+                return startDate < EndRegisterActivity;
+              })
+              if (lowerChecker) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'แก้จํานวนคนในกิจกรรมน้อยกว่าเดิม บางจุด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }
+              if (wrongTimeInput) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'ใส่ช่วงเวลาจัดกิจกรรมผิด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }
+              if (wrongDateInput) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'ใส่ช่วงวันจัดกิจกรรมผิด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      cancelButton: 'custom-cancel-button',
+                    },
+                  });
+                  return;
+              }            
+
             if (file) {
                 
                 const fileType = file.type.split("/")[0];
@@ -160,8 +263,47 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 if (file.size > maxSize) {
                     throw new Error("ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป");
                 }
-                
-    
+
+                const wrongTimeInput = timeSlots.some(item => {
+                    const startTime = new Date(`2000-01-01T${item.startTime}`);
+                    const endTime = new Date(`2000-01-01T${item.endTime}`);
+            
+                    return startTime >= endTime;
+                  })
+
+                  const wrongDateInput = timeSlots.some(item => {
+                    const startDate = new Date(item.date);
+                    const EndRegisterActivity = new Date(endQueueDate);
+                    return startDate < EndRegisterActivity;
+                  })
+            
+                  if (wrongTimeInput) {
+                    Swal.fire({
+                        title: 'สร้างไม่สําเร็จ',
+                        html: 'ใส่ช่วงเวลาจัดกิจกรรมผิด',
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                          cancelButton: 'custom-cancel-button',
+                        },
+                      });
+                      return;
+                  }
+                  if (wrongDateInput) {
+                    Swal.fire({
+                        title: 'สร้างไม่สําเร็จ',
+                        html: 'ใส่ช่วงวันจัดกิจกรรมผิด',
+                        icon: 'error',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                          cancelButton: 'custom-cancel-button',
+                        },
+                      });
+                      return;
+                  }            
+
                 const newFileName = `${uuidv4()}.${fileExtension}`;
                 const storageRef = ref(storage, `activity_images/${newFileName}`);
                 await uploadBytes(storageRef, file);
@@ -169,19 +311,26 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 if (!downloadURL.startsWith("https://firebasestorage.googleapis.com/")) {
                     throw new Error("เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
                 }
+                const updatedTimeSlots = timeSlots.map(item => ({
+                    ...item,
+                    registeredCountCheck: item.registeredCount
+                }));
                 const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
-                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const date1 = new Date(endQueueDate)
+        const date2 = new Date(checkCurrentDate)
+        const activityStatusForCurrentDate = date1 >= date2;
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
                     openQueueDate: openQueueDate,
                     endQueueDate: endQueueDate,
-                    timeSlots: timeSlots,
+                    timeSlots: updatedTimeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: downloadURL,
                     queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
+                    editDetial: editDetial,
                 };
               
               
@@ -203,9 +352,8 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     if (result.isConfirmed) {
                         await updateDoc(activitiesCollection, activityInfo);
                         await setDoc(doc(db, 'activities', id), { imageURL: downloadURL, activityType: activityType }, { merge: true });
-    
                         Swal.fire({
-                            title: 'สร้างกิจกรรมสําเร็จ',
+                            title: 'แก้ไข้กิจกรรมสําเร็จ',
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -228,18 +376,25 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 });
             } else {
                 const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-                const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const date1 = new Date(endQueueDate)
+        const date2 = new Date(checkCurrentDate)
+        const activityStatusForCurrentDate = date1 >= date2;
+                const updatedTimeSlots = timeSlots.map(item => ({
+                    ...item,
+                    registeredCountCheck: item.registeredCount
+                }));
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
                     activityType: activityType,
                     openQueueDate: openQueueDate,
                     endQueueDate: endQueueDate,
-                    timeSlots: timeSlots,
+                    timeSlots: updatedTimeSlots,
                     totalRegisteredCount: totalRegisteredCount,
                     imageURL: imageURL,
                     queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
                     activityStatus: activityStatusForCurrentDate ? "open" : "close",
+                    editDetial: editDetial,
                 };
 
                 Swal.fire({
@@ -268,6 +423,8 @@ const ActivityEditOpenRegistartComponent = (props) => {
                             customClass: {
                                 confirmButton: 'custom-confirm-button',
                             },
+                        }).then(() => {
+                            window.location.href = '/adminActivityTodayComponent';
                         });
                     } else {
                         Swal.fire({
@@ -312,12 +469,12 @@ const ActivityEditOpenRegistartComponent = (props) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" }
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : [],registeredCountCheck:""}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" }]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "",registeredCountCheck:"" }]);
     };
 
     const handleInputChange = (index, name) => (event) => {
@@ -343,7 +500,6 @@ const ActivityEditOpenRegistartComponent = (props) => {
             reader.onloadend = () => {
                 setImgSrc(reader.result);
             };
-
             reader.readAsDataURL(file);
         }
     };
@@ -570,12 +726,18 @@ const ActivityEditOpenRegistartComponent = (props) => {
                             </div>
                             <br></br>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">รายละเอียดกิจกรรมที่แก้ไข</label>
-                                <textarea className="acivity-detail" rows="5"></textarea>
+                                <label 
+                                
+                                className="admin-textBody-large colorPrimary-800">รายละเอียดกิจกรรมที่แก้ไข</label>
+                                <textarea onChange={(e) => {
+                                    inputValue("editDetial")(e);
+                                    console.log(editDetial)
+                                }}
+                                value={editDetial} className="acivity-detail" rows="5"></textarea>
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="แก้ไข้กิจกรรม" className="btn-primary btn-systrm" target="_parent" />
+                                <input type="submit" value="แก้ไข้กิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
                             </div>
                         </div>
                     </form>

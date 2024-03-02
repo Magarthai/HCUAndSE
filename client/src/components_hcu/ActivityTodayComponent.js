@@ -10,7 +10,7 @@ import person_icon from "../picture/person-dark.png";
 import annotaion_icon from "../picture/annotation-dark.png";
 import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from "react-router-dom";
-import { doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import { doc, updateDoc, addDoc, deleteDoc ,getDoc} from 'firebase/firestore';
 const ActivityTodayComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -66,7 +66,7 @@ const ActivityTodayComponent = (props) => {
             try {
                 const todayActivity = await fetchTodayActivity(user, checkCurrentDate);
                 const initialIsChecked = todayActivity.reduce((acc, timetableItem) => {
-                    acc[timetableItem.id] = timetableItem.queueStatus === "open";
+                    acc[timetableItem.id] = timetableItem.timeSlots[0].QueueOpen === "yes";
                     return acc;
                 }, {});
                 setIsChecked(initialIsChecked);
@@ -117,17 +117,26 @@ const ActivityTodayComponent = (props) => {
     const checkCurrentDate = getCurrentDate();
 
 
-    const handleToggle = async (id) => {
+    const handleToggle = async (id, activityInfo) => {
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
             const docRef = doc(db, 'activities', id);
-            updateDoc(docRef, { queueStatus: updatedStatus ? "open" : "close" }).catch(error => {
+            const queryActivitySnapshot = getDoc(docRef);
+            queryActivitySnapshot.then(async (doc) => {
+                const activityData = doc.data();
+                console.log(activityData.timeSlots[activityInfo.timeSlots[0].index],activityInfo.timeSlots[0].index)
+                activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen = (activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen === 'no') ? 'yes' : 'no';
+    
+                await updateDoc(docRef, { timeSlots: activityData.timeSlots });
+            }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
-
+    
             return { ...prevState, [id]: updatedStatus };
         });
     };
+    
+    
 
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -191,7 +200,7 @@ const ActivityTodayComponent = (props) => {
                                         <input
                                             type="checkbox"
                                             checked={isChecked[activities.id]}
-                                            onChange={() => handleToggle(activities.id)}
+                                            onChange={() => handleToggle(activities.id,activities)}
                                         />
                                         <div className="slider"></div>
                                         </label>

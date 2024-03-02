@@ -37,9 +37,20 @@ const ActivityAddComponent = (props) => {
             });
           }
         } else if (name === 'openQueueDate') {
-
-            setState({ ...state, [name]: event.target.value });
-        } else if (name === 'enQueueDate') {
+            const endQueueDate = state.endQueueDate;
+            if (endQueueDate != "") {
+            if (event.target.value > endQueueDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Date',
+                    text: 'ช่วงเวลาเปิดลงทะเบียนควรอยู่ก่อนวันเปิด',
+                });
+                setState({ ...state, [name]: "" });
+            }
+            } else {
+                setState({ ...state, [name]: event.target.value });
+            }
+        } else if (name === 'endQueueDate') {
 
             const openQueueDate = state.openQueueDate;
     
@@ -162,10 +173,50 @@ const submitForm = async (e) => {
       const storageRef = ref(storage, `activity_images/${file.name}`);
 
       await uploadBytes(storageRef, file);
+      const wrongTimeInput = timeSlots.some(item => {
+        const startTime = new Date(`2000-01-01T${item.startTime}`);
+        const endTime = new Date(`2000-01-01T${item.endTime}`);
+
+        return startTime >= endTime;
+      })
+      const wrongDateInput = timeSlots.some(item => {
+        const startDate = new Date(item.date);
+        const EndRegisterActivity = new Date(endQueueDate);
+        return startDate < EndRegisterActivity;
+      })
+
+      if (wrongTimeInput) {
+        Swal.fire({
+            title: 'สร้างไม่สําเร็จ',
+            html: 'ใส่ช่วงเวลาจัดกิจกรรมผิด',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              cancelButton: 'custom-cancel-button',
+            },
+          });
+          return;
+      }
+      if (wrongDateInput) {
+        Swal.fire({
+            title: 'สร้างไม่สําเร็จ',
+            html: 'ใส่ช่วงวันจัดกิจกรรมผิด',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              cancelButton: 'custom-cancel-button',
+            },
+          });
+          return;
+      }
 
       const downloadURL = await getDownloadURL(storageRef);
       const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-      const activityStatusForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+      const date1 = new Date(endQueueDate)
+        const date2 = new Date(checkCurrentDate)
+        const activityStatusForCurrentDate = date1 >= date2;
         const activityInfo = {
         activityName: activityName,
         activityDetail: activityDetail,
@@ -175,8 +226,9 @@ const submitForm = async (e) => {
         timeSlots: timeSlots,
         totalRegisteredCount: totalRegisteredCount,
         imageURL: downloadURL,
-        QueueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
+        queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
         activityStatus: activityStatusForCurrentDate ? "open" : "close",
+        editDetial : ""
         };
 
       
@@ -267,21 +319,24 @@ const submitForm = async (e) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : []}
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : [],registeredCountCheck:0}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],userList : []}]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],userList : [],registeredCountCheck:""}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
         const newTimeSlots = [...timeSlots];
         newTimeSlots[index][name] = event.target.value;
+        if (name === "registeredCount") {
+            newTimeSlots[index]["registeredCountCheck"] = event.target.value;
+        }
         setTimeSlots(newTimeSlots);
-        console.log(timeSlots, "timeSlots")
+        console.log(timeSlots, "timeSlots");
     };
-
+    
     const removeData = (event, index) => {
         event.preventDefault();
         const newTimeSlots = [...timeSlots];
@@ -330,6 +385,7 @@ const submitForm = async (e) => {
                     placeholder="40"
                     value={timeSlot.registeredCount}
                     onChange={handleInputChange(index, "registeredCount")}
+                    
                 />
                 <span className="admin-textBody-large"> คน</span>
                 <div className="admin-right">
@@ -339,6 +395,7 @@ const submitForm = async (e) => {
             </div>
         ));
     };
+
     const totalRegisteredCount = timeSlots.reduce((sum, timeSlot) => {
         return sum + (parseInt(timeSlot.registeredCount, 10) || 0);
       }, 0);

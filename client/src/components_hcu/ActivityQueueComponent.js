@@ -81,10 +81,11 @@ const ActivityQueueComponent = (props) => {
         };
   
         animationFrameRef.current = requestAnimationFrame(updateShowTime);
-    
+    const interval = setInterval(fetchQueueActivity, 10000);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
+            clearInterval(interval);
         };
     
     }, [user]); 
@@ -108,6 +109,16 @@ const ActivityQueueComponent = (props) => {
         return num < 10 ? "0" + num : num.toString();
     }
     const ShiftQueue = async () => {
+        Swal.fire({
+            title: "ยืนยันคิว",
+            html: `กดยืนยันเพื่อดําเนินการ`,
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: "รับคิว",
+            cancelButtonText: "ยกเลิก",
+            reverseButtons: true
+        }).then(async(result) => {
+            if (result.isConfirmed) {
         try {
         console.log(activityQueue)
         const response = await axios.post('http://localhost:5000/api/adminGetQueueActivity', activityQueue);
@@ -129,9 +140,10 @@ const ActivityQueueComponent = (props) => {
             });
         }
         
-    } catch (error) {
-        console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
-    }
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+        }
+        }})
     }
 
     const ShiftQueuePass = async () => {

@@ -46,18 +46,20 @@ const UserQueue = (props) => {
     };
 
     const fetchOpenQueueActivityAndSetState = async () => {
-        if (!isCheckedActivity) {
-            try {
-                const response = await axios.post('http://localhost:5000/api/fetchUserQueueTodayActivity', userData, {
-                    activity: userData.userActivity
-                });
-                setQueueActivities(response.data);
-                console.log("fetchOpenQueueActivityAndSetState", response.data);
-            } catch (error) {
-                console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
-            }
+    if (!isCheckedActivity) {
+        try {
+            const response = await axios.post('http://localhost:5000/api/fetchUserQueueTodayActivity', userData, {
+                activity: userData.userActivity
+            });
+            setQueueActivities(response.data);
+            console.log("fetchOpenQueueActivityAndSetState", response.data);
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
         }
-    };
+    }
+    setTimeout(fetchOpenQueueActivityAndSetState, 600000);
+};
+
 
     useEffect(() => {
         document.title = 'Health Care Unit';
@@ -69,13 +71,16 @@ const UserQueue = (props) => {
 
         if (!isCheckedActivity) {
             fetchOpenActivityAndSetState();
-
         }
         if (userData) {
             fetchOpenQueueActivityAndSetState();
         }
+        const interval = setInterval(fetchOpenQueueActivityAndSetState, 3000);
 
+        
+        return () => clearInterval(interval);
     }, [user, userData, isCheckedActivity]);
+    
     useEffect(() => {
         console.log("todayActivity", activities);
     }, [activities]);

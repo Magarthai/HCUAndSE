@@ -20,13 +20,14 @@ const ActivityDetail = (props) =>{
         imageURL: "",
         openQueueDate: "",
         queueStatus: "",
+        editDetial: "",
     });
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
-    const { activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
+    const { editDetial,activityName, activityDetail, activityType, endQueueDate, id, imageURL, openQueueDate } = state
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -54,6 +55,7 @@ const ActivityDetail = (props) =>{
                 imageURL: activities.imageURL || "",
                 openQueueDate: activities.openQueueDate || "",
                 queueStatus: activities.queueStatus || "",
+                editDetial:activities.editDetial || "",
             });
             setTimeSlots(activities.timeSlots)
             setImgSrc(activities.imageURL)
@@ -92,7 +94,14 @@ const ActivityDetail = (props) =>{
                             {activityDetail}
                         </p>
                     </div>
-
+                {editDetial && 
+                    <div className="user-activity-vaccine_detail_container">
+                        <h5>รายละเอียดที่แก้ไข้เพิ่มเติม</h5>
+                        <p className="textBody-medium" style={{color:"red"}}>
+                            {editDetial}
+                        </p>
+                    </div>
+                    }
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่</h5>
                         <select className="user-activity-vaccine_date">
