@@ -90,19 +90,21 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
         const userDocuments = userQuerySnapshot.docs;
         const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const userId = userDocuments.length > 0 ? userDocuments[0].id : null;
-        if (foundUser.role === "admin") {
-            Swal.fire({
-                icon: "error",
-                title: "เกิดข้อผิดพลาด!",
-                text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
-                confirmButtonText: 'ตกลง',
-                confirmButtonColor: '#263A50',
-                customClass: {
-                    confirmButton: 'custom-confirm-button',
-                }
-            })
-        } else {
+
             if (foundUser) {
+                if (foundUser.role === "admin") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    })
+                    return;
+                }
                 const selectedTimeLabel = timeOptions.find((timeOption) => {
                     const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                     return optionValue === selectedValue;
@@ -255,7 +257,7 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                     }
                 });
             }
-        }
+        
     } catch (firebaseError) {
         console.error('Firebase submit error:', firebaseError);
         console.error('Firebase error response:', firebaseError);

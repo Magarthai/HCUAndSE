@@ -16,6 +16,7 @@ import "../css/AdminQueueManagementSystemComponent.css";
 import { DeleteAppointment } from '../backend/backendGeneral'
 import { PulseLoader } from "react-spinners";
 import icon_date from "../picture/datepicker.png"
+import { id } from "date-fns/locale";
 const AppointmentManagerComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -235,19 +236,22 @@ const AppointmentManagerComponent = (props) => {
             const userDocuments = userQuerySnapshot.docs;
             const foundUser = userDocuments.length > 0 ? userDocuments[0].data() : null;
             const userId = userDocuments.length > 0 ? userDocuments[0].id : null;
-            if (foundUser.role === "admin") {
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด!",
-                    text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
-                    confirmButtonText: 'ตกลง',
-                    confirmButtonColor: '#263A50',
-                    customClass: {
-                        confirmButton: 'custom-confirm-button',
-                    }
-                })
-            } else {
+            
+
                 if (foundUser) {
+                    if (foundUser.role === "admin") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "เกิดข้อผิดพลาด!",
+                            text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                confirmButton: 'custom-confirm-button',
+                            }
+                        })
+                        return;
+                    }
                     const selectedTimeLabel = timeOptions.find((timeOption) => {
                         const optionValue = JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex });
                         return optionValue === selectedValue;
@@ -370,7 +374,7 @@ const AppointmentManagerComponent = (props) => {
                         }
                     });
                 }
-            }
+            
 
         } catch (firebaseError) {
             console.error('Firebase submit error:', firebaseError);
@@ -561,9 +565,19 @@ const AppointmentManagerComponent = (props) => {
 
         }
             catch (firebaseError) {
-                console.error('Firebase submit error:', firebaseError);
-
-                console.error('Firebase error response:', firebaseError);
+                if (firebaseError === "Cannot read properties of null (reading 'role')") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด!",
+                        text: `ไม่พบรหัสนักศึกษา ${id}`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    });
+                }
+               else {
                 Swal.fire({
                     icon: "error",
                     title: "เกิดข้อผิดพลาด!",
@@ -574,6 +588,7 @@ const AppointmentManagerComponent = (props) => {
                         confirmButton: 'custom-confirm-button',
                     }
                 });
+            }
             }
         }
 

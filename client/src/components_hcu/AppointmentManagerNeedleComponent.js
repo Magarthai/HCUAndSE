@@ -1048,20 +1048,21 @@ const AppointmentManagerNeedleComponent = (props) => {
             } else {
                 console.log("No user found with the specified appointmentId");
             }
-            if (foundUser.role === "admin") {
-                Swal.fire({
-                    icon: "error",                    
-                    title: "เกิดข้อผิดพลาด!",
-                    text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
-                    confirmButtonText: 'ตกลง',
-                    confirmButtonColor: '#263A50',
-                    customClass: {
-                        confirmButton: 'custom-confirm-button',
-                    }
-                })
-            } else {
+
             
             if (foundUser) {
+                if (foundUser.role === "admin") {
+                    Swal.fire({
+                        icon: "error",                    
+                        title: "เกิดข้อผิดพลาด!",
+                        text: "ไม่สามารถสร้างนัดหมายสําหรับ Admin ได้!",
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                    })
+                }
                 Swal.fire({
                     title: 'ยืนยันเพิ่มนัดหมาย',
                     text: `ยืนยันที่จะนัดหมายต่อเนื่องของเลขรหัส ${appointmentId}`,
@@ -1192,7 +1193,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                 });
                 console.log("User not found in alluserdata");
             }
-        }
+        
         } catch (firebaseError) {
             console.error('Firebase submit error:', firebaseError);
 
@@ -1200,7 +1201,7 @@ const AppointmentManagerNeedleComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ไม่พบรหัสนักศึกษา กรุณาลองอีกครั้งในภายหลัง",
+                text: "เกิดข้อผิดพลาด กรุณาลองอีกครั้งในภายหลัง",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
