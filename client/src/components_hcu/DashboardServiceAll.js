@@ -1,10 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef} from "react";
 import "../css/Component.css";
 import "../css/AdminDashboard.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {BarChart,
+  Bar,
+  Brush,
+  ReferenceLine, Rectangle,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 const DashboardServiceAll = (props) => {
@@ -318,51 +321,26 @@ const DashboardServiceAll = (props) => {
           },
       ];
 
-    //   const CustomTooltip = ({ active, payload, label }) => {
-    //     if (active && payload) {
-    //       return (
-    //         <div className="custom-tooltip">
-    //           <p className="label">{`Date : ${label}`}</p>
-    //           <p className="intro">{`Value : ${payload[0].value}`}</p>
-    //         </div>
-    //       );
-    //     }
-      
-    //     return null;
-    //   };
-      
+      const [startIndex, setStartIndex] = useState(0);
+      const [endIndex, setEndIndex] = useState(data.length-1);
 
-    // const CustomizedAxisTick = ({ x, y, stroke, payload }) => (
-    //     <g transform={`translate(${x},${y})`}>
-    //       <text x={0} y={0} dy={16} textAnchor="end" fill="#666" >
-    //         {payload.value}
-    //       </text>
-    //     </g>
-    //   );
-
-    //   const CustomizedLabel = ({ x, y, stroke, value }) => (
-    //     <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
-    //       {value}
-    //     </text>
-    //   );
-  
-      
 
     return (
         
-        <div style={containerStyle}>
-        <NavbarComponent />
-        <div className="admin-topicBox colorPrimary-800">
-            <div></div>
-            <div>
-                <h1 className="center">Dashboard</h1>
-            </div>
-            <div className="dateTime">
+        <div>
+          <div style={containerStyle}>
+          <NavbarComponent />
+          <div className="admin-topicBox colorPrimary-800">
+              <div></div>
+              <div>
+                  <h1 className="center">Dashboard</h1>
+              </div>
+              <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
                 <p className="admin-textBody-large">Time : {showTime}</p>
-            </div>
-        </div>
-        <div className="admin">
+              </div>
+          </div>
+          <div className="admin">
             <div className="admin-header">
                 <div className="admin-hearder-item">
                     <a href="#" target="_parent" id="select">คลินิกทั้งหมด</a>
@@ -378,36 +356,55 @@ const DashboardServiceAll = (props) => {
 
             
             <div className="admin-body">
-                <div className="admin-dashboard-month">
                 <h1>{formatMonthInThai(selectedDate)}</h1>
-                
-                <ResponsiveContainer width="100%" height={500}>
-                <LineChart data={data}   height={300} margin={{ top: 20, right: 30, left: 20, bottom: 10}}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name"  width={0} />
-                    <YAxis />
-                    <Tooltip cursor="pointer" labelFormatter={(value, payload) => {if (payload && payload.length > 0) {return `Date: ${payload[0].payload.name}`;}return null;}} />
-                    <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#8884d8" label={{ position: 'top' }}/>
-                    <Line type="monotone" dataKey="special" stroke="#82ca9d" label={{ position: 'top' }} />
-                    <Line type="monotone" dataKey="physic" stroke="#F5A110" label={{ position: 'top' }}/>
-                    <Line type="monotone" dataKey="needle" stroke="#FF2626" label={{ position: 'top' }} />
-                </LineChart>
-                </ResponsiveContainer>
-
-                </div>
-                <div className="admin-dashboard-day">
-                    <h1>{selectedDate && formatDateInThai(selectedDate)}</h1>
-                </div>
-                
-                
             </div>
            
         </div>
-        
+      </div>
+      {/* <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+        <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 20, bottom: 10}}>
+            <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
+                    <YAxis  tick={{ fontSize: 12 }}/>
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="genaral" stroke="#8884d8" />
+                    <Line type="monotone" dataKey="special" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="physic" stroke="#F5A110" />
+                    <Line type="monotone" dataKey="needle" stroke="#FF2626" />
+            </LineChart>
+        </ResponsiveContainer> */}
+        <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+          <BarChart width={500} height={300} data={data} margin={{top: 5, right: 30, left: 30, bottom: 5}}>
+          <CartesianGrid strokeDasharray="3 3" tick={{ fontSize: 12 }}/>
+          <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
+          <YAxis />
+          <Tooltip />
+          <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+          <ReferenceLine y={0} stroke="#000" />
+          <Brush dataKey="name" height={30} stroke="#8884d8" tick={{ fontSize: 12 }} startIndex={startIndex}
+  endIndex={endIndex} onChange={(value) => {
+    setStartIndex(value.startIndex);
+    setEndIndex(value.endIndex);}}/>
+          <Bar dataKey="genaral" fill="#8884d8" />
+          <Bar dataKey="special" fill="#82ca9d" />
+          <Bar dataKey="physic" fill="#F5A110" />
+          <Bar dataKey="needle" fill="#FF2626" />
+        </BarChart>
+      </ResponsiveContainer>
+      <div style={containerStyle}>
+        <div className="admin-body">
+            <h1>{selectedDate && formatDateInThai(selectedDate)}</h1>
+        </div>
+
+      </div>
     </div>
+  
 
     );
 }
 
 export default DashboardServiceAll;
+
+
+
