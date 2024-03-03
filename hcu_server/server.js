@@ -196,7 +196,9 @@ const selectedDate = {
     dayName: day,
 };
 
-
+app.get('/', (req, res) => {
+    res.send('test')
+})
 dateUpdate();
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
