@@ -272,7 +272,7 @@ const UserEditAppointmentNeedle = (props) => {
                 appointmentTime: appointmentTime2,
                 appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
-                status: "ยื่นแก้ไข้",
+                status: "ยื่นแก้ไข",
                 status2: "กำลังดำเนินการ",
                 subject: "ขอเลื่อนนัดหมาย",
             };

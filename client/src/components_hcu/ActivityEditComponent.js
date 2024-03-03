@@ -299,7 +299,7 @@ const ActivityEditComponent = (props) => {
               
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
-                    html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
+                    html: `ตกลงที่จะแก้ไขกิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
                     showConfirmButton: true,
                     showCancelButton: true,
                     icon: 'warning',
@@ -368,7 +368,7 @@ const ActivityEditComponent = (props) => {
                     };
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
-                    html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
+                    html: `ตกลงที่จะแก้ไขกิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
                     showConfirmButton: true,
                     showCancelButton: true,
                     icon: 'warning',
@@ -385,7 +385,7 @@ const ActivityEditComponent = (props) => {
                         await updateDoc(activitiesCollection, activityInfo);
 
                         Swal.fire({
-                            title: 'แก้ไข้กิจกรรมสําเร็จ',
+                            title: 'แก้ไขกิจกรรมสําเร็จ',
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -651,7 +651,7 @@ const ActivityEditComponent = (props) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="แก้ไข้กิจกรรม" className="btn-primary btn-systrm" target="_parent" />
+                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" />
                             </div>
                         </div>
                     </form>

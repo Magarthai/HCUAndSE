@@ -336,7 +336,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
               
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
-                    html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
+                    html: `ตกลงที่จะแก้ไขกิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
                     showConfirmButton: true,
                     showCancelButton: true,
                     icon: 'warning',
@@ -353,7 +353,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                         await updateDoc(activitiesCollection, activityInfo);
                         await setDoc(doc(db, 'activities', id), { imageURL: downloadURL, activityType: activityType }, { merge: true });
                         Swal.fire({
-                            title: 'แก้ไข้กิจกรรมสําเร็จ',
+                            title: 'แก้ไขกิจกรรมสําเร็จ',
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -399,7 +399,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
 
                 Swal.fire({
                     title: 'ขอแก้ไขนัดหมาย',
-                    html: `ตกลงที่จะแก้ไข้กิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
+                    html: `ตกลงที่จะแก้ไขกิจกรรม : ${activityName} <br/>จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด : ${totalRegisteredCount}<br/>`,
                     showConfirmButton: true,
                     showCancelButton: true,
                     icon: 'warning',
@@ -416,7 +416,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                         await updateDoc(activitiesCollection, activityInfo);
 
                         Swal.fire({
-                            title: 'แก้ไข้กิจกรรมสําเร็จ',
+                            title: 'แก้ไขกิจกรรมสําเร็จ',
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -737,7 +737,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="แก้ไข้กิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
+                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
                             </div>
                         </div>
                     </form>

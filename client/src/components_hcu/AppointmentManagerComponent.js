@@ -444,7 +444,7 @@ const AppointmentManagerComponent = (props) => {
             })?.label;
             Swal.fire({
                 title: 'ยืนยันแก้นัดหมาย',
-                html: `ยืนยันที่จะแก้ไข้นัดหมายเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
+                html: `ยืนยันที่จะแก้ไขนัดหมายเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} </br> เวลา ${selectedTimeLabel}`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ตกลง',
@@ -551,7 +551,7 @@ const AppointmentManagerComponent = (props) => {
                     Swal.fire(
                         {
                             title: 'เกิดข้อผิดพลาด!',
-                            text: `การแก้ไข้นัดหมายไม่สำเร็จ`,
+                            text: `การแก้ไขนัดหมายไม่สำเร็จ`,
                             icon: 'error',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',

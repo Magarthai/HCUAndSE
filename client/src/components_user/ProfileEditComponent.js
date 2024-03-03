@@ -110,7 +110,7 @@ const ProfileEditComponent = (props) => {
                 if (result.isConfirmed) {
                     await updateDoc(timetableRef, updatedTimetable);
                 Swal.fire({
-                    title: "แก้ไข้โปรไฟล์",
+                    title: "แก้ไขโปรไฟล์",
                     icon: "success",
                     confirmButtonText: "ตกลง",
                     customClass: {
@@ -122,7 +122,7 @@ const ProfileEditComponent = (props) => {
                 }
                 if (result.isDenied){
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         customClass: {

@@ -818,7 +818,7 @@ const TimetablePhysicalComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                html: `ไม่สามรถแก้ไข้จํานวนคิวช่วงเวลากายภาพน้อยกว่าตอนแรกได้! <br/> (${numberMainAppointmentCheck} คิว)`,
+                html: `ไม่สามรถแก้ไขจํานวนคิวช่วงเวลากายภาพน้อยกว่าตอนแรกได้! <br/> (${numberMainAppointmentCheck} คิว)`,
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {

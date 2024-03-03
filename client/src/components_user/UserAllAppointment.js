@@ -169,7 +169,7 @@ const handleDateSelect = (selectedDate) => {
                 return 'user-appointment-status3';
             case 'ลงทะเบียนแล้ว':
                 return 'user-appointment-status3';
-            case 'ยื่นแก้ไข้':
+            case 'ยื่นแก้ไข':
             return 'user-appointment-status2';
             default:
                 return 'user-appointment-status3 ';
@@ -193,7 +193,7 @@ const handleDateSelect = (selectedDate) => {
         else if (element.textContent.trim() === 'รอยืนยันสิทธ์') {
             element.style.color = '#A1A1A1';
         }
-        else if (element.textContent.trim() === 'ยื่นแก้ไข้') {
+        else if (element.textContent.trim() === 'ยื่นแก้ไข') {
             element.style.color = '#D88C09';
         }
     }

@@ -216,7 +216,7 @@ const UserActivityDetail = (props) =>{
                     </div>
                     {editDetial &&
                     <div className="user-activity-vaccine_detail_container">
-                        <h5>รายละเอียดแก้ไข้</h5>
+                        <h5>รายละเอียดแก้ไข</h5>
                         <p className="textBody-medium" style={{color:"red"}}>
                         {editDetial}
                         </p>

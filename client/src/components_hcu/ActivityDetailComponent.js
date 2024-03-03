@@ -96,7 +96,7 @@ const ActivityDetail = (props) =>{
                     </div>
                 {editDetial && 
                     <div className="user-activity-vaccine_detail_container">
-                        <h5>รายละเอียดที่แก้ไข้เพิ่มเติม</h5>
+                        <h5>รายละเอียดที่แก้ไขเพิ่มเติม</h5>
                         <p className="textBody-medium" style={{color:"red"}}>
                             {editDetial}
                         </p>

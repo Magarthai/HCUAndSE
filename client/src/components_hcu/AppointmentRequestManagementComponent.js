@@ -46,7 +46,7 @@ const AppointmentRequestManagementComponent = (props) => {
             if (user) {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection,
-                where('status', '==', 'ยื่นแก้ไข้')));
+                where('status', '==', 'ยื่นแก้ไข')));
     
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -245,7 +245,7 @@ const AppointmentRequestManagementComponent = (props) => {
                 }
                 if (result.isDenied) {
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',
@@ -333,7 +333,7 @@ const AppointmentRequestManagementComponent = (props) => {
                 }
                 if (result.isDenied) {
                     Swal.fire({
-                        title: "แก้ไข้ไม่สําเร็จ",
+                        title: "แก้ไขไม่สําเร็จ",
                         icon: "error",
                         confirmButtonText: "ตกลง",
                         customClass: {
@@ -396,7 +396,7 @@ const AppointmentRequestManagementComponent = (props) => {
                         {AppointmentUsersData && AppointmentUsersData.length > 0 ? (
                         <>
                             {AppointmentUsersData
-                                .filter(AppointmentUserData => AppointmentUserData.appointment.status === "ยื่นแก้ไข้")
+                                .filter(AppointmentUserData => AppointmentUserData.appointment.status === "ยื่นแก้ไข")
                                 .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
                                 .map((AppointmentUserData, index) => (
                             <tr>
