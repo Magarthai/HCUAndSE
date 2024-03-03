@@ -1,4 +1,10 @@
 {
+  "name": "vercel-test",
+  "version": "1.0.0",
+  "main": "server.js",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -6,6 +12,7 @@
     "firebase": "^10.8.0"
   },
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "npm i",
+    "start": "npm start"
   }
 }
