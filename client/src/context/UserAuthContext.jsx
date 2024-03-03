@@ -35,8 +35,6 @@ export function UserAuthContextProvider({ children }) {
     return sendEmailVerification(auth, email);
   }
 
-
-
   function resetPassword2(oobCode, newPassword) {
     return confirmPasswordReset(auth, oobCode, newPassword)
   }

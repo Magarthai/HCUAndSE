@@ -365,15 +365,15 @@ const ActivityEditComponent = (props) => {
                     registeredCountCheck: item.registeredCount
                 }));
                 const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-                const date1 = new Date(endQueueDate)
-                const date2 = new Date(checkCurrentDate)
-                if (date1 >= date2) {
-                    console.log(`${date1} is greater than or equal to ${date2}`);
-                } else {
-                    console.log(`${date1} is less than ${date2}`);
-                }
-               
-                const activityStatusForCurrentDate = date1 >= date2;
+        const date1 = new Date(openQueueDate);
+        const date2 = new Date(checkCurrentDate);
+        date1.setHours(0, 0, 0, 0);
+        date2.setHours(0, 0, 0, 0);
+
+        const activityStatusForCurrentDate = date1.getDate() <= date2.getDate() && date1.getMonth() === date2.getMonth();
+
+
+        console.log(activityStatusForCurrentDate, date2, date1,checkCurrentDate,openQueueDate);
                 console.log(activityStatusForCurrentDate)
                     const activityInfo = {
                     activityName: activityName,

@@ -46,10 +46,10 @@ const ActivityAddComponent = (props) => {
                     text: 'ช่วงเวลาเปิดลงทะเบียนควรอยู่ก่อนวันเปิด',
                 });
                 setState({ ...state, [name]: "" });
-            }
-            } else {
+            }  else {
                 setState({ ...state, [name]: event.target.value });
             }
+        }
         } else if (name === 'endQueueDate') {
 
             const openQueueDate = state.openQueueDate;
@@ -238,9 +238,16 @@ const submitForm = async (e) => {
 
       const downloadURL = await getDownloadURL(storageRef);
       const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date === checkCurrentDate);
-      const date1 = new Date(endQueueDate)
-        const date2 = new Date(checkCurrentDate)
-        const activityStatusForCurrentDate = date1 >= date2;
+        const date1 = new Date(openQueueDate);
+        const date2 = new Date(checkCurrentDate);
+        date1.setHours(0, 0, 0, 0);
+        date2.setHours(0, 0, 0, 0);
+
+        const activityStatusForCurrentDate = date1.getDate() <= date2.getDate() && date1.getMonth() === date2.getMonth();
+
+
+        console.log(activityStatusForCurrentDate, date2, date1,checkCurrentDate,openQueueDate);
+
         const activityInfo = {
         activityName: activityName,
         activityDetail: activityDetail,
@@ -350,7 +357,9 @@ const submitForm = async (e) => {
         event.preventDefault();
         setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],SuccessList: [],userList : [],registeredCountCheck:"",}]);
     };
-
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 3);
+    maxDate.setDate(0)
     const handleInputChange = (index, name) => (event) => {
         const newTimeSlots = [...timeSlots];
         newTimeSlots[index][name] = event.target.value;
@@ -533,6 +542,8 @@ const submitForm = async (e) => {
                                                 onChange={(e) => {
                                                     inputValue("openQueueDate")(e);
                                                 }}
+                                                min={new Date().toISOString().split("T")[0]}
+                                                max={maxDate.toISOString().split("T")[0]} 
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
                                             <input

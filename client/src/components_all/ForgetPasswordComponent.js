@@ -73,8 +73,6 @@ const ForgetPasswordComponent = () => {
 
                     <form onSubmit={submitForm}>
                         <h2 className="colorPrimary-800">Reset Password</h2>
-
-
                         <div>
                             <label className="textBody-big colorPrimary-800">กรอก E-mail</label>
                             <input
