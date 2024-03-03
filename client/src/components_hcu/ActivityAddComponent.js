@@ -581,7 +581,7 @@ const submitForm = async (e) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" || activityName === "" || activityDetail == "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
+                                <input type="submit" value="เพิ่มกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" || activityName === "" || activityDetail == "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
                             </div>
                         </div>
                     </form>
