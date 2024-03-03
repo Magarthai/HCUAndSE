@@ -33,7 +33,7 @@ const UserActivity = (props) => {
     const fetchOpenActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.get('http://localhost:5000/api/fetchOpenActivity');
+                const response = await axios.get('https://hcu-server.vercel.app/api/fetchOpenActivity');
                 setActivities(response.data);
                 console.log("fetchOpenQueueActivityAndSetState",response.data);
             } catch (error) {
@@ -45,7 +45,7 @@ const UserActivity = (props) => {
     const fetchOpenQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post('http://localhost:5000/api/fetchOpenQueueTodayActivity', userData, {
+                const response = await axios.post('https://hcu-server.vercel.app/api/fetchOpenQueueTodayActivity', userData, {
                         activity: userData.userActivity
                     });
                 setQueueActivities(response.data);
@@ -76,7 +76,7 @@ const UserActivity = (props) => {
         }).then(async(result) => {
             if (result.isConfirmed) {
                 Queueactivities.userData = userData
-                const response = await axios.post('http://localhost:5000/api/userGetQueueActivity', Queueactivities, {
+                const response = await axios.post('https://hcu-server.vercel.app/api/userGetQueueActivity', Queueactivities, {
                     Queueactivities: Queueactivities
                     });
                 if (response.data == "success") {
