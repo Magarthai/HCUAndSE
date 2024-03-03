@@ -185,6 +185,30 @@ const submitForm = async (e) => {
         return startDate < EndRegisterActivity;
       })
 
+      
+    
+      const updatedTimeSlots = timeSlots.map(item => ({
+        ...item,
+        registeredCount: parseInt(item.registeredCount)
+    }));
+        const wrongInput = updatedTimeSlots.some(item => {
+            const count = item.registeredCount;
+            return !Number.isInteger(count) || count <= 0;
+        });
+        if(wrongInput) {
+            Swal.fire({
+                title: 'สร้างไม่สําเร็จ',
+                html: 'ต้องใส่จํานวนผู้ลงทะเบียนมากกว่า 0 คน',
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    cancelButton: 'custom-cancel-button',
+                },
+            });
+            return;
+        }
+    
       if (wrongTimeInput) {
         Swal.fire({
             title: 'สร้างไม่สําเร็จ',
@@ -223,7 +247,7 @@ const submitForm = async (e) => {
         activityType: activityType,
         openQueueDate: openQueueDate,
         endQueueDate: endQueueDate,
-        timeSlots: timeSlots,
+        timeSlots: updatedTimeSlots,
         totalRegisteredCount: totalRegisteredCount,
         imageURL: downloadURL,
         queueStatus: hasTimeSlotForCurrentDate ? "open" : "close",
@@ -343,7 +367,11 @@ const submitForm = async (e) => {
         newTimeSlots.splice(index, 1);
         setTimeSlots(newTimeSlots);
     };
-
+    const handleKeyDown = (event) => {
+        if (event.key === '-' || event.key === '.' || event.key === 'e') {
+          event.preventDefault();
+        }
+      };
     const renderTimeSlots = () => {
         return timeSlots.map((timeSlot, index) => (
             <div key={index}>
@@ -380,13 +408,13 @@ const submitForm = async (e) => {
                 <br></br>
                 <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
                 <input
-                    type="number"
-                    className="form-control timeable"
-                    placeholder="40"
-                    value={timeSlot.registeredCount}
-                    onChange={handleInputChange(index, "registeredCount")}
-                    
-                />
+  type="number"
+  className="form-control timeable"
+  placeholder="40"
+  value={timeSlot.registeredCount}
+  onChange={handleInputChange(index, "registeredCount")}
+  onKeyDown={handleKeyDown}
+/>
                 <span className="admin-textBody-large"> คน</span>
                 <div className="admin-right">
                     <button onClick={(event) => removeData(event, index)} className="admin-activity-remove-btn">ลบช่วงเวลา</button>
@@ -542,13 +570,7 @@ const submitForm = async (e) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input 
-                                    type="submit" 
-                                    value="เพิ่มกิจกรรม" 
-                                    className="btn-primary btn-systrm" 
-                                    target="_parent" 
-                                    disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}
-                                />
+                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" || activityName === "" || activityDetail == "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
                             </div>
                         </div>
                     </form>

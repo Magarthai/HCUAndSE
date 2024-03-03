@@ -303,7 +303,27 @@ const ActivityEditOpenRegistartComponent = (props) => {
                       });
                       return;
                   }            
-
+                  const updatedTimeSlotsInput = timeSlots.map(item => ({
+                    ...item,
+                    registeredCount: parseInt(item.registeredCount)
+                }));
+                    const wrongInput = updatedTimeSlotsInput.some(item => {
+                        const count = item.registeredCount;
+                        return !Number.isInteger(count) || count <= 0;
+                    });
+                    if(wrongInput) {
+                        Swal.fire({
+                            title: 'สร้างไม่สําเร็จ',
+                            html: 'ต้องใส่จํานวนผู้ลงทะเบียนมากกว่า 0 คน',
+                            icon: 'error',
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            },
+                        });
+                        return;
+                    }
                 const newFileName = `${uuidv4()}.${fileExtension}`;
                 const storageRef = ref(storage, `activity_images/${newFileName}`);
                 await uploadBytes(storageRef, file);
@@ -311,14 +331,14 @@ const ActivityEditOpenRegistartComponent = (props) => {
                 if (!downloadURL.startsWith("https://firebasestorage.googleapis.com/")) {
                     throw new Error("เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
                 }
-                const updatedTimeSlots = timeSlots.map(item => ({
+                const updatedTimeSlots = updatedTimeSlotsInput.map(item => ({
                     ...item,
                     registeredCountCheck: item.registeredCount
                 }));
-                const hasTimeSlotForCurrentDate = timeSlots.some(slot => slot.date <= checkCurrentDate);
+                const hasTimeSlotForCurrentDate = updatedTimeSlots.some(slot => slot.date <= checkCurrentDate);
                 const date1 = new Date(endQueueDate)
-        const date2 = new Date(checkCurrentDate)
-        const activityStatusForCurrentDate = date1 >= date2;
+                    const date2 = new Date(checkCurrentDate)
+                    const activityStatusForCurrentDate = date1 >= date2;
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,
@@ -737,7 +757,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                             </div>
                             <div className="admin-timetable-btn">
                                 <button type="button" className="btn-secondary btn-systrm" onClick={() => window.history.back()} >กลับ</button>
-                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
+                                <input type="submit" value="แก้ไขกิจกรรม" className="btn-primary btn-systrm" target="_parent" disabled={openQueueDate === "" || endQueueDate === "" || activityName === "" || activityDetail == "" ||timeSlots.some(slot => slot.date === "" || slot.startTime === "" || slot.endTime === "" || slot.registeredCount === "")}/>
                             </div>
                         </div>
                     </form>
