@@ -11,6 +11,7 @@ import annotaion_icon from "../picture/annotation-dark.png";
 import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, addDoc, deleteDoc ,getDoc} from 'firebase/firestore';
+import axios from "axios";
 const ActivityTodayComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -60,7 +61,7 @@ const ActivityTodayComponent = (props) => {
     useEffect(() => {
         console.log("todayActivity", activities);
     }, [activities]);
-
+    const [Queueactivities, setQueueActivities] = useState([]);
     const fetchTodayActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
@@ -136,7 +137,21 @@ const ActivityTodayComponent = (props) => {
         });
     };
     
-    
+    const getRegisteredListActivity = async (activities) => {
+
+        try {
+            console.log(activities)
+            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const a = response.data
+            console.log(response.data,"response.data")
+            setQueueActivities(response.data);
+            console.log("ActivityOpenRegisterComponent",response.data);
+            navigate("/adminActivityListOfPeopleComponent", {state: {data: response.data}})
+        } catch (error) {
+            console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+        }
+        
+    };
 
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -190,7 +205,7 @@ const ActivityTodayComponent = (props) => {
                                                         </div>
                                              </p>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                            <a href="/adminActivityListOfPeopleComponent" target="_parent" className="colorPrimary-800">
+                                            <a style={{textDecorationLine:"none"}} onClick={() => getRegisteredListActivity(activities)} target="_parent" className="colorPrimary-800">
                                                 <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" />
                                             </a>
                                         </p>

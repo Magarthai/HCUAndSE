@@ -114,7 +114,7 @@ const UserQueue = (props) => {
                             <div className="user-queue_ticket_waitingQ_text center">
                                 <h4>{activities.activityName}</h4>
                                 <p className="textBody-big" id="user-queue_waitingQ_text">จำนวนคิวที่รอ</p>
-                                <p className="textQ" id="user-queue_waitingQ_number">{activities.queueIndex}</p>
+                                <p className="textQ" id="user-queue_waitingQ_number">{activities.queueIndex == -1 ? 0 :activities.queueIndex}</p>
                                 <p className="textBody-big">คิว</p>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ const UserQueue = (props) => {
                         <div className="user-queue_ticket_myQ_container center">
                             <div className="user-queue_ticket_myQ_text center">
                                 <h5 className="myQ_text">คิวของฉัน</h5>
-                                <p className="textQ2 myQ_text">{activities.userQueue}</p>
+                                {activities.queueIndex ==-1 ? <p style={{fontSize:22}} className="textQ2 myQ_text">เสร็จสิ้นแล้ว</p> : <p className="textQ2 myQ_text"> {activities.userQueue}</p>}
                             </div>
 
                             <div className="user-queue_ticket_myQ_circle"></div>
