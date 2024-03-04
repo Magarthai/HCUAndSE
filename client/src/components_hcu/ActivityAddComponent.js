@@ -343,12 +343,12 @@ const submitForm = async (e) => {
 
 
     const [timeSlots, setTimeSlots] = useState([
-        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : [],registeredCountCheck:0}
+        { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : [],registeredCountCheck:0,SuccessList:[]}
     ]);
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],userList : [],registeredCountCheck:""}]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0,Queuelist : [],SuccessList: [],userList : [],registeredCountCheck:"",}]);
     };
 
     const handleInputChange = (index, name) => (event) => {

@@ -494,7 +494,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
 
     const addNewData = (event) => {
         event.preventDefault();
-        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "",registeredCountCheck:"" }]);
+        setTimeSlots([...timeSlots, { date: "", startTime: "", endTime: "", registeredCount: "" ,QueueOpen: "no", QueueCount: 0, Queuelist : [],userList : [],registeredCountCheck:""}]);
     };
 
     const handleInputChange = (index, name) => (event) => {
