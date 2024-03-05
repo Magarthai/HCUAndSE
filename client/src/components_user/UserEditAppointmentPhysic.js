@@ -305,7 +305,7 @@ const UserEditAppointmentPhysic = (props) => {
                 status2: status2,
                 subject: subject,
             };
-            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime2.timetableId);
             const querySnapshot = await getDoc(timeTableDocRef);
             if (querySnapshot.exists()){
                 const timeTableData = querySnapshot.data();

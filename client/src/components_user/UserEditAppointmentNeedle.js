@@ -290,10 +290,11 @@ const UserEditAppointmentNeedle = (props) => {
                 status2: status2,
                 subject: subject,
             };
-            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime2.timetableId);
             const querySnapshot = await getDoc(timeTableDocRef);
             if (querySnapshot.exists()){
                 const timeTableData = querySnapshot.data();
+                console.log(timeTableData)
                 if (timeTableData.isDelete === "Yes" || timeTableData.status === "Disabled") {
                     Swal.fire({
                         icon: "error",
