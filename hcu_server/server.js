@@ -123,7 +123,7 @@ const fetchUserDataWithAppointments = async () => {
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }finally {
-        setTimeout(fetchUserDataWithAppointments, 600000);
+        setTimeout(fetchUserDataWithAppointments, 10000);
     }
 };
 
@@ -170,7 +170,7 @@ const updateAppointmentsStatus = async () => {
         }
     });
     }finally {
-        setTimeout(updateAppointmentsStatus, 600000);
+        setTimeout(updateAppointmentsStatus, 6000);
     }}; 
 
 const dateUpdate = async () => {
