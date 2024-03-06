@@ -66,7 +66,12 @@ const NavbarUserComponent = (props) => {
                 <div className="profilecontainer">
                   <div className="profilebox">
                     <div className="profile-picture">
-                    {userData &&<img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+                    {userData && userData ? (
+  <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
+) : (
+  <p>กรุณาล็อคอินก่อน</p>
+)}
+
                     </div>
                     <div className="profile-info">
                       <div className="profilename">

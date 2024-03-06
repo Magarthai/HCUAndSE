@@ -54,7 +54,11 @@ const NavbarComponent = (props) => {
           <div className="user-navbar-body">
             <img className="user-navbar-icon-close" src={close} onClick={openNavbar}/>
             <div className="user-navbar-header">
-              {userData &&<img className="user-navbar-profile" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+            {userData && userData ? (
+              <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
+            ) : (
+              <div style={{fontSize:30,textAlign:"center",alignItems:"center",justifyContent:"center",height:"100%",display:"flex"}} className="admin-textBody-huge"><p>กรุณาล็อคอินก่อน</p></div>
+            )}
               <div className="user-navbar-profile-detail">
                 {userData && <div className="admin-textBody-huge">{userData.firstName} {userData.lastName}<a href="/profile" target="_parent"><img className="user-navbar-icon-edit"src={edit}/></a></div>}
                 {userData && <div className="admin-textBody-small2">{userData.id}</div>}
