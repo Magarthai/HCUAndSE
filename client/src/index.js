@@ -278,7 +278,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/timetable",
-    element: <ProtectRoute><UserTimetableComponet/></ProtectRoute>
+    element: <UserTimetableComponet/>
   },
   {
     path: "/profile",
