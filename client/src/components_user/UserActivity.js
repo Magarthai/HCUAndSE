@@ -30,11 +30,11 @@ const UserActivity = (props) => {
         return formattedDate;
     }
 
-
+    const REACT_APP_API = process.env.REACT_APP_API
     const fetchOpenActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.get('http://localhost:5000/api/fetchOpenActivity');
+                const response = await axios.get(`${REACT_APP_API}/api/fetchOpenActivity`);
                 setActivities(response.data);
                 console.log("fetchOpenQueueActivityAndSetState",response.data);
             } catch (error) {
@@ -46,7 +46,7 @@ const UserActivity = (props) => {
     const fetchOpenQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post('http://localhost:5000/api/fetchOpenQueueTodayActivity', userData, {
+                const response = await axios.post(`${REACT_APP_API}/api/fetchOpenQueueTodayActivity`, userData, {
                         activity: userData.userActivity
                     });
                 setQueueActivities(response.data);
@@ -60,7 +60,7 @@ const UserActivity = (props) => {
     const fetchNoOpenQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post('http://localhost:5000/api/fetchActivityNotTodayQueue', userData, {
+                const response = await axios.post(`${REACT_APP_API}/api/fetchActivityNotTodayQueue`, userData, {
                         activity: userData.userActivity
                     });
                 setNQueueActivities(response.data);
@@ -89,7 +89,7 @@ const UserActivity = (props) => {
         }).then(async(result) => {
             if (result.isConfirmed) {
                 Queueactivities.userData = userData
-                const response = await axios.post('http://localhost:5000/api/userGetQueueActivity', Queueactivities, {
+                const response = await axios.post(`${REACT_APP_API}/api/userGetQueueActivity`, Queueactivities, {
                     Queueactivities: Queueactivities
                     });
                 if (response.data == "success") {

@@ -21,6 +21,7 @@ const ActivityTodayComponent = (props) => {
     const [isChecked, setIsChecked] = useState({});
     const [isCheckedActivity, setIsCheckedActivity] = useState(false);
     const [activities, setActivities] = useState([])
+    const REACT_APP_API = process.env.REACT_APP_API
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -141,7 +142,7 @@ const ActivityTodayComponent = (props) => {
 
         try {
             console.log(activities)
-            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const response = await axios.post(`${REACT_APP_API}/api/adminGetRegisteredListActivity`, activities);
             const a = response.data
             console.log(response.data,"response.data")
             setQueueActivities(response.data);

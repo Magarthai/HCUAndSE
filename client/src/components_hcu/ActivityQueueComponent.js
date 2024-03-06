@@ -27,12 +27,13 @@ const ActivityQueueComponent = (props) => {
     const [state, setState] = useState({
         QueueInfo: "",
     });
+    const REACT_APP_API = process.env.REACT_APP_API
     const { QueueInfo } = state;
     const fetchQueueActivity = async () => {
 
             try {
                 console.log(activityQueue)
-                const response = await axios.post('http://localhost:5000/api/adminGetQueueActivity', activityQueue);
+                const response = await axios.post(`${REACT_APP_API}/api/adminGetQueueActivity`, activityQueue);
                 const a = response.data
                 setQueueActivities(response.data);
                 console.log("fetchOpenQueueActivityAndSetState",response.data);
@@ -121,14 +122,14 @@ const ActivityQueueComponent = (props) => {
             if (result.isConfirmed) {
         try {
         console.log(activityQueue)
-        const response = await axios.post('http://localhost:5000/api/adminGetQueueActivity', activityQueue);
+        const response = await axios.post(`${REACT_APP_API}/api/adminGetQueueActivity`, activityQueue);
         const a = response.data
         console.log(a);
         setQueueActivities(response.data);
         console.log("fetchOpenQueueActivityAndSetState",response.data);
         console.log(a.Queuelist);
 
-        const responseUpdateQueue = await axios.post('http://localhost:5000/api/adminUpdateQueueShifting', a);
+        const responseUpdateQueue = await axios.post(`${REACT_APP_API}/api/adminUpdateQueueShifting`, a);
         const b = responseUpdateQueue.data
         if (b === "success") {
             Swal.fire({
@@ -149,14 +150,14 @@ const ActivityQueueComponent = (props) => {
     const ShiftQueuePass = async () => {
         try {
         console.log(activityQueue)
-        const response = await axios.post('http://localhost:5000/api/adminGetQueueActivity', activityQueue);
+        const response = await axios.post(`${REACT_APP_API}:5000/api/adminGetQueueActivity`, activityQueue);
         const a = response.data
         console.log(a);
         setQueueActivities(response.data);
         console.log("fetchOpenQueueActivityAndSetState",response.data);
         console.log(a.Queuelist);
 
-        const responseUpdateQueue = await axios.post('http://localhost:5000/api/adminUpdateQueueShiftingPass', a);
+        const responseUpdateQueue = await axios.post(`${REACT_APP_API}/api/adminUpdateQueueShiftingPass`, a);
         const b = responseUpdateQueue.data
         if (b === "success") {
             Swal.fire({

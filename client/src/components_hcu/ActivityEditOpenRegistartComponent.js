@@ -259,7 +259,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     throw new Error("ไฟล์ที่อัปโหลดมีนามสกุลไม่ถูกต้อง");
                 }
     
-                const maxSize = 3145728;
+                const maxSize = 5242880; // รูปขนาดไม่เกิน 5 mb
                 if (file.size > maxSize) {
                     throw new Error("ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป");
                 }

@@ -41,57 +41,10 @@ const QueueManagementSystemComponentSpecial = (props) => {
 
         animationFrameRef.current = requestAnimationFrame(updateShowTime);
 
-        const updateAppointmentsStatus = async () => {
-            const currentFormattedTime = new Date(); 
-            console.log("currentFormattedTime", currentFormattedTime);
         
-            AppointmentUsersData.forEach(async (AppointmentUserData) => {
-                const { timeslot, appointment } = AppointmentUserData;
-                const currentDate = new Date();
-                const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
-                const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-
-                const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
-                const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
-
-
-                console.log(";-;", currentFormattedTime, timeslotEnd,timeslotStart);
-        
-                if (
-                    appointment.status == 'ลงทะเบียนแล้ว' &&
-                    currentFormattedTime >= timeslotStart &&
-                    currentFormattedTime >= timeslotEnd
-                ) {
-                    try {
-                        const docRef = doc(db, 'appointment', appointment.appointmentuid);
-                        await updateDoc(docRef, { status: "ไม่สำเร็จ" });
-        
-                        setAllAppointmentUsersData((prevData) => {
-                            const updatedData = prevData.map((data) => {
-                                if (data.appointment.appointmentuid === appointment.appointmentuid) {
-                                    return { ...data, appointment: { ...data.appointment, status: "ไม่สำเร็จ" } };
-                                }
-                                return data;
-                            });
-                            return updatedData;
-                        });
-        
-                        console.log(`Updated status for appointment ${appointment.appointmentuid} to "ไม่สำเร็จ"`);
-                    } catch (error) {
-                        console.error('Error updating appointment status:', error);
-                    }
-                }
-            });
-        };
-        
-        const intervalId = setInterval(() => {
-            updateAppointmentsStatus();
-            fetchUserDataWithAppointments();
-        }, 60000);
         return () => {
             cancelAnimationFrame(animationFrameRef.current);
             window.removeEventListener("resize", responsivescreen);
-            clearInterval(intervalId);
         };
 
         

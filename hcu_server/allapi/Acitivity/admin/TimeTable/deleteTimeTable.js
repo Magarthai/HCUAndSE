@@ -11,7 +11,12 @@ const router = express.Router();
 
 const requestCounts = {};
 const MAX_REQUESTS_PER_SECOND = 10;
-
+const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; 
+const LINE_BOT_API = "https://api.line.me/v2/bot/message"; 
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` 
+}
 const limitRequests = (req, res, next) => {
     if (req.ip in requestCounts && requestCounts[req.ip] >= MAX_REQUESTS_PER_SECOND) {
         return res.status(429).send('Too Many Requests (Per Second)');
@@ -62,11 +67,12 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                     console.log(userId)
                     const appointmentsRef = doc(db, 'users', userId);
                     transaction.update(appointmentsRef, {
-                        appointments: arrayRemove('appointments', timeAppointmentSlot.appointmentId),
+                        appointments: arrayRemove('appointments', ไก.appointmentId),
                       });
                     console.log("check1")
                     transaction.delete(appointmentDocRef);
                     console.log("check2")
+                    
                     return {
                         userDocId: userId,
                         ...usersDataMap,

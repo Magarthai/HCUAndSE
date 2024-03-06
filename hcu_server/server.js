@@ -2,6 +2,7 @@ const express = require('express');
 const { collection, getDocs,query ,where,doc,getDoc,updateDoc} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
+const axios = require('axios');
 const cors = require('cors');
 const app = express();
 app.use(cors());
@@ -45,6 +46,12 @@ app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
 
 let AppointmentUsersData = [];
+const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; // Retrieves the LINE access token from environment variables
+const LINE_BOT_API = "https://api.line.me/v2/bot/message"; // LINE Messaging API endpoint
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` // Authorization header with the access token
+}
 
 const fetchUserDataWithAppointments = async () => {
     try {
@@ -64,7 +71,7 @@ const fetchUserDataWithAppointments = async () => {
             });
 
             if (existingAppointments.length > 0) {
-                console.log("existingAppointments", existingAppointments);
+                // console.log("existingAppointments", existingAppointments);
                 console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
 
                 const AppointmentUsersDataArray = await Promise.all(existingAppointments.map(async (appointment) => {
@@ -98,10 +105,10 @@ const fetchUserDataWithAppointments = async () => {
                             const userDetails = userDatas;
 
                             if (userDetails) {
-                                console.log("User Data for appointmentId", appointment.appointmentId, ":", userDetails);
+                                // console.log("User Data for appointmentId", appointment.appointmentId, ":", userDetails);
                                 return userDetails;
                             } else {
-                                console.log("No user details found for appointmentId", appointment.appointmentId);
+                                // console.log("No user details found for appointmentId", appointment.appointmentId);
                                 return null;
                             }
                         } else {
@@ -123,7 +130,7 @@ const fetchUserDataWithAppointments = async () => {
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }finally {
-        setTimeout(fetchUserDataWithAppointments, 10000);
+        setTimeout(fetchUserDataWithAppointments, 31000);
     }
 };
 
@@ -136,13 +143,16 @@ const updateAppointmentsStatus = async () => {
         const currentDate = new Date();
         const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
         const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-
         const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
         const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
-
+        const docRef = doc(db, 'appointment', appointment.appointmentuid);
+        const usersCollection = collection(db, 'users');
+        const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+        const userDocuments = userQuerySnapshot.docs;
+        const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 600000);
 
-        console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
+        // console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
 
         if (
             appointment.status == 'ลงทะเบียนแล้ว' &&
@@ -150,27 +160,117 @@ const updateAppointmentsStatus = async () => {
         ) {
             try {
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;
+                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+                console.log(userData.userLineID);
+                if (userData) {
+                    
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to รอยืนยันสิทธิ์` // Message content
+                                }
+                            ]
+                        }
+                        try {
+                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                        console.log('Response:', response.data);
+                        } catch (error) {
+                        console.error('Error:', error.response.data);
+                        }
+                   
+                };
                 await updateDoc(docRef, { status: "ไม่สำเร็จ" });
 
                 console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        } else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+        }else if (
+            appointment.status == 'รอยืนยันสิทธิ์' &&
+            currentFormattedTime >= timeslotEnd
+        ) {
             try {
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;
+                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+                console.log(userData.userLineID);
+                if (userData) {
+                    
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to เสร็จสิ้น` // Message content
+                                }
+                            ]
+                        }
+                        try {
+                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                        console.log('Response:', response.data);
+                        } catch (error) {
+                        console.error('Error:', error.response.data);
+                        }
+                };
+                await updateDoc(docRef, { status: "เสร็จสิ้น" });
+
+                console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                }
+            } catch (error) {
+                console.error('Error updating appointment status:', error);
+            }
+        }
+         else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+            try {
+                
+                const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;
+                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+                console.log(userData.userLineID);
+                if (userData) {
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ` // Message content
+                                }
+                            ]
+                        }
+                        try {
+                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                        console.log('Response:', response.data);
+                        } catch (error) {
+                        console.error('Error:', error.response.data);
+                        }
+                };
                 await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
 
                 console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
+            }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
+        
         } else {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
     }finally {
-        setTimeout(updateAppointmentsStatus, 6000);
+        setTimeout(updateAppointmentsStatus, 30000);
     }}; 
 
 const dateUpdate = async () => {
@@ -200,6 +300,7 @@ const selectedDate = {
 app.get('/', (req, res) => {
     res.send('test')
 })
+
 dateUpdate();
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
