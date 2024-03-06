@@ -17,73 +17,20 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import home from "../picture/home-hcu.png";
 import male from "../picture/male.png";
 import female from "../picture/female.png";
-import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import liff from '@line/liff';
 import { useUserAuth } from "../context/UserAuthContext";
 import {Link, useNavigate } from "react-router-dom";
 const HomeComponent = (props) => {
-    const { user, userData } = useUserAuth();
+    const { user, userData,idToken,displayName,statusMessage,userId,profile } = useUserAuth();
     const navigate = useNavigate();
-
-    const [idToken, setIdToken] = useState("");
-    const [displayName, setDisplayName] = useState("");
-    const [statusMessage, setStatusMessage] = useState("");
-    const [userId, setUserId] = useState("");
-    const [profile, setProfile] = useState(male);
-
-    const initLine = () => {
-        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
-
-            if (liff.isLoggedIn()) {
-                runApp();
-            } else {
-                liff.login();
-            }
-        
-        }, err => console.error(err));
-    }
-
-    const runApp = async() => {
-        const idToken = liff.getIDToken();
-        setIdToken(idToken);
-        liff.getProfile().then(profile => {
-            console.log(profile);
-            setDisplayName(profile.displayName);
-            setStatusMessage(profile.statusMessage);
-            setUserId(profile.userId);
-            setProfile(profile.pictureUrl);
-        }).catch(err => console.error(err));
-    }
-
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
-        initLine(); 
     }, [user]);
     useEffect(() => {
         console.log(userId,"userIduserIduserIduserId");
     }, [userId]);
-    useEffect(() => {
-        initLine();
-    }, []); 
-    useEffect(() => {
-        if (userData) {
-            console.log("get user data ID")
 
-            a();
-            console.log("update doneXDAC",userData.userID)
-            
-          }
-        
-    }, [userData]);
-
-
-    const a = async () => {
-        const userDocRef = doc(db, 'users', userData.userID);
-        await updateDoc(userDocRef, {
-            userLineID: (userId),
-        });
-    } 
     return (
         
         <div className="user">

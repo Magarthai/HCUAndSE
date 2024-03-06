@@ -9,15 +9,20 @@ import {
   sendEmailVerification,
   confirmPasswordReset
 } from 'firebase/auth';
-import { collection, getDocs, query } from 'firebase/firestore';
-
+import { collection, getDocs, query,updateDoc } from 'firebase/firestore';
+import male from "../picture/male.png";
 import { auth, db } from '../firebase/config';
-
+import liff from '@line/liff';
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState(null);
+  const [idToken, setIdToken] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [userId, setUserId] = useState("");
+  const [profile, setProfile] = useState(male);
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -80,6 +85,54 @@ export function UserAuthContextProvider({ children }) {
   
   
 
+    const initLine = () => {
+        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+
+            if (liff.isLoggedIn()) {
+                runApp();
+            } else {
+                liff.login();
+            }
+        
+        }, err => console.error(err));
+    }
+
+    const runApp = async() => {
+        const idToken = liff.getIDToken();
+        setIdToken(idToken);
+        liff.getProfile().then(profile => {
+            console.log(profile);
+            setDisplayName(profile.displayName);
+            setStatusMessage(profile.statusMessage);
+            setUserId(profile.userId);
+            setProfile(profile.pictureUrl);
+        }).catch(err => console.error(err));
+    }
+
+    
+    useEffect(() => {
+      if(!userId){
+        initLine();
+      }
+    }, []); 
+    useEffect(() => {
+        if (userData) {
+            console.log("get user data ID")
+            a();
+            console.log("update doneXDAC",userData.userID)
+            
+          }
+        
+    }, [userData]);
+
+
+    const a = async () => {
+        const userDocRef = doc(db, 'users', userData.userID);
+        await updateDoc(userDocRef, {
+            userLineID: (userId),
+        });
+    } 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       console.log('Auth', currentuser);
@@ -103,7 +156,7 @@ export function UserAuthContextProvider({ children }) {
 
 
   return (
-    <userAuthContext.Provider value={{ user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
+    <userAuthContext.Provider value={{ idToken,displayName,statusMessage,userId,profile,user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
       {children}
     </userAuthContext.Provider>
   );
