@@ -36,6 +36,7 @@ const HomeComponent = (props) => {
         document.title = 'Health Care Unit';
         console.log(user,userId);
         console.log(profile,"profileprofileprofileprofileprofileprofile")
+        console.log(userId,"userid")
     }, [user,profile,userId]);
 
 
@@ -52,7 +53,7 @@ const HomeComponent = (props) => {
             <div className="user-body">
                 <div className="user-home">
                     <a href="#" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
-                    <h3 className="colorPrimary-800">Welcome to HCU</h3>
+                    {userId &&<h3 className="colorPrimary-800">Welcome to HCU {userId}</h3>}
                     <a href="/profile" target="_parent">
                     <div className="user-home-proflie" >
                         
