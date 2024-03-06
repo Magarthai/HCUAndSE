@@ -78,7 +78,7 @@ const ActivityDetail = (props) =>{
                 </div>
                 <div className="user-body-activity-detail">
                     <div className="user-activity-vaccine_title_container">
-                        <h3>รายการกิจกรรม : {activityName}</h3>
+                        <h3 className="admin-activity-name1">รายการกิจกรรม : {activityName}</h3>
                     </div>
 
                     <div className="user-activity-vaccine_date_container">
@@ -90,7 +90,7 @@ const ActivityDetail = (props) =>{
 
                     <div className="user-activity-vaccine_detail_container">
                         <h5>รายละเอียด</h5>
-                        <p className="textBody-medium">
+                        <p className="textBody-medium" style={{width:"100%"}}>
                             {activityDetail}
                         </p>
                     </div>

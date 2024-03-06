@@ -194,7 +194,7 @@ const ActivityTodayComponent = (props) => {
                             <div className="admin-activity-today" key={index}>
                                 <div className="admin-activity-today-hearder-flexbox">
                                     <div className="admin-activity-today-hearder-box">
-                                        <h2 className="colorPrimary-800">กิจกรรม : {activities.activityName}</h2>
+                                        <h2 className="colorPrimary-800 admin-activity-name">กิจกรรม : {activities.activityName}</h2>
                                         <p className="admin-textBody-big colorPrimary-800">
                                 <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
                                 </p>
