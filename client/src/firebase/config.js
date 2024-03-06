@@ -2,14 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc ,collection, getDocs} from 'firebase/firestore';
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId:process.env.MEASURE_MENT_ID
-
+  apiKey: "AIzaSyDkTX-23ykC4wkl4a1tl1DT4dkGtr67L_Y",
+  authDomain: "hcu-kmutt.firebaseapp.com",
+  projectId: "hcu-kmutt",
+  storageBucket: "hcu-kmutt.appspot.com",
+  messagingSenderId: "195854847510",
+  appId: "1:195854847510:web:d81ebd801efb56d7aa6f37",
+  measurementId: "G-MVCRXWQKEE"
 };
 
 
