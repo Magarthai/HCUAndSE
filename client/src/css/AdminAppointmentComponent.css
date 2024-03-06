@@ -115,20 +115,23 @@ body{
     }
     .admin-appointment-card-detail{
         display: flex;
-        width: 75%;
+        width: 100%;
         height: 100%;
     }
     .admin-appointment-card-time{
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 30%;
+        width: 25%;
         border-right: #D1D1D1 2px solid;
         height:100%;
     
         
     }
     .admin-appointment-functon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-weight: 300;
         width: 25%;
     }
@@ -143,7 +146,7 @@ body{
         justify-content: center;
         align-items: left;
         margin-left: 10px;
-        width: 70%;
+        width: 50%;
     }
     /* .appoint-info{
         
@@ -187,7 +190,7 @@ body{
     .icon_apppointment{
         width: 30px;
         height: 30px;
-        margin-left: 20px;
+        margin-left: 17px;
         margin-top: -8px;
     }
     .icon_apppointment:hover{
