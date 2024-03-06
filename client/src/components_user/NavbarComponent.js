@@ -47,7 +47,7 @@ const NavbarComponent = (props) => {
 
 
   return (
-    <div>
+    <div style={{userSelect:"none"}}>
         <img className="user-navbar-icon" src={list} onClick={openNavbar}/>
         <div id="user-navbar-background"></div>
         <div id="user-navbar">

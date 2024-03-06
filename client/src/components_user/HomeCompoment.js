@@ -33,7 +33,7 @@ const HomeComponent = (props) => {
 
     return (
         
-        <div className="user">
+        <div className="user" style={{userSelect:"none"}}>
             <header className="user-header">
                     <div>
                         <h2>Health Care Unit</h2>
