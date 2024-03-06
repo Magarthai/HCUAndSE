@@ -322,7 +322,7 @@ const updateAppointmentsStatus = async () => {
             time: currentTime
         };
         console.log('Data updated:', selectedDate);
-    }, 1000);
+    }, 5000);
 
 
 app.get('/', (req, res) => {
