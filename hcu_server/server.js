@@ -192,7 +192,45 @@ const updateAppointmentsStatus = async () => {
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        } else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+        }else if (
+            appointment.status == 'รอยืนยันสิทธิ์' &&
+            currentFormattedTime >= timeslotEnd
+        ) {
+            try {
+                const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;
+                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+                console.log(userData.userLineID);
+                if (userData) {
+                    
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to เสร็จสิ้น` // Message content
+                                }
+                            ]
+                        }
+                        try {
+                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                        console.log('Response:', response.data);
+                        } catch (error) {
+                        console.error('Error:', error.response.data);
+                        }
+                };
+                await updateDoc(docRef, { status: "เสร็จสิ้น" });
+
+                console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                }
+            } catch (error) {
+                console.error('Error updating appointment status:', error);
+            }
+        }
+         else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
                 
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
@@ -226,6 +264,7 @@ const updateAppointmentsStatus = async () => {
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
+        
         } else {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
@@ -261,6 +300,7 @@ const selectedDate = {
 app.get('/', (req, res) => {
     res.send('test')
 })
+
 dateUpdate();
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
