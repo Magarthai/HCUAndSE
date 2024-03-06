@@ -6,7 +6,7 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-
+const moment = require('moment-timezone');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -67,23 +67,17 @@ const headers = {
 
 const fetchUserDataWithAppointments = async () => {
     try {
-        const locale = 'en';
-            const today = new Date();
-            const month = today.getMonth() + 1;
-            const year = today.getFullYear();
-            const date = today.getDate();
-            const hours = today.getHours().toString().padStart(2, '0');
-            const minutes = today.getMinutes().toString().padStart(2, '0');
-            const day = today.toLocaleDateString(locale, { weekday: 'long' });
-            const currentDate = `${day} ${month}/${date}/${year}`;
-            const currentTime = `${hours}:${minutes}`;
-            const selectedDate = {
-                day: date,
-                month: month,
-                year: year,
-                dayName: day,
-                time: currentTime
-            };
+        const thaiTime = moment().tz('Asia/Bangkok');
+    const currentDate = thaiTime.format('dddd DD/MM/YYYY');
+    const currentTime = thaiTime.format('HH:mm:ss');
+    const selectedDate = {
+        day: thaiTime.date(),
+        month: thaiTime.month() + 1,
+        year: thaiTime.year(),
+        dayName: thaiTime.format('dddd'),
+        time: currentTime
+    };
+    console.log('Data updated:', selectedDate);
         if (selectedDate && selectedDate.dayName) {
             const appointmentsCollection = collection(db, 'appointment');
             const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
@@ -167,33 +161,33 @@ const updateAppointmentsStatus = async () => {
 
     AppointmentUsersData.forEach(async (AppointmentUserData) => {
         const { timeslot, appointment } = AppointmentUserData;
-        const todays = new Date();
+
+        // กำหนดเวลาปัจจุบันของประเทศไทย
+        const thaiTime = moment().tz('Asia/Bangkok');
+        
         const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
         const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-        const timeslotEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hoursEnd, minutesEnd, 0);
-        const timeslotStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hoursStart, minutesStart, 0);
+
+        // กำหนดเวลาเริ่มต้นและสิ้นสุดของ timeslot
+        const timeslotEnd = moment(thaiTime).set({ hour: hoursEnd, minute: minutesEnd, second: 0 });
+        const timeslotStart = moment(thaiTime).set({ hour: hoursStart, minute: minutesStart, second: 0 });
+
         const docRef = doc(db, 'appointment', appointment.appointmentuid);
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
-        const currentFormattedTime2 = new Date(timeslotStart.getTime() - 15 * 600000);
+        const currentFormattedTime2 = moment(timeslotStart).subtract(15, 'minutes');
 
         // console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
 
         if (
             appointment.status == 'ลงทะเบียนแล้ว' &&
-            todays >= timeslotEnd
+            thaiTime >= timeslotEnd
         ) {
             try {
-                const docRef = doc(db, 'appointment', appointment.appointmentuid);
-                const usersCollection = collection(db, 'users');
-                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
-                const userDocuments = userQuerySnapshot.docs;
-                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
                 console.log(userData.userLineID);
                 if (userData) {
-                    
                     if(userData.userLineID != ""){
                         const body = {
                             "to": userData.userLineID,
@@ -205,33 +199,25 @@ const updateAppointmentsStatus = async () => {
                             ]
                         }
                         try {
-                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
-                        console.log('Response:', response.data);
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                            console.log('Response:', response.data);
                         } catch (error) {
-                        console.error('Error:', error.response.data);
+                            console.error('Error:', error.response.data);
                         }
-                   
-                };
-                await updateDoc(docRef, { status: "ไม่สำเร็จ" });
-
-                console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                    }
+                    await updateDoc(docRef, { status: "ไม่สำเร็จ" });
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
                 }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        }else if (
+        } else if (
             appointment.status == 'รอยืนยันสิทธิ์' &&
-            todays >= timeslotEnd
+            thaiTime >= timeslotEnd
         ) {
             try {
-                const docRef = doc(db, 'appointment', appointment.appointmentuid);
-                const usersCollection = collection(db, 'users');
-                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
-                const userDocuments = userQuerySnapshot.docs;
-                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
                 console.log(userData.userLineID);
                 if (userData) {
-                    
                     if(userData.userLineID != ""){
                         const body = {
                             "to": userData.userLineID,
@@ -243,28 +229,20 @@ const updateAppointmentsStatus = async () => {
                             ]
                         }
                         try {
-                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
-                        console.log('Response:', response.data);
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                            console.log('Response:', response.data);
                         } catch (error) {
-                        console.error('Error:', error.response.data);
+                            console.error('Error:', error.response.data);
                         }
-                };
-                await updateDoc(docRef, { status: "เสร็จสิ้น" });
-
-                console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                    }
+                    await updateDoc(docRef, { status: "เสร็จสิ้น" });
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "เสร็จสิ้น"`);
                 }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        }
-         else if (todays >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+        } else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
-                
-                const docRef = doc(db, 'appointment', appointment.appointmentuid);
-                const usersCollection = collection(db, 'users');
-                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
-                const userDocuments = userQuerySnapshot.docs;
-                const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
                 console.log(userData.userLineID);
                 if (userData) {
                     if(userData.userLineID != ""){
@@ -278,51 +256,45 @@ const updateAppointmentsStatus = async () => {
                             ]
                         }
                         try {
-                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
-                        console.log('Response:', response.data);
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                            console.log('Response:', response.data);
                         } catch (error) {
-                        console.error('Error:', error.response.data);
+                            console.error('Error:', error.response.data);
                         }
-                };
-                await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
-
-                console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
-            }
+                    }
+                    await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
+                }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        
         } else {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
     setTimeout(updateAppointmentsStatus, 30000);
-    }catch (error) {{
+    } catch (error) {
         console.log(error)
-    }}}; 
+    }
+};
 
 
-    setInterval(() => {
-        locale = 'th-TH';
-        today = new Date();
-        month = today.getMonth() + 1;
-        year = today.getFullYear();
-        date = today.getDate();
-        hours = today.getHours().toString().padStart(2, '0');
-        minutes = today.getMinutes().toString().padStart(2, '0');
-        const second = today.getSeconds().toString().padStart(2, '0');
-        day = today.toLocaleDateString(locale, { weekday: 'long' });
-        currentDate = `${day} ${month}/${date}/${year}`;
-        const currentTime = `${hours}:${minutes}:${second}`;
-        selectedDate = {
-            day: date,
-            month: month,
-            year: year,
-            dayName: day,
-            time: currentTime
-        };
-        console.log('Data updated:', selectedDate);
-    }, 5000);
+
+   
+
+setInterval(() => {
+    const thaiTime = moment().tz('Asia/Bangkok');
+    const currentDate = thaiTime.format('dddd DD/MM/YYYY');
+    const currentTime = thaiTime.format('HH:mm:ss');
+    const selectedDate = {
+        day: thaiTime.date(),
+        month: thaiTime.month() + 1,
+        year: thaiTime.year(),
+        dayName: thaiTime.format('dddd'),
+        time: currentTime
+    };
+    console.log('Data updated:', selectedDate);
+}, 5000);
 
 
 app.get('/', (req, res) => {
