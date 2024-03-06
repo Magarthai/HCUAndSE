@@ -67,7 +67,7 @@ const headers = {
 
 const fetchUserDataWithAppointments = async () => {
     try {
-        const thaiTime = moment().tz('Asia/Bangkok');
+    const thaiTime = moment().tz('Asia/Bangkok');
     const currentDate = thaiTime.format('dddd DD/MM/YYYY');
     const currentTime = thaiTime.format('HH:mm:ss');
     const selectedDate = {
