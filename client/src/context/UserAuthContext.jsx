@@ -9,10 +9,10 @@ import {
   sendEmailVerification,
   confirmPasswordReset
 } from 'firebase/auth';
-import { collection, getDocs, query } from 'firebase/firestore';
-
+import male from "../picture/male.png";
+import { collection, getDocs, query,updateDoc } from 'firebase/firestore';
+import liff from '@line/liff';
 import { auth, db } from '../firebase/config';
-
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
@@ -99,10 +99,69 @@ export function UserAuthContextProvider({ children }) {
     }
   }, [user]);
   
+  const [idToken, setIdToken] = useState("");
+    const [displayName, setDisplayName] = useState("");
+    const [statusMessage, setStatusMessage] = useState("");
+    const [userId, setUserId] = useState("");
+    const [profile, setProfile] = useState(male);
+
+    const initLine = () => {
+        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+
+            if (liff.isLoggedIn()) {
+                runApp();
+            } else {
+                liff.login();
+            
+        }
+        }, err => console.error(err));
+    }
+
+    const runApp = async() => {
+        const idToken = liff.getIDToken();
+        setIdToken(idToken);
+        liff.getProfile().then(profile => {
+            console.log(profile);
+            setDisplayName(profile.displayName);
+            setStatusMessage(profile.statusMessage);
+            setUserId(profile.userId);
+            setProfile(profile.pictureUrl);
+        }).catch(err => console.error(err));
+    }
+
+    useEffect(() => {
+        document.title = 'Health Care Unit';
+        console.log(user);
+        initLine(); 
+    }, [user]);
+
+    useEffect(() => {
+        initLine();
+    }, []); 
+    useEffect(() => {
+        if (userData) {
+            console.log("get user data ID")
+
+              if (userId != "") {
+                a();
+              
+            console.log("update doneXDAC",userData.userID)
+            }
+          }
+        
+    }, [userData,userId]);
+
+
+    const a = async () => {
+        const userDocRef = doc(db, 'users', userData.userID);
+        await updateDoc(userDocRef, {
+            userLineID: (userId),
+        });
+    } 
 
 
   return (
-    <userAuthContext.Provider value={{ user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
+    <userAuthContext.Provider value={{ idToken,displayName,statusMessage,userId,profile,user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
       {children}
     </userAuthContext.Provider>
   );
