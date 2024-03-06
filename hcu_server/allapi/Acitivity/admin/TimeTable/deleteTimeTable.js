@@ -67,7 +67,7 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                     console.log(userId)
                     const appointmentsRef = doc(db, 'users', userId);
                     transaction.update(appointmentsRef, {
-                        appointments: arrayRemove('appointments', ไก.appointmentId),
+                        appointments: arrayRemove('appointments', timeAppointmentSlot.appointmentId),
                       });
                     console.log("check1")
                     transaction.delete(appointmentDocRef);
