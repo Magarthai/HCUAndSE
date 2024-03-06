@@ -11,7 +11,7 @@ import female from "../picture/female.png";
 
 
 const ProfileUserComponent = (props) => {
-  const { user, userData } = useUserAuth();
+  const { user, userData,profile } = useUserAuth();
   useEffect(() => {
     document.title = 'Health Care Unit';
     console.log(user);
@@ -45,7 +45,7 @@ const ProfileUserComponent = (props) => {
                   <use href="#user-profile-gentle-wave" x="48" y="7" fill="#fff" />
                 </g>
               </svg>
-              {userData &&<img className="user-profile-img" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+              {userData &&<img className="user-profile-img" src={profile} alt="logo health care unit" />}
             </div>
             <div class="header">
             </div>

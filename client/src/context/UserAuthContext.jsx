@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { collection, getDocs, query,updateDoc } from 'firebase/firestore';
 import male from "../picture/male.png";
+import female from "../picture/female.png";
 import { auth, db } from '../firebase/config';
 import liff from '@line/liff';
 const userAuthContext = createContext();
@@ -105,7 +106,15 @@ export function UserAuthContextProvider({ children }) {
             setDisplayName(profile.displayName);
             setStatusMessage(profile.statusMessage);
             setUserId(profile.userId);
+            if (profile.pictureUrl) {
             setProfile(profile.pictureUrl);
+            } else {
+              if(userData.gender == 'female') {
+                setProfile(female);
+              } else if(userData.gender == 'male') {
+                setProfile(male);
+              }
+            }
         }).catch(err => console.error(err));
     }
 
