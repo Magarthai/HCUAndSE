@@ -219,7 +219,7 @@ const UserActivity = (props) => {
                             {activities && activities.length > 0 ? (
                                 activities.map((activities, index) => (
                                     <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
-                                        <h4>{activities.activityName}</h4>
+                                        <h4 className="admin-activity-name">{activities.activityName}</h4>
                                         <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
@@ -249,7 +249,7 @@ const UserActivity = (props) => {
                                 Queueactivities.openQueueStatus === "yes" ? (
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
-                                    <h4>{Queueactivities.activityName}</h4>
+                                    <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
@@ -271,7 +271,7 @@ const UserActivity = (props) => {
                             NQueueactivities.map((Queueactivities, index) => (
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
-                                    <h4>{Queueactivities.activityName}</h4>
+                                    <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>

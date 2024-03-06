@@ -344,6 +344,7 @@ const QueueManagementSystemComponent = (props) => {
                     <div className="admin-queue-flexbox">
                         <div className="admin-queue-box">
                             <h2 className="colorPrimary-800">นัดหมายคลินิกทั่วไป</h2>
+                            <div className="admin-queue-card-box">
                             {AppointmentUsersData && AppointmentUsersData.length > 0 ? (
                                 AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                                     <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index}>
@@ -373,7 +374,7 @@ const QueueManagementSystemComponent = (props) => {
                                         <ScaleLoader color={"#54B2B0"} size={25} />
                                     </div>
                                 )}
-
+                            </div>
 
                         </div>
                         <div className="admin-queue-box border-L colorPrimary-800">

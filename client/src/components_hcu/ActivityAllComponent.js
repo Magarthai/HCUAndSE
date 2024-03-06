@@ -164,7 +164,7 @@ const ActivityAllComponent = (props) => {
                                 <div className="admin-activity-item">
                                     <div className="admin-activity-today-hearder-flexbox">
                                         <div className="admin-activity-today-hearder-box1">
-                                            <h2 className="colorPrimary-800">กิจกรรม : {activities.activityName}</h2>
+                                            <h2 className="colorPrimary-800 admin-activity-name">กิจกรรม : {activities.activityName}</h2>
                                             <p className="admin-textBody-big colorPrimary-800" >
                                                 ช่วงวันที่เปิดลงทะเบียน : {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}
                                             </p>

@@ -349,6 +349,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                     <div className="admin-queue-flexbox">
                         <div className="admin-queue-box">
                             <h2 className="colorPrimary-800">นัดหมายเฉพาะทาง</h2>
+                            <div className="admin-queue-card-box">
                             {AppointmentUsersData ? (
     AppointmentUsersData.length > 0 ? (
         AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
@@ -384,6 +385,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                                     <ScaleLoader color={"#54B2B0"} size={25} />
                                 </div>
                             )}
+                            </div>
 
                         </div>
                         <div className="admin-queue-box border-L colorPrimary-800">
