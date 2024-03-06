@@ -10,14 +10,13 @@ const router = express.Router();
 const today = new Date();
 today.setHours(0, 0, 0, 0); 
 
-function isSameDay(date1, date2) {
+
+function isNotSameDay(date1, date2) {
     console.log(date1,date2)
-    return date1.getFullYear() === date2.getFullYear() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getDate() === date2.getDate();
+    return date1 >= date2;
 }
 
-router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
+router.post('/fetchActivityNotTodayQueue', async (req,res) => {
     try {
         const userInfo = req.body;
         const userActivityList = userInfo.userActivity;
@@ -31,21 +30,23 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots)
                 let hasMatch = false;
+                if(data.activityType === "yes"){
                 for (const timeSlot of data.timeSlots) { 
                     console.log(timeSlot.date,"const timeSlot of data.timeSlots");
                     const activityDate = new Date(timeSlot.date);
-                    if (isSameDay(activityDate, today)) {
-                        data.openQueueStatus = data.timeSlots[userActivityList[index].index].QueueOpen
+        
+                        if(data.timeSlots[userActivityList[index].index].QueueOpen == 'no'&& isNotSameDay(activityDate, today)){
                         hasMatch = true; 
                         break; 
                         }
-                    }
-                
+                    
+                }
                 if (hasMatch) {
-                    return {openQueueStatus:data.openQueueStatus, id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index], };
+                    return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
                 } else {
                     return null;
                 }
+            }
             } else {
                 return null; 
             }

@@ -49,6 +49,8 @@ const ActivityAddComponent = (props) => {
             }  else {
                 setState({ ...state, [name]: event.target.value });
             }
+        }else {
+            setState({ ...state, [name]: event.target.value });
         }
         } else if (name === 'endQueueDate') {
 

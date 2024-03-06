@@ -32,7 +32,7 @@ const HomeComponent = (props) => {
     const [profile, setProfile] = useState(male);
 
     const initLine = () => {
-        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+        liff.init({ liffId: '2003922114-JkmGxejX' }, () => {
             if (liff.isInClient()){
             if (liff.isLoggedIn()) {
                 runApp();

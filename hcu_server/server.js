@@ -28,11 +28,12 @@ const adminUpdateQueueShiftingPass = require('./allapi/Acitivity/admin/updateQue
 const deleteActivity = require('./allapi/Acitivity/admin/deleteActivity');
 const deleteTimeTable = require('./allapi/Acitivity/admin/TimeTable/deleteTimeTable');
 const toggleTimeTable = require('./allapi/Acitivity/admin/TimeTable/toggleTimeTable');
-
+const QueueNotTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityNotTodayQueue');
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
+app.use('/api', QueueNotTodayAvailableActivities);
 app.use('/api', userGetQueueActivity);
 app.use('/api', fetchUserActivityQueue);
 app.use('/api', fetchQueueActivity);
@@ -178,7 +179,7 @@ const dateUpdate = async () => {
     } catch (error) {
         console.error(`Error fetching data: ${error}`);
     } finally {
-        setTimeout(dateUpdate, 600000);
+        setTimeout(dateUpdate, 6000);
     }
 };
 
