@@ -337,8 +337,8 @@ const QueueManagementSystemComponentSpecial = (props) => {
                             <h2 className="colorPrimary-800">นัดหมายคลินิกฝังเข็ม</h2>
                             <div className="admin-queue-card-box">
                             {AppointmentUsersData ? (
-    AppointmentUsersData.length > 0 ? (
-        AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
+        AppointmentUsersData.length > 0 ? (
+            AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                                     <div className="admin-queue-card" onClick={() => openDetailAppointment(AppointmentUserData)} key={index}>
                                     <div className="admin-queue-card-time colorPrimary-800">
                                         <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
