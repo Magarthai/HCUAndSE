@@ -42,6 +42,7 @@ router.post('/adminDeleteActivity', limitRequests, async (req, res) => {
                     const userData = userDocSnapshot.data();
                     const updatedUserActivity = userData.userActivity.filter(item => item.activityId !== activityInfo.id);
                     await updateDoc(userDocRef, { userActivity: updatedUserActivity });
+                    
                 }
                 console.log(user)
             }

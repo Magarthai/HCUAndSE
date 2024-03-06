@@ -130,7 +130,7 @@ const fetchUserDataWithAppointments = async () => {
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }finally {
-        setTimeout(fetchUserDataWithAppointments, 7000);
+        setTimeout(fetchUserDataWithAppointments, 31000);
     }
 };
 
@@ -173,7 +173,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text":"Y"
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to รอยืนยันสิทธิ์` // Message content
                                 }
                             ]
                         }
@@ -208,7 +208,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text":"X"
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ` // Message content
                                 }
                             ]
                         }
@@ -218,7 +218,6 @@ const updateAppointmentsStatus = async () => {
                         } catch (error) {
                         console.error('Error:', error.response.data);
                         }
-
                 };
                 await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
 
@@ -228,30 +227,11 @@ const updateAppointmentsStatus = async () => {
                 console.error('Error updating appointment status:', error);
             }
         } else {
-            const body = {
-                "to": "",
-                "messages":[
-                    {
-                        "type":"text",
-                        "text":"Hello, world1"
-                    },
-                    {
-                        "type":"text",
-                        "text":"Hello, world2"
-                    }
-                ]
-            }
-            try {
-            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
-            console.log('Response:', response.data);
-            } catch (error) {
-            console.error('Error:', error.response.data);
-            }
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
     }finally {
-        setTimeout(updateAppointmentsStatus, 6000);
+        setTimeout(updateAppointmentsStatus, 30000);
     }}; 
 
 const dateUpdate = async () => {
