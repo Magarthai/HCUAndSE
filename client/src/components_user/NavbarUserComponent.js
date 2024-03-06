@@ -11,7 +11,7 @@ import male from "../picture/male.png";
 import female from "../picture/female.png";
 
 const NavbarUserComponent = (props) => {
-  const { user,userData, logOut } = useUserAuth();
+  const { user,userData, logOut,profile } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -66,7 +66,7 @@ const NavbarUserComponent = (props) => {
                 <div className="profilecontainer">
                   <div className="profilebox">
                     <div className="profile-picture">
-                    {userData &&<img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+                    {userData &&<img className="logo" src={profile} alt="logo health care unit" />}
                     </div>
                     <div className="profile-info">
                       <div className="profilename">

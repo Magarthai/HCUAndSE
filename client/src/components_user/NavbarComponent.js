@@ -15,7 +15,7 @@ import edit from "../picture/edit-w.png";
 import logout from "../picture/logout-w.png";
 
 const NavbarComponent = (props) => {
-  const { user,userData, logOut } = useUserAuth();
+  const { user,userData, logOut,profile } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -54,7 +54,7 @@ const NavbarComponent = (props) => {
           <div className="user-navbar-body">
             <img className="user-navbar-icon-close" src={close} onClick={openNavbar}/>
             <div className="user-navbar-header">
-              {userData &&<img className="user-navbar-profile" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+              {userData &&<img className="user-navbar-profile" src={profile} alt="logo health care unit" />}
               <div className="user-navbar-profile-detail">
                 {userData && <div className="admin-textBody-huge">{userData.firstName} {userData.lastName}<a href="/profile" target="_parent"><img className="user-navbar-icon-edit"src={edit}/></a></div>}
                 {userData && <div className="admin-textBody-small2">{userData.id}</div>}
