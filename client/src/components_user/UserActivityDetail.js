@@ -23,12 +23,15 @@ const UserActivityDetail = (props) =>{
         activityId: "",
         editDetial:"",
     });
+
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
+
     const [imgSrc, setImgSrc] = useState(null);
     const { activities } = location.state || {};
     const {editDetial, activityName, activityDetail, activityType, endQueueDate, imageURL, openQueueDate,activityId } = state
+
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -57,20 +60,28 @@ const UserActivityDetail = (props) =>{
                 queueStatus: activities.queueStatus || "",
                 editDetial: activities.editDetial || "",
             });
+
+
             setImgSrc(activities.imageURL);
-            const updatedTimeSlots = activities.timeSlots.map((slot, index) => ({
-                ...slot,
-                index: index ,
-            }));
+            const today = new Date().toISOString().slice(0, 10);
+
+            const updatedTimeSlots = activities.timeSlots
+                .map((slot, index) => ({
+                    ...slot,
+                    index: index,
+                }))
+                .filter(slot => slot.date >= today);
+            
+            
             setTimeSlots(updatedTimeSlots);
-            console.log(activities, "activities");
+            console.log(today, "today");
+            console.log(updatedTimeSlots, "updatedTimeSlots");
             console.log(timeSlots, "timeSlots");
         }
     }, [user]);
     
     const UserActivityRegister = async (e) => {
         e.preventDefault();
-        
         const selectedSlot = e.target.value;
         console.log(JSON.parse(selectedValue))
         const uiSelect = JSON.parse(selectedValue)
@@ -230,15 +241,14 @@ const UserActivityDetail = (props) =>{
                                 console.log(e.target.value);
                             }}
                             className="user-activity-vaccine_date"
-                        >
-                        <option hidden>กรุณาเลือกช่วงเวลา</option>
-                        {timeSlots.map((slot) => (
-                            <option key={slot.id} value={JSON.stringify(slot)}>
-                                {`${slot.date} (${slot.startTime}-${slot.endTime})`}
-                            </option>
-                        ))}
-
-                    </select>
+                            >
+                            <option hidden>กรุณาเลือกช่วงเวลา</option>
+                            {timeSlots.map((slot) => (
+                                <option key={slot.id} value={JSON.stringify(slot)}>
+                                    {`${slot.date} (${slot.startTime}-${slot.endTime})`}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="user-activity-vaccine_button_container">
                         <button onClick={UserActivityRegister} className="user-activity-vaccine_button btn-primary">

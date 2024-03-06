@@ -391,6 +391,7 @@ const submitForm = async (e) => {
                     type="date"
                     className="form-control"
                     placeholder="dd/mm/yyyy"
+                    min={new Date().toISOString().split("T")[0]}
                     value={timeSlot.date}
                     onChange={handleInputChange(index, "date")}
                 />
@@ -545,13 +546,15 @@ const submitForm = async (e) => {
                                                     inputValue("openQueueDate")(e);
                                                 }}
                                                 min={new Date().toISOString().split("T")[0]}
-                                                max={maxDate.toISOString().split("T")[0]} 
+                                               
                                             />
                                             <span className="admin-textBody-large"> ถึง </span>
                                             <input
                                                 type="date"
                                                 className="form-control admin-activity-input"
                                                 placeholder="dd/mm/yyyy"
+                                                min={new Date().toISOString().split("T")[0]}
+                                               
                                                 onChange={(e) => {
                                                     inputValue("endQueueDate")(e);
                                                 }}

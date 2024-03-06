@@ -937,6 +937,10 @@ const AppointmentManagerComponent = (props) => {
             statusElementDetail.classList.remove(...statusElementDetail.classList);
             statusElementDetail.classList.add("pending-confirmation-background");
         }
+        else if (statusElementDetail.textContent.trim() === 'รอยืนยันสิทธิ์') {
+            statusElementDetail.classList.remove(...statusElementDetail.classList);
+            statusElementDetail.classList.add("pending-confirmation-background");
+        }
     }
 
     const maxDate = new Date();
@@ -1005,8 +1009,8 @@ const AppointmentManagerComponent = (props) => {
                                                     <p id="student-id" className="admin-textBody-huge">{AppointmentUserData.id}</p>
                                                     <p id="student-name" className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
                                                 </div>
-                                            </div>
-                                            <div className="admin-appointment-functon">
+                                           
+                                                <div className="admin-appointment-functon">
                                                 {`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}` === DateToCheck ? (
                                                     <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
                                                 ) : (
@@ -1015,6 +1019,7 @@ const AppointmentManagerComponent = (props) => {
                                                         <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
                                                     </>
                                                 )}
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
