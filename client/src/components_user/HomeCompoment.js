@@ -31,15 +31,57 @@ const HomeComponent = (props) => {
     const [userId, setUserId] = useState("");
     const [profile, setProfile] = useState(male);
 
+    const initLine = () => {
+        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+            if (liff.isInClient()){
+            if (liff.isLoggedIn()) {
+                runApp();
+            } else {
+                liff.login();
+            }
+        }
+        }, err => console.error(err));
+    }
+
+    const runApp = async() => {
+        const idToken = liff.getIDToken();
+        setIdToken(idToken);
+        liff.getProfile().then(profile => {
+            console.log(profile);
+            setDisplayName(profile.displayName);
+            setStatusMessage(profile.statusMessage);
+            setUserId(profile.userId);
+            setProfile(profile.pictureUrl);
+        }).catch(err => console.error(err));
+    }
 
     useEffect(() => {
         document.title = 'Health Care Unit';
-        console.log(user,userId);
-        console.log(profile,"profileprofileprofileprofileprofileprofile")
-        console.log(userId,"userid")
-    }, [user,profile,userId]);
+        console.log(user);
+        initLine(); 
+    }, [user]);
+
+    useEffect(() => {
+        initLine();
+    }, []); 
+    useEffect(() => {
+        if (userData) {
+            console.log("get user data ID")
+            if (liff.isInClient()){
+            a();
+            console.log("update doneXDAC",userData.userID)
+            }
+          }
+        
+    }, [userData]);
 
 
+    const a = async () => {
+        const userDocRef = doc(db, 'users', userData.userID);
+        await updateDoc(userDocRef, {
+            userLineID: (userId),
+        });
+    } 
     return (
         
         <div className="user">
@@ -53,7 +95,7 @@ const HomeComponent = (props) => {
             <div className="user-body">
                 <div className="user-home">
                     <a href="#" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
-                    {userId &&<h3 className="colorPrimary-800">Welcome to HCUs {userId}</h3>}
+                    <h3 className="colorPrimary-800">Welcome to HCU</h3>
                     <a href="/profile" target="_parent">
                     <div className="user-home-proflie" >
                         
