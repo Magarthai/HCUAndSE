@@ -45,7 +45,12 @@ app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
 
 let AppointmentUsersData = [];
-
+const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN;
+const LINE_BOT_API = "https://api.line.me/v2/bot/message";
+const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${LINE_ACCESS_TOKEN}`
+}
 const fetchUserDataWithAppointments = async () => {
     try {
         if (selectedDate && selectedDate.dayName) {
@@ -123,7 +128,7 @@ const fetchUserDataWithAppointments = async () => {
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }finally {
-        setTimeout(fetchUserDataWithAppointments, 600000);
+        setTimeout(fetchUserDataWithAppointments, 60000);
     }
 };
 
@@ -136,7 +141,6 @@ const updateAppointmentsStatus = async () => {
         const currentDate = new Date();
         const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
         const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-
         const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
         const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
 
@@ -150,18 +154,63 @@ const updateAppointmentsStatus = async () => {
         ) {
             try {
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;  
+                const userSnapShot = await getDoc(userDocuments);
+                
+                if (userSnapShot.exists()) {
+                    userData = userSnapShot.data();
+                    if(userData.userLineID != ""){
+                    const body = {
+                        "to": `${userData.userLineID}`,
+                        "messages":[
+                            {
+                                "type":"text",
+                                "text":`Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ`
+                            }
+                        ]
+                    }
+                    const response = await axios.post(`${LINE_BOT_API}/push`, body ,{header});
+                    console.log(response.data,"respone");
+                    res.json({
+                        message:'Send message successful'
+                    })
+                };
                 await updateDoc(docRef, { status: "ไม่สำเร็จ" });
 
                 console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
+                }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
         } else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
+                
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
+                const usersCollection = collection(db, 'users');
+                const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                const userDocuments = userQuerySnapshot.docs;  
+                const userSnapShot = await getDoc(userDocuments);
+                
+                if (userSnapShot.exists()) {
+                    userData = userSnapShot.data();
+                    if(userData.userLineID != ""){
+                    const body = {
+                        "to": `${userData.userLineID}`,
+                        "messages":[
+                            {
+                                "type":"text",
+                                "text":`Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to รอยืนยันสิทธิ์`
+                            }
+                        ]
+                    }
+                    const response = await axios.post(`${LINE_BOT_API}/push`, body ,{header});
+                };
                 await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
 
                 console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
+            }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
@@ -170,7 +219,7 @@ const updateAppointmentsStatus = async () => {
         }
     });
     }finally {
-        setTimeout(updateAppointmentsStatus, 600000);
+        setTimeout(updateAppointmentsStatus, 60000);
     }}; 
 
 const dateUpdate = async () => {
@@ -179,7 +228,7 @@ const dateUpdate = async () => {
     } catch (error) {
         console.error(`Error fetching data: ${error}`);
     } finally {
-        setTimeout(dateUpdate, 6000);
+        setTimeout(dateUpdate, 60000);
     }
 };
 
