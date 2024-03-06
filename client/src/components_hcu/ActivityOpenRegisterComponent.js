@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import { doc, deleteDoc } from "firebase/firestore";
 import axios from 'axios';
 const ActivityOpenRegisterComponent = (props) => {
+    const REACT_APP_API = process.env.REACT_APP_API
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -33,7 +34,7 @@ const ActivityOpenRegisterComponent = (props) => {
 
         try {
             console.log(activities)
-            const response = await axios.post('http://localhost:5000/api/adminGetRegisteredListActivity', activities);
+            const response = await axios.post(`${REACT_APP_API}/api/adminGetRegisteredListActivity`, activities);
             const a = response.data
             console.log(response.data,"response.data")
             setQueueActivities(response.data);
@@ -161,7 +162,7 @@ const ActivityOpenRegisterComponent = (props) => {
             }).then(async(result) => {
                 if (result.isConfirmed) {
                     try {
-                        const response = await axios.post('http://localhost:5000/api/adminDeleteActivity', activities);
+                        const response = await axios.post(`${REACT_APP_API}/api/adminDeleteActivity`, activities);
                         const a = response.data
                         if (a === "success") {
                         Swal.fire(

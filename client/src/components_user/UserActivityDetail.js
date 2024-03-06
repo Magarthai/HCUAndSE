@@ -23,7 +23,7 @@ const UserActivityDetail = (props) =>{
         activityId: "",
         editDetial:"",
     });
-
+    const REACT_APP_API = process.env.REACT_APP_API
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
     ]);
@@ -114,7 +114,7 @@ const UserActivityDetail = (props) =>{
             if (result.isConfirmed) {
                 console.log(appointmentInfo)
                 try {
-                    const response = await axios.post('http://localhost:5000/api/addUserActivity', appointmentInfo, {
+                    const response = await axios.post(`${REACT_APP_API}/api/addUserActivity`, appointmentInfo, {
                         activityName: activities.activityName || "",
                         id: activities.id || "",
                         timeSlots: selectedValue,

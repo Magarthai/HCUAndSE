@@ -56,11 +56,10 @@ export function UserAuthContextProvider({ children }) {
   
         if (!usersSnapshot.empty) {
           const currentUserData = usersSnapshot.docs[0].data();
-          
-          // Access the document ID
+
           const documentId = usersSnapshot.docs[0].id;
   
-          // Include the uid and document ID in the userData object
+
           const updatedUserData = {
             ...currentUserData,
             userID: documentId,

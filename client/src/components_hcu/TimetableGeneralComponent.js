@@ -30,7 +30,7 @@ const TimetableGeneralComponent = (props) => {
         clinic: "",
         timetableId: id || "",
     })
-
+    const REACT_APP_API = process.env.REACT_APP_API
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic, timetableId } = state
 
     const isSubmitEnabled =
@@ -1112,7 +1112,7 @@ const TimetableGeneralComponent = (props) => {
             const updatedStatus = !prevState[id];
             console.log(updatedStatus,"updatedStatus")
             if (!updatedStatus) {
-            const response = axios.post('http://localhost:5000/api/adminToggleTimetable', timetable)
+            const response = axios.post(`${REACT_APP_API}/api/adminToggleTimetable`, timetable)
             
             console.log(response.data);
         } else if (updatedStatus) {
@@ -1330,7 +1330,7 @@ const TimetableGeneralComponent = (props) => {
             if (result.isConfirmed) {
                 try {
 
-                    const response = await axios.post('http://localhost:5000/api/adminDeletTimetable', timetable)
+                    const response = await axios.post(`${REACT_APP_API}/api/adminDeletTimetable`, timetable)
                     console.log(response.data);
                     if (response.data === "success") {
                     Swal.fire(
