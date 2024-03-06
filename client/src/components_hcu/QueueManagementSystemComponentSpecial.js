@@ -163,13 +163,20 @@ const QueueManagementSystemComponentSpecial = (props) => {
     const adminQueueCards = document.querySelectorAll('.admin-queue-card');
 
     function handleCardClick(event) {
-        adminQueueCards.forEach(card => card.classList.remove('focused'));
-        event.currentTarget.classList.add('focused');
+        let currentCard = event.currentTarget
+        let isFocused = currentCard.classList.contains('focused')
+        if(isFocused){
+            currentCard.classList.remove('focused');
+
+        }else{
+            adminQueueCards.forEach(card => card.classList.remove('focused'));
+            currentCard.classList.add('focused');
+        }
     }
 
-    adminQueueCards.forEach(card => {
-        card.addEventListener('click', handleCardClick);
-    });
+    // adminQueueCards.forEach(card => {
+    //     card.addEventListener('click', handleCardClick);
+    // });
 
     const statusElements = document.querySelectorAll('.admin-queue-card-status p');
 
@@ -353,7 +360,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                             {AppointmentUsersData ? (
     AppointmentUsersData.length > 0 ? (
         AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
-                                    <div className="admin-queue-card" onClick={() => openDetailAppointment(AppointmentUserData)} key={index}>
+                                    <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index}>
                                     <div className="admin-queue-card-time colorPrimary-800">
                                         <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
                                     </div>

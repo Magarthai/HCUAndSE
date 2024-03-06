@@ -283,7 +283,8 @@ const ActivityNoOpenRegisterComponent = (props) => {
                                         maxWidth: '794.91px',
                                         overflow: 'hidden',
                                         whiteSpace: 'pre-wrap',
-                                        wordWrap: 'break-word'
+                                        wordWrap: 'break-word',
+                                        maxHeight: "80px"
                                     }} className="admin-textBody-huge2 colorPrimary-800 admin-activity-p">
                                         {activities.activityDetail}
                                     </p>

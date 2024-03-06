@@ -224,7 +224,13 @@ const ActivityTodayComponent = (props) => {
                                     </div>
                                 </div>
                                 <h3 className="colorPrimary-800">รายละเอียด</h3>
-                                <p className="admin-textBody-huge2 colorPrimary-800">
+                                <p className="admin-textBody-huge2 colorPrimary-800" style={{
+                                        overflow: 'hidden',
+                                        whiteSpace: 'pre-wrap',
+                                        wordWrap: 'break-word',
+                                        maxHeight: "80px",
+                                        marginBottom:"40px"
+                                    }} >
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
