@@ -691,7 +691,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                 if (Number(time) > 10) {
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
-                        text: `จํากัดการสร้างแค่ 10 ครั้งเท่านั่น!`,
+                        text: `จํากัดการสร้างแค่ 10 ครั้งเท่านั้น!`,
                         icon: 'warning',
                         confirmButtonText: 'ย้อนกลับ',
                         confirmButtonColor: '#263A50',

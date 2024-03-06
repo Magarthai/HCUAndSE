@@ -137,7 +137,7 @@ const TimetableSpecialComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ต้องเป็นเลขจํานวนเต็มเท่านั่น!",
+                text: "ต้องเป็นเลขจํานวนเต็มเท่านั้น!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -658,7 +658,7 @@ const TimetableSpecialComponent = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ต้องเป็นเลขจํานวนเต็มเท่านั่น!",
+                text: "ต้องเป็นเลขจํานวนเต็มเท่านั้น!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
