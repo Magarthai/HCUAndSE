@@ -60,7 +60,9 @@ const HomeComponent = (props) => {
         console.log(user);
         initLine(); 
     }, [user]);
-
+    useEffect(() => {
+        console.log(userId,"userIduserIduserIduserId");
+    }, [userId]);
     useEffect(() => {
         initLine();
     }, []); 
