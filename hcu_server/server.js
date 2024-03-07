@@ -44,7 +44,19 @@ app.use('/api', getRegisteredListActivity);
 app.use('/api', deleteActivity);
 app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
-
+let locale = 'en';
+let today = new Date();
+let month = today.getMonth() + 1;
+let year = today.getFullYear();
+let date = today.getDate();
+let day = today.toLocaleDateString(locale, { weekday: 'long' });
+let currentDate = `${day} ${month}/${date}/${year}`;
+let selectedDate = {
+    day: date,
+    month: month,
+    year: year,
+    dayName: day,
+};
 let AppointmentUsersData = [];
 const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; // Retrieves the LINE access token from environment variables
 const LINE_BOT_API = "https://api.line.me/v2/bot/message"; // LINE Messaging API endpoint
@@ -55,6 +67,23 @@ const headers = {
 
 const fetchUserDataWithAppointments = async () => {
     try {
+        const locale = 'en';
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const year = today.getFullYear();
+            const date = today.getDate();
+            const hours = today.getHours().toString().padStart(2, '0');
+            const minutes = today.getMinutes().toString().padStart(2, '0');
+            const day = today.toLocaleDateString(locale, { weekday: 'long' });
+            const currentDate = `${day} ${month}/${date}/${year}`;
+            const currentTime = `${hours}:${minutes}`;
+            const selectedDate = {
+                day: date,
+                month: month,
+                year: year,
+                dayName: day,
+                time: currentTime
+            };
         if (selectedDate && selectedDate.dayName) {
             const appointmentsCollection = collection(db, 'appointment');
             const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
@@ -127,24 +156,22 @@ const fetchUserDataWithAppointments = async () => {
                 console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
             }
         }
+        setTimeout(fetchUserDataWithAppointments, 31000);
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
-    }finally {
-        setTimeout(fetchUserDataWithAppointments, 31000);
     }
 };
 
 const updateAppointmentsStatus = async () => {
     try {
-    const currentFormattedTime = new Date(); 
 
     AppointmentUsersData.forEach(async (AppointmentUserData) => {
         const { timeslot, appointment } = AppointmentUserData;
-        const currentDate = new Date();
+        const todays = new Date();
         const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
         const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
-        const timeslotEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursEnd, minutesEnd, 0);
-        const timeslotStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hoursStart, minutesStart, 0);
+        const timeslotEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hoursEnd, minutesEnd, 0);
+        const timeslotStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hoursStart, minutesStart, 0);
         const docRef = doc(db, 'appointment', appointment.appointmentuid);
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
@@ -156,7 +183,7 @@ const updateAppointmentsStatus = async () => {
 
         if (
             appointment.status == 'ลงทะเบียนแล้ว' &&
-            currentFormattedTime >= timeslotEnd
+            todays >= timeslotEnd
         ) {
             try {
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
@@ -194,7 +221,7 @@ const updateAppointmentsStatus = async () => {
             }
         }else if (
             appointment.status == 'รอยืนยันสิทธิ์' &&
-            currentFormattedTime >= timeslotEnd
+            todays >= timeslotEnd
         ) {
             try {
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
@@ -230,7 +257,7 @@ const updateAppointmentsStatus = async () => {
                 console.error('Error updating appointment status:', error);
             }
         }
-         else if (currentFormattedTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+         else if (todays >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
                 
                 const docRef = doc(db, 'appointment', appointment.appointmentuid);
@@ -269,33 +296,42 @@ const updateAppointmentsStatus = async () => {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
-    }finally {
-        setTimeout(updateAppointmentsStatus, 30000);
-    }}; 
+    setTimeout(updateAppointmentsStatus, 30000);
+    }catch (error) {{
+        console.log(error)
+    }}}; 
 
-const dateUpdate = async () => {
-    try {
-        console.log('Data updated:', selectedDate);
-    } catch (error) {
-        console.error(`Error fetching data: ${error}`);
-    } finally {
-        setTimeout(dateUpdate, 6000);
-    }
-};
 
-const locale = 'en';
-const today = new Date();
-const month = today.getMonth() + 1;
-const year = today.getFullYear();
-const date = today.getDate();
-const day = today.toLocaleDateString(locale, { weekday: 'long' });
-const currentDate = `${day} ${month}/${date}/${year}`;
-const selectedDate = {
-    day: date,
-    month: month,
-    year: year,
-    dayName: day,
-};
+    const dateUpdate = async () => {
+        try {
+            const locale = 'en';
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const year = today.getFullYear();
+            const date = today.getDate();
+            const hours = today.getHours().toString().padStart(2, '0');
+            const minutes = today.getMinutes().toString().padStart(2, '0');
+            const day = today.toLocaleDateString(locale, { weekday: 'long' });
+            const currentDate = `${day} ${month}/${date}/${year}`;
+            const currentTime = `${hours}:${minutes}`;
+            const selectedDate = {
+                day: date,
+                month: month,
+                year: year,
+                dayName: day,
+                time: currentTime
+            };
+            console.log('Data updated:', selectedDate);
+    
+            // ควรเพิ่ม setTimeout ในส่วนนี้ เพื่อให้รอ 6 วินาที ก่อนที่จะเรียกตัวเองอีกครั้ง
+            setTimeout(dateUpdate, 6000);
+        } catch (error) {
+            console.error(`Error fetching data: ${error}`);
+        }
+    };
+    
+
+
 
 app.get('/', (req, res) => {
     res.send('test')
