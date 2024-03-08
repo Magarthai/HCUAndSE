@@ -44,7 +44,7 @@ app.use('/api', getRegisteredListActivity);
 app.use('/api', deleteActivity);
 app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
-let locale = 'en';
+let locale = 'th-TH';
 let today = new Date();
 let month = today.getMonth() + 1;
 let year = today.getFullYear();
@@ -302,42 +302,33 @@ const updateAppointmentsStatus = async () => {
     }}}; 
 
 
-    const dateUpdate = async () => {
-        try {
-            const locale = 'en';
-            const today = new Date();
-            const month = today.getMonth() + 1;
-            const year = today.getFullYear();
-            const date = today.getDate();
-            const hours = today.getHours().toString().padStart(2, '0');
-            const minutes = today.getMinutes().toString().padStart(2, '0');
-            const day = today.toLocaleDateString(locale, { weekday: 'long' });
-            const currentDate = `${day} ${month}/${date}/${year}`;
-            const currentTime = `${hours}:${minutes}`;
-            const selectedDate = {
-                day: date,
-                month: month,
-                year: year,
-                dayName: day,
-                time: currentTime
-            };
-            console.log('Data updated:', selectedDate);
-    
-            // ควรเพิ่ม setTimeout ในส่วนนี้ เพื่อให้รอ 6 วินาที ก่อนที่จะเรียกตัวเองอีกครั้ง
-            setTimeout(dateUpdate, 6000);
-        } catch (error) {
-            console.error(`Error fetching data: ${error}`);
-        }
-    };
-    
-
+    setInterval(() => {
+        locale = 'th-TH';
+        today = new Date();
+        month = today.getMonth() + 1;
+        year = today.getFullYear();
+        date = today.getDate();
+        hours = today.getHours().toString().padStart(2, '0');
+        minutes = today.getMinutes().toString().padStart(2, '0');
+        const second = today.getSeconds().toString().padStart(2, '0');
+        day = today.toLocaleDateString(locale, { weekday: 'long' });
+        currentDate = `${day} ${month}/${date}/${year}`;
+        const currentTime = `${hours}:${minutes}:${second}`;
+        selectedDate = {
+            day: date,
+            month: month,
+            year: year,
+            dayName: day,
+            time: currentTime
+        };
+        console.log('Data updated:', selectedDate);
+    }, 1000);
 
 
 app.get('/', (req, res) => {
     res.send('test')
 })
 
-dateUpdate();
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
 fetchAvailableActivities();
