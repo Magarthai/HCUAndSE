@@ -69,18 +69,24 @@ const NavbarUserComponent = (props) => {
                     {userData && userData ? (
                         <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
                       ) : (
-                        <p>กรุณาล็อคอินก่อน</p>
+                        <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
                       )}
 
                     </div>
-                    <div className="profile-info">
-                      <div className="profilename">
-                        {userData && <div className="profileinfos">{userData.firstName} {userData.lastName}</div>}
+                    {userData && userData ? (
+                      <div className="profile-info">
+                     
+                        <div className="profilename">
+                          {userData && <div className="profileinfos">{userData.firstName} {userData.lastName}</div>}
+                        </div>
+                        <div className="profileid">
+                          {userData && <div className="profileinfos">{userData.id}</div>}
+                        </div>
+                     
                       </div>
-                      <div className="profileid">
-                        {userData && <div className="profileinfos">{userData.id}</div>}
-                      </div>
-                    </div>
+                     ) : (
+                      <p>กรุณาล็อคอิน</p>
+                      )}
                   </div>
                 </div>
               </Link>
