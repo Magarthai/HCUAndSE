@@ -170,3 +170,7 @@
 .pending-confirmation-background{
     background-color: #A1A1A1;
 }
+.custom-skeleton {
+    z-index: 1;
+    background-color: #A1A1A1;
+}

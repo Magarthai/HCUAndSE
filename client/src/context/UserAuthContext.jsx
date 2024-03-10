@@ -87,18 +87,21 @@ export function UserAuthContextProvider({ children }) {
   
 
     const initLine = () => {
+      if(liff.isInClient()){
         liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
-
+          if(liff.isInClient()){
             if (liff.isLoggedIn()) {
                 runApp();
             } else {
                 liff.login();
             }
-        
+          }
         }, err => console.error(err));
+      }
     }
 
     const runApp = async() => {
+      if(liff.isInClient()){
         const idToken = liff.getIDToken();
         setIdToken(idToken);
         liff.getProfile().then(profile => {
@@ -116,21 +119,34 @@ export function UserAuthContextProvider({ children }) {
               }
             }
         }).catch(err => console.error(err));
+      } else {
+        if(userData) {
+          if(userData.gender == 'female') {
+            setProfile(female);
+          } else if(userData.gender == 'male') {
+            setProfile(male);
+          }
+        }
+      }
     }
 
     
     useEffect(() => {
+      if(liff.isInClient()){
       if(!userId){
         initLine();
       }
+    }
     }, []); 
     useEffect(() => {
         if (userData) {
+          if(liff.isInClient()){
             console.log("get user data ID")
             a();
             console.log("update doneXDAC",userData.userID)
             
           }
+        }
         
     }, [userData]);
 
