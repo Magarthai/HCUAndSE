@@ -12,7 +12,7 @@ function ProtectRoute({ children }) {
     const [serverDate, setServerDate] = useState("")
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/date');
+        const response = await axios.get(`${REACT_APP_API}/date`);
         setServerDate(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
