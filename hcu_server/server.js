@@ -94,7 +94,6 @@ const fetchUserDataWithAppointments = async () => {
             });
 
             if (existingAppointments.length > 0) {
-                // console.log("existingAppointments", existingAppointments);
                 console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
 
                 const AppointmentUsersDataArray = await Promise.all(existingAppointments.map(async (appointment) => {
@@ -150,7 +149,7 @@ const fetchUserDataWithAppointments = async () => {
                 console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
             }
         }
-        setTimeout(fetchUserDataWithAppointments, 31000);
+        setTimeout(fetchUserDataWithAppointments, 60000);
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }
@@ -272,7 +271,7 @@ const updateAppointmentsStatus = async () => {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
-    setTimeout(updateAppointmentsStatus, 30000);
+    setTimeout(updateAppointmentsStatus, 61000);
     } catch (error) {
         console.log(error)
     }
