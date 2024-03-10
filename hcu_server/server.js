@@ -46,6 +46,7 @@ app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
 let locale = 'th-TH';
 let today = new Date();
+today.setHours(0, 0, 0, 0);
 let month = today.getMonth() + 1;
 let year = today.getFullYear();
 let date = today.getDate();
@@ -292,6 +293,11 @@ setInterval(() => {
 
 app.get('/', (req, res) => {
     res.send('test')
+})
+
+app.get('/date', (req, res) => {
+    const thaiTime = moment().tz('Asia/Bangkok');
+    res.send(thaiTime)
 })
 
 fetchUserDataWithAppointments();
