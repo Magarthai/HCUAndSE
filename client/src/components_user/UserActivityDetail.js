@@ -23,6 +23,9 @@ const UserActivityDetail = (props) =>{
         activityId: "",
         editDetial:"",
     });
+
+    
+
     const REACT_APP_API = process.env.REACT_APP_API
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
@@ -83,6 +86,19 @@ const UserActivityDetail = (props) =>{
     const UserActivityRegister = async (e) => {
         e.preventDefault();
         const selectedSlot = e.target.value;
+        if(!selectedSlot) {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณาเลือกช่วงเวลา!",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            });
+            return;
+        }
         console.log(JSON.parse(selectedValue))
         const uiSelect = JSON.parse(selectedValue)
         const appointmentInfo = {

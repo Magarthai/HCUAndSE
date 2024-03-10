@@ -32,7 +32,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 console.log(data.timeSlots)
                 let hasMatch = false;
                 for (const timeSlot of data.timeSlots) { 
-                    console.log(timeSlot.date,"const timeSlot of data.timeSlots");
+                    console.log(timeSlot.date,"const timeSlot of data.timeSlotsXD");
                     const activityDate = new Date(timeSlot.date);
                     if (isSameDay(activityDate, today)) {
                         data.openQueueStatus = data.timeSlots[userActivityList[index].index].QueueOpen
@@ -52,7 +52,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
         }).filter(doc => doc !== null);
         if (formattedDocs.length > 0) {
             console.log(`user have ${formattedDocs.length} activity`)
-            console.log(formattedDocs,"formattedDocs")
+            console.log(formattedDocs,"formattedDocsssssssssssssssss")
             res.json(formattedDocs);
         } else {
             console.log("no activity registered")
