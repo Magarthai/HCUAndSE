@@ -295,7 +295,7 @@ const submitForm = async (e) => {
             },
           }).then((result) => {
             if (result.isConfirmed) {
-                navigate('/adminActivityNoOpenRegisterComponent')
+                navigate('/adminActivityAllComponent')
             }
           });
           

@@ -59,7 +59,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
-                navigate('/adminActivityOpenRegisterComponent');
+                navigate('/adminActivityAllComponent');
             });
         } else {
             setState({
@@ -381,7 +381,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                                 confirmButton: 'custom-confirm-button',
                             },
                         });
-                        navigate('/adminActivityOpenRegisterComponent', { replace: true, state: {} });
+                        navigate('/adminActivityAllComponent', { replace: true, state: {} });
                     } else {
                         Swal.fire({
                             title: 'สร้างไม่สําเร็จ',

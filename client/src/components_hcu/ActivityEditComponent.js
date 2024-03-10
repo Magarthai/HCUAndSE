@@ -105,7 +105,7 @@ const ActivityEditComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then(() => {
-                navigate('/adminActivityNoOpenRegisterComponent');
+                navigate('/adminActivityAllComponent');
             });
         } else {
             setState({

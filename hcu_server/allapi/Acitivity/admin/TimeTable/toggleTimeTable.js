@@ -60,7 +60,6 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                 newDate.getFullYear() === currentDate.getFullYear();
             console.log(isToday,"isToday")
             if(isToday) {
-                console.log("check555")
             await runTransaction(db, async (transaction) => {
             if (appointmentDocSnapshot.exists()){
                 const usersCollection = collection(db, 'users');
