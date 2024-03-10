@@ -58,11 +58,11 @@ let selectedDate = {
     dayName: day,
 };
 let AppointmentUsersData = [];
-const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; // Retrieves the LINE access token from environment variables
-const LINE_BOT_API = "https://api.line.me/v2/bot/message"; // LINE Messaging API endpoint
+const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; 
+const LINE_BOT_API = "https://api.line.me/v2/bot/message"; 
 const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` // Authorization header with the access token
+    'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` 
 }
 
 const fetchUserDataWithAppointments = async () => {
@@ -127,10 +127,8 @@ const fetchUserDataWithAppointments = async () => {
                             const userDetails = userDatas;
 
                             if (userDetails) {
-                                // console.log("User Data for appointmentId", appointment.appointmentId, ":", userDetails);
                                 return userDetails;
                             } else {
-                                // console.log("No user details found for appointmentId", appointment.appointmentId);
                                 return null;
                             }
                         } else {
@@ -161,13 +159,11 @@ const updateAppointmentsStatus = async () => {
     AppointmentUsersData.forEach(async (AppointmentUserData) => {
         const { timeslot, appointment } = AppointmentUserData;
 
-        // กำหนดเวลาปัจจุบันของประเทศไทย
         const thaiTime = moment().tz('Asia/Bangkok');
         
         const [hoursEnd, minutesEnd] = timeslot.end.split(':').map(Number);
         const [hoursStart, minutesStart] = timeslot.start.split(':').map(Number);
 
-        // กำหนดเวลาเริ่มต้นและสิ้นสุดของ timeslot
         const timeslotEnd = moment(thaiTime).set({ hour: hoursEnd, minute: minutesEnd, second: 0 });
         const timeslotStart = moment(thaiTime).set({ hour: hoursStart, minute: minutesStart, second: 0 });
 
@@ -177,8 +173,6 @@ const updateAppointmentsStatus = async () => {
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const currentFormattedTime2 = moment(timeslotStart).subtract(15, 'minutes');
-
-        // console.log(";-;", currentFormattedTime, currentFormattedTime2, timeslotEnd, timeslotStart);
 
         if (
             appointment.status == 'ลงทะเบียนแล้ว' &&
