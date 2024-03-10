@@ -24,8 +24,6 @@ const UserActivityDetail = (props) =>{
         editDetial:"",
     });
 
-    
-
     const REACT_APP_API = process.env.REACT_APP_API
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
