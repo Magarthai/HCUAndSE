@@ -24,6 +24,7 @@ const UserActivityDetail = (props) =>{
         editDetial:"",
     });
 
+    const [count, setCount] = useState(0)
     const REACT_APP_API = process.env.REACT_APP_API
     const [timeSlots, setTimeSlots] = useState([
         { date: "", startTime: "", endTime: "", registeredCount: "" }
@@ -82,21 +83,21 @@ const UserActivityDetail = (props) =>{
     }, [user]);
     
     const UserActivityRegister = async (e) => {
-        e.preventDefault();
-        const selectedSlot = e.target.value;
-        if(!selectedSlot) {
+        if(!selectedValue){
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "กรุณาเลือกช่วงเวลา!",
+                text: "ไม่สามารถสร้างนัดหมายได้ กรุณาลองอีกครั้งในภายหลัง.",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
                     confirmButton: 'custom-confirm-button',
                 }
             });
-            return;
         }
+        e.preventDefault();
+        const selectedSlot = e.target.value;
+       
         console.log(JSON.parse(selectedValue))
         const uiSelect = JSON.parse(selectedValue)
         const appointmentInfo = {
@@ -252,6 +253,7 @@ const UserActivityDetail = (props) =>{
                         <select 
                             onChange={(e) => {
                                 setSelectedValue(e.target.value);
+                                setCount(count+1)
                                 console.log(e.target.value);
                             }}
                             className="user-activity-vaccine_date"
@@ -265,9 +267,13 @@ const UserActivityDetail = (props) =>{
                         </select>
                     </div>
                     <div className="user-activity-vaccine_button_container">
+                        {count && count > 0 ?
                         <button onClick={UserActivityRegister} className="user-activity-vaccine_button btn-primary">
-                            ลงทะเบียน
-                        </button>
+                        ลงทะเบียน
+                    </button> :
+                    <button onClick={UserActivityRegister} style={{backgroundColor:"grey"}}  disabled className="user-activity-vaccine_button btn-primary">
+                    ลงทะเบียน
+                </button>}
                     </div>
                         
                 </div>

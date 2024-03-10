@@ -53,4 +53,4 @@ const CloseAvailableActivities = async () => {
     }
 };
 
-module.exports = CloseAvailableActivities;
+module.exports = CloseAvailableActivities;  
