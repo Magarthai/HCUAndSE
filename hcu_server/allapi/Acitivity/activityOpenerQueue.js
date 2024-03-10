@@ -8,6 +8,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const locale = 'en';
 const today = new Date();
+today.setHours(0, 0, 0, 0);
 const month = today.getMonth() + 1;
 const year = today.getFullYear();
 const date = today.getDate();
@@ -35,22 +36,27 @@ const fetchAvailableActivities = async () => {
             };
         });
         if (activitiesToday.length > 0) {
-            const filteredActivities = activitiesToday.filter(activity => activity.openDateFormat <= today);
+            const filteredActivities = activitiesToday.filter(item => {
+                const openQueueDate = new Date(item.openQueueDate);
+                return openQueueDate >= today;
+            });
+            console.log(today,"todayXD")
             if (filteredActivities.length > 0) {
+                console.log(filteredActivities,"filteredActivities")
                 await Promise.all(filteredActivities.map(async (activity) => {
                     try {
                         const activityRef = doc(db, 'activities', activity.activitiesId);
                         await updateDoc(activityRef, { activityStatus: "open" });
-                        console.log(`updated activity : ${activity.activityName}`)
+                        console.log(`updated activity : ${activity.activityName} `)
                     } catch (error) {
                         console.log('something went wrong : ', error)
                     }
                 }))
             } else {
-                console.log('There are no activity updated')
+                console.log('There are no activity Open')
             };
         } else {
-            console.log('No any activity closed')
+            console.log('No any activity Open')
         }
         return activitiesToday
     } catch (error) {
