@@ -36,7 +36,7 @@ const UserActivity = (props) => {
             try {
                 const response = await axios.get(`${REACT_APP_API}/api/fetchOpenActivity`);
                 setActivities(response.data);
-                console.log("fetchOpenQueueActivityAndSetState",response.data);
+                console.log("fetchOpenActivity",response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -50,7 +50,7 @@ const UserActivity = (props) => {
                         activity: userData.userActivity
                     });
                 setQueueActivities(response.data);
-                console.log("fetchOpenQueueActivityAndSetState",response.data);
+                console.log("fetchOpenQueueTodayActivity",response.data);
             } catch (error) {
                 console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
             }
@@ -64,7 +64,7 @@ const UserActivity = (props) => {
                         activity: userData.userActivity
                     });
                 setNQueueActivities(response.data);
-                console.log("fetchOpenQueueActivityAndSetState",response.data);
+                console.log("fetchActivityNotTodayQueue",response.data);
             } catch (error) {
                 console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
             }

@@ -26,16 +26,17 @@ router.post('/fetchActivityNotTodayQueue', async (req,res) => {
         const formattedDocs = activityDocs.map((docSnapshot, index) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
+                console.log(data,"XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                 data.timeSlots = JSON.stringify(data.timeSlots)
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots)
                 let hasMatch = false;
                 if(data.activityType === "yes"){
                 for (const timeSlot of data.timeSlots) { 
-                    console.log(timeSlot.date,"const timeSlot of data.timeSlots");
+                    console.log(timeSlot.date,"const timeSlot of data.timeSlots CHECK");
                     const activityDate = new Date(timeSlot.date);
-        
-                        if(data.timeSlots[userActivityList[index].index].QueueOpen == 'no'&& isNotSameDay(activityDate, today)){
+
+                        if(data.timeSlots[userActivityList[index].index].QueueOpen == 'no' && isNotSameDay(activityDate, today)){  
                         hasMatch = true; 
                         break; 
                         }
@@ -52,9 +53,11 @@ router.post('/fetchActivityNotTodayQueue', async (req,res) => {
             }
         }).filter(doc => doc !== null);
         if (formattedDocs.length > 0) {
-            console.log(`user have ${formattedDocs.length} activity`)
-            console.log(formattedDocs,"formattedDocs")
-            res.json(formattedDocs);
+            const filteredDocs = formattedDocs.filter(doc => doc !== undefined);
+            console.log(`user has ${filteredDocs.length} activity`);
+            console.log(filteredDocs, "filteredDocs");
+            
+            res.json(filteredDocs);
         } else {
             console.log("no activity registered")
         }
