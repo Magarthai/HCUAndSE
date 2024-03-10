@@ -13,6 +13,7 @@ import list from "../picture/List.png";
 import close from "../picture/close-w.png";
 import edit from "../picture/edit-w.png";
 import logout from "../picture/logout-w.png";
+import login from "../picture/login-w.png";
 
 const NavbarComponent = (props) => {
   const { user,userData, logOut,profile } = useUserAuth();
@@ -57,12 +58,19 @@ const NavbarComponent = (props) => {
             {userData && userData ? (
               <img className="user-navbar-profile" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
             ) : (
-              <div style={{fontSize:30,textAlign:"center",alignItems:"center",justifyContent:"center",height:"100%",display:"flex"}} className="admin-textBody-huge"><p>กรุณาล็อคอินก่อน</p></div>
+              <img className="user-navbar-profile" src={male} alt="logo health care unit" />
             )}
+            {userData && userData ? (
               <div className="user-navbar-profile-detail">
                 {userData && <div className="admin-textBody-huge">{userData.firstName} {userData.lastName}<a href="/profile" target="_parent"><img className="user-navbar-icon-edit"src={edit}/></a></div>}
                 {userData && <div className="admin-textBody-small2">{userData.id}</div>}
               </div>
+              ) : (
+                <div className="user-navbar-profile-detail">
+                  <a  target="_parent" className="admin-textBody-huge colorPrimary-50" style={{textDecoration:"none"}}>กรุณาล็อคอินก่อนเข้าใช้บริการ</a><br></br>
+                  <a href="/" target="_parent" className="admin-textBody-small2 colorPrimary-50"  style={{textDecoration:"underline"}}>เข้าสู่ระบบ</a>
+                </div>
+              )}
             </div>
             <div className="user-navbar-lists">
               <a href="/home" role="button" target="_parent"><p>หน้าแรก</p></a>
@@ -75,7 +83,11 @@ const NavbarComponent = (props) => {
               <a href="/feedback" role="button"  target="_parent"><p>ประเมินความพึงพอใจ</p></a>
               <a href="/manual" role="button"  target="_parent"><p>คู่มือการใช้งาน</p></a>
             </div>
+            {userData && userData ? (
             <p  className="colorPrimary-800" onClick={handleLogout} style={{cursor:"pointer"}}><img className="user-navbar-icon-logout"src={logout}/>ออกจากระบบ</p>
+            ) : (
+              <p  className="colorPrimary-800" onClick={handleLogout} style={{cursor:"pointer"}}><img className="user-navbar-icon-logout"src={login}/>เข้าสู่ระบบ</p>
+            )}
           </div>
 
 
