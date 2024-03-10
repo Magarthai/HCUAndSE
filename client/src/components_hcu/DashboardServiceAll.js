@@ -361,7 +361,7 @@ const DashboardServiceAll = (props) => {
            
         </div>
       </div>
-      {/* <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+      <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
         <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 20, bottom: 10}}>
             <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
@@ -373,8 +373,8 @@ const DashboardServiceAll = (props) => {
                     <Line type="monotone" dataKey="physic" stroke="#F5A110" />
                     <Line type="monotone" dataKey="needle" stroke="#FF2626" />
             </LineChart>
-        </ResponsiveContainer> */}
-        <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+        </ResponsiveContainer>
+        {/* <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
           <BarChart width={500} height={300} data={data} margin={{top: 5, right: 30, left: 30, bottom: 5}}>
           <CartesianGrid strokeDasharray="3 3" tick={{ fontSize: 12 }}/>
           <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
@@ -391,7 +391,7 @@ const DashboardServiceAll = (props) => {
           <Bar dataKey="physic" fill="#F5A110" />
           <Bar dataKey="needle" fill="#FF2626" />
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer> */}
       <div style={containerStyle}>
         <div className="admin-body">
             <h1>{selectedDate && formatDateInThai(selectedDate)}</h1>

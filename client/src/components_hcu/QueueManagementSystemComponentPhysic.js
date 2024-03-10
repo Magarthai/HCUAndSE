@@ -9,7 +9,7 @@ import verify_rights_icon from "../picture/verify_rights_icon.png";
 import { getUserDataFromUserId } from '../backend/getDataFromUserId'
 import Swal from "sweetalert2";
 import { ScaleLoader } from "react-spinners";
-
+import 'react-loading-skeleton/dist/skeleton.css'
 const QueueManagementSystemComponentSpecial = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -17,8 +17,12 @@ const QueueManagementSystemComponentSpecial = (props) => {
     const animationFrameRef = useRef();
     const [selectedDate, setSelectedDate] = useState(null);
     const [AppointmentUsersData, setAllAppointmentUsersData] = useState([]);
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         document.title = 'Health Care Unit';
+        setTimeout(()=> {
+            setLoading(false)
+        },1000)
         fetchUserDataWithAppointments();
         console.log("AppointmentUsersData",AppointmentUsersData)
         const responsivescreen = () => {
@@ -357,6 +361,8 @@ const QueueManagementSystemComponentSpecial = (props) => {
                             <div className="admin-queue-card-box">
                             {AppointmentUsersData && AppointmentUsersData.length > 0 ? (
                                 AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
+                                    <>
+                                    {loading ? (<ScaleLoader className="custom-skeleton" />) :( 
                                     <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index}>
                                     <div className="admin-queue-card-time colorPrimary-800">
                                         <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
@@ -378,11 +384,12 @@ const QueueManagementSystemComponentSpecial = (props) => {
                                         </div>
                                     )}
                                     </div>
+                                    )}</>
                                 ))
                                 ) : (
-                                    <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <ScaleLoader color={"#54B2B0"} size={25} />
-                                </div>
+                                    <div className="admin-queue-card colorPrimary-800 admin-textBody-huge" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        ไม่มีนัดหมาย
+                                    </div>
                                 )}
 
                             </div>

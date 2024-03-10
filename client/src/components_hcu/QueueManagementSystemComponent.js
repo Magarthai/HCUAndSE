@@ -357,7 +357,7 @@ const QueueManagementSystemComponent = (props) => {
                             {AppointmentUsersData && AppointmentUsersData.length > 0 ? (
                                 AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                                     <>
-                                    {loading ? (<Skeleton className="custom-skeleton" />) :( 
+                                    {loading ? (<ScaleLoader className="custom-skeleton" />) :( 
                                     <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index} >
                                        
                                         <div className="admin-queue-card-time colorPrimary-800">
@@ -386,8 +386,8 @@ const QueueManagementSystemComponent = (props) => {
                                 
                                 ))
                                 ) : (
-                                    <div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <ScaleLoader color={"#54B2B0"} size={25} />
+                                    <div className="admin-queue-card colorPrimary-800 admin-textBody-huge" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                       ไม่มีนัดหมาย
                                     </div>
                                 )}
                             </div>
