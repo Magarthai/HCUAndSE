@@ -104,6 +104,48 @@ const TimetablePhysicalComponent = (props) => {
         const start2 = new Date(`2000-01-01T${timeAppointmentMainStart}`);
         const end2 = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
         const duration2 = (end2 - start2) / 60000;
+        const timestarts = new Date(`2000-01-01T${timeStart}`);
+        const timeends = new Date(`2000-01-01T${timeEnd}`);
+        console.log(start2 > end,"CHECK")
+        if (start2 > timeends){
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณากรอกช่วงเวลากายภาพให้อยู่ในช่วงเวลาเปิด/ปิด คลินิก",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (start2 < timestarts){    
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณากรอกช่วงเวลากายภาพให้อยู่ในช่วงเวลาเปิด/ปิด คลินิก",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
+        if (end2 > timeends){    
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "กรุณากรอกช่วงเวลากายภาพให้อยู่ในช่วงเวลาเปิด/ปิด คลินิก",
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+            return;
+        }
         if (duration <= 0) {
             Swal.fire({
                 icon: "error",
