@@ -55,7 +55,7 @@ const NavbarComponent = (props) => {
             <img className="user-navbar-icon-close" src={close} onClick={openNavbar}/>
             <div className="user-navbar-header">
             {userData && userData ? (
-              <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
+              <img className="user-navbar-profile" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
             ) : (
               <div style={{fontSize:30,textAlign:"center",alignItems:"center",justifyContent:"center",height:"100%",display:"flex"}} className="admin-textBody-huge"><p>กรุณาล็อคอินก่อน</p></div>
             )}
