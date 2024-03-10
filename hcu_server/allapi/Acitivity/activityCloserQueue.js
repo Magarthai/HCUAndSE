@@ -26,6 +26,7 @@ const CloseAvailableActivities = async () => {
                 ...activitiesData,
             };
         });
+        console.log(activitiesToday);
         if (activitiesToday.length > 0) {
             const filteredActivities = activitiesToday.filter(activity => activity.closeDateFormat < today);
             if (filteredActivities.length > 0) {
@@ -39,7 +40,7 @@ const CloseAvailableActivities = async () => {
                     }
                 }))
             } else {
-                console.log('There are no activity updated')
+                console.log('There are no activity Close')
             };
         } else {
             console.log('No any activity opening')
@@ -48,7 +49,7 @@ const CloseAvailableActivities = async () => {
     } catch (error) {
         console.log(`fetch activities error : `, error)
     } finally {
-        setTimeout(CloseAvailableActivities, 600000);
+        setTimeout(CloseAvailableActivities, 601000);
     }
 };
 
