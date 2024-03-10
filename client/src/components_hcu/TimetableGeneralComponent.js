@@ -630,7 +630,7 @@ const TimetableGeneralComponent = (props) => {
             return;
         }
         if (
-            timeAppointmentStart >= timeAppointmentEnd 
+            timeAppointmentStart >= timeAppointmentEnd
         ) {
             Swal.fire({
                 icon: "error",
