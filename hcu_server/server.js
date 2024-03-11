@@ -206,7 +206,7 @@ const updateAppointmentsStatus = async () => {
                 console.error('Error updating appointment status:', error);
             }
         } else if (
-            appointment.status == 'รอยืนยันสิทธิ์' &&
+            appointment.status == 'ยืนยันสิทธิ์แล้ว' &&
             thaiTime >= timeslotEnd
         ) {
             try {
@@ -235,7 +235,39 @@ const updateAppointmentsStatus = async () => {
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        } else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+        } else if (
+            appointment.status == 'รอยืนยันสิทธิ์' &&
+            thaiTime >= timeslotEnd
+        ) {
+            try {
+                console.log(userData.userLineID);
+                if (userData) {
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to เสร็จสิ้น`
+                                }
+                            ]
+                        }
+                        try {
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                            console.log('Response:', response.data);
+                        } catch (error) {
+                            console.error('Error:', error.response.data);
+                        }
+                    }
+                    await updateDoc(docRef, { status: "ไม่สําเร็จ" });
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);
+                }
+            } catch (error) {
+                console.error('Error updating appointment status:', error);
+            }
+        }
+        
+        else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
                 console.log(userData.userLineID);
                 if (userData) {

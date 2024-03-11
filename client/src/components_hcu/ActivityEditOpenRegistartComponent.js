@@ -676,6 +676,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                                     <div>
                                         <label className="admin-textBody-large colorPrimary-800">ชื่อกิจกรรม</label>
                                         <input type="text" className="form-control" value={activityName} onChange={inputValue("activityName")} placeholder="Activity" />
+                                        {activityName.length > 70 ? <div style={{display:"flex",color:"red",justifyContent:"flex-end"}}>{activityName.length}/70</div> : <div style={{display:"flex",color:"grey",justifyContent:"flex-end"}}>{activityName.length}/70</div>}
                                     </div>
                                     <div>
                                         <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด</label>
