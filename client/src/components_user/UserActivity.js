@@ -17,6 +17,7 @@ const UserActivity = (props) => {
     const [activities, setActivities] = useState([]);
     const [Queueactivities, setQueueActivities] = useState([]);
     const [NQueueactivities, setNQueueActivities] = useState([]);
+    const [NoQueueactivities, setNoQueueActivities] = useState([]);
     const checkCurrentDate = getCurrentDate();
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -65,6 +66,20 @@ const UserActivity = (props) => {
                     });
                 setNQueueActivities(response.data);
                 console.log("fetchActivityNotTodayQueue",response.data);
+            } catch (error) {
+                console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+            }
+        }
+    };
+
+    const fetchNoQueueActivityAndSetState = async () => {
+        if (!isCheckedActivity) {
+            try {
+                const response = await axios.post(`${REACT_APP_API}/api/fetchNoQueueTodayActivity`, userData, {
+                        activity: userData.userActivity
+                    });
+                setNoQueueActivities(response.data);
+                console.log("fetchNoQueueTodayActivity",response.data);
             } catch (error) {
                 console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
             }
@@ -136,6 +151,7 @@ const UserActivity = (props) => {
         if (userData) {
             fetchOpenQueueActivityAndSetState();
             fetchNoOpenQueueActivityAndSetState();
+            fetchNoQueueActivityAndSetState();
         }
 
     }, [user, userData,isCheckedActivity]);
@@ -280,6 +296,21 @@ const UserActivity = (props) => {
                                     <img className="gap-8" src={Ticket_disabled_icon} alt="" />
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
+                            </div>
+                        ) )): (
+                            <div>
+                            </div>
+                        
+                        )}
+                        {NoQueueactivities && NoQueueactivities.length > 0 ? (
+                            NoQueueactivities.map((Queueactivities, index) => (
+                            <div className="user-Activity_card_registed_container gap-16" >
+                                <div className="gap-16" id="user-Activity_card-registed">
+                                    <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
+                                </div>
                             </div>
                         ) )): (
                             <div>

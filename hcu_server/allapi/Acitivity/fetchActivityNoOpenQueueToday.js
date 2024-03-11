@@ -17,7 +17,7 @@ function isSameDay(date1, date2) {
            date1.getDate() === date2.getDate();
 }
 
-router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
+router.post('/fetchNoQueueTodayActivity', async (req,res) => {
     try {
         const userInfo = req.body;
         const userActivityList = userInfo.userActivity;
@@ -28,8 +28,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
                 if(data.activityType == "no") {
-                    return null;
-                }
+                
                 data.timeSlots = JSON.stringify(data.timeSlots)
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots)
@@ -49,6 +48,9 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                 } else {
                     return null;
                 }
+            } else {
+                return null;
+            }
             } else {
                 return null; 
             }
