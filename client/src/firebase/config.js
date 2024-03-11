@@ -2,13 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc ,collection, getDocs} from 'firebase/firestore';
 const firebaseConfig = {
-  apiKey: "AIzaSyDkTX-23ykC4wkl4a1tl1DT4dkGtr67L_Y",
-  authDomain: "hcu-kmutt.firebaseapp.com",
-  projectId: "hcu-kmutt",
-  storageBucket: "hcu-kmutt.appspot.com",
-  messagingSenderId: "195854847510",
-  appId: "1:195854847510:web:d81ebd801efb56d7aa6f37",
-  measurementId: "G-MVCRXWQKEE"
+  apiKey: "AIzaSyDmwM30APYs62qlMx4HSNxrUQ5cFcTB5IM",
+  authDomain: "hcu-test.firebaseapp.com",
+  projectId: "hcu-test",
+  storageBucket: "hcu-test.appspot.com",
+  messagingSenderId: "1043366648624",
+  appId: "1:1043366648624:web:69e71a9886b747e49506f5"
 };
 
 
