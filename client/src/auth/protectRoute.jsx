@@ -10,10 +10,12 @@ function ProtectRoute({ children }) {
     const { user, userData,logOut } = useUserAuth();
     const navigate = useNavigate();
     const [serverDate, setServerDate] = useState("")
+    const [state, setState] = useState(false);
     const fetchData = async () => {
       try {
         const response = await axios.get(`${REACT_APP_API}/date`);
         setServerDate(response.data)
+        setState(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,7 +40,9 @@ function ProtectRoute({ children }) {
   
       console.log(userData);
       checkUserAdminStatus();
+      if(!state){
       fetchData();
+      }
       console.log(serverDate)
       if(serverDate){
         const checkDate = new Date(serverDate);
