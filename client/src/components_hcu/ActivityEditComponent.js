@@ -179,6 +179,19 @@ const ActivityEditComponent = (props) => {
     const submitForm = async (e) => {
         e.preventDefault();
         try {
+            if(activityName.length > 70) {
+                Swal.fire({
+                    title: 'สร้างไม่สําเร็จ',
+                    html: 'ห้ามใส่ชื่อกิจกรรมเกิน 70 ตัวอักษร!',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    },
+                });
+                return;
+            }
             const activitiesCollection = doc(db, 'activities', id);
             const activityStatusForCurrentDate = timeSlots.some(slot => slot.date >= checkCurrentDate);
             console.log(activityStatusForCurrentDate,checkCurrentDate)

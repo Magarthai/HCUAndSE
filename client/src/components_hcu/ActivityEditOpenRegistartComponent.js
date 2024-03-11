@@ -180,6 +180,19 @@ const ActivityEditOpenRegistartComponent = (props) => {
     
 
     const submitForm = async (e) => {
+        if(activityName.length > 70) {
+            Swal.fire({
+                title: 'สร้างไม่สําเร็จ',
+                html: 'ห้ามใส่ชื่อกิจกรรมเกิน 70 ตัวอักษร!',
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    cancelButton: 'custom-cancel-button',
+                },
+            });
+            return;
+        }
         e.preventDefault();
         try {
             const activitiesCollection = doc(db, 'activities', id);
