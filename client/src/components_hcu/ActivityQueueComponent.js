@@ -150,7 +150,7 @@ const ActivityQueueComponent = (props) => {
     const ShiftQueuePass = async () => {
         try {
         console.log(activityQueue)
-        const response = await axios.post(`${REACT_APP_API}:5000/api/adminGetQueueActivity`, activityQueue);
+        const response = await axios.post(`${REACT_APP_API}/api/adminGetQueueActivity`, activityQueue);
         const a = response.data
         console.log(a);
         setQueueActivities(response.data);

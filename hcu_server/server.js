@@ -19,6 +19,8 @@ const NoQueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivit
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const dataRoute = require('./allapi/dataRoute');
+const fetchTodayActivity = require('./allapi/Acitivity/admin/fetchTodayActivity');
+const fetchNoQueueTodayActivity = require('./allapi/Acitivity/admin/fetchNoQueueTodayActivity');
 const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
 const userGetQueueActivity = require('./allapi/Acitivity/userGetQueueActivity');
 const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
@@ -46,6 +48,8 @@ app.use('/api', getRegisteredListActivity);
 app.use('/api', deleteActivity);
 app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
+app.use('/api', fetchTodayActivity);
+app.use('/api', fetchNoQueueTodayActivity);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);
