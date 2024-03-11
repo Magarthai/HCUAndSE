@@ -8,6 +8,7 @@ import { getFirestore, addDoc, collection } from 'firebase/firestore';
 import HCU from "../picture/HCU.jpg";
 import { getDocs, query, where } from 'firebase/firestore';
 import "../css/Component.css";
+import axios from 'axios';
 import { sendEmailVerification } from 'firebase/auth';
 import { getAuth } from "firebase/auth";
 
@@ -138,12 +139,6 @@ const SignupComponent = (props) => {
       return true;
     };
     
-    const isStudentIdAlreadyUsed = async (studentId) => {
-        const usersCollection = collection(db, 'users');
-        const querySnapshot = await getDocs(query(usersCollection, where('id', '==', studentId)));
-      
-        return !querySnapshot.empty;
-      };
     
       
       const submitForm = async (e) => {
@@ -183,37 +178,53 @@ const SignupComponent = (props) => {
           )
           return
         }   
-
-        try {
-      
-          const isIdAlreadyUsed = await isStudentIdAlreadyUsed(id);
-          if (isIdAlreadyUsed) {
-            throw new Error("Student ID already in use");
-          }
-      
-      
-          const userCredential = await createUserWithEmailAndPassword(email, password);
-          if (!userCredential || !userCredential.user) {
-            throw new Error("Failed to create user account.");
-          }
-      
-          
-
-          const { user } = userCredential;
-          sendEmailVerification(user);
-          
+        try{
           const additionalUserInfo = {
-            uid: user.uid,
             firstName,
             lastName,
             tel,
             id,
             gender,
+            email,
             role: "user",
           };
+          const checkStudentID = await axios.post('http://localhost:5000/api/checkStudentID', additionalUserInfo);
+          if (checkStudentID.data == 'Student id already exits!'){
+            Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด!",
+              text: "รหัสนักศึกษาถูกใช้งานแล้ว",
+              confirmButtonColor: '#263A50',
+            customClass: {
+                cancelButton: 'custom-cancel-button',
+            }        
+            });
+            return;
+          } else if (checkStudentID.data == "success"){
+
+          const userCredential = await createUserWithEmailAndPassword(email, password);
+          if (!userCredential || !userCredential.user) {
+            throw new Error("Failed to create user account.");
+          }
       
-          await addDoc(collection(db, 'users'), additionalUserInfo);
-      
+          const additionalUserInfos = {
+            uid: userCredential.uid,
+            firstName,
+            lastName,
+            tel,
+            id,
+            gender,
+            email,
+            role: "user",
+          };
+
+          const { user } = userCredential;
+          sendEmailVerification(user);
+          
+          
+          if(userCredential.user) {
+          const response = await axios.post('http://localhost:5000/api/createUsers', additionalUserInfos);
+        if (response.data == "success") {
           Swal.fire({
             icon: "success",
             title: "สําเร็จ",
@@ -228,46 +239,53 @@ const SignupComponent = (props) => {
               window.location.href = '/home';
             }
           });
-      
-        } catch (firebaseError) {
-          console.error('Firebase signup error:', firebaseError);
-        
-          if (firebaseError.message === "Failed to create user account.") {
-            Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด!",
-              text: "อีเมลไม่ถูกต้องหรืออีเมลนี้ถูกใช้งานแล้ว",
-              confirmButtonColor: '#263A50',
-            customClass: {
-                cancelButton: 'custom-cancel-button',
-            }        
-            });
-          } else if (firebaseError.message === "Student ID already in use") {
-            Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด!",
-              text: "รหัสนักศึกษาถูกใช้งานแล้ว",
-              confirmButtonColor: '#263A50',
-            customClass: {
-                cancelButton: 'custom-cancel-button',
-            }        
-            });
-          } else {
-            console.error('Firebase error response:', firebaseError);
-            Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด!",
-              text: "ไม่สามารถสร้างบัญชีผู้ใช้ได้ กรุณาลองอีกครั้งในภายหลัง",
-              confirmButtonColor: '#263A50',
-            customClass: {
-                cancelButton: 'custom-cancel-button',
-            }        
-            });
-          }
+          
+        } else if (response.data == 'Student id already exits!'){
+          throw new Error("Student ID already in use");
         }
-        
-      };
+      }
+      }
+      } catch (firebaseError) {
+        console.error('Firebase signup error:', firebaseError);
       
+        if (firebaseError.message === "Failed to create user account.") {
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด!",
+            text: "อีเมลไม่ถูกต้องหรืออีเมลนี้ถูกใช้งานแล้ว",
+            confirmButtonColor: '#263A50',
+          customClass: {
+              cancelButton: 'custom-cancel-button',
+          }        
+          });
+        } else if (firebaseError.message === "Student ID already in use") {
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด!",
+            text: "รหัสนักศึกษาถูกใช้งานแล้ว",
+            confirmButtonColor: '#263A50',
+          customClass: {
+              cancelButton: 'custom-cancel-button',
+          }        
+          });
+        } else {
+          console.error('Firebase error response:', firebaseError);
+          Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด!",
+            text: "ไม่สามารถสร้างบัญชีผู้ใช้ได้ กรุณาลองอีกครั้งในภายหลัง",
+            confirmButtonColor: '#263A50',
+          customClass: {
+              cancelButton: 'custom-cancel-button',
+          }        
+          });
+        }
+      }
+      
+    };
+        
+
+    
       const [selectedCount, setSelectedCount] = useState(1);
 
       const handleSelectChange = () => {
