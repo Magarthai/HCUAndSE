@@ -156,7 +156,19 @@ const submitForm = async (e) => {
 
     const fileInput = document.querySelector('.input-activity-img');
     const file = fileInput?.files[0];
-
+    if(activityName.length > 70) {
+        Swal.fire({
+            title: 'สร้างไม่สําเร็จ',
+            html: 'ห้ามใส่ชื่อกิจกรรมเกิน 70 ตัวอักษร!',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+                cancelButton: 'custom-cancel-button',
+            },
+        });
+        return;
+    }
     if (file) {
         const fileType = file.type.split("/")[0];
         if (fileType !== "image") {
@@ -495,7 +507,9 @@ const submitForm = async (e) => {
                                     <div>
                                         <label className="admin-textBody-large colorPrimary-800">ชื่อกิจกรรม</label>
                                         <input type="text" className="form-control" value={activityName} onChange={inputValue("activityName")} placeholder="Activity" />
+                                        {activityName.length > 70 ? <div style={{display:"flex",color:"red",justifyContent:"flex-end"}}>{activityName.length}/70</div> : <div style={{display:"flex",color:"grey",justifyContent:"flex-end"}}>{activityName.length}/70</div>}
                                     </div>
+                                    
                                     <div>
                                     <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด</label>
                                     <textarea
