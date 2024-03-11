@@ -123,7 +123,13 @@ const UserActivityDetail = (props) =>{
             showCancelButton: true,
             confirmButtonText: "ลงทะเบียน",
             cancelButtonText: "ยกเลิก",
-            reverseButtons: true
+            reverseButtons: true,
+            confirmButtonColor: '#263A50',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            }
             
         }).then(async(result) => {
             if (result.isConfirmed) {
@@ -155,6 +161,10 @@ const UserActivityDetail = (props) =>{
                         title: "ลงทะเบียนสำเร็จ",
                         icon: "success",
                         confirmButtonText: "กลับ",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
                     }).then(function() {
                         window.location.href = '/activity';
 
@@ -165,6 +175,10 @@ const UserActivityDetail = (props) =>{
                         text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
                         icon: "error",
                         confirmButtonText: "กลับ",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
                     })
                     return;
                 } else if (response.data == "already-full") {
@@ -173,6 +187,10 @@ const UserActivityDetail = (props) =>{
                         text: "กิจกรรมนี้ผู้เข้าร่วมเต็มแล้ว",
                         icon: "error",
                         confirmButtonText: "กลับ",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
                     })
                     return;
                 }
@@ -182,6 +200,10 @@ const UserActivityDetail = (props) =>{
                         text: "คุณลงทะเบียนกิจกรรมนี้แล้ว",
                         icon: "error",
                         confirmButtonText: "กลับ",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
                     })
                     return;
                 }
@@ -191,7 +213,11 @@ const UserActivityDetail = (props) =>{
                         title: "เกิดข้อผิดพลาด",
                         text: "ไม่สามารถลงทะเบียนกิจกรรมได้",
                         icon: "error",
-                        confirmButtonText: "ตกลง"
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
                     });
                 }
             }
@@ -210,7 +236,7 @@ const UserActivityDetail = (props) =>{
         <div className="user">
             <header className="user-header">
                     <div>
-                        <h2>รายการกิจกรรม</h2>
+                        <h2>รายละเอียดกิจกรรม</h2>
                        
                     </div>
                     <NavbarUserComponent/>
@@ -223,7 +249,7 @@ const UserActivityDetail = (props) =>{
 
                 <div className="user-body-activity-detail">
                     <div className="user-activity-vaccine_title_container">
-                        <h3>รายการกิจกรรม : {activityName}</h3>
+                        <h3>กิจกรรม : {activityName}</h3>
                     </div>
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่เปิดลงทะเบียน</h5>

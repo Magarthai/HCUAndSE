@@ -300,7 +300,7 @@ const AppointmentManagerComponent = (props) => {
                                                 confirmButtonText: "ตกลง",
                                                 confirmButtonColor: '#263A50',
                                                 customClass: {
-                                                    cancelButton: 'custom-cancel-button',
+                                                    confirmButton: 'custom-confirm-button',
                                                 }
                                             });
                                             await deleteDoc(doc(db, 'appointment', appointmentRef.id));

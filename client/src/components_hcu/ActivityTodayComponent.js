@@ -197,17 +197,16 @@ const ActivityTodayComponent = (props) => {
                                     <div className="admin-activity-today-hearder-box">
                                         <h2 className="colorPrimary-800 admin-activity-name">กิจกรรม : {activities.activityName}</h2>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
-                                </p>
+                                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
+                                        </p>
                                         <p className="admin-textBody-big colorPrimary-800">
-
-                                                    <div>
-                                                        <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime} 
-                                                        </div>
-                                             </p>
+                                            <div>
+                                                <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime} 
+                                            </div>
+                                        </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <a style={{textDecorationLine:"none"}} onClick={() => getRegisteredListActivity(activities)} target="_parent" className="colorPrimary-800">
-                                                <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" />
+                                                <img src={person_icon} className="icon-activity" /> :<a style={{cursor:"pointer"}}> {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน </a>
                                             </a>
                                         </p>
                                     </div>
@@ -234,7 +233,8 @@ const ActivityTodayComponent = (props) => {
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
-                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity" style={{textDecorationLine:"none"}}>จัดการคิว</a>
+                                    <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",cursor:"pointer",paddingLeft:"60px",paddingRight:"60px"}}>รายชื่อ</a>
+                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",marginLeft:"10px",cursor:"pointer"}}>จัดการคิว</a>
                                 </div>
                             </div>
                        ))))

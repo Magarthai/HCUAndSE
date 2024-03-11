@@ -269,7 +269,7 @@ const ActivityOpenRegisterComponent = (props) => {
                                             <p className="admin-textBody-big colorPrimary-800">
                                                 {activities.timeSlots
                                                     .map((timeSlot, slotIndex) => (
-                                                        <div>
+                                                        <div style={{marginBottom:"10px"}}>
                                                              <p className="admin-textBody-big colorPrimary-800" >
                                                                 <img src={calendarFlat_icon} className="icon-activity" /> วันที่เปิดกิจกรรม : {formatDate(timeSlot.date)}
                                                             </p>
@@ -277,7 +277,7 @@ const ActivityOpenRegisterComponent = (props) => {
                                                         </div>
                                                     ))}
                                             </p>
-                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
+                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน </a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box2 admin-right">
                                             <a href="/adminActivityEditOpenRegistartComponent" target="_parent"><img src={edit} className="icon" onClick={() => EditActivity(activities)} /></a>

@@ -60,12 +60,12 @@
     overflow: hidden;
     overflow-y: scroll;
     margin-right: 5px;
+    margin-bottom: 15px;
+    
 }
 #user-Activity_tab_all_content::-webkit-scrollbar {
     width: 5px; 
-    margin: 5px !important;
-    max-height: 300px;
-    
+    height: 200px; 
 }
 #user-Activity_tab_all_content::-webkit-scrollbar-thumb {
     background-color: #263A50;
@@ -84,6 +84,8 @@
     height: 65vh;
     overflow: hidden;
     overflow-y: scroll;
+    margin-right: 5px;
+    margin-bottom: 15px;
 }
 #user-Activity_tab_all_content2::-webkit-scrollbar {
     width: 5px; 
@@ -112,7 +114,7 @@
 
 .user-Activity_card{
     margin-left: 16px;
-    margin-right: 16px;
+    margin-right: 8px;
     background-color: #FBFFFF;
     color: #263A50;
     text-decoration: none;
@@ -138,7 +140,7 @@
     flex-direction: row;
     justify-content: space-between;
     margin-left: 16px;
-    margin-right: 16px;
+    margin-right: 8px;
     background-color: #FBFFFF;
     color: #263A50;
     box-shadow: 1px 5px 5px rgba(0,0,0,0.25);
