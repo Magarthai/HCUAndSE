@@ -171,7 +171,7 @@ const ActivityAllComponent = (props) => {
                                             <p className="admin-textBody-big colorPrimary-800">
                                                 {activities.timeSlots
                                                     .map((timeSlot, slotIndex) => (
-                                                        <div>
+                                                        <div style={{marginBottom:"10px"}}>
                                                              <p className="admin-textBody-big colorPrimary-800" >
                                                                 <img src={calendarFlat_icon} className="icon-activity" /> วันที่เปิดกิจกรรม : {formatDate(timeSlot.date)}
                                                             </p>
@@ -179,7 +179,7 @@ const ActivityAllComponent = (props) => {
                                                         </div>
                                                     ))}
                                             </p>
-                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" /></a></p>
+                                            <p className="admin-textBody-big colorPrimary-800"><a onClick={() => getRegisteredListActivity(activities)} style={{textDecorationLine:"none"}} target="_parent" className="colorPrimary-800"><img src={person_icon} className="icon-activity" /> : {activities.totalRegisteredCount} คน </a></p>
                                         </div>
                                         <div className="admin-activity-today-hearder-box2 admin-right">
                                             <a className="admin-activity-preview" onClick={() => PreviewActivity(activities)} role="button"  target="_parent">Preview <img src={preview} className="icon icon_preview" /></a>

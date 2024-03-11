@@ -100,6 +100,12 @@ const UserActivity = (props) => {
             showCancelButton: true,
             confirmButtonText: "รับคิว",
             cancelButtonText: "ยกเลิก",
+            confirmButtonColor: '#263A50',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            },
             reverseButtons: true
         }).then(async(result) => {
             if (result.isConfirmed) {
@@ -112,6 +118,11 @@ const UserActivity = (props) => {
                     title: "รับคิวสำเร็จ",
                     icon: "success",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 }).then(function () {
                     navigate("/queue");
                 });
@@ -122,6 +133,11 @@ const UserActivity = (props) => {
                     icon: "error",
                     html: "คุณได้รับคิวกิจกรรมนี้ไปแล้ว",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 }).then(function () {
                     navigate("/queue");
                 });
@@ -131,6 +147,11 @@ const UserActivity = (props) => {
                     html: 'กรุณาทํารายการใหม่อีกครั้ง',
                     icon: "error",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 })
             }
             }
@@ -236,11 +257,14 @@ const UserActivity = (props) => {
                                 activities.map((activities, index) => (
                                     <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
                                         <h4 className="admin-activity-name">{activities.activityName}</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
                                                 <div>
-                                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
+                                                     {(slotIndex === 0 || timeSlot.date !== activities.timeSlots[slotIndex - 1].date) && (
+                                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: {formatDate(timeSlot.date)}</p>
+                                                    )}
+                                                    {/* <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: {formatDate(timeSlot.date)}</p> */}
                                                     <p className="textBody-medium" id="user-Activity_card_date"><img src={ClockFlat_icon} /> {timeSlot.startTime} - {timeSlot.endTime}</p>
                                                 </div>
 
