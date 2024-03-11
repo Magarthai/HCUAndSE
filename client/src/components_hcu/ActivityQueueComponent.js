@@ -237,8 +237,9 @@ const ActivityQueueComponent = (props) => {
                     <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
                 </div>
                 <p className="admin-textBody-huge colorPrimary-800">คิวทั้งหมด</p>
+                <div className="admin-activity-queue-cards-all">
                 {Queueactivities.Queuelist.map((queue,index) => 
-                        <div className="admin-activity-queue-cards-all">
+                     
                             <div className="admin-activity-queue-cards colorPrimary-800"> 
                                 <div className="admin-activity-queue-card1"><p className="admin-textBody-small">ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2">
@@ -246,8 +247,9 @@ const ActivityQueueComponent = (props) => {
                                   
                                 </div>
                             </div>
-                        </div>
+                        
                     )}
+                 </div>
                     </div>
                     )}
                     {Queueactivities && Queueactivities.SuccessList && (

@@ -2,6 +2,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 15px;
     padding: 2%;
+    margin-bottom: 20px;
 }
 .admin-activity{
     display: flex;
@@ -54,6 +55,7 @@
     border-radius: 5px;
     color: #ffffff;
     font-size: 18px;
+    
 }
 .admin-activity-add{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -312,4 +314,12 @@
 }
 .admin-activity-p{
     margin-bottom: 50px;
+}
+.admin-back-arrow-activity{
+    position: absolute;
+    top:100px;
+    left: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 }

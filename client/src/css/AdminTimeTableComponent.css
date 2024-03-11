@@ -238,12 +238,25 @@ body{
         display: none;
     }
     #Detailtimetable{
+        overflow-y: scroll;
         display: none;
+        height: 570px;
     }
     #Detailtimetable p{
         margin: 5px 0px;
     }
-
+    #Detailtimetable::-webkit-scrollbar {
+        width: 5px; 
+        margin: 5px;
+    }
+    #Detailtimetable::-webkit-scrollbar-thumb {
+        background-color: #263A50;
+        border-radius: 5px;
+    }
+    #Detailtimetable::-webkit-scrollbar-track {
+        background-color: #D1D1D1;
+        border-radius: 5px;
+    }
 
     #Detail p, #Detail2 p{
         padding: 0px 30px;
