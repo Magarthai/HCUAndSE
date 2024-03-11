@@ -1112,6 +1112,7 @@ const TimetableGeneralComponent = (props) => {
             const updatedStatus = !prevState[id];
             console.log(updatedStatus,"updatedStatus")
             if (!updatedStatus) {
+                
             const response = axios.post(`${REACT_APP_API}/api/adminToggleTimetable`, timetable)
             
             console.log(response.data);

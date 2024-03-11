@@ -254,7 +254,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to เสร็จสิ้น`
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ`
                                 }
                             ]
                         }
@@ -265,7 +265,7 @@ const updateAppointmentsStatus = async () => {
                             console.error('Error:', error.response.data);
                         }
                     }
-                    await updateDoc(docRef, { status: "ไม่สําเร็จ" });
+                    await updateDoc(docRef, { status: 'ไม่สำเร็จ' });
                     console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);
                 }
             } catch (error) {
