@@ -63,16 +63,34 @@ const ActivityTodayComponent = (props) => {
         console.log("todayActivity", activities);
     }, [activities]);
     const [Queueactivities, setQueueActivities] = useState([]);
+
     const fetchTodayActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const todayActivity = await fetchTodayActivity(user, checkCurrentDate);
-                const initialIsChecked = todayActivity.reduce((acc, timetableItem) => {
-                    acc[timetableItem.id] = timetableItem.timeSlots[0].QueueOpen === "yes";
+                const response = await axios.get(`${REACT_APP_API}/api/fetchTodayActivity`)
+                
+                const todayActivity = response.data;
+                const activitiesData = todayActivity.flatMap((doc) => {
+                    return doc.timeSlots.map((slot, index) => ({
+                      ...slot,
+                      id: doc.id,
+                      activityName: doc.activityName,
+                      openQueueDate: doc.openQueueDate,
+                      endQueueDate: doc.endQueueDate,
+                      activityType: doc.activityType,
+                      activityStatus: doc.activityStatus,
+                      index: index,
+                      testid: doc.id + index
+                    }));
+                  });
+                console.log(activitiesData,"activitiesData")
+                const initialIsChecked = activitiesData.reduce((acc, timetableItem) => {
+                    acc[timetableItem.testid] = timetableItem.QueueOpen === "yes";
                     return acc;
                 }, {});
+                console.log(response.data,"todayActivitysss")
                 setIsChecked(initialIsChecked);
-                setActivities(todayActivity);
+                setActivities(activitiesData);
                 setIsCheckedActivity(true);
             } catch (error) {
                 console.error('Error fetching today activity:', error);
@@ -119,15 +137,16 @@ const ActivityTodayComponent = (props) => {
     const checkCurrentDate = getCurrentDate();
 
 
-    const handleToggle = async (id, activityInfo) => {
+    const handleToggle = async (id, activityInfo,xd) => {
+        console.log(id,activities,activityInfo.index)
         setIsChecked(prevState => {
             const updatedStatus = !prevState[id];
-            const docRef = doc(db, 'activities', id);
+            console.log(updatedStatus,"updatedStatus")
+            const docRef = doc(db, 'activities', activityInfo.id);
             const queryActivitySnapshot = getDoc(docRef);
             queryActivitySnapshot.then(async (doc) => {
                 const activityData = doc.data();
-                console.log(activityData.timeSlots[activityInfo.timeSlots[0].index],activityInfo.timeSlots[0].index)
-                activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen = (activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen === 'no') ? 'yes' : 'no';
+                activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
     
                 await updateDoc(docRef, { timeSlots: activityData.timeSlots });
             }).catch(error => {
@@ -190,8 +209,7 @@ const ActivityTodayComponent = (props) => {
                 <div className="admin-body">
                     {activities && activities.length > 0 ? (
                         activities.map((activities, index) => (
-                            activities.timeSlots
-                                .map((timeSlot, slotIndex) => (
+
                             <div className="admin-activity-today" key={index}>
                                 <div className="admin-activity-today-hearder-flexbox">
                                     <div className="admin-activity-today-hearder-box">
@@ -202,21 +220,21 @@ const ActivityTodayComponent = (props) => {
                                         <p className="admin-textBody-big colorPrimary-800">
 
                                                     <div>
-                                                        <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime} 
+                                                        <img src={clockFlat_icon} className="icon-activity" /> : {activities.startTime} - {activities.endTime} 
                                                         </div>
                                              </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <a style={{textDecorationLine:"none"}} onClick={() => getRegisteredListActivity(activities)} target="_parent" className="colorPrimary-800">
-                                                <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" />
+                                                <img src={person_icon} className="icon-activity" /> : {activities.userList.length} / {activities.registeredCount} คน <img src={annotaion_icon} className="icon-activity" />
                                             </a>
                                         </p>
                                     </div>
                                     <div className="admin-activity-today-hearder-box admin-right">
-                                    <label className={`toggle-switch ${isChecked[activities.id] ? 'checked' : ''}`}>
+                                    <label className={`toggle-switch ${isChecked[activities.testid] ? 'checked' : ''}`}>
                                         <input
                                             type="checkbox"
-                                            checked={isChecked[activities.id]}
-                                            onChange={() => handleToggle(activities.id,activities)}
+                                            checked={isChecked[activities.testid]}
+                                            onChange={() => handleToggle(activities.testid,activities,activities.id)}
                                         />
                                         <div className="slider"></div>
                                         </label>
@@ -234,10 +252,10 @@ const ActivityTodayComponent = (props) => {
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
-                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity" style={{textDecorationLine:"none"}}>จัดการคิว</a>
+                                    <a onClick={() => OpenTimeSlotsQueue(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none"}}>จัดการคิว</a>
                                 </div>
                             </div>
-                       ))))
+                       ))
                     ) : (
                         <div className="admin-queue-card-activity" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p  className="admin-textBody-large colorPrimary-800" >ไม่มีกิจกรรม</p>

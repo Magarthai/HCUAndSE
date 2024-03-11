@@ -266,7 +266,7 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
@@ -288,7 +288,7 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
@@ -307,7 +307,7 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>

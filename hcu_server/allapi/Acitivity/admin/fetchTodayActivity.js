@@ -23,31 +23,32 @@ const checkCurrentDate = getCurrentDate();
 
 router.get('/fetchTodayActivity', async (req,res) => {
     try {
-            const activitiesCollection = collection(db, 'activities');
+        const activitiesCollection = collection(db, 'activities');
 
-            const querySnapshot = await getDocs(query(activitiesCollection, where('activityType', '==', 'yes')));
-
-            const activitiesData = querySnapshot.docs
-            .map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }))
-            .map((activity) => ({
-                ...activity,
-                timeSlots: activity.timeSlots.map((slot, index) => ({
-                    ...slot,
-                    id: activity.id,
-                    activityName: activity.activityName,
-                    openQueueDate: activity.openQueueDate,
-                    endQueueDate: activity.endQueueDate,
-                    activityType: activity.activityType,
-                    activityStatus: activity.activityStatus,
-                    index: index 
-                })),
-            }))
-            .filter((activity) => activity.timeSlots.some(slot => slot.date === checkCurrentDate));
-
-            res.json(activitiesData);
+        const querySnapshot = await getDocs(query(activitiesCollection, where('activityType', '==', 'yes')));
+        
+        const activitiesData = querySnapshot.docs
+          .flatMap((doc) => {
+            const activity = {
+              id: doc.id,
+              ...doc.data(),
+            };
+            return activity.timeSlots.map((slot, index) => ({
+              ...slot,
+              id: activity.id,
+              activityName: activity.activityName,
+              openQueueDate: activity.openQueueDate,
+              endQueueDate: activity.endQueueDate,
+              activityType: activity.activityType,
+              activityStatus: activity.activityStatus,
+              index: index,
+            }));
+          })
+          .filter((slot) => slot.date === checkCurrentDate);
+        
+        console.log(activitiesData, "activitiesDataactivitiesDataactivitiesData");
+        res.json(activitiesData);
+        
         
     } catch (error) {
         console.error('Error fetching activities:', error);

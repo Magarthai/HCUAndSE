@@ -209,6 +209,7 @@ const SignupComponent = (props) => {
             tel,
             id,
             gender,
+            email,
             role: "user",
           };
       
