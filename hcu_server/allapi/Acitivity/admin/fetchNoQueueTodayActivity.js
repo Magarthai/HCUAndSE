@@ -21,7 +21,7 @@ function getCurrentDate() {
 }
 const checkCurrentDate = getCurrentDate();
 
-router.get('/fetchTodayActivity', async (req,res) => {
+router.get('/fetchNoQueueTodayActivitys', async (req,res) => {
     try {
             const activitiesCollection = collection(db, 'activities');
 

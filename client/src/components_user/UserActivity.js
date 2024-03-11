@@ -316,10 +316,14 @@ const UserActivity = (props) => {
                                     <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
+                                {Queueactivities.activityType == "yes" ?
                                 <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
                                     <img className="gap-8" src={Ticket_disabled_icon} alt="" />
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
+                                :
+                                <div></div>
+                                }
                             </div>
                         ) )): (
                             <div>

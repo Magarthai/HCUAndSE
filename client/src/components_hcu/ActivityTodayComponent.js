@@ -209,7 +209,6 @@ const ActivityTodayComponent = (props) => {
                 <div className="admin-body">
                     {activities && activities.length > 0 ? (
                         activities.map((activities, index) => (
-
                             <div className="admin-activity-today" key={index}>
                                 <div className="admin-activity-today-hearder-flexbox">
                                     <div className="admin-activity-today-hearder-box">
@@ -252,7 +251,10 @@ const ActivityTodayComponent = (props) => {
                                 </p>
                                 <div className="admin-right">
                                     <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",cursor:"pointer",paddingLeft:"60px",paddingRight:"60px"}}>รายชื่อ</a>
-                                    <a onClick={() => OpenTimeSlotsQueue(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",marginLeft:"10px",cursor:"pointer"}}>จัดการคิว</a>
+                                    {activities.activityType === "yes" ? 
+                                    <a onClick={() => OpenTimeSlotsQueue(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",marginLeft:"10px",cursor:"pointer"}}>จัดการคิว</a>:
+                                    <a></a>
+                                }
                                 </div>
                             </div>
                        ))

@@ -25,7 +25,7 @@ router.get('/fetchTodayActivity', async (req,res) => {
     try {
             const activitiesCollection = collection(db, 'activities');
 
-            const querySnapshot = await getDocs(query(activitiesCollection, where('activityType', '==', 'yes')));
+            const querySnapshot = await getDocs(activitiesCollection);
 
             const activitiesData = querySnapshot.docs
             .map((doc) => ({

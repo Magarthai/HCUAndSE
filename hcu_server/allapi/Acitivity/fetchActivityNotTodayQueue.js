@@ -31,7 +31,7 @@ router.post('/fetchActivityNotTodayQueue', async (req, res) => {
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots, "data.timeSlotsdata.timeSlotsdata.timeSlotsdata.timeSlots")
                 let hasMatch = false;
-                if (data.activityType === "yes") {
+
                     for (const timeSlot of data.timeSlots) {
                         console.log(timeSlot.QueueOpen);
                         console.log(timeSlot.endTime);
@@ -56,9 +56,7 @@ router.post('/fetchActivityNotTodayQueue', async (req, res) => {
                 } else {
                     return null;
                 }
-            } else {
-                return null;
-            }
+
         }).filter(doc => doc !== null);
         if (formattedDocs.length > 0) {
             console.log(`user has ${formattedDocs.length} activity`);

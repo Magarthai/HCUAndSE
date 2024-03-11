@@ -231,11 +231,18 @@ const ActivityQueueComponent = (props) => {
                     <p style={{fontSize:"60px"}}>ไม่มีคิว</p>
                     <p className="admin-textBody-large">รหัส: - </p>
                     <p className="admin-textBody-huge">ชื่อ-นามสกุล: - </p>
-                </div>)}
-                <div className="admin-activity-queue-btn">
-                    <button onClick={() => ShiftQueuePass(Queueactivities)} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
-                    <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
                 </div>
+                )}
+                {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] ? (
+                <div className="admin-activity-queue-btn">
+                    <button  onClick={() => ShiftQueuePass(Queueactivities)} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
+                    <button onClick={() => ShiftQueue(Queueactivities)} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
+                </div>): (
+                     <div className="admin-activity-queue-btn">
+                     <button disabled onClick={() => ShiftQueuePass(Queueactivities)} style={{backgroundColor:"grey",color:"white",border:"none"}} className="admin-activity-queue-btn-box btn-secondary">ข้าม</button>
+                     <button disabled onClick={() => ShiftQueue(Queueactivities)}style={{backgroundColor:"grey",color:"white"}} className="admin-activity-queue-btn-box btn-primary">ยืนยันสิทธ์</button>
+                 </div>
+                )}
                 <p className="admin-textBody-huge colorPrimary-800">คิวทั้งหมด</p>
                 <div className="admin-activity-queue-cards-all">
                 {Queueactivities.Queuelist.map((queue,index) => 
