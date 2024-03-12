@@ -32,7 +32,9 @@ app.use('/api', getHoliday);
 app.use('/api', deleteHoliday);
 app.use('/api', checkDateHoliday);
 
-
+app.get('/', (req, res) => {
+    res.send('test')
+})
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
 });
