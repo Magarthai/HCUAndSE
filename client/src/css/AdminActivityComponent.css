@@ -232,6 +232,11 @@
     width: 49%;
     box-sizing: border-box;
 }
+.admin-holiday-btn-box{
+    width: 500px;
+    height: 40px;
+    box-sizing: border-box;
+}
 .admin-activity-queue-cards{
     width: 100%;
     background-color: #ffffff;

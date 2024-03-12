@@ -17,6 +17,7 @@ import { DeleteAppointment } from '../backend/backendGeneral'
 import { PulseLoader } from "react-spinners";
 import icon_date from "../picture/datepicker.png"
 import { id } from "date-fns/locale";
+import axios from "axios";
 const AppointmentManagerComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -63,7 +64,16 @@ const AppointmentManagerComponent = (props) => {
 
     const fetchTimeTableData = async () => {
         try {
-
+            const info = {
+                date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+            }
+            const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+            if(checkDate.data == "Date exits!") {
+                console.log("Date exits!");
+                const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                setTimeOptions([noTimeSlotsAvailableOption]);
+                return
+            }
             const timeTableData = await fetchTimeTableDataFromBackend(user, selectedDate);
             
             if (timeTableData.length > 0) {

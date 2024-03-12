@@ -9,6 +9,7 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import { useUserAuth } from "../context/UserAuthContext";
 import { runTransaction } from "firebase/firestore";
+import axios from "axios";
 const UserEditAppointment = (props) => {
     const [selectedDate, setSelectedDate] = useState();
     const { user, userData } = useUserAuth();
@@ -39,6 +40,16 @@ const UserEditAppointment = (props) => {
     const fetchTimeTableData = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableCollection = collection(db, 'timeTable');
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
