@@ -226,6 +226,18 @@
         margin-bottom: 15px;
     }
 
+    .btn-primary-holiday{
+        height: 60px;
+        width: 100%;
+        border-radius: 8px;
+        border: 0px solid #ffffff;
+        color: #F2F2F2;
+        background-color: #263A50;
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
     .btn.btn-primary:hover{
         background-color: #263A50;
     }

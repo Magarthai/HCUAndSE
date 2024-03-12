@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useUserAuth } from "../context/UserAuthContext";
 import { runTransaction } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const AddAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
     const handleDateSelect = (selectedDate) => {
@@ -54,6 +55,16 @@ const AddAppointmentUser = () => {
     const fetchTimeTableData = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableCollection = collection(db, 'timeTable');
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,

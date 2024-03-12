@@ -18,7 +18,7 @@ import { availableTimeSlotsPhysic, editFormPhysic, fetchAppointmentUsersDataPhys
 import DeleteAppointmentPhysic from "../backend/backendPhysic";
 import Swal from "sweetalert2";
 import icon_date from "../picture/datepicker.png"
-
+import axios from "axios";
 const AppointmentManagerPhysicComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -213,6 +213,16 @@ const AppointmentManagerPhysicComponent = (props) => {
     const fetchMainTimeTableData = async () => {
         try {
             if (user && selectedDates && selectedDates.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableData = await fetchTimeTableMainDataPhysic(user, selectedDates);
                 if (timeTableData.length > 0) {
                     const filteredTimeTableData = timeTableData
@@ -252,6 +262,16 @@ const AppointmentManagerPhysicComponent = (props) => {
     const fetchMainTimeTableDatas = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableData = await fetchTimeTableMainDataPhysic(user, selectedDate);
                 if (timeTableData.length > 0) {
                     const filteredTimeTableData = timeTableData
@@ -290,7 +310,16 @@ const AppointmentManagerPhysicComponent = (props) => {
 
     const fetchTimeTableData = async () => {
         try {
-
+            const info = {
+                date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+            }
+            const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+            if(checkDate.data == "Date exits!") {
+                console.log("Date exits!");
+                const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                setTimeOptions([noTimeSlotsAvailableOption]);
+                return
+            }
             const timeTableData = await fetchTimeTableDataPhysic(user, selectedDate);
             if (timeTableData.length > 0) {
                 const filteredTimeTableData = timeTableData
@@ -770,6 +799,26 @@ const AppointmentManagerPhysicComponent = (props) => {
                             where('isDelete', '==', 'No'),
                             
                         ));
+                        const info = {
+                            date: `${xd.day}/${xd.month}/${xd.year}`
+                        }
+                        
+                        const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                        console.log(checkDate.data,"checkDate");
+                        if(checkDate.data == "Date exits!") {
+                            console.log("Date exits!");
+                            count += 1;
+                            notimeforthisday +=1;
+                            setState((prevState) => ({
+                                ...prevState,
+                                [`time`]: count,
+                            }));
+                            setState((prevState) => ({
+                                ...prevState,
+                                [`appointmentDate${i}`]: "",
+                            }));
+                            return
+                        }
                         const timeTableData = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
                             ...doc.data(),

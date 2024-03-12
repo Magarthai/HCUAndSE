@@ -2,9 +2,11 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import { getUserDataFromUserId } from './getDataFromUserId'
+
 export const fetchTimeTableDataNeedle = async (user, selectedDate) => {
     try {
         if (user && selectedDate && selectedDate.dayName) {
+            
             const timeTableCollection = collection(db, 'timeTable');
             const querySnapshot = await getDocs(query(
                 timeTableCollection,
