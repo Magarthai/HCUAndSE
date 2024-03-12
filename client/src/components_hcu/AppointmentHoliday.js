@@ -116,7 +116,7 @@ const AppointmentHoliday = (props) => {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                html: `มีหยุดหยุดที่ ${`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`} ในระบบอยู่แล้ว!`,
+                html: `มีวันหยุดที่ ${`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`} ในระบบอยู่แล้ว!`,
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -197,12 +197,12 @@ const AppointmentHoliday = (props) => {
                         <div className="admin-activity-queue-cards-all1">
                         {holidays && holidays.length > 0 ? (
                                 holidays.map((holiday, index) => (
-                                    <div className="admin-activity-queue-cards" key={index}> 
+                                    <div className="admin-holiday-main-card" key={index}> 
                                         <div className="admin-holiday-card1 colorPrimary-800 admin-textBody-small">
                                             <p>วันที่ : {holiday.date} </p>
                                         </div>
                                         <div className="admin-holiday-card2 colorPrimary-800">
-                                            <p className="admin-textBody-huge">หมายเหตุ : {holiday.note} </p>
+                                            <p className="admin-textBody-huge holiday">หมายเหตุ : {holiday.note} </p>
                                             <p style={{ paddingRight: "10%" }} className="admin-queue-activity-card-status admin-textBody-small"></p>
                                             <img src={icon_delete} className="icon_holidays" onClick={() => handledelete(holiday)} />
                                         </div>
