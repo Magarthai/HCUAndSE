@@ -12,6 +12,7 @@ import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, addDoc, deleteDoc ,getDoc} from 'firebase/firestore';
 import axios from "axios";
+import Swal from "sweetalert2";
 const ActivityTodayComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -139,24 +140,76 @@ const ActivityTodayComponent = (props) => {
     const checkCurrentDate = getCurrentDate();
 
 
-    const handleToggle = async (id, activityInfo,xd) => {
-        console.log(id,activities,activityInfo.index)
+    const handleToggle = async (id,activityInfo) => {
         setIsChecked(prevState => {
-            const updatedStatus = !prevState[id];
+            let updatedStatus = prevState[id];
             console.log(updatedStatus,"updatedStatus")
-            const docRef = doc(db, 'activities', activityInfo.id);
+            if (updatedStatus) {
+                Swal.fire({
+                    title: 'ปิดช่วงเวลา',
+                    text: 'คุณกำลังจะปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const docRef = doc(db, 'activities', activityInfo.id);
+                        const queryActivitySnapshot = getDoc(docRef);
+                        queryActivitySnapshot.then(async (doc) => {
+                            const activityData = doc.data();
+                            activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
+                            await updateDoc(docRef, { timeSlots: activityData.timeSlots });
+                        }).catch(error => {
+                            console.error('Error updating timetable status:', error);
+                        });
+                        updatedStatus = false
+                        setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            } else if (!updatedStatus) {
+                Swal.fire({
+                    title: 'เปิดช่วงเวลา',
+                    text: 'คุณกำลังจะเปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const docRef = doc(db, 'activities', activityInfo.id);
             const queryActivitySnapshot = getDoc(docRef);
             queryActivitySnapshot.then(async (doc) => {
                 const activityData = doc.data();
                 activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
                 await updateDoc(docRef, { timeSlots: activityData.timeSlots });
+                
             }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
-    
+            updatedStatus = true
+                setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            }
+            console.log(updatedStatus,"updatedStatus")
             return { ...prevState, [id]: updatedStatus };
         });
     };
+
+
     
     const getRegisteredListActivity = async (activities) => {
 
