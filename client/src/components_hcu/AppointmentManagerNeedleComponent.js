@@ -29,7 +29,6 @@ const AppointmentManagerNeedleComponent = (props) => {
     const [timeOptions, setTimeOptions] = useState([]);
     const [timeOptionss, setTimeOptionss] = useState([]);
     const [timeOptionsss, setTimeOptionsss] = useState([]);
-
     const handleDateSelect = (selectedDate) => {
         console.log("Selected Date in AppointmentManager:", selectedDate);
         setAllAppointmentUsersData([]);
@@ -57,7 +56,7 @@ const AppointmentManagerNeedleComponent = (props) => {
         z.style.display = "none";
 
     };
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const [state, setState] = useState({
         appointmentDate: "",
         appointmentDates: "",
@@ -208,13 +207,14 @@ const AppointmentManagerNeedleComponent = (props) => {
       const handleToggle = () => {
         setIsOpen(!isOpen);
       };
+      
     const fetchMainTimeTableData = async () => {
         try {
             if (user && selectedDates && selectedDates.dayName) {
                 const info = {
                     date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
                 }
-                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
                 if(checkDate.data == "Date exits!") {
                     console.log("Date exits!");
                     const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -264,7 +264,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                 const info = {
                     date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
                 }
-                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
                 if(checkDate.data == "Date exits!") {
                     console.log("Date exits!");
                     const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -313,7 +313,7 @@ const AppointmentManagerNeedleComponent = (props) => {
             const info = {
                 date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
             }
-            const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+            const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
             if(checkDate.data == "Date exits!") {
                 console.log("Date exits!");
                 const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
@@ -833,7 +833,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                             date: `${xd.day}/${xd.month}/${xd.year}`
                         }
                         
-                        const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                        const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
                         console.log(checkDate.data,"checkDate");
                         if(checkDate.data == "Date exits!") {
                             console.log("Date exits!");

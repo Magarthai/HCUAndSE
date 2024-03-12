@@ -60,14 +60,13 @@ const AppointmentManagerComponent = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchTimeTableData = async () => {
         try {
             const info = {
                 date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
             }
-            const checkDate = await axios.post(`https://hcuandse-mongodb.onrender.com/api/checkDateHoliday`, info); 
+            const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
             if(checkDate.data == "Date exits!") {
                 console.log("Date exits!");
                 const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };

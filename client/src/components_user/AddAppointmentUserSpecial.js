@@ -26,7 +26,7 @@ const AddSpecialAppointmentUser = () => {
     const handleSelectChange = () => {
         setSelectedCount(selectedCount + 1);
     };
-    
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const [selectedValue, setSelectedValue] = useState("");
 
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ const AddSpecialAppointmentUser = () => {
                 const info = {
                     date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
                 }
-                const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+                const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
                 if(checkDate.data == "Date exits!") {
                     console.log("Date exits!");
                     const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };

@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import React from 'react';
 import "../css/Component.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
@@ -17,11 +18,11 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 import icon_delete from "../picture/icon_delete.jpg";
 const AppointmentHoliday = (props) => {
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-    const REACT_APP_API = process.env.REACT_APP_API
     const [selectedDate, setSelectedDate] = useState(null);
     const handleDateSelect = (selectedDate) => {
         setSelectedDate(selectedDate);
@@ -71,7 +72,7 @@ const AppointmentHoliday = (props) => {
     const containerStyle = {
         zoom: zoomLevel,
     };
-
+    
     useEffect(() => {
         if(selectedDate){
         console.log(selectedDate)
@@ -110,7 +111,7 @@ const AppointmentHoliday = (props) => {
             date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
             note: note
         }
-        const checkDate = await axios.post(`http://localhost:4000/api/checkDateHoliday`, info); 
+        const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
         if(checkDate.data == "Date exits!") {
             console.log("Date exits!");
             Swal.fire({
@@ -125,7 +126,7 @@ const AppointmentHoliday = (props) => {
             })
             return;
         }
-        const response = await axios.post(`http://localhost:4000/api/createHoliday`, info);
+        const response = await axios.post(`${MONGO_API}/api/createHoliday`, info);
         console.log(response.data)
         fetchHoliday();
         Swal.fire({
@@ -141,13 +142,13 @@ const AppointmentHoliday = (props) => {
     };
 
     const handledelete = async(holiday) => {
-        const response = await axios.post(`http://localhost:4000/api/deleteHoliday`,holiday);
+        const response = await axios.post(`${MONGO_API}/api/deleteHoliday`,holiday);
         console.log(response.data,"delete")
         fetchHoliday();
     };
 
     const fetchHoliday = async() => {
-        const response = await axios.get(`http://localhost:4000/api/getHoliday`);
+        const response = await axios.get(`${MONGO_API}/api/getHoliday`);
         console.log(response.data,"fetchHoliday")
         setHolidays(response.data);
     };
