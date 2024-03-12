@@ -12,7 +12,7 @@ import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
 import { doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 import { useLocation, useNavigate } from "react-router-dom";
 import arrow_icon from "../picture/arrow.png";
-import CalendarAdminComponent from "../components_hcu/CalendarAdminComponent";
+import CalendarHolidadyComponent from "../components_hcu/CalendarHolidadyComponent";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import icon_delete from "../picture/icon_delete.jpg";
@@ -125,25 +125,73 @@ const AppointmentHoliday = (props) => {
             })
             return;
         }
-        const response = await axios.post(`http://localhost:4000/api/createHoliday`, info);
-        console.log(response.data)
-        fetchHoliday();
         Swal.fire({
-            icon: "success",
-            title: "สําเร็จ!",
-            html: `คุณได้สร้างรายการวันหยุดที่ ${`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`}!`,
+            title: 'ยืนยันเพิ่มวันหยุด',
+            html: `เพิ่ม  ${info.note} วันที่ ${info.date}`,
+            icon: 'warning',
+            showCancelButton: true,
             confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก',
             confirmButtonColor: '#263A50',
+            reverseButtons: true,
             customClass: {
                 confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
             }
-        })
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                        icon: "success",
+                        title: "สําเร็จ!",
+                        html: `คุณได้สร้างรายการวันหยุดที่ ${`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`}!`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#263A50',
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        }
+                }).then(async(result) => {
+                const response = await axios.post(`http://localhost:4000/api/createHoliday`, info);
+                console.log(response.data)
+                fetchHoliday();
+                });
+            }
+        });
+        // const response = await axios.post(`http://localhost:4000/api/createHoliday`, info);
+        // console.log(response.data)
+        // fetchHoliday();
+        // Swal.fire({
+        //     icon: "success",
+        //     title: "สําเร็จ!",
+        //     html: `คุณได้สร้างรายการวันหยุดที่ ${`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`}!`,
+        //     confirmButtonText: 'ตกลง',
+        //     confirmButtonColor: '#263A50',
+        //     customClass: {
+        //         confirmButton: 'custom-confirm-button',
+        //     }
+        // })
     };
 
     const handledelete = async(holiday) => {
-        const response = await axios.post(`http://localhost:4000/api/deleteHoliday`,holiday);
-        console.log(response.data,"delete")
-        fetchHoliday();
+        Swal.fire({
+            title: 'ยืนยันลบวันหยุด',
+            html: `ยืนยันที่จะลบ ${holiday.note} วันที่ ${holiday.date} `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonColor: '#263A50',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            }
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                const response = await axios.post(`http://localhost:4000/api/deleteHoliday`,holiday);
+                console.log(response.data,"delete")
+                fetchHoliday();
+            }
+        });
     };
 
     const fetchHoliday = async() => {
@@ -177,7 +225,7 @@ const AppointmentHoliday = (props) => {
             <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>เลือกวันหยุด</h2>
                 <div style={{zoom:"0.8", margin:"0",padding:"0",scale:"0.8",marginTop:"-50px",marginBottom:"-40px"}} className="admin-holiday">
                     
-                <CalendarAdminComponent
+                <CalendarHolidadyComponent
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                             onDateSelect={handleDateSelect}

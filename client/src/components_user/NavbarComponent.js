@@ -62,7 +62,7 @@ const NavbarComponent = (props) => {
             )}
             {userData && userData ? (
               <div className="user-navbar-profile-detail">
-                {userData && <div className="admin-textBody-huge">{userData.firstName} {userData.lastName}<a href="/profile" target="_parent"><img className="user-navbar-icon-edit"src={edit}/></a></div>}
+                {userData && <div className="admin-textBody-huge" style={{ display: 'flex', alignItems: 'center' }}><a style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidthwidth: "400px", display: "inline-block",  textAlign:"initial"}}>{userData.firstName} {userData.lastName}</a><a href="/profile" target="_parent"><img className="user-navbar-icon-edit"src={edit}/></a></div>}
                 {userData && <div className="admin-textBody-small2">{userData.id}</div>}
               </div>
               ) : (

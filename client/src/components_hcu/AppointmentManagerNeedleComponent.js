@@ -1397,7 +1397,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                 </div>
                                                 <div className="admin-appointment-info flex-column" >
                                                     <p id="student-id" className="admin-textBody-huge">{AppointmentUserData.id}</p>
-                                                    <p id="student-name" className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
+                                                    <p id="student-name" className="admin-textBody-small" style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
                                                 </div>
                                            
                                             <div className="admin-appointment-functon">
@@ -1425,7 +1425,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                 </div>
                                                 <div className="admin-appointment-info flex-column">
                                                     <p id="student-id" className="admin-textBody-huge">{AppointmentUserData.id}</p>
-                                                    <p id="student-name" className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
+                                                    <p id="student-name" className="admin-textBody-small" style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
                                                 </div>
                               
                                             <div className="admin-appointment-functon">
@@ -1523,16 +1523,25 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     <input type="text" className="form-control appointment-input" value={appointmentId} onChange={(e) => { setState({ ...state, appointmentId: e.target.value, }); }} placeholder="64000000000 หรือ 00000" />
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">สาเหตุการนัดหมาย</label><br></br>
-                                    <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="เป็นไข้" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>สาเหตุการนัดหมาย</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentCasue.length > 135 ? 'red' : 'grey' }}>{appointmentCasue.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="เป็นไข้" maxlength="135"/>
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">อาการเบื้องต้น</label><br></br>
-                                    <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="ปวดหัว, ตัวร้อน" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>อาการเบื้องต้น</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="ปวดหัว, ตัวร้อน" maxlength="135"/>
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">หมายเหตุ</label><br></br>
-                                    <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="เป็นไข้หวัดทั่วไป" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="เป็นไข้หวัดทั่วไป" maxlength="135"/>
                                 </div>
                                 <div className="admin-timetable-btn">
                                     <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
@@ -1627,16 +1636,25 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentId} disabled onChange={inputValue("appointmentId")} placeholder="64000000000 หรือ 00000" />
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">สาเหตุการนัดหมาย</label><br></br>
-                                        <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={inputValue("appointmentCasue")} placeholder="เป็นไข้" />
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>สาเหตุการนัดหมาย</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentCasue.length > 135 ? 'red' : 'grey' }}>{appointmentCasue.length}/135</span>
+                                </div>
+                                        <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={inputValue("appointmentCasue")} placeholder="เป็นไข้" maxlength="135"/>
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">อาการเบื้องต้น</label><br></br>
-                                        <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={inputValue("appointmentSymptom")} placeholder="ปวดหัว, ตัวร้อน" />
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>อาการเบื้องต้น</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
+                                </div>
+                                        <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={inputValue("appointmentSymptom")} placeholder="ปวดหัว, ตัวร้อน" maxlength="135"/>
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">หมายเหตุ</label><br></br>
-                                        <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" />
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
+                                </div>
+                                        <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={inputValue("appointmentNotation")} placeholder="เป็นไข้หวัดทั่วไป" maxlength="135"/>
                                     </div>
                                     <div className="admin-timetable-btn">
                                         <button type="button" onClick={closeEditAppointment} className="btn-secondary btn-systrm">กลับ</button>
@@ -1684,16 +1702,25 @@ const AppointmentManagerNeedleComponent = (props) => {
                             <input type="text" className="form-control appointment-input" onChange={(e) => { inputValue("timelength")(e); }} placeholder="7" />
                         </div>
                         <div>
-                            <label className="admin-textBody-large colorPrimary-800">สาเหตุการนัดหมาย</label><br></br>
-                            <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="" />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>สาเหตุการนัดหมาย</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentCasue.length > 135 ? 'red' : 'grey' }}>{appointmentCasue.length}/135</span>
+                                </div>
+                            <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="" maxlength="135"/>
                         </div>
                         <div>
-                            <label className="admin-textBody-large colorPrimary-800">อาการเบื้องต้น</label><br></br>
-                            <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="" />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>อาการเบื้องต้น</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
+                                </div>
+                            <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="" maxlength="135"/>
                         </div>
                         <div>
-                            <label className="admin-textBody-large colorPrimary-800">หมายเหตุ</label><br></br>
-                            <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="" />
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
+                                </div>
+                            <input type="text" className="form-control appointment-input" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="" maxlength="135"/>
                         </div>
                         <div className="admin-timetable-btn">
                             <button type="button" className="btn-secondary btn-systrm" onClick={() => {
@@ -1715,16 +1742,25 @@ const AppointmentManagerNeedleComponent = (props) => {
                                     <input type="text" className="form-control appointment-input" value={appointmentId} onChange={(e) => { setState({ ...state, appointmentId: e.target.value, }); }} placeholder="64000000000" />
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">สาเหตุการนัดหมาย</label><br></br>
-                                    <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>สาเหตุการนัดหมาย</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentCasue.length > 135 ? 'red' : 'grey' }}>{appointmentCasue.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={(e) => { setState({ ...state, appointmentCasue: e.target.value, }); }} placeholder="" maxlength="135"/>
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">อาการเบื้องต้น</label><br></br>
-                                    <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>อาการเบื้องต้น</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control appointment-input" value={appointmentSymptom} onChange={(e) => { setState({ ...state, appointmentSymptom: e.target.value, }); }} placeholder="" maxlength="135"/>
                                 </div>
                                 <div>
-                                    <label className="admin-textBody-large colorPrimary-800">หมายเหตุ</label><br></br>
-                                    <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); setState({ ...state, timeOptions1: e.target.value, }); }} placeholder="" />
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
+                                    <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
+                                </div>
+                                    <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); setState({ ...state, timeOptions1: e.target.value, }); }} placeholder="" maxlength="135"/>
                                 </div>
 
                             </div>
