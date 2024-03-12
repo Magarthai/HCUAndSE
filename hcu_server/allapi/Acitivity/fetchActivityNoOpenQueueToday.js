@@ -41,7 +41,10 @@ router.post('/fetchNoQueueTodayActivity', async (req,res) => {
                         hasMatch = true; 
                         break; 
                         }
-                    }
+                        else {
+                            return null;
+                        }
+                    } 
                 
                 if (hasMatch) {
                     return {activityType:data.activityType,openQueueStatus:data.openQueueStatus, id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index], };

@@ -70,19 +70,21 @@ const ActivityTodayComponent = (props) => {
                 const response = await axios.get(`${REACT_APP_API}/api/fetchTodayActivity`)
                 
                 const todayActivity = response.data;
-                const activitiesData = todayActivity.flatMap((doc) => {
+                const activitiesData = todayActivity
+                .flatMap((doc) => {
                     return doc.timeSlots.map((slot, index) => ({
-                      ...slot,
-                      id: doc.id,
-                      activityName: doc.activityName,
-                      openQueueDate: doc.openQueueDate,
-                      endQueueDate: doc.endQueueDate,
-                      activityType: doc.activityType,
-                      activityStatus: doc.activityStatus,
-                      index: index,
-                      testid: doc.id + index
+                    ...slot,
+                    id: doc.id,
+                    activityName: doc.activityName,
+                    openQueueDate: doc.openQueueDate,
+                    endQueueDate: doc.endQueueDate,
+                    activityType: doc.activityType,
+                    activityStatus: doc.activityStatus,
+                    index: index,
+                    testid: doc.id + index
                     }));
-                  });
+                })
+                .filter((slot) => slot.date === checkCurrentDate);
                 console.log(activitiesData,"activitiesData")
                 const initialIsChecked = activitiesData.reduce((acc, timetableItem) => {
                     acc[timetableItem.testid] = timetableItem.QueueOpen === "yes";
@@ -147,7 +149,6 @@ const ActivityTodayComponent = (props) => {
             queryActivitySnapshot.then(async (doc) => {
                 const activityData = doc.data();
                 activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
-    
                 await updateDoc(docRef, { timeSlots: activityData.timeSlots });
             }).catch(error => {
                 console.error('Error updating timetable status:', error);
@@ -214,7 +215,7 @@ const ActivityTodayComponent = (props) => {
                                     <div className="admin-activity-today-hearder-box">
                                         <h2 className="colorPrimary-800 admin-activity-name">กิจกรรม : {activities.activityName}</h2>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
+                                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.date)}
                                         </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <div>

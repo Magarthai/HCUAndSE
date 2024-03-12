@@ -45,6 +45,7 @@ router.post('/fetchActivityNotTodayQueue', async (req, res) => {
                             break;
                         } else {
                             console.log("is not same day", isNotSameDay(activityDate, today))
+                            return null;
                         }
 
                     }
