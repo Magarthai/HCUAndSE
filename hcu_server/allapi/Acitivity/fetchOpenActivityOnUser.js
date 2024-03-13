@@ -22,7 +22,7 @@ router.get('/fetchOpenActivity', async (req,res) => {
                 activityId: doc.id,
                 ...doc.data(),
             }))
-            
+        console.log(activitiesData,"activitiesData")
         res.json(activitiesData);
     } catch (error) {
         console.error(`Error fetching data: ${error}`);

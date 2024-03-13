@@ -17,6 +17,7 @@ import { DeleteAppointment } from '../backend/backendGeneral'
 import { PulseLoader } from "react-spinners";
 import icon_date from "../picture/datepicker.png"
 import { id } from "date-fns/locale";
+import axios from "axios";
 const AppointmentManagerComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -59,11 +60,19 @@ const AppointmentManagerComponent = (props) => {
         setState({ ...state, [name]: event.target.value });
     };
 
-
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchTimeTableData = async () => {
         try {
-
+            const info = {
+                date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+            }
+            const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+            if(checkDate.data == "Date exits!") {
+                console.log("Date exits!");
+                const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                setTimeOptions([noTimeSlotsAvailableOption]);
+                return
+            }
             const timeTableData = await fetchTimeTableDataFromBackend(user, selectedDate);
             
             if (timeTableData.length > 0) {
@@ -300,7 +309,7 @@ const AppointmentManagerComponent = (props) => {
                                                 confirmButtonText: "ตกลง",
                                                 confirmButtonColor: '#263A50',
                                                 customClass: {
-                                                    cancelButton: 'custom-cancel-button',
+                                                    confirmButton: 'custom-confirm-button',
                                                 }
                                             });
                                             await deleteDoc(doc(db, 'appointment', appointmentRef.id));

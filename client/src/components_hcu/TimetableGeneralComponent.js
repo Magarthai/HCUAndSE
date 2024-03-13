@@ -1109,18 +1109,56 @@ const TimetableGeneralComponent = (props) => {
 
     const handleToggle = async (id,timetable) => {
         setIsChecked(prevState => {
-            const updatedStatus = !prevState[id];
+            let updatedStatus = prevState[id];
             console.log(updatedStatus,"updatedStatus")
-            if (!updatedStatus) {
-            const response = axios.post(`http://localhost:5000/api/adminToggleTimetable`, timetable)
-            
-            console.log(response.data);
-        } else if (updatedStatus) {
-            const docRef = doc(db, 'timeTable', id);
-            updateDoc(docRef, { status: updatedStatus ? "Enabled" : "Disabled" }).catch(error => {
-                console.error('Error updating timetable status:', error);
-            });
-        }
+            if (updatedStatus) {
+                Swal.fire({
+                    title: 'ปิดช่วงเวลา',
+                    text: 'คุณกำลังจะปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const response = axios.post(`${REACT_APP_API}/api/adminToggleTimetable`, timetable)
+                        console.log(response.data);
+                        updatedStatus = false
+                        setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            } else if (!updatedStatus) {
+                Swal.fire({
+                    title: 'เปิดช่วงเวลา',
+                    text: 'คุณกำลังจะเปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        updatedStatus = true
+                        const docRef = doc(db, 'timeTable', id);
+                        updateDoc(docRef, { status: updatedStatus ? "Enabled" : "Disabled" }).catch(error => {
+                        console.error('Error updating timetable status:', error);
+                        });
+                        setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            }
+            console.log(updatedStatus,"updatedStatus")
             return { ...prevState, [id]: updatedStatus };
         });
     };
@@ -1330,7 +1368,7 @@ const TimetableGeneralComponent = (props) => {
             if (result.isConfirmed) {
                 try {
 
-                    const response = await axios.post(`http://localhost:5000/api/adminDeletTimetable`, timetable)
+                    const response = await axios.post(`${REACT_APP_API}/api/adminDeletTimetable`, timetable)
                     console.log(response.data);
                     if (response.data === "success") {
                     Swal.fire(

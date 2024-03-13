@@ -2,6 +2,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 15px;
     padding: 2%;
+    margin-bottom: 20px;
 }
 .admin-activity{
     display: flex;
@@ -54,6 +55,7 @@
     border-radius: 5px;
     color: #ffffff;
     font-size: 18px;
+    
 }
 .admin-activity-add{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -230,6 +232,11 @@
     width: 49%;
     box-sizing: border-box;
 }
+.admin-holiday-btn-box{
+    width: 500px;
+    height: 40px;
+    box-sizing: border-box;
+}
 .admin-activity-queue-cards{
     width: 100%;
     background-color: #ffffff;
@@ -312,4 +319,55 @@
 }
 .admin-activity-p{
     margin-bottom: 50px;
+}
+.admin-back-arrow-activity{
+    position: absolute;
+    top:100px;
+    left: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}   
+.admin-holiday{
+    box-shadow:  rgba(0, 0, 0, 0.15) 0px -10px 10px 0px inset,  rgba(0, 0, 0, 0.108) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.2) 0px -6px 0px inset;
+}
+.admin-holiday-card1{
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    border-right: 3px solid #263A50;
+}
+.admin-holiday-card2{
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 70%;
+    padding-left: 20px;
+}
+.admin-holiday-main-card{
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    height: 70px;
+    border-radius: 5px;
+    margin: 10px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.holiday{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

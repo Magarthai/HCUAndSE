@@ -193,6 +193,12 @@ body{
         margin-left: 17px;
         margin-top: -8px;
     }
+    .icon_holidays{
+        width: 25px;
+        height: 25px;
+        margin-right: 17px;
+        cursor: pointer;
+    }
     .icon_apppointment:hover{
         cursor: pointer;
     }

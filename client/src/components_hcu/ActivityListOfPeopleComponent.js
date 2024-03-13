@@ -96,7 +96,7 @@ const ActivityListOfPeopleComponent = (props) => {
                 <p className="admin-textBody-large">Time : {showTime}</p>
             </div>
         </div>
-        <a onClick={() => window.history.back()}><img src={arrow_icon} className="approval-icon admin-back-arrow"/></a>
+        <a onClick={() => window.history.back()}><img src={arrow_icon} className="approval-icon admin-back-arrow-activity"/></a>
         <div className="admin">
     {data && data.length > 0 ? (
         data.map((item, index) => (

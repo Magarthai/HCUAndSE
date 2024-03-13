@@ -12,6 +12,7 @@ import { fetchTodayActivity } from "../backend/activity/getTodayActivity";
 import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, addDoc, deleteDoc ,getDoc} from 'firebase/firestore';
 import axios from "axios";
+import Swal from "sweetalert2";
 const ActivityTodayComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -63,16 +64,36 @@ const ActivityTodayComponent = (props) => {
         console.log("todayActivity", activities);
     }, [activities]);
     const [Queueactivities, setQueueActivities] = useState([]);
+
     const fetchTodayActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const todayActivity = await fetchTodayActivity(user, checkCurrentDate);
-                const initialIsChecked = todayActivity.reduce((acc, timetableItem) => {
-                    acc[timetableItem.id] = timetableItem.timeSlots[0].QueueOpen === "yes";
+                const response = await axios.get(`${REACT_APP_API}/api/fetchTodayActivity`)
+                
+                const todayActivity = response.data;
+                const activitiesData = todayActivity
+                .flatMap((doc) => {
+                    return doc.timeSlots.map((slot, index) => ({
+                    ...slot,
+                    id: doc.id,
+                    activityName: doc.activityName,
+                    openQueueDate: doc.openQueueDate,
+                    endQueueDate: doc.endQueueDate,
+                    activityType: doc.activityType,
+                    activityStatus: doc.activityStatus,
+                    index: index,
+                    testid: doc.id + index
+                    }));
+                })
+                .filter((slot) => slot.date === checkCurrentDate);
+                console.log(activitiesData,"activitiesData")
+                const initialIsChecked = activitiesData.reduce((acc, timetableItem) => {
+                    acc[timetableItem.testid] = timetableItem.QueueOpen === "yes";
                     return acc;
                 }, {});
+                console.log(response.data,"todayActivitysss")
                 setIsChecked(initialIsChecked);
-                setActivities(todayActivity);
+                setActivities(activitiesData);
                 setIsCheckedActivity(true);
             } catch (error) {
                 console.error('Error fetching today activity:', error);
@@ -119,24 +140,76 @@ const ActivityTodayComponent = (props) => {
     const checkCurrentDate = getCurrentDate();
 
 
-    const handleToggle = async (id, activityInfo) => {
+    const handleToggle = async (id,activityInfo) => {
         setIsChecked(prevState => {
-            const updatedStatus = !prevState[id];
-            const docRef = doc(db, 'activities', id);
+            let updatedStatus = prevState[id];
+            console.log(updatedStatus,"updatedStatus")
+            if (updatedStatus) {
+                Swal.fire({
+                    title: 'ปิดช่วงเวลา',
+                    text: 'คุณกำลังจะปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const docRef = doc(db, 'activities', activityInfo.id);
+                        const queryActivitySnapshot = getDoc(docRef);
+                        queryActivitySnapshot.then(async (doc) => {
+                            const activityData = doc.data();
+                            activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
+                            await updateDoc(docRef, { timeSlots: activityData.timeSlots });
+                        }).catch(error => {
+                            console.error('Error updating timetable status:', error);
+                        });
+                        updatedStatus = false
+                        setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            } else if (!updatedStatus) {
+                Swal.fire({
+                    title: 'เปิดช่วงเวลา',
+                    text: 'คุณกำลังจะเปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ยกเลิก",
+                    confirmButtonColor: '#263A50',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        cancelButton: 'custom-cancel-button',
+                    },
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const docRef = doc(db, 'activities', activityInfo.id);
             const queryActivitySnapshot = getDoc(docRef);
             queryActivitySnapshot.then(async (doc) => {
                 const activityData = doc.data();
-                console.log(activityData.timeSlots[activityInfo.timeSlots[0].index],activityInfo.timeSlots[0].index)
-                activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen = (activityData.timeSlots[activityInfo.timeSlots[0].index].QueueOpen === 'no') ? 'yes' : 'no';
-    
+                activityData.timeSlots[activityInfo.index].QueueOpen = (activityData.timeSlots[activityInfo.index].QueueOpen === 'no') ? 'yes' : 'no';
                 await updateDoc(docRef, { timeSlots: activityData.timeSlots });
+                
             }).catch(error => {
                 console.error('Error updating timetable status:', error);
             });
-    
+            updatedStatus = true
+                setIsChecked({ ...prevState, [id]: updatedStatus });
+                    }
+                });
+            }
+            console.log(updatedStatus,"updatedStatus")
             return { ...prevState, [id]: updatedStatus };
         });
     };
+
+
     
     const getRegisteredListActivity = async (activities) => {
 
@@ -190,33 +263,30 @@ const ActivityTodayComponent = (props) => {
                 <div className="admin-body">
                     {activities && activities.length > 0 ? (
                         activities.map((activities, index) => (
-                            activities.timeSlots
-                                .map((timeSlot, slotIndex) => (
                             <div className="admin-activity-today" key={index}>
                                 <div className="admin-activity-today-hearder-flexbox">
                                     <div className="admin-activity-today-hearder-box">
                                         <h2 className="colorPrimary-800 admin-activity-name">กิจกรรม : {activities.activityName}</h2>
                                         <p className="admin-textBody-big colorPrimary-800">
-                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.openQueueDate)}
-                                </p>
+                                                <img src={calendarFlat_icon} className="icon-activity"/> : {formatDate(activities.date)}
+                                        </p>
                                         <p className="admin-textBody-big colorPrimary-800">
-
-                                                    <div>
-                                                        <img src={clockFlat_icon} className="icon-activity" /> : {timeSlot.startTime} - {timeSlot.endTime} 
-                                                        </div>
-                                             </p>
+                                            <div>
+                                                <img src={clockFlat_icon} className="icon-activity" /> : {activities.startTime} - {activities.endTime} 
+                                            </div>
+                                        </p>
                                         <p className="admin-textBody-big colorPrimary-800">
                                             <a style={{textDecorationLine:"none"}} onClick={() => getRegisteredListActivity(activities)} target="_parent" className="colorPrimary-800">
-                                                <img src={person_icon} className="icon-activity" /> : {activities.timeSlots[0].userList.length} / {activities.totalRegisteredCount} คน <img src={annotaion_icon} className="icon-activity" />
+                                                <img src={person_icon} className="icon-activity" /> :<a style={{cursor:"pointer"}}> {activities.userList.length} / {activities.registeredCount} คน </a>
                                             </a>
                                         </p>
                                     </div>
                                     <div className="admin-activity-today-hearder-box admin-right">
-                                    <label className={`toggle-switch ${isChecked[activities.id] ? 'checked' : ''}`}>
+                                    <label className={`toggle-switch ${isChecked[activities.testid] ? 'checked' : ''}`}>
                                         <input
                                             type="checkbox"
-                                            checked={isChecked[activities.id]}
-                                            onChange={() => handleToggle(activities.id,activities)}
+                                            checked={isChecked[activities.testid]}
+                                            onChange={() => handleToggle(activities.testid,activities,activities.id)}
                                         />
                                         <div className="slider"></div>
                                         </label>
@@ -234,10 +304,14 @@ const ActivityTodayComponent = (props) => {
                                     {activities.activityDetail}
                                 </p>
                                 <div className="admin-right">
-                                    <a onClick={() => OpenTimeSlotsQueue(timeSlot)} target="_parent" className="btn-activity" style={{textDecorationLine:"none"}}>จัดการคิว</a>
+                                    <a onClick={() => getRegisteredListActivity(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",cursor:"pointer",paddingLeft:"60px",paddingRight:"60px"}}>รายชื่อ</a>
+                                    {activities.activityType === "yes" ? 
+                                    <a onClick={() => OpenTimeSlotsQueue(activities)} target="_parent" className="btn-activity" style={{textDecorationLine:"none",marginLeft:"10px",cursor:"pointer"}}>จัดการคิว</a>:
+                                    <a></a>
+                                }
                                 </div>
                             </div>
-                       ))))
+                       ))
                     ) : (
                         <div className="admin-queue-card-activity" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <p  className="admin-textBody-large colorPrimary-800" >ไม่มีกิจกรรม</p>

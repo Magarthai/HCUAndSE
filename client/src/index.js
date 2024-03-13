@@ -51,6 +51,7 @@ import Test from './components_user/test.js'
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
 import AdminDashboardServiceAll from './components_hcu/DashboardServiceAll.js';
 import ErrorPage from './components_all/ErrorPage.js';
+import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -114,6 +115,10 @@ const router = createBrowserRouter([
   {
     path: "/timeTableGeneralAdmin",
     element: <ProtectAdminRoute><GeneralTimetableComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/AppointmentHoliday",
+    element: <ProtectAdminRoute><AppointmentHoliday/></ProtectAdminRoute>
   },
   {
     path: "/timeTableSpecialAdmin",

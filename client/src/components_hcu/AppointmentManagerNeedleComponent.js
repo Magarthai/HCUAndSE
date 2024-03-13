@@ -16,7 +16,7 @@ import DeleteAppointmentNeedle from "../backend/backendNeedle";
 import Swal from "sweetalert2";
 import icon_date from "../picture/datepicker.png"
 import DatePicker from "react-datepicker";
-
+import axios from "axios";
 const AppointmentManagerNeedleComponent = (props) => {
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -29,7 +29,6 @@ const AppointmentManagerNeedleComponent = (props) => {
     const [timeOptions, setTimeOptions] = useState([]);
     const [timeOptionss, setTimeOptionss] = useState([]);
     const [timeOptionsss, setTimeOptionsss] = useState([]);
-
     const handleDateSelect = (selectedDate) => {
         console.log("Selected Date in AppointmentManager:", selectedDate);
         setAllAppointmentUsersData([]);
@@ -57,7 +56,7 @@ const AppointmentManagerNeedleComponent = (props) => {
         z.style.display = "none";
 
     };
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const [state, setState] = useState({
         appointmentDate: "",
         appointmentDates: "",
@@ -208,9 +207,20 @@ const AppointmentManagerNeedleComponent = (props) => {
       const handleToggle = () => {
         setIsOpen(!isOpen);
       };
+      
     const fetchMainTimeTableData = async () => {
         try {
             if (user && selectedDates && selectedDates.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableData = await fetchTimeTableMainDataNeedle(user, selectedDates);
                 if (timeTableData.length > 0) {
                     const filteredTimeTableData = timeTableData
@@ -251,6 +261,16 @@ const AppointmentManagerNeedleComponent = (props) => {
     const fetchMainTimeTableDatas = async () => {
         try {
             if (user && selectedDate && selectedDate.dayName) {
+                const info = {
+                    date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+                }
+                const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+                if(checkDate.data == "Date exits!") {
+                    console.log("Date exits!");
+                    const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                    setTimeOptions([noTimeSlotsAvailableOption]);
+                    return
+                }
                 const timeTableData = await fetchTimeTableMainDataNeedle(user, selectedDate);
                 if (timeTableData.length > 0) {
                     const filteredTimeTableData = timeTableData
@@ -290,7 +310,16 @@ const AppointmentManagerNeedleComponent = (props) => {
 
     const fetchTimeTableData = async () => {
         try {
-            
+            const info = {
+                date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+            }
+            const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+            if(checkDate.data == "Date exits!") {
+                console.log("Date exits!");
+                const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                setTimeOptions([noTimeSlotsAvailableOption]);
+                return
+            }
             const timeTableData = await fetchTimeTableDataNeedle(user, selectedDate);
             if (timeTableData.length > 0) {
                 const filteredTimeTableData = timeTableData
@@ -763,6 +792,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                 
                 else {
                     const processAppointment = async (i) => {
+                        
                         const instanceDate = new Date(formattedAppointmentDate);
 
                         instanceDate.setDate(instanceDate.getDate() + (i - 1) * timelength);
@@ -799,6 +829,26 @@ const AppointmentManagerNeedleComponent = (props) => {
                             where('isDelete', '==', 'No'),
                             where('status', '==', 'Enabled'),
                         ));
+                        const info = {
+                            date: `${xd.day}/${xd.month}/${xd.year}`
+                        }
+                        
+                        const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+                        console.log(checkDate.data,"checkDate");
+                        if(checkDate.data == "Date exits!") {
+                            console.log("Date exits!");
+                            count += 1;
+                            notimeforthisday +=1;
+                            setState((prevState) => ({
+                                ...prevState,
+                                [`time`]: count,
+                            }));
+                            setState((prevState) => ({
+                                ...prevState,
+                                [`appointmentDate${i}`]: "",
+                            }));
+                            return
+                        }
                         const timeTableData = querySnapshot.docs.map((doc) => ({
                             id: doc.id,
                             ...doc.data(),
@@ -806,7 +856,9 @@ const AppointmentManagerNeedleComponent = (props) => {
                         console.log("timeTableData selectedDatez", xd)
                         console.log("timeTableDataz", timeTableData)
 
+                        
                         if (timeTableData.length > 0) {
+                            
                             console.log("timeTableData.length", timeTableData.length)
                             const filteredTimeTableData = timeTableData
                             if (filteredTimeTableData.length > 0) {
@@ -846,7 +898,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                 }, {});
                                 setIsChecked();
                                 setIsChecked(initialIsChecked);
-
+                                
                                 const timeOptionsFromTimetable = [
                                     { label: "กรุณาเลือกช่วงเวลา", value: "", disabled: true, hidden: true },
                                     ...availableTimeSlots
@@ -936,7 +988,9 @@ const AppointmentManagerNeedleComponent = (props) => {
                             ${templateCommon}
                         `;
                                     appointmentPopupItem.appendChild(divElement);
-                                } else {
+                                } 
+                                
+                                else {
                                     count += 1;
                                     notimeforthisday +=1;
                                     setState((prevState) => ({
@@ -951,7 +1005,8 @@ const AppointmentManagerNeedleComponent = (props) => {
                             } else {
                                 console.log("Time table not found for selected day and clinic");
                             }
-                        } else {
+                        } 
+                        else {
                             console.log("Time table not found");
                             count += 1;
                             notimeforthisday +=1;
@@ -1098,7 +1153,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         appointmentCasue: appointmentCasue,
                                         appointmentSymptom: appointmentSymptom,
                                         appointmentNotation: appointmentNotation,
-                                        clinic: "คลินิกกายภาพ",
+                                        clinic: "คลินิกฝังเข็ม",
                                         status: "ลงทะเบียนแล้ว",
                                         type: "main",
                                         status2: "เสร็จสิ้น",

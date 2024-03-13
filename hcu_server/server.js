@@ -15,9 +15,12 @@ const firebaseConfig = require('./firebase');
 const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
 const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
 const QueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityOpenQueueToday');
+const NoQueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityNoOpenQueueToday');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const dataRoute = require('./allapi/dataRoute');
+const fetchTodayActivity = require('./allapi/Acitivity/admin/fetchTodayActivity');
+const fetchNoQueueTodayActivity = require('./allapi/Acitivity/admin/fetchNoQueueTodayActivity');
 const fetchOpenActivity = require('./allapi/Acitivity/fetchOpenActivityOnUser');
 const userGetQueueActivity = require('./allapi/Acitivity/userGetQueueActivity');
 const activityAddFromUser = require('./allapi/Acitivity/activityAddFromUser');
@@ -34,6 +37,7 @@ app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
+app.use('/api', NoQueueTodayAvailableActivities);
 app.use('/api', QueueNotTodayAvailableActivities);
 app.use('/api', userGetQueueActivity);
 app.use('/api', fetchUserActivityQueue);
@@ -44,6 +48,8 @@ app.use('/api', getRegisteredListActivity);
 app.use('/api', deleteActivity);
 app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
+app.use('/api', fetchTodayActivity);
+app.use('/api', fetchNoQueueTodayActivity);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -206,7 +212,7 @@ const updateAppointmentsStatus = async () => {
                 console.error('Error updating appointment status:', error);
             }
         } else if (
-            appointment.status == 'รอยืนยันสิทธิ์' &&
+            appointment.status == 'ยืนยันสิทธิ์แล้ว' &&
             thaiTime >= timeslotEnd
         ) {
             try {
@@ -235,7 +241,39 @@ const updateAppointmentsStatus = async () => {
             } catch (error) {
                 console.error('Error updating appointment status:', error);
             }
-        } else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+        } else if (
+            appointment.status == 'รอยืนยันสิทธิ์' &&
+            thaiTime >= timeslotEnd
+        ) {
+            try {
+                console.log(userData.userLineID);
+                if (userData) {
+                    if(userData.userLineID != ""){
+                        const body = {
+                            "to": userData.userLineID,
+                            "messages":[
+                                {
+                                    "type":"text",
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ`
+                                }
+                            ]
+                        }
+                        try {
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                            console.log('Response:', response.data);
+                        } catch (error) {
+                            console.error('Error:', error.response.data);
+                        }
+                    }
+                    await updateDoc(docRef, { status: 'ไม่สำเร็จ' });
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);
+                }
+            } catch (error) {
+                console.error('Error updating appointment status:', error);
+            }
+        }
+        
+        else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
             try {
                 console.log(userData.userLineID);
                 if (userData) {

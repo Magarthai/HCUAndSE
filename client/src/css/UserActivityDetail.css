@@ -33,6 +33,10 @@
     margin-right: 5%;
     margin-top: 5%;
 }
+.user-activity-vaccine_detail_container p{
+    word-wrap: break-word
+}
+
 .user-activity-vaccine_date_container{
     color: #263A50;
     margin-left: 5%;

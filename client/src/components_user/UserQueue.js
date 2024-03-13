@@ -129,7 +129,10 @@ const UserQueue = (props) => {
                         </div>
                     </div>
                 ))) : (
-                    <div className="user-queue_ticket_container"></div>
+                    <div className="user-non-appointment-card admin-textBody-large colorPrimary-800">
+                        
+                        ไม่มีคิวกิจกรรมตอนนี้
+                    </div>
                 )}
                 </div>
             </div>

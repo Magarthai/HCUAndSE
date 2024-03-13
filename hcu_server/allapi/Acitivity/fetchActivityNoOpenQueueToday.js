@@ -17,7 +17,7 @@ function isSameDay(date1, date2) {
            date1.getDate() === date2.getDate();
 }
 
-router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
+router.post('/fetchNoQueueTodayActivity', async (req,res) => {
     try {
         const userInfo = req.body;
         const userActivityList = userInfo.userActivity;
@@ -28,8 +28,7 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
                 if(data.activityType == "no") {
-                    return null;
-                }
+                
                 data.timeSlots = JSON.stringify(data.timeSlots)
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots)
@@ -40,20 +39,21 @@ router.post('/fetchOpenQueueTodayActivity', async (req,res) => {
                     if (isSameDay(activityDate, today)) {
                         data.openQueueStatus = data.timeSlots[userActivityList[index].index].QueueOpen
                         hasMatch = true; 
-                        console.log(isSameDay(activityDate, today),"isSameDay")
                         break; 
                         }
                         else {
-                            console.log("test is not same day")
                             return null;
                         }
-                    }
+                    } 
                 
                 if (hasMatch) {
-                    return {openQueueStatus:data.openQueueStatus, id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index], };
+                    return {activityType:data.activityType,openQueueStatus:data.openQueueStatus, id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate,activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index], };
                 } else {
                     return null;
                 }
+            } else {
+                return null;
+            }
             } else {
                 return null; 
             }

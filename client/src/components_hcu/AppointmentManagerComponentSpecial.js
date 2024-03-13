@@ -14,7 +14,7 @@ import { availableTimeSlotsSpecial, fetchAppointmentUsersDataSpecial, fetchTimeT
 import ClockComponent from "../utils/ClockComponent";
 import icon_date from "../picture/datepicker.png"
 import DatePicker from "react-datepicker";
-
+import axios from "axios";
 const AppointmentManagerComponentSpecial = (props) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -53,10 +53,19 @@ const AppointmentManagerComponentSpecial = (props) => {
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
     };
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchTimeTableData = async () => {
         try {
-
+            const info = {
+                date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
+            }
+            const checkDate = await axios.post(`${MONGO_API}/api/checkDateHoliday`, info); 
+            if(checkDate.data == "Date exits!") {
+                console.log("Date exits!");
+                const noTimeSlotsAvailableOption = { label: "วันหยุดทําการ กรุณาเปลี่ยนวัน", value: "", disabled: true, hidden: true };
+                setTimeOptions([noTimeSlotsAvailableOption]);
+                return
+            }
             const timeTableData = await fetchTimeTableDataFromSpecial(user, selectedDate);
             if (timeTableData.length > 0) {
                 const filteredTimeTableData = timeTableData

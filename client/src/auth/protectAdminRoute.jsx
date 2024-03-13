@@ -11,14 +11,16 @@ function ProtectAdminRoute({ children }) {
     const { user, userData,logOut } = useUserAuth();
     const navigate = useNavigate();
     const [serverDate, setServerDate] = useState("")
+    const [state, setState] = useState(false);
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`${REACT_APP_API}/date`);
-        setServerDate(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+        try {
+          const response = await axios.get(`${REACT_APP_API}/date`);
+          setServerDate(response.data)
+          setState(true);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
     const handleLogout = async () => {
         try{
             await logOut();
@@ -52,7 +54,9 @@ function ProtectAdminRoute({ children }) {
         };
 
         checkUserAdminStatus();
+        if(!state){
         fetchData();
+        }
       console.log(serverDate)
       if(serverDate){
         const checkDate = new Date(serverDate);

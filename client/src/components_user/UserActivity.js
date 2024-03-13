@@ -17,6 +17,7 @@ const UserActivity = (props) => {
     const [activities, setActivities] = useState([]);
     const [Queueactivities, setQueueActivities] = useState([]);
     const [NQueueactivities, setNQueueActivities] = useState([]);
+    const [NoQueueactivities, setNoQueueActivities] = useState([]);
     const checkCurrentDate = getCurrentDate();
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();
@@ -71,6 +72,20 @@ const UserActivity = (props) => {
         }
     };
 
+    const fetchNoQueueActivityAndSetState = async () => {
+        if (!isCheckedActivity) {
+            try {
+                const response = await axios.post(`${REACT_APP_API}/api/fetchNoQueueTodayActivity`, userData, {
+                        activity: userData.userActivity
+                    });
+                setNoQueueActivities(response.data);
+                console.log("fetchNoQueueTodayActivity",response.data);
+            } catch (error) {
+                console.error('Error fetching fetchOpenQueueActivityAndSetState:', error);
+            }
+        }
+    };
+
     const toActivityVaccine = (activities) => {
         if (activities) {
             navigate('/activity/detail', { state: { activities: activities } });
@@ -85,6 +100,12 @@ const UserActivity = (props) => {
             showCancelButton: true,
             confirmButtonText: "รับคิว",
             cancelButtonText: "ยกเลิก",
+            confirmButtonColor: '#263A50',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            },
             reverseButtons: true
         }).then(async(result) => {
             if (result.isConfirmed) {
@@ -97,6 +118,11 @@ const UserActivity = (props) => {
                     title: "รับคิวสำเร็จ",
                     icon: "success",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 }).then(function () {
                     navigate("/queue");
                 });
@@ -107,6 +133,11 @@ const UserActivity = (props) => {
                     icon: "error",
                     html: "คุณได้รับคิวกิจกรรมนี้ไปแล้ว",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 }).then(function () {
                     navigate("/queue");
                 });
@@ -116,6 +147,11 @@ const UserActivity = (props) => {
                     html: 'กรุณาทํารายการใหม่อีกครั้ง',
                     icon: "error",
                     confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                        
+                    }
                 })
             }
             }
@@ -136,6 +172,7 @@ const UserActivity = (props) => {
         if (userData) {
             fetchOpenQueueActivityAndSetState();
             fetchNoOpenQueueActivityAndSetState();
+            fetchNoQueueActivityAndSetState();
         }
 
     }, [user, userData,isCheckedActivity]);
@@ -220,11 +257,14 @@ const UserActivity = (props) => {
                                 activities.map((activities, index) => (
                                     <div className="user-Activity_card gap-16" onClick={() => toActivityVaccine(activities)}>
                                         <h4 className="admin-activity-name">{activities.activityName}</h4>
-                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน : {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
+                                        <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(activities.openQueueDate)} - {formatDate(activities.endQueueDate)}</p>
                                         <p className="textBody-medium" id="user-Activity_card_time"> {activities.timeSlots
                                             .map((timeSlot, slotIndex) => (
                                                 <div>
-                                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม : {formatDate(timeSlot.date)}</p>
+                                                     {(slotIndex === 0 || timeSlot.date !== activities.timeSlots[slotIndex - 1].date) && (
+                                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: {formatDate(timeSlot.date)}</p>
+                                                    )}
+                                                    {/* <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" /> วันกิจกรรม: {formatDate(timeSlot.date)}</p> */}
                                                     <p className="textBody-medium" id="user-Activity_card_date"><img src={ClockFlat_icon} /> {timeSlot.startTime} - {timeSlot.endTime}</p>
                                                 </div>
 
@@ -250,8 +290,8 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {formatDate(Queueactivities.data.date)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
                                 <button className="user-Activity_ticket_btn" onClick={() => UserActivityGetQ(Queueactivities)}>
@@ -272,14 +312,33 @@ const UserActivity = (props) => {
                             <div className="user-Activity_card_registed_container gap-16" >
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {Queueactivities.openQueueDate} - {formatDate(Queueactivities.endQueueDate)}</p>
-                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {Queueactivities.data.date}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {formatDate(Queueactivities.data.date)}</p>
                                     <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
                                 </div>
+                                {Queueactivities.activityType == "yes" ?
                                 <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
                                     <img className="gap-8" src={Ticket_disabled_icon} alt="" />
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
+                                :
+                                <div></div>
+                                }
+                            </div>
+                        ) )): (
+                            <div>
+                            </div>
+                        
+                        )}
+                        {NoQueueactivities && NoQueueactivities.length > 0 ? (
+                            NoQueueactivities.map((Queueactivities, index) => (
+                            <div className="user-Activity_card_registed_container gap-16" >
+                                <div className="gap-16" id="user-Activity_card-registed">
+                                    <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {formatDate(Queueactivities.data.date)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
+                                </div>
                             </div>
                         ) )): (
                             <div>
