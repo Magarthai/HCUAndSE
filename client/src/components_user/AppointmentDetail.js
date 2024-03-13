@@ -63,14 +63,14 @@ const AppointmentDetail = () => {
                     <div className="user-AppointmenDetail-Card colorPrimary-800">
                         <h2 className="user-AppointmenDetail-Card_title" style={{marginTop:10}}>นัดหมาย</h2>
                        <p className="textBody-big gap-4">ID : {appointmentInfo.appointmentId}</p>
-                        {userData &&<p className="textBody-big gap-4">ชื่อ-นามสกุล : {userData.firstName} {userData.lastName}</p>}
+                        {userData &&<p className="textBody-big gap-4" >ชื่อ-นามสกุล<a style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>:&nbsp;{userData.firstName} {userData.lastName}</a></p>}
                         <p className="textBody-big gap-4">คลินิก : {appointmentInfo.clinic}</p>
                         <p className="textBody-big gap-4"> <img src={CalendarFlat_icon}/> {appointmentInfo.appointmentDate} </p>
                         {timeSlot && <p className="textBody-big gap-4"> <img src={ClockFlat_icon}/>  {timeSlot.start} - {timeSlot.end}</p>}
                         <h5>สาเหตุการนัดหมาย</h5>
                         <p className="textBody-big">: {appointmentInfo.appointmentCasue}</p>
                         <h5>อาการเบื้องต้น</h5>
-                        <p className="textBody-big">: {appointmentInfo.appointmentSymptom}</p>
+                        <p className="textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}> :&nbsp;{appointmentInfo.appointmentSymptom}</p>
                     </div>
                 </div>
 

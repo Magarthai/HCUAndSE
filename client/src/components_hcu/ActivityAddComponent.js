@@ -506,7 +506,7 @@ const submitForm = async (e) => {
                                 <div className="admin-activity-today-hearder-box admin-activity-form">
                                     <div>
                                         <label className="admin-textBody-large colorPrimary-800">ชื่อกิจกรรม</label>
-                                        <input type="text" className="form-control" value={activityName} onChange={inputValue("activityName")} placeholder="Activity" />
+                                        <input type="text" className="form-control" value={activityName} onChange={inputValue("activityName")} placeholder="Activity" maxLength={70}/>
                                         {activityName.length > 70 ? <div style={{display:"flex",color:"red",justifyContent:"flex-end"}}>{activityName.length}/70</div> : <div style={{display:"flex",color:"grey",justifyContent:"flex-end"}}>{activityName.length}/70</div>}
                                     </div>
                                     

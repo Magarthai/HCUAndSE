@@ -449,8 +449,11 @@ const AddNeedleAppointmentUser = () => {
                     </div>
                     
                     <div className="user-EditAppointment-Symptom_container gap-32">
-                        <h4 className="user-EditAppointment-Symptom_title">อาการเบื้องต้น</h4>
-                        <textarea placeholder="อาการเบื้องต้น" className="user-EditAppointment-Symptom" value={appointmentSymptom} onChange={inputValue("appointmentSymptom")}></textarea>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <h4 className="user-EditAppointment-Symptom_title" style={{ flexGrow: 1 }}>อาการเบื้องต้น</h4>
+                            <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
+                        </div>
+                        <textarea placeholder="อาการเบื้องต้น" className="user-EditAppointment-Symptom" value={appointmentSymptom} onChange={inputValue("appointmentSymptom")} maxLength={135}></textarea>
                     </div>
                     <div className="user-EditAppointment-Button_container gap-32">
                     <input type="submit" value="เพิ่มนัดหมาย" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
