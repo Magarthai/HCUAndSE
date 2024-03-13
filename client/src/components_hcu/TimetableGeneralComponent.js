@@ -30,6 +30,7 @@ const TimetableGeneralComponent = (props) => {
         clinic: "",
         timetableId: id || "",
     })
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     const REACT_APP_API = process.env.REACT_APP_API
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic, timetableId } = state
 
@@ -56,8 +57,14 @@ const TimetableGeneralComponent = (props) => {
     const fetchTimeTableData = async () => {
         try {
             if (user) {
-                const timeTableData = await fetchTimeTableDataGeneral();
+                const info = {
+                    clinic: "คลินิกทั่วไป"
+                }
+                const response = await axios.post(`${MONGO_API}/api/fetchTimeTable`,info);
+                if(response != "not found timetable"){
+                const timeTableData = response.data
                 if (timeTableData) {
+                    console.log(timeTableData,"timeTableDataXD")
                     setTimetable(timeTableData);
                     const initialIsChecked = timeTableData.reduce((acc, timetableItem) => {
                         acc[timetableItem.id] = timetableItem.status === "Enabled";
@@ -68,6 +75,9 @@ const TimetableGeneralComponent = (props) => {
                 } else {
                     console.log("time table not found");
                 }
+            } else {
+                console.log("time table not found");
+            }
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -548,8 +558,8 @@ const TimetableGeneralComponent = (props) => {
                     return;
                 } 
             }
-            
-            await addDoc(collection(db, 'timeTable'), additionalTImeTable);
+            const response = await axios.post(`${MONGO_API}/api/addTimeTable`,additionalTImeTable);
+            if(response.data == "success"){
             Swal.fire({
                 icon: "success",
                 title: "เพิ่มช่วงเวลาสำเร็จ!",
@@ -564,7 +574,7 @@ const TimetableGeneralComponent = (props) => {
                     fetchTimeTableData();
                 }
             });
-
+        }
         } catch (firebaseError) {
             console.error('Firebase signup error:', firebaseError);
         }

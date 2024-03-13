@@ -21,23 +21,18 @@ let timeTable = new mongoose.Schema({
     },
     numberMainAppointment:{
         type: Number,
-        required: true,
     },
     numberMainAppointmentCheck:{
         type: Number,
-        required: true,
     },
     timeAppointmentMainEnd:{
         type: String,
-        required: true,
     },
     timeAppointmentMainStart:{
         type: String,
-        required: true,
     },
     numberAppointment:{
         type: Number,
-        required: true,
     },
     status:{
         type: String,
