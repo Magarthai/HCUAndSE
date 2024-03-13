@@ -14,4 +14,3 @@ router.post('/createHoliday', asyncHandler(async (req, res) => {
 }));
 
 module.exports = router;
-

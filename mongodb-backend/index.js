@@ -15,7 +15,6 @@ const createHoliday = require('./controllers/Holiday/CreateHoliday');
 const deleteHoliday = require('./controllers/Holiday/DeleteHoliday');
 const checkDateHoliday = require('./controllers/Holiday/CheckDateHoliday');
 const getHoliday = require('./controllers/Holiday/GetHoliday');
-
 const AddTimeTable = require('./controllers/TimeTable/AddTimeTable');
 const FetchTimeTable = require('./controllers/TimeTable/FetchTimeTable');
 const cors = require('cors');
@@ -39,6 +38,8 @@ app.use('/api', UserUpdateProfile);
 //TimeTable API
 app.use('/api', AddTimeTable);
 app.use('/api', FetchTimeTable);
+
+
 app.get('/', (req, res) => {
     res.send('test')
 })
