@@ -1121,8 +1121,7 @@ const AppointmentManagerComponent = (props) => {
                                         <input type="text" className="form-control appointment-input" value={appointmentCasue} onChange={inputValue("appointmentCasue")} placeholder="เป็นไข้" maxlength="135"/>
                                     </div>
                                     <div>
-                                        
-                                        <div c>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>อาการเบื้องต้น</label>
                                             <span style={{ display: 'flex', alignItems: 'center', color: appointmentSymptom.length > 135 ? 'red' : 'grey' }}>{appointmentSymptom.length}/135</span>
                                         </div>
