@@ -369,7 +369,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                                     </div>
                                     <div className="admin-queue-card-info colorPrimary-800">
                                         <p className="admin-textBody-huge">{AppointmentUserData.id}</p>
-                                        <p className="admin-textBody-small">{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
+                                        <p className="admin-textBody-small" style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
                                     </div>
                                     <div className="admin-queue-card-status">
                                         <p className="admin-textBody-small">{AppointmentUserData.appointment.status}</p>

@@ -220,30 +220,30 @@ const AppointmentHoliday = (props) => {
             <a onClick={() => window.history.back()}><img src={arrow_icon} className="approval-icon admin-back-arrow"/></a>
             
     <div className="admin">
-        <div className="admin-activity-queue-flexbox">
+        <div className="admin-activity-queue-flexbox"  >
             
-            <div className="admin-activity-queue-flexbox-box colorPrimary-800" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",}}>
-            <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>เลือกวันหยุด</h2>
-                <div style={{zoom:"0.8", margin:"0",padding:"0",scale:"0.8",marginTop:"-50px",marginBottom:"-40px"}} className="admin-holiday">
+            <div className="admin-activity-queue-flexbox-box colorPrimary-800" style={{height: "750px",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",}}>
+                <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>เพิ่มวันหยุด</h2>
+                <div style={{zoom:"1", margin:"0",padding:"0",scale:"0.8",marginTop:"-50px",marginBottom:"-40px"}} className="admin-holiday">
                     
-                <CalendarHolidadyComponent
+                    <CalendarHolidadyComponent
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                             onDateSelect={handleDateSelect}
                             className="admin-holiday"
                             
-                        />
-                        </div>
-                        <div className="user-holiday-text">
+                    />
+                </div>
+                <div className="user-holiday-text">
                         <h4 className="user-EditAppointment-Symptom_title">หมายเหตุ</h4>
                         <textarea placeholder="หมายเหตุ" className="user-holiday-textarea" value={note} onChange={inputValue("note")}></textarea>
-                    </div>
-                        <button onClick={handleSubmit} className="admin-holiday-btn-box btn-primary-holiday">ยืนยันวันหยุด</button>
-                    </div>
+                </div>
+                        <button  type="submit" onClick={handleSubmit} className="admin-holiday-btn-box btn-primary" style={{padding:"8px 0px"}}>ยืนยันวันหยุด</button>
+            </div>
                     
-                    <div className="admin-activity-queue-flexbox-box">
-                        <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>รายการวันหยุด</h2>
-                        <div className="admin-activity-queue-cards-all1">
+            <div className="admin-activity-queue-flexbox-box" style={{height: "750px"}}>
+                <h2 className="center colorPrimary-800" style={{marginTop:"15px"}}>รายการวันหยุด</h2>
+                    <div className="admin-activity-queue-cards-all1" style={{height: "650px"}}>
                         {holidays && holidays.length > 0 ? (
                                 holidays.map((holiday, index) => (
                                     <div className="admin-holiday-main-card" key={index}> 

@@ -117,7 +117,13 @@ const ActivityQueueComponent = (props) => {
             showCancelButton: true,
             confirmButtonText: "รับคิว",
             cancelButtonText: "ยกเลิก",
-            reverseButtons: true
+            reverseButtons: true,
+            confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                            cancelButton: 'custom-cancel-button',
+                        }
         }).then(async(result) => {
             if (result.isConfirmed) {
         try {
@@ -136,6 +142,10 @@ const ActivityQueueComponent = (props) => {
                 title: "อัพเดตคิวสําเร็จ",
                 icon: "success",
                 confirmButtonText: "ตกลง",
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
             }).then(function () {
                 window.location.reload();
             });
@@ -218,7 +228,7 @@ const ActivityQueueComponent = (props) => {
         <div className="admin-activity-queue-flexbox">
         {Queueactivities && Queueactivities.Queuelist &&  (
             <div className="admin-activity-queue-flexbox-box colorPrimary-800">
-                <h2>กิจกรรม : {Queueactivities.activityName}</h2>
+                <h2 style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidth: "100%", display: "inline-block",  textAlign:"initial"}}>กิจกรรม : {Queueactivities.activityName}</h2>
                 <h3>คิวปัจจุบัน</h3>
                 {Queueactivities && Queueactivities.Queuelist && Queueactivities.Queuelist[0] ? (
                 <div className="center">
@@ -250,7 +260,7 @@ const ActivityQueueComponent = (props) => {
                             <div className="admin-activity-queue-cards colorPrimary-800"> 
                                 <div className="admin-activity-queue-card1"><p className="admin-textBody-small">ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2">
-                                    <p className="admin-textBody-huge">รหัส : {queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
+                                    <p className="admin-textBody-huge" style={{width:"90%"}}>รหัส : {queue.userID} <br></br><a style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", display: "inline-block",  textAlign:"initial", maxWidth:"100%"}}>{queue.firstName} {queue.lastName}</a></p>
                                   
                                 </div>
                             </div>
@@ -268,7 +278,7 @@ const ActivityQueueComponent = (props) => {
                             <div className="admin-activity-queue-cards"> 
                                 <div className="admin-activity-queue-card1 colorPrimary-800 admin-textBody-small"><p>ลำดับที่ {index+1}</p></div>
                                 <div className="admin-activity-queue-card2 colorPrimary-800">
-                                    <p className="admin-textBody-huge">{queue.userID} <br></br>{queue.firstName} {queue.lastName}</p>
+                                    <p className="admin-textBody-huge" style={{width:"70%"}}>{queue.userID} <br></br><a style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis",display: "inline-block",  textAlign:"initial", maxWidth:"100%"}}>{queue.firstName} {queue.lastName}</a></p>
                                     <p style={{paddingRight:"10%"}} className="admin-queue-activity-card-status admin-textBody-small">{queue.status}</p>
  
                                 </div>

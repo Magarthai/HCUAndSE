@@ -53,7 +53,7 @@ const HomeComponent = (props) => {
                         </div>
                         
                         <div className="user-home-proflie-box colorPrimary-800" style={{width:"70%", justifyContent:"flex-start", paddingLeft:"6%"}}>
-                            {userData && <div className="admin-textBody-huge" style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidthwidth: "200px", display: "inline-block",  textAlign:"initial"}}>{userData.firstName} {userData.lastName}<br></br> <div className="admin-textBody-small2">{userData.id}</div></div> }
+                            {userData && <div className="admin-textBody-huge" style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidth: "200px", display: "inline-block",  textAlign:"initial"}}>{userData.firstName} {userData.lastName}<br></br> <div className="admin-textBody-small2">{userData.id}</div></div> }
                         </div>
                         <div className="user-home-proflie-box admin-right" style={{width:"15%"}}>
                             <img src={right} style={{width:"40px", height:"40px"}} />
