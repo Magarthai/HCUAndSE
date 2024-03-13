@@ -1657,11 +1657,11 @@ const TimetablePhysicalComponent = (props) => {
             console.log(updatedStatus,"updatedStatus")
             if (updatedStatus) {
                 Swal.fire({
-                    title: 'ปิดช่วงเวลา',
+                    title: 'ยืนยันปิดช่วงเวลา',
                     text: 'คุณกำลังจะปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: "ยืนยัน",
+                    confirmButtonText: "ปิดช่วงเวลา",
                     cancelButtonText: "ยกเลิก",
                     confirmButtonColor: '#263A50',
                     reverseButtons: true,
@@ -1679,11 +1679,11 @@ const TimetablePhysicalComponent = (props) => {
                 });
             } else if (!updatedStatus) {
                 Swal.fire({
-                    title: 'เปิดช่วงเวลา',
+                    title: 'ยืนยันเปิดช่วงเวลา',
                     text: 'คุณกำลังจะเปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: "ยืนยัน",
+                    confirmButtonText: "เปิดช่วงเวลา",
                     cancelButtonText: "ยกเลิก",
                     confirmButtonColor: '#263A50',
                     reverseButtons: true,
@@ -2035,11 +2035,17 @@ const TimetablePhysicalComponent = (props) => {
                     <p className="admin-textBody-large">Time : {showTime}</p>
                 </div>
             </div>
-            <div className="clinic">
-                <a href="/timeTableGeneralAdmin" target="_parent">คลินิกทั่วไป</a>
-                <a href="/timeTableSpecialAdmin" target="_parent">คลินิกเฉพาะทาง</a>
-                <a href="/timeTablePhysicalAdmin" target="_parent">คลินิกกายภาพ</a>
-                <a href="/timeTableNeedleAdmin" target="_parent" id="select">คลินิกฝังเข็ม</a>
+            <div className="admin">
+            <div className="admin-header">
+                <div className="admin-hearder-item">
+                    <a href="/timeTableGeneralAdmin" target="_parent">คลินิกทั่วไป</a>
+                    <a href="/timeTableSpecialAdmin" target="_parent">คลินิกเฉพาะทาง</a>
+                    <a href="/timeTablePhysicalAdmin" target="_parent">คลินิกกายภาพ</a>
+                    <a href="/timeTableNeedleAdmin" target="_parent" id="select">คลินิกฝังเข็ม</a>
+                </div>
+                <div className="admin-hearder-item admin-right">
+                    <a href="/AppointmentHoliday" target="_parent">ตั้งค่าวันหยุด</a>
+                </div>
             </div>
             {isLoading ? (
         <div className="loading-spinner">
@@ -2460,7 +2466,7 @@ const TimetablePhysicalComponent = (props) => {
 
       )}
         </div>
-
+        </div>                     
     );
 }
 

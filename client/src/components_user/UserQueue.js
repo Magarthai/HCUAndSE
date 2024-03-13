@@ -112,7 +112,7 @@ const UserQueue = (props) => {
                     <div className="user-queue_ticket_container">
                         <div className="user-queue_ticket_waitingQ_container">
                             <div className="user-queue_ticket_waitingQ_text center">
-                                <h4>{activities.activityName}</h4>
+                                <h4 style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{activities.activityName}</h4>
                                 <p className="textBody-big" id="user-queue_waitingQ_text">จำนวนคิวที่รอ</p>
                                 <p className="textQ" id="user-queue_waitingQ_number">{activities.queueIndex == -1 ? 0 :activities.queueIndex}</p>
                                 <p className="textBody-big">คิว</p>

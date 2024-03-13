@@ -365,7 +365,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
     AppointmentUsersData.length > 0 ? (
         AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                                     <>
-                                    {loading ? (<ScaleLoader className="custom-skeleton" />) :( 
+                                    {loading ? (<div className="admin-queue-card" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><ScaleLoader color={"#54B2B0"} size={25} /></div>) :( 
                                     <div className="admin-queue-card" onClick={(event) => {openDetailAppointment(AppointmentUserData);handleCardClick(event)}} key={index}>
                                     <div className="admin-queue-card-time colorPrimary-800">
                                         <p className="admin-textBody-small">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</p>
