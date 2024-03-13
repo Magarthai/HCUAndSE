@@ -449,6 +449,54 @@ const handleDateSelect = (selectedDate) => {
                                 ))
                             } 
                     
+                    {AppointmentUsersData
+                               .filter(AppointmentUserData => AppointmentUserData.appointment.status == "ยืนยันสิทธิ์แล้ว")
+                                .sort((a, b) => { const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
+                                const dateB = new Date(b.appointment.appointmentDate.split('/').reverse().join('-'));
+                            
+                            
+                                if (dateA < dateB) return -1;
+                                if (dateA > dateB) return 1;
+                            
+                            
+                                const timeA = new Date(`2000-01-01T${a.timeslot.start}`);
+                                const timeB = new Date(`2000-01-01T${b.timeslot.start}`);
+                                return timeA - timeB;})
+                                .map((AppointmentUserData, index) => (
+                                    <div key={index}>
+                                        <div className="user-appointment-card">
+
+                                            <div className="user-header-appointment-card">
+                                                <label><b className='textButton-Normal2'>{AppointmentUserData.appointment.clinic}</b></label>
+                                                <div className={`${renderStatusClass(AppointmentUserData.appointment.status)}`}>
+                                                    {AppointmentUserData.appointment.status}
+                                                </div>
+                                            </div>
+
+                                            {/* ข้อมูลการนัดหมาย */}
+                                            <div className="user-appointment-description1">
+                                                <img className="user-appointment-icon-card" src={icon1} alt="icon-calendar" />
+                                                <label className="textBody-big">{AppointmentUserData.appointment.appointmentDate}</label>
+                                            </div>
+
+                                            <div className="user-appointment-description1">
+                                                <img className="user-appointment-icon-card" src={icon2} alt="icon-clock" />
+                                                <label className="textBody-big">{AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}</label>
+                                            </div>
+
+                                            <div className="user-appointment-description2">
+                                                <label><b className='user-appointment-Bold-letter'>สาเหตุการนัดหมาย</b></label> <br></br>
+                                                <label>: {AppointmentUserData.appointment.appointmentCasue}</label>
+                                            </div>
+
+                                            <div className="user-appointment-description2">
+                                                <label><b className='user-appointment-Bold-letter'>อาการ</b></label> <br></br>
+                                                <label>: {AppointmentUserData.appointment.appointmentSymptom}</label>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        ))
+                                    }
                                      {AppointmentUsersData
                                .filter(AppointmentUserData => AppointmentUserData.appointment.status == "ลงทะเบียนแล้ว")
                                 .sort((a, b) => { const dateA = new Date(a.appointment.appointmentDate.split('/').reverse().join('-'));
@@ -497,6 +545,7 @@ const handleDateSelect = (selectedDate) => {
                                         </div>
                                         ))
                                     }
+                                     
                                 
                                 </>
                             ) : (
