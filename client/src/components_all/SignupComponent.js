@@ -13,6 +13,7 @@ import { sendEmailVerification } from 'firebase/auth';
 import { getAuth } from "firebase/auth";
 
 const SignupComponent = (props) => {
+  const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
     const [state, setState] = useState({
       firstName: "",
       lastName: "",
@@ -35,6 +36,8 @@ const SignupComponent = (props) => {
       cpassword
     } = state;
   
+    
+
     const inputValue = (name) => (event) => {
       setState({ ...state, [name]: event.target.value });
     };
@@ -188,7 +191,7 @@ const SignupComponent = (props) => {
             email,
             role: "user",
           };
-          const checkStudentID = await axios.post('http://localhost:5000/api/checkStudentID', additionalUserInfo);
+          const checkStudentID = await axios.post(`${REACT_APP_MONGO_API}/api/checkStudentID`, additionalUserInfo);
           if (checkStudentID.data == 'Student id already exits!'){
             Swal.fire({
               icon: "error",
@@ -206,7 +209,7 @@ const SignupComponent = (props) => {
           if (!userCredential || !userCredential.user) {
             throw new Error("Failed to create user account.");
           }
-      
+          const { user } = userCredential;
           const additionalUserInfos = {
             uid: userCredential.uid,
             firstName,
@@ -215,15 +218,16 @@ const SignupComponent = (props) => {
             id,
             gender,
             email,
+            uid: user.uid,
             role: "user",
           };
 
-          const { user } = userCredential;
+         
           sendEmailVerification(user);
           
           
           if(userCredential.user) {
-          const response = await axios.post('http://localhost:5000/api/createUsers', additionalUserInfos);
+          const response = await axios.post(`${REACT_APP_MONGO_API}/api/createUsers`, additionalUserInfos);
         if (response.data == "success") {
           Swal.fire({
             icon: "success",

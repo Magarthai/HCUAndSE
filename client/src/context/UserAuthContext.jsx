@@ -14,9 +14,11 @@ import male from "../picture/male.png";
 import female from "../picture/female.png";
 import { auth, db } from '../firebase/config';
 import liff from '@line/liff';
+import axios from 'axios';
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
+  const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState(null);
   const [idToken, setIdToken] = useState("");
@@ -54,34 +56,21 @@ export function UserAuthContextProvider({ children }) {
   const fetchUserData = async () => {
     try {
       if (user && !userData) {
-        const usersCollection = collection(db, 'users');
+        const info = {
+          uid: user.uid,
+        }
+        const checkStudentByID = await axios.post(`${REACT_APP_MONGO_API}/api/getUserData`, info);
+        const userData = checkStudentByID.data
   
-        const q = query(usersCollection, where('uid', '==', user.uid));
-  
-        const usersSnapshot = await getDocs(q);
-  
-        if (!usersSnapshot.empty) {
-          const currentUserData = usersSnapshot.docs[0].data();
-          
-          // Access the document ID
-          const documentId = usersSnapshot.docs[0].id;
-  
-          // Include the uid and document ID in the userData object
-          const updatedUserData = {
-            ...currentUserData,
-            userID: documentId,
-          };
-  
-          setUserData(updatedUserData);
-          console.log('User Data:', updatedUserData);
-          console.log('Document ID:', documentId);
+          setUserData(userData);
+          console.log('User Data:', userData);
+          console.log('Document ID:', userData._id);
         } else {
           console.log('User not found');
         }
+      } catch(error){
+        console.log(error)
       }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
   };
   
   

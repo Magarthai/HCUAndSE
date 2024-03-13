@@ -10,8 +10,10 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const ProfileEditComponent = (props) => {
     const { user, userData } = useUserAuth();
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
     const [state, setState] = useState({
         firstName: "",
         lastName: "",
@@ -37,13 +39,15 @@ const ProfileEditComponent = (props) => {
     const submitForm = async (e) => {
         e.preventDefault();
         try {
-            const timetableRef = doc(db, 'users', userData.userID);
             const updatedTimetable = {
-                firstName: firstName,
-                lastName: lastName,
-                id: id ,
-                tel: tel,
-                gender: gender,
+                updatedData:{
+                    firstName: firstName,
+                    lastName: lastName,
+                    id: id ,
+                    tel: tel,
+                    gender: gender,
+                },
+                _id: userData._id
             };
 
             if (firstName.length > 50) {
@@ -108,7 +112,10 @@ const ProfileEditComponent = (props) => {
                 }
             }).then(async(result) => {
                 if (result.isConfirmed) {
-                    await updateDoc(timetableRef, updatedTimetable);
+                const updateUserData = await axios.post(`${REACT_APP_MONGO_API}/api/UpdateUserData`, updatedTimetable);
+                const result = updateUserData.data
+                console.log(result)
+                if(result == "success"){
                 Swal.fire({
                     title: "แก้ไขโปรไฟล์",
                     icon: "success",
@@ -118,6 +125,18 @@ const ProfileEditComponent = (props) => {
                     }
 
                 });  
+            } else {
+                Swal.fire({
+                    title: "แก้ไขโปรไฟล์",
+                    icon: "error",
+                    confirmButtonText: "ตกลง",
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                    }
+
+                }); 
+                return;
+            }
                 window.location.href = '/profile';
                 }
                 if (result.isDenied){

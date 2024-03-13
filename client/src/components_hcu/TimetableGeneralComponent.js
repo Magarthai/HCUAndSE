@@ -1367,7 +1367,6 @@ const TimetableGeneralComponent = (props) => {
         }).then(async(result) => {
             if (result.isConfirmed) {
                 try {
-
                     const response = await axios.post(`${REACT_APP_API}/api/adminDeletTimetable`, timetable)
                     console.log(response.data);
                     if (response.data === "success") {
