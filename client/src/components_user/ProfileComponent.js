@@ -53,7 +53,7 @@ const ProfileUserComponent = (props) => {
 
           <div className="user-profile-info colorPrimary-800">
             {/* <h2 className="colorPrimary-800" style={{marginTop:"-5px",marginBottom:"20px"}}>ข้อมูลทั่วไป</h2> */}
-            {userData &&<p className="textButton-Normal user-profile-header-user-name center">{userData.firstName} {userData.lastName}</p>}
+            {userData &&<p className="textButton-Normal user-profile-header-user-name center" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{userData.firstName} {userData.lastName}</p>}
             <p className="textButton-Normal colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน</p>
             {userData && <p className="colorPrimary-800 user-profile-detail textBody-big">{userData.id}</p>}
             <p className="textButton-Normal colorPrimary-800">email</p>

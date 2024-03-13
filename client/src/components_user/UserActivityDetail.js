@@ -249,7 +249,7 @@ const UserActivityDetail = (props) =>{
 
                 <div className="user-body-activity-detail">
                     <div className="user-activity-vaccine_title_container">
-                        <h3>กิจกรรม : {activityName}</h3>
+                        <h3 style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>กิจกรรม : {activityName}</h3>
                     </div>
                     <div className="user-activity-vaccine_date_container">
                         <h5>วันที่เปิดลงทะเบียน</h5>
