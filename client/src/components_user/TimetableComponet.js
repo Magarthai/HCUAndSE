@@ -4,6 +4,7 @@ import "../css/Component.css";
 import NavbarUserComponent from './NavbarComponent';
 import { db, getDocs, collection } from "../firebase/config";
 import { useUserAuth } from "../context/UserAuthContext";
+import { addDoc, query, where, updateDoc, arrayUnion ,deleteDoc,arrayRemove } from 'firebase/firestore';
 
 
 const TimetableComponet = (props) => {
@@ -21,8 +22,7 @@ const TimetableComponet = (props) => {
         try {
             if (user) {
                 const timeTableCollection = collection(db, 'timeTable');
-                const timeTableSnapshot = await getDocs(timeTableCollection);
-
+                const timeTableSnapshot = await getDocs(query(timeTableCollection, where('isDelete','==', 'No'),where('status','==', 'Enabled')));
                 const timeTableData = timeTableSnapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),

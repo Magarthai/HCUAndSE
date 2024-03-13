@@ -194,7 +194,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to รอยืนยันสิทธิ์` // Message content
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ` // Message content
                                 }
                             ]
                         }
@@ -224,7 +224,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to เสร็จสิ้น` // Message content
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to เสร็จสิ้น` // Message content
                                 }
                             ]
                         }
@@ -254,7 +254,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ`
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สําเร็จ`
                                 }
                             ]
                         }
@@ -266,7 +266,7 @@ const updateAppointmentsStatus = async () => {
                         }
                     }
                     await updateDoc(docRef, { status: 'ไม่สำเร็จ' });
-                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);
                 }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
@@ -283,7 +283,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} to ไม่สําเร็จ` // Message content
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to รอยืนยันสิทธิ์` // Message content
                                 }
                             ]
                         }
@@ -295,7 +295,7 @@ const updateAppointmentsStatus = async () => {
                         }
                     }
                     await updateDoc(docRef, { status: "รอยืนยันสิทธิ์" });
-                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
+                    console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic : ${AppointmentUserData.appointment.clinic} to "รอยืนยันสิทธิ์"`);
                 }
             } catch (error) {
                 console.error('Error updating appointment status:', error);

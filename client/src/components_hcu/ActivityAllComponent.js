@@ -46,17 +46,7 @@ const ActivityAllComponent = (props) => {
         }
         
     };
-    const fetchOpenActivityAndSetState = async () => {
-        try {
-            const openActivity = await fetchAllActivity(user, checkCurrentDate);
-            if (openActivity) {
-                setActivities(openActivity);
-                setIsCheckedActivity(true);
-            }
-        } catch (error) {
-            console.error('Error fetching today activity:', error);
-        }
-    };
+    
 
     useEffect(() => {
         document.title = 'Health Care Unit';
@@ -129,7 +119,28 @@ const ActivityAllComponent = (props) => {
         const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
         return formattedDate;
     };
-
+    let currentday = new Date();
+    currentday.setHours(0, 0, 0, 0);
+    const fetchOpenActivityAndSetState = async () => {
+        try {
+            const openActivity = await fetchAllActivity(user, checkCurrentDate);
+            if (openActivity) {
+                openActivity.forEach(item => {
+                    item.endQueueDate = new Date(item.endQueueDate);
+                    item.endQueueDate.setHours(0, 0, 0, 0);
+                });
+                
+                console.log(openActivity,"openActivitsssy")
+                const filterActivity = openActivity.filter(item => item.endQueueDate >= currentday);
+                setActivities(filterActivity);
+                console.log("endQueueDate",filterActivity)
+                setActivities(filterActivity);
+                setIsCheckedActivity(true);
+            }
+        } catch (error) {
+            console.error('Error fetching today activity:', error);
+        }
+    };
     return (
 
         <div style={containerStyle}>

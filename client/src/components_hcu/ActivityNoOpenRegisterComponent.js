@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from "sweetalert2";
 const ActivityNoOpenRegisterComponent = (props) => {
+    let currentday = new Date();
+    currentday.setHours(0, 0, 0, 0);
     const REACT_APP_API = process.env.REACT_APP_API
     const [Queueactivities, setQueueActivities] = useState([]);
     const { user, userData } = useUserAuth();
@@ -52,18 +54,27 @@ const ActivityNoOpenRegisterComponent = (props) => {
         }
         
     };
+    
     const fetchOpenActivityAndSetState = async () => {
         try {
             const openActivity = await fetchCloseActivity(user, checkCurrentDate);
-            if (openActivity) {
-                setActivities(openActivity);
+
+                openActivity.forEach(item => {
+                    item.endQueueDate = new Date(item.endQueueDate);
+                    item.endQueueDate.setHours(0, 0, 0, 0);
+                });
+                
+                console.log(openActivity,"openActivity")
+                const filterActivity = openActivity.filter(item => item.endQueueDate >= currentday);
+                setActivities(filterActivity);
+                console.log("endQueueDate",filterActivity)
                 setIsCheckedActivity(true);
-                const initialIsChecked = openActivity.reduce((acc, activities) => {
+                const initialIsChecked = filterActivity.reduce((acc, activities) => {
                     acc[activities.id] = activities.status === "open";
                     return acc;
                 }, {});
                 setIsChecked(initialIsChecked);
-            }
+            
         } catch (error) {
             console.error('Error fetching today activity:', error);
         }
