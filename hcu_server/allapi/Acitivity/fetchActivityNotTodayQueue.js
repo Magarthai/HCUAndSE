@@ -13,7 +13,7 @@ today.setHours(0, 0, 0, 0);
 
 function isNotSameDay(date1, date2) {
     console.log(date1, date2)
-    return date1 >= date2;
+    return date1 > date2;
 }
 
 router.post('/fetchActivityNotTodayQueue', async (req, res) => {

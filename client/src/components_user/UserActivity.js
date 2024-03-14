@@ -300,7 +300,18 @@ const UserActivity = (props) => {
                                 </button>
                             </div>
                                 ):(
-                            <div></div>
+                            <div className="user-Activity_card_registed_container gap-16" >
+                                <div className="gap-16" id="user-Activity_card-registed">
+                                    <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_date"> <img src={CalendarFlat_icon} alt="" />  วันกิจกรรม: {formatDate(Queueactivities.data.date)}</p>
+                                    <p className="textBody-medium" id="user-Activity_card_time"> <img src={ClockFlat_icon} alt="" />  {Queueactivities.data.startTime} - {Queueactivities.data.endTime}</p>
+                                </div>
+                                <button className="user-Activity_ticket_btn" id="user-ticket_disabled">
+                                    <img className="gap-8" src={Ticket_disabled_icon} alt="" />
+                                    <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
+                                </button>
+                            </div>
                             
                                 )
                         ) )): (

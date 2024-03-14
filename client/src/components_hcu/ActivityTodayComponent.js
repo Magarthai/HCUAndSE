@@ -146,8 +146,8 @@ const ActivityTodayComponent = (props) => {
             console.log(updatedStatus,"updatedStatus")
             if (updatedStatus) {
                 Swal.fire({
-                    title: 'ปิดช่วงเวลา',
-                    text: 'คุณกำลังจะปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    title: 'ปิดรับคิว',
+                    text: 'คุณกำลังจะปิดรับคิว คุณต้องการดำเนินการต่อหรือไม่?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: "ยืนยัน",
@@ -175,8 +175,8 @@ const ActivityTodayComponent = (props) => {
                 });
             } else if (!updatedStatus) {
                 Swal.fire({
-                    title: 'เปิดช่วงเวลา',
-                    text: 'คุณกำลังจะเปิดช่วงเวลา คุณต้องการดำเนินการต่อหรือไม่?',
+                    title: 'เปิดรับคิว',
+                    text: 'คุณกำลังจะเปิดรับคิว คุณต้องการดำเนินการต่อหรือไม่?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: "ยืนยัน",
