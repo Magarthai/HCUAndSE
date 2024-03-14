@@ -67,9 +67,9 @@ const NavbarUserComponent = (props) => {
                   <div className="profilebox">
                     <div className="profile-picture">
                     {userData && userData ? (
-                        <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
+                        <img className="logo" src={profile} alt="logo health care unit" />
                       ) : (
-                        <img className="logo" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />
+                        <img className="logo" src={profile} alt="logo health care unit" />
                       )}
 
                     </div>
