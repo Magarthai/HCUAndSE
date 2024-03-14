@@ -26,39 +26,41 @@ router.post('/fetchActivityNotTodayQueue', async (req, res) => {
         const formattedDocs = activityDocs.map((docSnapshot, index) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
+
                 console.log(data, "XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                 data.timeSlots = JSON.stringify(data.timeSlots)
                 data.timeSlots = JSON.parse(data.timeSlots)
                 console.log(data.timeSlots, "data.timeSlotsdata.timeSlotsdata.timeSlotsdata.timeSlots")
                 let hasMatch = false;
 
-                    for (const timeSlot of data.timeSlots) {
-                        console.log(timeSlot.QueueOpen);
-                        console.log(timeSlot.endTime);
-                        console.log(timeSlot.SuccessList);
-                        console.log(timeSlot.date, "const timeSlot of data.timeSlots CHECK");
-                        const activityDate = new Date(timeSlot.date);
-                        activityDate.setHours(0, 0, 0, 0);
-                        if (data.timeSlots[userActivityList[index].index].QueueOpen == 'no' && isNotSameDay(activityDate, today)) {
-                            console.log("is same day")
-                            hasMatch = true;
-                            break;
-                        } else {
-                            console.log("is not same day", isNotSameDay(activityDate, today))
-                            return null;
-                        }
-
-                    }
-                    if (hasMatch) {
-                        return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate, activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
+                for (const timeSlot of data.timeSlots) {
+                    console.log(timeSlot.QueueOpen);
+                    console.log(timeSlot.endTime);
+                    console.log(timeSlot.SuccessList);
+                    console.log(timeSlot.date, "const timeSlot of data.timeSlots CHECK");
+                    const activityDate = new Date(timeSlot.date);
+                    activityDate.setHours(0, 0, 0, 0);
+                    if (data.timeSlots[userActivityList[index].index].QueueOpen == 'no' && isNotSameDay(activityDate, today)) {
+                        console.log("is same day")
+                        hasMatch = true;
+                        break;
                     } else {
+                        console.log("is not same day", isNotSameDay(activityDate, today))
                         return null;
                     }
+
+                }
+                if (hasMatch) {
+                    return { id: docSnapshot.id, index: userActivityList[index].index, openQueueDate: data.openQueueDate, activityName: data.activityName, endQueueDate: data.endQueueDate, data: data.timeSlots[userActivityList[index].index] };
                 } else {
                     return null;
                 }
+            } else {
+                return null;
+            }
 
         }).filter(doc => doc !== null);
+
         if (formattedDocs.length > 0) {
             console.log(`user has ${formattedDocs.length} activity`);
             console.log(formattedDocs, "filteredDocssss");
