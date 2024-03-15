@@ -75,7 +75,7 @@ const UserActivity = (props) => {
     const fetchNoQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post(`${REACT_APP_API}/api/fetchNoQueueTodayActivity`, userData, {
+                const response = await axios.post(`${REACT_APP_API}/api/  `, userData, {
                         activity: userData.userActivity
                     });
                 setNoQueueActivities(response.data);
