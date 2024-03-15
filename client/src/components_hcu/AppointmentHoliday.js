@@ -141,6 +141,9 @@ const AppointmentHoliday = (props) => {
             }
         }).then(async(result) => {
             if (result.isConfirmed) {
+                const response = await axios.post(`${MONGO_API}/api/createHoliday`, info);
+                console.log(response.data)
+                if (response.data == "success"){
                 Swal.fire({
                         icon: "success",
                         title: "สําเร็จ!",
@@ -151,10 +154,20 @@ const AppointmentHoliday = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                 }).then(async(result) => {
-                const response = await axios.post(`${MONGO_API}/api/createHoliday`, info);
-                console.log(response.data)
                 fetchHoliday();
                 });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด!",
+                    html: `กรุณาทํารายการใหม่!`,
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        confirmButton: 'custom-confirm-button',
+                    }
+            })
+            }
             }
         });
         // const response = await axios.post(`http://localhost:4000/api/createHoliday`, info);

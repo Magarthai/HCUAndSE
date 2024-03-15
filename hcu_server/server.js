@@ -99,6 +99,7 @@ const fetchUserDataWithAppointments = async () => {
                     ...appointmentData,
                 };
             });
+            
 
             if (existingAppointments.length > 0) {
                 console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
