@@ -1,4 +1,72 @@
-.admin-dashboard{
+
+.admin-dashboard-month{
+    padding: 2% 0%;
+    border-radius: 8px;
+    border: 3px solid rgb(195, 217, 242);
+    margin-bottom: 10px;
+}
+.admin-dashboard-day{
+    padding: 2% 0%;
+    border-radius: 8px;
+    border: 3px solid #ABD9D8;
+    margin-bottom: 10px;
+}
+.admin-dashboard-month-all{
     width: 100%;
+    height: 250px;
+    background-color: rgb(219, 235, 252);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.admin-dashboard-day-all{
+    width: 100%;
+    height: 250px;
+    background-color: #ABD9D8;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+}
+.admin-dashboard-box1{
+    box-sizing: border-box;
+    width: 36.5%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+.admin-dashboard-box{
+    box-sizing: border-box;
+    width: 25%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+.admin-dashboard-box3{
+    box-sizing: border-box;
+    width: 70%;
+}
+.shadow{
+    box-shadow: 1px 5px 5px rgba(0,0,0,0.25);
+}
+.admin-dashboard-flexbox{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding: 10px;
+    gap:10px;
     
+}
+.boxcenter{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+}
+.boxcenter2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
 }

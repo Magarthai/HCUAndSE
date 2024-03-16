@@ -250,7 +250,7 @@ const UserActivity = (props) => {
                     <div className="user-Activity_tab_container">
                         {/* <input type="radio" className="user-Activity_tab_radio focus" id="user-Activity_all" name="user-activity" checked /> */}
                         <button for="user-Activity_all" className="user-Activity_label center focus" id="user-Activitty_tab_all" onClick={() => handleClick1()}>
-                            <h4>ทั้งหมด</h4>
+                            <h4>เปิดลงทะเบียน</h4>
                         </button>
                         <div id="user-Activity_tab_all_content">
                             {activities && activities.length > 0 ? (
@@ -284,10 +284,12 @@ const UserActivity = (props) => {
                             <h4>ลงทะเบียนแล้ว</h4>
                         </button>
                         <div id="user-Activity_tab_all_content2">
+                        <h4 className="colorPrimary-800" style={{marginLeft:"5%"}}>กิจกรรมที่เปิดวันนี้</h4>
                         {Queueactivities && Queueactivities.length > 0 ? (
                             Queueactivities.map((Queueactivities, index) => (
                                 Queueactivities.openQueueStatus === "yes" ? (
                             <div className="user-Activity_card_registed_container gap-16" >
+                                
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
@@ -301,6 +303,7 @@ const UserActivity = (props) => {
                             </div>
                                 ):(
                             <div className="user-Activity_card_registed_container gap-16" >
+                                
                                 <div className="gap-16" id="user-Activity_card-registed">
                                     <h4 className="admin-activity-name">{Queueactivities.activityName}</h4>
                                     <p className="textBody-medium" id="user-Activity_card_date"> วันลงทะเบียน: {formatDate(Queueactivities.openQueueDate)} - {formatDate(Queueactivities.endQueueDate)}</p>
@@ -315,9 +318,14 @@ const UserActivity = (props) => {
                             
                                 )
                         ) )): (
-                            <div></div>
+                            <div>
+                                <h4>ไม่มีกิจกรรมที่เปิดวันนี้</h4>
+                            </div>
                         
                         )}
+                        <div className="AppointList-body-BetweenCard">
+                            <p className="AppointList-body-BetweenCard-txt" style={{color:"#263A50"}}>--------- กิจกรรมที่จะถึงเร็วๆนี้ ---------</p>
+                        </div>
                         {NQueueactivities && NQueueactivities.length > 0 ? (
                             NQueueactivities.map((Queueactivities, index) => (
                             <div className="user-Activity_card_registed_container gap-16" >

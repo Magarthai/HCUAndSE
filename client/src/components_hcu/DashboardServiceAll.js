@@ -4,14 +4,11 @@ import "../css/AdminDashboard.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
-import {BarChart,
-  Bar,
-  Brush,
-  ReferenceLine, Rectangle,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import people from "../picture/people.png";
 
 const DashboardServiceAll = (props) => {
-    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -70,7 +67,7 @@ const DashboardServiceAll = (props) => {
     const date = today.getDate();
     const day = today.toLocaleDateString(locale, { weekday: 'long' });
     const currentDate = `${day} ${month}/${date}/${year}`;
-
+    
     const monthsInThai = [
         'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
         'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
@@ -78,6 +75,7 @@ const DashboardServiceAll = (props) => {
 
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value);
+        console.log(selectedDate)
     };
 
     const formatDateInThai = (date) => {
@@ -321,14 +319,63 @@ const DashboardServiceAll = (props) => {
           },
       ];
 
-      const [startIndex, setStartIndex] = useState(0);
-      const [endIndex, setEndIndex] = useState(data.length-1);
+      const data2 = [
+        { name: 'คลินิกทั่วไป', value: 400 },
+        { name: 'คลินิกเฉพาะทาง', value: 300 },
+        { name: 'คลินิกกายภาพ', value: 300 },
+        { name: 'คลินิกฝังเข็ม', value: 200 },
+      ];
+      const COLORS = ['#BABABA', '#7C9DC1', '#456A91', '#263A50'];
+      const COLORSDAY = ['#BABABA', '#ABD9D8', '#54B2B0', '#295B5B'];
+      const RADIAN = Math.PI / 180;
+      const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
+        
+          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+          </text>
+          
+        
+        );
+      };
+
+      const data3 = [
+        {
+          name: 'ทั่วไป',
+          สำเร็จ: 4000,
+          ไม่สำเร็จ: 2400,
+         
+        },
+        {
+          name: 'เฉพาะทาง',
+          สำเร็จ: 4000,
+          ไม่สำเร็จ: 2400,
+         
+        },
+        {
+          name: 'กายภาพ',
+          สำเร็จ: 4000,
+          ไม่สำเร็จ: 2400,
+          
+        },
+        {
+          name: 'ฝังเข็ม',
+          สำเร็จ: 4000,
+          ไม่สำเร็จ: 2400,
+         
+        }
+      ];
+
 
 
     return (
         
-        <div>
-          <div style={containerStyle}>
+      <div>
+        <div style={containerStyle}>
           <NavbarComponent />
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
@@ -353,53 +400,178 @@ const DashboardServiceAll = (props) => {
                     <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
                 </div>
             </div>
-
-            
-            <div className="admin-body">
-                <h1>{formatMonthInThai(selectedDate)}</h1>
-            </div>
            
+          </div>
         </div>
-      </div>
-      <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
-        <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 20, bottom: 10}}>
+
+        <div className="admin colorPrimary-800" >
+
+          <div className="admin-body">
+            <h2>{formatMonthInThai(selectedDate)}</h2>
+          </div>
+
+          <div className="admin-dashboard-month">
+          <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+          <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 0, bottom: 10}}>
             <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#8884d8" />
-                    <Line type="monotone" dataKey="special" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="physic" stroke="#F5A110" />
-                    <Line type="monotone" dataKey="needle" stroke="#FF2626" />
+                    <Line type="monotone" dataKey="genaral" stroke="#BABABA" />
+                    <Line type="monotone" dataKey="special" stroke="#7C9DC1" />
+                    <Line type="monotone" dataKey="physic" stroke="#456A91" />
+                    <Line type="monotone" dataKey="needle" stroke="#263A50" />
             </LineChart>
-        </ResponsiveContainer>
-        {/* <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
-          <BarChart width={500} height={300} data={data} margin={{top: 5, right: 30, left: 30, bottom: 5}}>
-          <CartesianGrid strokeDasharray="3 3" tick={{ fontSize: 12 }}/>
-          <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
-          <YAxis />
-          <Tooltip />
-          <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
-          <ReferenceLine y={0} stroke="#000" />
-          <Brush dataKey="name" height={30} stroke="#8884d8" tick={{ fontSize: 12 }} startIndex={startIndex}
-  endIndex={endIndex} onChange={(value) => {
-    setStartIndex(value.startIndex);
-    setEndIndex(value.endIndex);}}/>
-          <Bar dataKey="genaral" fill="#8884d8" />
-          <Bar dataKey="special" fill="#82ca9d" />
-          <Bar dataKey="physic" fill="#F5A110" />
-          <Bar dataKey="needle" fill="#FF2626" />
-        </BarChart>
-      </ResponsiveContainer> */}
-      <div style={containerStyle}>
-        <div className="admin-body">
-            <h1>{selectedDate && formatDateInThai(selectedDate)}</h1>
-        </div>
+          </ResponsiveContainer>
+          </div>
+          
+          <div className="admin-dashboard-month-all admin-dashboard-flexbox">
+              <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"20%"}}/>
+                  <br></br>
+                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
+                  <h1>150 คน</h1>
+              </div>
 
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                    <Pie
+                      data={data2}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Legend 
+                      align="right" 
+                      verticalAlign="middle" 
+                      iconType="circle"
+                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                      layout="vertical"
+                    />
+                   </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={data3}
+                      margin={{
+                      top: 5,
+                      right: 30,
+                      left: 5,
+                      bottom: 0,
+                     }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                      <YAxis tick={{ fontSize: 12 }}/>
+                      <Tooltip />
+                      <Legend style={{ fontSize: '10px' }}/>
+                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}>
+                        <LabelList dataKey="name" content={renderCustomizedLabel} />
+                      </Bar>
+                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={10} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+          </div> 
+          
+          <div className="admin-body">
+            <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
+          </div>  
+        
+          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
+                <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"20%"}}/>
+                  <br></br>
+                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
+                  <h1>150 คน</h1>
+         
+               </div>
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                  <Pie
+                    data={data2}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
+                    ))}
+                  </Pie>
+                  <Legend 
+                    align="right" 
+                    verticalAlign="middle" 
+                    iconType="circle"
+                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                    layout="vertical"
+                  />
+                  </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={data3}
+                    margin={{
+                    top: 5,
+                    right: 30,
+                    left: 5,
+                    bottom: 0,
+                  }}
+                  >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
+                  <YAxis tick={{ fontSize: 12 }}/>
+                  <Tooltip />
+                 <Legend style={{ fontSize: '10px' }}/>
+                 <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}>
+                    <LabelList dataKey="name" content={renderCustomizedLabel} />
+                  </Bar>
+                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={10} />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+    
+          
+        </div>
       </div>
-    </div>
-  
+      
 
     );
 }
