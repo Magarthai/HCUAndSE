@@ -52,7 +52,7 @@ router.post('/createHoliday', asyncHandler(async (req, res) => {
                 console.log(exitUserDataSnapShot[0].userLineID,"lineID")
                 if(exitUserDataSnapShot[0].userLineID != ""){
                     const body = {
-                        "to": exitUserDataSnapShot[0].userLineID.userLineID,
+                        "to": exitUserDataSnapShot[0].userLineID,
                         "messages":[
                             {
                                 "type":"text",

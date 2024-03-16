@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import "../css/Login&SignupComponent.css";
 import NavbarUserComponent from './NavbarComponent';
@@ -12,22 +12,63 @@ import { collection, getDocs } from 'firebase/firestore';
 const ProfileUserComponents = (props) => {
   const { user, userData } = useUserAuth();
   const [fetchedData, setFetchedData] = useState(null);
-
+  const [fetchedDataByClinic, setFetchedDataByClinic] = useState(null);
   useEffect(() => {
     document.title = 'Health Care Unit';
     console.log(user);
   }, [user]);
-
+  const [state, setState] = useState({
+    startDate: "",
+    endDate: "",
+  });
+  const { startDate, endDate } = state;
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API}/api/data`); 
-      setFetchedData(response.data); 
-      console.log(response.data); 
+
+      const info = {
+        startDate: startDate,
+        endDate: endDate,
+        clinic: selectedOption
+      }
+      const response = await axios.post(`${process.env.REACT_APP_MONGO_API}/api/getFeedbackByRange`, info);
+      setFetchedData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
+  const fetchDataByClinic = async () => {
+    try {
+
+      const info = {
+        startDate: startDate,
+        endDate: endDate,
+        clinic: selectedOption
+      }
+      const response = await axios.post(`${process.env.REACT_APP_MONGO_API}/api/getFeedbackTimeRangeByClinic`, info);
+      setFetchedDataByClinic(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const inputValue = (name) => (event) => {
+    setState({ ...state, [name]: event.target.value });
+  };
+
+  const [selectedOption, setSelectedOption] = useState('');
+  const handleDropdownChange = (event) => {
+    setSelectedOption(event.target.value);
+    setFetchedDataByClinic(null)
+  };
+  const dropdownOptions = [
+    { value: 'คลินิกทั่วไป', label: 'คลินิกทั่วไป' },
+    { value: 'คลินิกเฉพาะทาง', label: 'คลินิกเฉพาะทาง' },
+    { value: 'คลินิกกายภาพ', label: 'คลินิกกายภาพ' },
+    { value: 'คลินิกฝังเข็ม', label: 'คลินิกฝังเข็ม' }
+  ];
   return (
     <div className="user">
       <header className="user-header">
@@ -41,33 +82,93 @@ const ProfileUserComponents = (props) => {
         <div className="user-profile">
           <div className="center user-profile-header-box">
             <div className="user-profile-wave-container">
-              <svg className="user-profile-waves" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
-                <defs>
-                  <path id="user-profile-gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                </defs>
-                <g className="user-profile-parallax">
-                  <use href="#user-profile-gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
-                  <use href="#user-profile-gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-                  <use href="#user-profile-gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-                  <use href="#user-profile-gentle-wave" x="48" y="7" fill="#fff" />
-                </g>
-              </svg>
-              {userData && <img className="user-profile-img" src={userData.gender === 'female' ? female : male} alt="logo health care unit" />}
+              
+              <p style={{fontSize:30, color:"white", zIndex:999}}>ดึงข้อมูลทั้งหมด</p>
             </div>
             <div className="header"></div>
           </div>
           <div className="user-profile-info colorPrimary-800">
-            {/* เมื่อคลิกที่ปุ่ม จะเรียกใช้ฟังก์ชัน fetchData */}
+            <input
+              type="date"
+              className="form-control admin-activity-input"
+              placeholder="startDate"
+              onChange={(e) => {
+                inputValue("startDate")(e);
+              }}
+              style={{ margin: 5 }}
+            />
+            <input
+              type="date"
+              className="form-control admin-activity-input"
+              placeholder="endDate"
+              onChange={(e) => {
+                inputValue("endDate")(e);
+              }}
+              style={{ margin: 5 }}
+            />
             <button className="btn btn-primary" onClick={fetchData}>ดึงข้อมูล</button>
+            {fetchedData && 
+            <>
+              <div>จํานวนคนส่ง {fetchedData.totalSubmit}</div>
+              <div>คะแนนเฉลี่ย {fetchedData.meanScore}</div>
+            </>
+            }
           </div>
-          {/* แสดงข้อมูลที่ได้รับจาก API */}
-          {fetchedData && (
-            <div className="fetched-data">
-              {fetchedData.map((item, index) => (
-                <div key={index}>{/* แสดงข้อมูลตามที่ต้องการ */}</div>
-              ))}
+        </div>
+      </div>
+      <div className="user-body" style={{margin:0}}>
+        <div className="user-profile">
+          <div className="center user-profile-header-box">
+            <div className="user-profile-wave-container">
+              
+              <p style={{fontSize:30, color:"white", zIndex:999}}>ดึงข้อมูลทั้งหมดตามคลินิก</p>
             </div>
-          )}
+            <div className="header"></div>
+          </div>
+          <div className="user-profile-info colorPrimary-800">
+            <input
+              type="date"
+              className="form-control admin-activity-input"
+              placeholder="startDate"
+              onChange={(e) => {
+                inputValue("startDate")(e);
+              }}
+              style={{ margin: 5 }}
+            />
+            <input
+              type="date"
+              className="form-control admin-activity-input"
+              placeholder="endDate"
+              onChange={(e) => {
+                inputValue("endDate")(e);
+              }}
+              style={{ margin: 5 }}
+            />
+            <select value={selectedOption} onChange={handleDropdownChange}>
+        <option value="">Select an option</option>
+        {/* Map through dropdown options to render each option */}
+        {dropdownOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+            <button className="btn btn-primary" onClick={fetchDataByClinic}>ดึงข้อมูล</button>
+            {selectedOption && selectedOption === "คลินิกกายภาพ" && fetchedDataByClinic ?
+<>
+  <div>จํานวนคนส่ง {fetchedDataByClinic.totalSubmit}</div>
+  <div>คะแนนเฉลี่ย {fetchedDataByClinic.meanScore}</div>
+  <div>จํานวนคนส่งแบบฟอร์ม2 {fetchedDataByClinic.totalSubmit2}</div>
+  <div>คะแนนเฉลี่ยแบบฟอร์ม2 {fetchedDataByClinic.meanScore2}</div>
+</>
+: 
+selectedOption && fetchedDataByClinic &&
+<>
+  <div>จํานวนคนส่ง {fetchedDataByClinic.totalSubmit}</div>
+  <div>คะแนนเฉลี่ย {fetchedDataByClinic.meanScore}</div>
+</>}
+
+          </div>
         </div>
       </div>
     </div>

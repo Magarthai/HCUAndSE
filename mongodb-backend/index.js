@@ -14,7 +14,9 @@ const createHoliday = require('./controllers/Holiday/CreateHoliday');
 const deleteHoliday = require('./controllers/Holiday/DeleteHoliday');
 const checkDateHoliday = require('./controllers/Holiday/CheckDateHoliday');
 const getHoliday = require('./controllers/Holiday/GetHoliday');
-
+const createFeedback = require('./controllers/Feedback/feedbackSubmit');
+const getFeedbackTimeRange = require('./controllers/Feedback/getFeedbackTimeRange');
+const getFeedbackTimeRangeByClinic = require('./controllers/Feedback/getFeedbackTimeRangeByClinic');
 
 const cors = require('cors');
 app.use(cors());
@@ -31,7 +33,9 @@ app.use('/api', checkStudentIdExits);
 app.use('/api', getHoliday);
 app.use('/api', deleteHoliday);
 app.use('/api', checkDateHoliday);
-
+app.use('/api', createFeedback);
+app.use('/api', getFeedbackTimeRange);
+app.use('/api', getFeedbackTimeRangeByClinic);
 app.get('/', (req, res) => {
     res.send('test')
 })
