@@ -126,7 +126,6 @@ const FeedbackComponentSpecial = (props) => {
                             </React.Fragment>
                         ))}
                     </div>
-                    <label className="textBody-big colorPrimary-800">บริการจ่ายยาโดยพยาบาล</label>
                     <div>
                         <label className="textBody-big colorPrimary-800">เพิ่มเติม</label>
                         <textarea className="acivity-detail" rows="5" value={detail} onChange={inputValue("detail")}></textarea>

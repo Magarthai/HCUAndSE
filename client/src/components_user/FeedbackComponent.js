@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import "../css/UserFeedbackComponent.css";
 import NavbarUserComponent from './NavbarComponent';
 import Swal from "sweetalert2";
-
+import axios from "axios";
 const FeedbackComponent = (props) => {
     const [state, setState] = useState({
-        typeFeedback:"",
-        score:"",
-        detail:"",
-      });
-    const {typeFeedback,score,detail} = state;
+        score: "",
+        detail: "",
+        clinic: "คลินิกทั้งหมด",
+        typeFeedback: ""
+    });
+    const { score, detail, clinic,typeFeedback } = state;
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
       };
     const stars = document.querySelectorAll('.rating input');
-
+    const MONGO_API = process.env.REACT_APP_MONGO_API
     stars.forEach((star) => {
         star.addEventListener('change', (e) => {
             const selectedScore = e.target.value;
@@ -24,6 +25,8 @@ const FeedbackComponent = (props) => {
         });
       }
     )
+    const isSubmitEnabled =
+    !score || !detail || detail.length > 135;
     const [selectedCount, setSelectedCount] = useState(1);
     const handleSelectChange = () => {
         setSelectedCount(selectedCount + 1);
@@ -33,19 +36,74 @@ const FeedbackComponent = (props) => {
     const submitForm = async (e) => {
         e.preventDefault();
         Swal.fire({
-            icon: "success",
-            title: "ส่งสำเร็จ!",
-            text: "ประเมินความพึงพอใจเสร็จสิ้น!",
+            icon: "alret",
+            title: "ยืนยันคําตอบ!",
+            text: "กดตกลงเพื่อยืนยัน!",
             confirmButtonText: "ตกลง",
             confirmButtonColor: '#263A50',
             customClass: {
                 cancelButton: 'custom-cancel-button',
-            }          
-        }).then((result) => {
+            }
+        }).then(async (result) => {
             if (result.isConfirmed) {
-              window.location.href = '/home';
+                try {
+                const info = {
+                    score: score,
+                    detail: detail,
+                    clinic: clinic,
+                    typeFeedback:typeFeedback,
+                };
+                
+
+                const createFeedback = await axios.post(`${MONGO_API}/api/createFeedback`,info)
+                if (createFeedback.data == "success"){
+                Swal.fire({
+                    icon: "success",
+                    title: "ส่งสำเร็จ!",
+                    text: "ประเมินความพึงพอใจเสร็จสิ้น!",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/home';
+                    }
+                });
+            } else{
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด!",
+                    text: "กรุณาลองใหม่คราวหลัง!",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                }).then(() => {
+                    window.location.reload();
+                })  
+            }
+                
+            } catch(error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด!",
+                    text: "กรุณาลองใหม่คราวหลัง!",
+                    confirmButtonText: "ตกลง",
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                        cancelButton: 'custom-cancel-button',
+                    }
+                }).then(() => {
+                    window.location.reload();
+                })
+                console.log(error)
+            }
             }
         });
+        
 
     }
 

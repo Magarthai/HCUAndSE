@@ -13,15 +13,19 @@ router.post('/getFeedbackByRange', asyncHandler(async (req, res) => {
             $gte: startDate,
             $lt: endDate
         } });
+        let feedbackList = []
         let score = 0;
         for (let i = 0; i < feedback.length; i++) {
             const feedbackScore = feedback[i].score;
+            
             score += feedbackScore
+            feedbackList.push(feedback[i])
         }
         const meanScore = score / feedback.length
         const respone = {
             totalSubmit: feedback.length,
-            meanScore: meanScore
+            meanScore: meanScore,
+            feedbackList: feedbackList
         }
         res.json(respone);
     } catch (error) {

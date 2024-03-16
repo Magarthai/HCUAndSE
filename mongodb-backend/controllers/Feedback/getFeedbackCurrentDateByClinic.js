@@ -3,16 +3,17 @@ const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
 
-router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
+router.post('/getFeedbackCurrentDateByClinic', asyncHandler(async (req, res) => {
     if(req.body.clinic != "คลินิกกายภาพ"){
     try {
-        const startDate = new Date(req.body.startDate);
-        const endDate = new Date(req.body.endDate);
-        console.log(startDate,endDate);
+        const currentDate = new Date();
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+        currentDate.setMilliseconds(0);
+        console.log(currentDate);
         const feedback = await Feedback.find({ 
-            date: {
-            $gte: startDate,
-            $lt: endDate},
+            date: currentDate,
             clinic: req.body.clinic
          });
         if (feedback.length > 0){
@@ -44,13 +45,14 @@ router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
     }
 } else {
     try {
-        const startDate = new Date(req.body.startDate);
-        const endDate = new Date(req.body.endDate);
-        console.log(startDate,endDate);
+        const currentDate = new Date();
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+        currentDate.setMilliseconds(0);
+        console.log(currentDate);
         const feedbackTalk = await Feedback.find({ 
-            date: {
-            $gte: startDate,
-            $lt: endDate},
+            date: currentDate,
             clinic: req.body.clinic,
             type: "talk"
          });
@@ -65,9 +67,7 @@ router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
 
         let feedbackListMain = []
         const feedbackMain = await Feedback.find({ 
-            date: {
-            $gte: startDate,
-            $lt: endDate},
+            date: currentDate,
             clinic: req.body.clinic,
             type: "main"
          });

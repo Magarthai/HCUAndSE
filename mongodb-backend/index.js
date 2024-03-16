@@ -17,7 +17,8 @@ const getHoliday = require('./controllers/Holiday/GetHoliday');
 const createFeedback = require('./controllers/Feedback/feedbackSubmit');
 const getFeedbackTimeRange = require('./controllers/Feedback/getFeedbackTimeRange');
 const getFeedbackTimeRangeByClinic = require('./controllers/Feedback/getFeedbackTimeRangeByClinic');
-
+const getFeedbackManyType = require('./controllers/Feedback/getFeedbackManyType');
+const getFeedbackCurrentDateByClinic = require('./controllers/Feedback/getFeedbackCurrentDateByClinic');
 const cors = require('cors');
 app.use(cors());
 dbConnect();
@@ -36,6 +37,8 @@ app.use('/api', checkDateHoliday);
 app.use('/api', createFeedback);
 app.use('/api', getFeedbackTimeRange);
 app.use('/api', getFeedbackTimeRangeByClinic);
+app.use('/api', getFeedbackManyType);
+app.use('/api', getFeedbackCurrentDateByClinic);
 app.get('/', (req, res) => {
     res.send('test')
 })

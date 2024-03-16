@@ -21,13 +21,16 @@ let feedbackSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: setToMidnight // Set the default value using the custom function
+        default: setToMidnight 
     },
     clinic: {
         type: String,
         required: true,
     },
     type: {
+        type: String,
+    },
+    typeFeedback:  {
         type: String,
     }
 }, { timestamps: true });
