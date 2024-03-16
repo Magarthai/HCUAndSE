@@ -47,6 +47,7 @@ import UserQueue from './components_user/UserQueue.js';
 import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeedle.js';
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
+import AdminDashboardGeneral from './components_hcu/DashBoardGeneral.js';
 import Test from './components_user/test.js'
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
 import AdminDashboardServiceAll from './components_hcu/DashboardServiceAll.js';
@@ -215,6 +216,10 @@ const router = createBrowserRouter([
   {
     path: "/adminDashboardService",
     element: <ProtectAdminRoute><AdminDashboardServiceAll/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardServiceGeneral",
+    element: <ProtectAdminRoute><AdminDashboardGeneral/></ProtectAdminRoute>
   },
   {
     path: "/appointment/detail/:id",
