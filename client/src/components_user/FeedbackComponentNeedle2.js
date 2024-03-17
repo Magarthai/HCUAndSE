@@ -3,7 +3,7 @@ import "../css/UserFeedbackComponent.css";
 import NavbarUserComponent from './NavbarComponent';
 import Swal from "sweetalert2";
 
-const FeedbackComponentNeedle = (props) => {
+const FeedbackComponentNeedle2 = (props) => {
     const [state, setState] = useState({
         score1:"",
         detail:"",
@@ -55,7 +55,7 @@ const FeedbackComponentNeedle = (props) => {
                 <form onSubmit={submitForm} className="user-body-feedback colorPrimary-800">
                     <h3>ประเมินความพึงพอใจ - คลินิกฝังเข็ม</h3>
                     <br></br>
-                    <label className="textBody-big colorPrimary-800">บริการตรวจรักษาโรคโดยแพทย์</label>
+                    <label className="textBody-big colorPrimary-800">บริการฝังเข็ม</label>
                      <div className="rating">
                         {[5, 4, 3, 2, 1].map((value) => (
                             <React.Fragment key={`star1-${value}`}>
@@ -91,4 +91,4 @@ const FeedbackComponentNeedle = (props) => {
     );
 }
 
-export default FeedbackComponentNeedle;
+export default FeedbackComponentNeedle2;

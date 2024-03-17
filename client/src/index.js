@@ -47,10 +47,24 @@ import UserQueue from './components_user/UserQueue.js';
 import UserEditAppointmentNeedle from './components_user/UserEditAppointmentNeedle.js';
 import AdminActivityDetail from './components_hcu/ActivityDetailComponent.js';
 import AdminActivityQueueComponent from './components_hcu/ActivityQueueComponent.js';
-import AdminDashboardGeneral from './components_hcu/DashBoardGeneral.js';
 import Test from './components_user/test.js'
 import AdminActivityEditOpenRegistartComponent from './components_hcu/ActivityEditOpenRegistartComponent.js';
 import AdminDashboardServiceAll from './components_hcu/DashboardServiceAll.js';
+import AdminDashboardGeneral from './components_hcu/DashBoardServiceGeneral.js';
+import AdminDashboardSpecial from './components_hcu/DashBoardServiceSpecial.js';
+import AdminDashboardPhysical from './components_hcu/DashboardServicePhysical.js';
+import AdminDashboardNeedle from './components_hcu/DashboardServiceNeedle.js';
+import AdminFeedbackGeneralAll from './components_hcu/FeedbackGeneralAll.js';
+import AdminFeedbackGeneralDoctor from './components_hcu/FeedbackGeneralDoctor.js';
+import AdminFeedbackGeneralNurses from './components_hcu/FeedbackGeneralNurses.js';
+import AdminFeedbackGeneralDressing from './components_hcu/FeedbackGeneralDressing.js';
+import AdminFeedbackGeneralPhysical from './components_hcu/FeedbackGeneralPhysical.js';
+import AdminFeedbackGeneralNeedle from './components_hcu/FeedbackGeneralNeedle.js';
+import AdminFeedbackGeneralOther from './components_hcu/FeedbackGeneralOther.js';
+import AdminFeedbackServiceGeneral from './components_hcu/FeedbackServiceGeneral.js';
+import AdminFeedbackServiceSpecial from './components_hcu/FeedbackServiceSpecial.js';
+import AdminFeedbackServicePhysical from './components_hcu/FeedbackServicePhysical.js';
+import AdminFeedbackServiceNeedle from './components_hcu/FeedbackServiceNeedle.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
 import './index.css'
@@ -75,6 +89,7 @@ import UserFeedbackComponentSpecial from "./components_user/FeedbackComponentSpe
 import UserFeedbackComponentPhysical from "./components_user/FeedbackComponentPhysical.js"
 import UserFeedbackComponentPhysical2 from "./components_user/FeedbackComponentPhysical2.js"
 import UserFeedbackComponentNeedle from './components_user/FeedbackComponentNeedle.js';
+import UserFeedbackComponentNeedle2 from './components_user/FeedbackComponentNeedle2.js';
 
 const router = createBrowserRouter([
   {
@@ -222,6 +237,62 @@ const router = createBrowserRouter([
     element: <ProtectAdminRoute><AdminDashboardGeneral/></ProtectAdminRoute>
   },
   {
+    path: "/adminDashboardServiceSpecial",
+    element: <ProtectAdminRoute><AdminDashboardSpecial/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardServicePhysical",
+    element: <ProtectAdminRoute><AdminDashboardPhysical/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardServiceNeedle",
+    element: <ProtectAdminRoute><AdminDashboardNeedle/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralAll",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralAll/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralDoctor",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralDoctor/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralNurses",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralNurses/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralDressing",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralDressing/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralPhysical",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralPhysical/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralNeeddle",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralNeedle/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackGeneralOther",
+    element: <ProtectAdminRoute><AdminFeedbackGeneralOther/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackServiceGeneral",
+    element: <ProtectAdminRoute><AdminFeedbackServiceGeneral/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackServiceSpecial",
+    element: <ProtectAdminRoute><AdminFeedbackServiceSpecial/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackServicePhysical",
+    element: <ProtectAdminRoute><AdminFeedbackServicePhysical/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminFeedbackServiceNeedle",
+    element: <ProtectAdminRoute><AdminFeedbackServiceNeedle/></ProtectAdminRoute>
+  },
+  {
     path: "/appointment/detail/:id",
     element: <ProtectRoute><AppointmentDetail /></ProtectRoute>
   },
@@ -345,6 +416,10 @@ const router = createBrowserRouter([
   {
     path: "/feedback/needle",
     element: <ProtectRoute><UserFeedbackComponentNeedle/></ProtectRoute>
+  },
+  {
+    path: "/feedback/needle/service",
+    element: <ProtectRoute><UserFeedbackComponentNeedle2/></ProtectRoute>
   },
 ])
 
