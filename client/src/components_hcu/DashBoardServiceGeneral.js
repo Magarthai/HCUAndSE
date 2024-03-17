@@ -7,7 +7,7 @@ import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
 
-const DashBoardSpecial = (props) => {
+const DashBoardGeneral = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -102,157 +102,157 @@ const DashBoardSpecial = (props) => {
     const data = [
         {
             name: '01/02/2024',
-            genaral: 4000,
+            คลินิกทั่วไป: 4000,
            
           },
           {
             name: '02/02/2024',
-            genaral: 3000,
+            คลินิกทั่วไป: 3000,
           
           },
           {
             name: '03/02/2024',
-            genaral: 2000,
+            คลินิกทั่วไป: 2000,
            
           },
           {
             name: '04/02/2024',
-            genaral: 2780,
+            คลินิกทั่วไป: 2780,
             
           },
           {
             name: '05/02/2024',
-            genaral: 1890,
+            คลินิกทั่วไป: 1890,
             
           },
           {
             name: '06/02/2024',
-            genaral: 2390,
+            คลินิกทั่วไป: 2390,
            
           },
           {
             name: '07/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '08/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '09/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
           
           },
           {
             name: '10/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '11/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '12/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '13/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '14/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
           
           },
           {
             name: '15/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '16/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '17/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '18/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
     
           },
           {
             name: '19/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
    
           },
           {
             name: '20/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '21/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '22/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
 
           },
           {
             name: '23/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
 
           },
           {
             name: '24/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
            
           },
           {
             name: '25/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
             
           },
           {
             name: '26/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
 
           },
           {
             name: '27/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
       
           },
           {
             name: '28/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
   
           },
           {
             name: '29/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
          
           },
           {
             name: '30/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
      
           },
           {
             name: '31/02/2024',
-            genaral: 3490,
+            คลินิกทั่วไป: 3490,
           
           },
       ];
@@ -289,7 +289,7 @@ const DashBoardSpecial = (props) => {
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
               <div>
-                  <h1 className="center">Dashboard การใช้บริการของ "คลินิกเฉพาะทาง"</h1>
+                  <h1 className="center">Dashboard <br></br>การใช้บริการของ "คลินิกทั่วไป"</h1>
               </div>
               <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
@@ -300,10 +300,10 @@ const DashBoardSpecial = (props) => {
             <div className="admin-header">
                 <div className="admin-hearder-item">
                     <a href="/adminDashboardService"  target="_parent">คลินิกทั้งหมด</a>
-                    <a href="/adminDashboardServiceGeneral" target="_parent" >คลินิกทั่วไป</a>
-                    <a href="#" target="_parent" id="select">คลินิกเฉพาะทาง</a>
-                    <a href="/" target="_parent" >คลินิกกายภาพ</a>
-                    <a href="/" target="_parent" >คลินิกฝังเข็ม</a>
+                    <a href="#" target="_parent" id="select">คลินิกทั่วไป</a>
+                    <a href="/adminDashboardServiceSpecial" target="_parent" >คลินิกเฉพาะทาง</a>
+                    <a href="/adminDashboardServicePhysical" target="_parent" >คลินิกกายภาพ</a>
+                    <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
@@ -327,7 +327,7 @@ const DashBoardSpecial = (props) => {
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#456A91" />
+                    <Line type="monotone" dataKey="คลินิกทั่วไป" stroke="#456A91" />
             </LineChart>
           </ResponsiveContainer>
           </div>
@@ -428,4 +428,7 @@ const DashBoardSpecial = (props) => {
     );
 }
 
-export default DashBoardSpecial;
+export default DashBoardGeneral;
+
+
+
