@@ -41,7 +41,8 @@ const appointmentCurrentMonthRange = require('./mongodb_api/dashboard/appointmen
 const appointmentCurrentMonthRangeCount = require('./mongodb_api/dashboard/appointmentCurrentMonthRangeCount');
 const appointmentCurrentMonthTodayCount = require('./mongodb_api/dashboard/appointmentCurrentMonthTodayCount');
 const appointmentMonthCount = require('./mongodb_api/dashboard/appointmentMonthCount');
-
+const appointmentCurrentMonthRangeCountNeedlePhysic = require('./mongodb_api/dashboard/appointmentCurrentMonthRangeCountNeedlePhysic');
+const appointmentCurrentMonthTodayCountNeedlePhysic = require('./mongodb_api/dashboard/appointmentCurrentMonthTodayCountNeedlePhysic');
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
@@ -64,7 +65,8 @@ app.use('/api', appointmentCurrentMonthRange);
 app.use('/api', appointmentCurrentMonthRangeCount);
 app.use('/api', appointmentCurrentMonthTodayCount);
 app.use('/api', appointmentMonthCount);
-
+app.use('/api', appointmentCurrentMonthRangeCountNeedlePhysic);
+app.use('/api', appointmentCurrentMonthTodayCountNeedlePhysic);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);

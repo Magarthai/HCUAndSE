@@ -13,6 +13,8 @@ const DashboardServiceAll = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
+    const [data4, setData4] = useState([]);
     const [Todaydata2, setTodayData2] = useState([]);
 
     const [count, setCount] = useState({});
@@ -110,6 +112,7 @@ const DashboardServiceAll = (props) => {
     ]
     const REACT_APP_API = process.env.REACT_APP_API
     const fetchData = async() => {
+      try {
       const info = {
         userData: userData
       }
@@ -118,33 +121,63 @@ const DashboardServiceAll = (props) => {
         setData(respones.data)
         console.log(respones.data)
       }
+    } catch (error) {
+      console.log("Network error occurred:", error);
+    }
     };
 
-    const fetchData2 = async() => {
+    const fetchData2 = async () => {
       const info = {
         userData: userData
-      }
-      const respones = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRangeCount`,info)
-      if (respones.data){
-        setData2(respones.data)
-        console.log(respones.data)
-      }
-      const respones2 = await axios.post(`${REACT_APP_API}/api/getDashboardMonthTodayCount`,info)
-      if (respones2.data){
-        setTodayData2(respones2.data)
-        console.log(respones2.data)
+      };
+    
+      try {
+        const respones = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRangeCount`, info);
+        if (respones.data) {
+          setData2(respones.data);
+          console.log(respones.data);
+        }
+    
+        const respones2 = await axios.post(`${REACT_APP_API}/api/getDashboardMonthTodayCount`, info);
+        if (respones2.data) {
+          setTodayData2(respones2.data);
+          console.log(respones2.data);
+        }
+    
+        const respones3 = await axios.get(`${REACT_APP_API}/api/getDashboardMonthRangeCountNeedlePhysic`, info);
+        if (respones3.data) {
+          setData3(respones3.data, "respones3.data");
+          console.log(respones3.data);
+        }
+    
+        const respones4 = await axios.get(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountNeedlePhysic`, info);
+        if (respones4.data) {
+          setData4(respones4.data, "respones4.data");
+          console.log(respones4.data);
+        }
+      } catch (error) {
+        // Handle network errors here
+        console.log("Network error occurred:", error);
+        // Optionally, you can perform additional actions such as notifying the user or retrying the request.
       }
     };
+    
 
     const fetchCount = async() => {
       const info = {
         userData: userData
       }
+      try {
+
+      
       const respones = await axios.post(`${REACT_APP_API}/api/getCountAppointment`,info)
       if (respones.data){
         setCount(respones.data,"respones.data")
         console.log(respones.data)
       }
+    } catch (error) {
+      console.log(error);
+    }
     };
   
 
@@ -166,32 +199,6 @@ const DashboardServiceAll = (props) => {
         );
       };
 
-      const data3 = [
-        {
-          name: 'ทั่วไป',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-        {
-          name: 'เฉพาะทาง',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-        {
-          name: 'กายภาพ',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-          
-        },
-        {
-          name: 'ฝังเข็ม',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        }
-      ];
 
 
 
@@ -316,8 +323,8 @@ const DashboardServiceAll = (props) => {
                       <YAxis tick={{ fontSize: 12 }}/>
                       <Tooltip />
                       <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}/>
-                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={10} />
+                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={0}/>
+                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={0} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -374,7 +381,7 @@ const DashboardServiceAll = (props) => {
                   <BarChart
                     width={500}
                     height={300}
-                    data={data3}
+                    data={data4}
                     margin={{
                     top: 5,
                     right: 30,
@@ -387,8 +394,8 @@ const DashboardServiceAll = (props) => {
                   <YAxis tick={{ fontSize: 12 }}/>
                   <Tooltip />
                  <Legend style={{ fontSize: '10px' }}/>
-                  <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}/>
-                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={10} />
+                  <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={0}/>
+                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={0} />
                   </BarChart>
                 </ResponsiveContainer>
                 </div>
