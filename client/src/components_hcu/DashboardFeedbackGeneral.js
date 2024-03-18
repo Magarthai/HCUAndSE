@@ -218,7 +218,7 @@ const DashboardFeedbackGeneral = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                             
-                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#365372"></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -252,7 +252,7 @@ const DashboardFeedbackGeneral = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                             
-                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#365372"></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -295,7 +295,7 @@ const DashboardFeedbackGeneral = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                             {/* <Legend style={{ fontSize: '10px'}}/> */}
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -329,7 +329,7 @@ const DashboardFeedbackGeneral = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                             
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>

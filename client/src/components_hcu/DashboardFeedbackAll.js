@@ -442,7 +442,7 @@ const DashboardFeedbackAll = (props) => {
                       <YAxis tick={{ fontSize: 10 }} domain={[0, 5]} />
                       <Tooltip />
                       <Legend style={{ fontSize: '10px',wordWrap: "break-word"}}/>
-                      <Bar dataKey="score" fill="#54B2B0" minPointSize={1}></Bar>
+                      <Bar dataKey="score" fill="#54B2B0" ></Bar>
                     </BarChart>
             </ResponsiveContainer>
            
@@ -474,7 +474,7 @@ const DashboardFeedbackAll = (props) => {
                             <XAxis type="number" tick={{ fontSize: 10}}/>
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -507,7 +507,7 @@ const DashboardFeedbackAll = (props) => {
                             <XAxis type="number" tick={{ fontSize: 10}}/>
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -540,7 +540,7 @@ const DashboardFeedbackAll = (props) => {
                             <XAxis type="number" tick={{ fontSize: 10}}/>
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0"></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -574,7 +574,7 @@ const DashboardFeedbackAll = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                            
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -608,7 +608,7 @@ const DashboardFeedbackAll = (props) => {
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
                             
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>
@@ -641,7 +641,7 @@ const DashboardFeedbackAll = (props) => {
                             <XAxis type="number" tick={{ fontSize: 10}}/>
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
-                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                            <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
                         </div>

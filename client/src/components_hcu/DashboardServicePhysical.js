@@ -448,8 +448,8 @@ const DashboardServicePhysical = (props) => {
                       <YAxis tick={{ fontSize: 12 }}/>
                       <Tooltip />
                       <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}/>
-                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={10} />
+                      <Bar dataKey="สำเร็จ" fill="#365372" />
+                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1"/>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -519,8 +519,8 @@ const DashboardServicePhysical = (props) => {
                   <YAxis tick={{ fontSize: 12 }}/>
                   <Tooltip />
                  <Legend style={{ fontSize: '10px' }}/>
-                  <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}/>
-                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={10} />
+                  <Bar dataKey="สำเร็จ" fill="#295B5B" />
+                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0"/>
                   </BarChart>
                 </ResponsiveContainer>
                 </div>
