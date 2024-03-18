@@ -348,7 +348,7 @@ const DashBoardSpecial = (props) => {
                   <h1>150 คน</h1>
               </div>
 
-              <div className="admin-dashboard-box3 boxcenter2" style={{padding:"10px"}}>
+              <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
                 <h4>การดำเนินการในคลินิกเฉพาะทาง</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -388,7 +388,7 @@ const DashBoardSpecial = (props) => {
           </div>  
         
           <div className="admin-dashboard-day-all admin-dashboard-flexbox">
-                <div className="admin-dashboard-box3 boxcenter" style={{padding:"30px"}}>
+                <div className="admin-dashboard-box4 boxcenter" style={{padding:"30px"}}>
                   <img src={people} style={{width:"60px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
