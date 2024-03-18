@@ -6,6 +6,15 @@
     margin-bottom: 10px;
 }
 .admin-dashboard-feedback-month{
+    padding: 2% 0%;
+    border-radius: 8px;
+    border: 3px solid rgb(195, 217, 242);
+    margin-bottom: 10px;
+}
+.admin-dashboard-feedback-day{
+    padding: 2% 0%;
+    border-radius: 8px;
+    border: 3px solid #ABD9D8;
     margin-bottom: 10px;
 }
 .admin-dashboard-day{
@@ -21,9 +30,23 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+.admin-dashboard-feedback-all{
+    width: 100%;
+  
+    background-color: rgb(219, 235, 252);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 .admin-dashboard-day-all{
     width: 100%;
     height: 250px;
+    background-color: #ABD9D8;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+}
+.admin-dashboard-feedback-day-all{
+    width: 100%;
     background-color: #ABD9D8;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -55,10 +78,27 @@
 }
 .admin-dashboard-feedback-box4{
     box-sizing: border-box;
-    width: 49.5%;
+    width: 70%;
+    
+}
+.admin-dashboard-feedback-box5{
+    box-sizing: border-box;
+    width: 27%;
+   
+}
+.admin-dashboard-feedback-card1{
+    width: 100%;
+    padding: 2%;
+    background-color: rgb(195, 217, 242);
     border-radius: 8px;
-    border: 3px solid rgb(195, 217, 242);
-    padding: 2% 0%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0px;
+    font-size: 14px;
+    
 }
 .shadow{
     box-shadow: 1px 5px 5px rgba(0,0,0,0.25);
@@ -87,4 +127,11 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: start;
+}
+.boxcenter3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }

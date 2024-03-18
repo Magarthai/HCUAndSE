@@ -66,6 +66,10 @@ import AdminFeedbackServiceSpecial from './components_hcu/FeedbackServiceSpecial
 import AdminFeedbackServicePhysical from './components_hcu/FeedbackServicePhysical.js';
 import AdminFeedbackServiceNeedle from './components_hcu/FeedbackServiceNeedle.js';
 import AdminDashboardFeedbackAll from './components_hcu/DashboardFeedbackAll.js';
+import AdminDashboardFeedbackGeneral from './components_hcu/DashboardFeedbackGeneral.js';
+import AdminDashboardFeedbackSpecial from './components_hcu/DashboardFeedbackSpecial.js';
+import AdminDashboardFeedbackPhysical from './components_hcu/DashboardFeedbackPhysical.js';
+import AdminDashboardFeedbackNeedle from './components_hcu/DashboardFeedbackNeedle.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
 import './index.css'
@@ -296,6 +300,22 @@ const router = createBrowserRouter([
   {
     path: "/adminDashboardFeedbackAll",
     element: <ProtectAdminRoute><AdminDashboardFeedbackAll/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardFeedbackGeneral",
+    element: <ProtectAdminRoute><AdminDashboardFeedbackGeneral/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardFeedbackSpecial",
+    element: <ProtectAdminRoute><AdminDashboardFeedbackSpecial/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardFeedbackPhysical",
+    element: <ProtectAdminRoute><AdminDashboardFeedbackPhysical/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminDashboardFeedbackNeedle",
+    element: <ProtectAdminRoute><AdminDashboardFeedbackNeedle/></ProtectAdminRoute>
   },
   {
     path: "/appointment/detail/:id",

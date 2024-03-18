@@ -134,27 +134,15 @@ const DashboardFeedbackAll = (props) => {
       ];
 
       const data2 = [
-        { name: 'สำเร็จ', value: 400 },
-        { name: 'ไม่สำเร็จ', value: 300 },
+        { name: '5', value: 60 },
+        { name: '4', value: 50 },
+        { name: '3', value: 50 },
+        { name: '2', value: 50 },
+        { name: '1', value: 50 },
    
       ];
-      const COLORS = ['#BABABA', '#7C9DC1'];
-      const COLORSDAY = ['#BABABA', '#54B2B0'];
-      const RADIAN = Math.PI / 180;
-      const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-        return (
-        
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
-          </text>
-          
-        
-        );
-      };
+      const totalItemCount = data2.reduce((total, item) => total + item.value, 0);
 
 
     return (
@@ -165,7 +153,7 @@ const DashboardFeedbackAll = (props) => {
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
               <div>
-                  <h1 className="center">Dashboard <br></br>ข้อเสนอแนะ "ทั่วไปและหลังใช้บริการ"</h1>
+                  <h1 className="center">Dashboard <br></br>ข้อเสนอแนะทั่วไป</h1>
               </div>
               <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
@@ -183,12 +171,11 @@ const DashboardFeedbackAll = (props) => {
             <br></br>
             <div className="admin-header">
                 <div className="admin-hearder-item2">
-                    <a href="#"  target="_parent" id="select">ทั้งหมด</a>
-                    <a href="#" target="_parent" >ข้อเสนอแนะทั่วไป</a>
-                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกทั่วไป</a>
-                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกเฉพาะทาง</a>
-                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกกายภาพ</a>
-                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกฝังเข็ม</a>
+                    <a href="#" target="_parent" id="select" >ข้อเสนอแนะทั่วไป</a>
+                    <a href="/adminDashboardFeedbackGeneral" target="_parent" >หลังใช้บริการคลินิกทั่วไป</a>
+                    <a href="/adminDashboardFeedbackSpecial" target="_parent" >หลังใช้บริการคลินิกเฉพาะทาง</a>
+                    <a href="/adminDashboardFeedbackPhysical" target="_parent" >หลังใช้บริการคลินิกกายภาพ</a>
+                    <a href="/adminDashboardFeedbackNeedle" target="_parent" >หลังใช้บริการคลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item3 admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
@@ -204,118 +191,462 @@ const DashboardFeedbackAll = (props) => {
             <h2>{formatMonthInThai(selectedDate)}</h2>
           </div>
 
-          <div className="admin-dashboard-feedback-month admin-dashboard-flexbox">
-            <div className="admin-dashboard-feedback-box4" style={{height:"300px"}}>
-                <ResponsiveContainer width="100%" height="100%">
+          <div className="admin-dashboard-feedback-month admin-dashboard-flexbox" style={{height:"300px"}}>
+            
+            <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       width={500}
                       height={300}
                       data={data}
                       margin={{
-                      top: 5,
-                      right: 30,
-                      left: 5,
+                      top: 10,
+                      right: 20,
+                      left: -20,
                       bottom: 0,
                      }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                      <YAxis tick={{ fontSize: 10 }}/>
+                      <XAxis dataKey="name" tick={{ fontSize: 10}}/>
+                      <YAxis tick={{ fontSize: 10 }} domain={[0, 5]} />
                       <Tooltip />
-                      <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="score" fill="#365372" maxPointSize={5}></Bar>
+                      <Legend style={{ fontSize: '10px',wordWrap: "break-word"}}/>
+                      <Bar dataKey="score" fill="#365372" minPointSize={1}></Bar>
                     </BarChart>
-                  </ResponsiveContainer>
-            </div>
+            </ResponsiveContainer>
+           
+            
           
           </div>
-          
-          <div className="admin-dashboard-month-all admin-dashboard-flexbox">
-              <div className="admin-dashboard-box4 boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"60px"}}/>
-                  <br></br>
-                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
-              </div>
-
-              <div className="admin-dashboard-box3 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการในคลินิกทั่วไป</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                    <Pie
-                      data={data2}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Legend 
-                      align="right" 
-                      verticalAlign="middle" 
-                      iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value})`}
-                      layout="vertical"
-                    />
-                   </PieChart>
-                  </ResponsiveContainer>
+          <div className="admin-dashboard-feedback-all admin-dashboard-flexbox" >
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการทำแผล-ฉีดยา</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการกายภาพบำบัด</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการฝังเข็ม</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">อื่นๆ</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
 
           </div> 
           
           <div className="admin-body">
             <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
           </div>  
-        
-          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
-                <div className="admin-dashboard-box3 boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"60px"}}/>
-                  <br></br>
-                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
-         
-               </div>
-              <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการในคลินิกทั่วไป</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                  <Pie
-                    data={data2}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                  >
-                    {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
-                    ))}
-                  </Pie>
-                  <Legend 
-                    align="right" 
-                    verticalAlign="middle" 
-                    iconType="circle"
-                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value}))`}
-                    layout="vertical"
-                  />
-                  </PieChart>
-                  </ResponsiveContainer>
+          <div className="admin-dashboard-feedback-day admin-dashboard-flexbox" style={{height:"300px"}}>
+            
+            <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={data}
+                      margin={{
+                      top: 10,
+                      right: 20,
+                      left: -20,
+                      bottom: 0,
+                     }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fontSize: 10}}/>
+                      <YAxis tick={{ fontSize: 10 }} domain={[0, 5]} />
+                      <Tooltip />
+                      <Legend style={{ fontSize: '10px',wordWrap: "break-word"}}/>
+                      <Bar dataKey="score" fill="#54B2B0" minPointSize={1}></Bar>
+                    </BarChart>
+            </ResponsiveContainer>
+           
+          </div>
+          <div className="admin-dashboard-feedback-day-all admin-dashboard-flexbox">
+          <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
                 </div>
-              </div>
-      
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการทำแผล-ฉีดยา</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการกายภาพบำบัด</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                           
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">บริการฝังเข็ม</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                    <h4 className="center">อื่นๆ</h4>
+                    <div className="admin-dashboard-feedback-box5 boxcenter3" >
+                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                        <h3> จาก 5 </h3>
+                    </div>
+                    <div className="admin-dashboard-feedback-box4">
+                        <div style={{ width: '100%', height: '250px'}}>
+                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={data2}
+                            margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                            }}
+                            layout="vertical"
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" tick={{ fontSize: 10}}/>
+                            <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#54B2B0" minPointSize={5}></Bar>
+                        </BarChart>
+                        </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
             </div>
     
           
