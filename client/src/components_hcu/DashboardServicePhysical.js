@@ -344,6 +344,14 @@ const DashboardServicePhysical = (props) => {
               </div>
           </div>
           <div className="admin">
+          <div className="admin-header">
+              <div className="admin-hearder-item">
+                    <a href="#" target="_parent" id="select">Dashboard การใช้บริการ</a>
+                    <a href="/adminDashboardFeedbackAll" target="_parent" >Dashboard คะแนนความพึงพอใจ</a>
+              </div>
+            </div>
+            <br></br>
+            <br></br>
             <div className="admin-header">
                 <div className="admin-hearder-item">
                     <a href="/adminDashboardService" target="_parent">คลินิกทั้งหมด</a>
@@ -440,9 +448,7 @@ const DashboardServicePhysical = (props) => {
                       <YAxis tick={{ fontSize: 12 }}/>
                       <Tooltip />
                       <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}>
-                        <LabelList dataKey="name" content={renderCustomizedLabel} />
-                      </Bar>
+                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}/>
                       <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={10} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -513,9 +519,7 @@ const DashboardServicePhysical = (props) => {
                   <YAxis tick={{ fontSize: 12 }}/>
                   <Tooltip />
                  <Legend style={{ fontSize: '10px' }}/>
-                 <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}>
-                    <LabelList dataKey="name" content={renderCustomizedLabel} />
-                  </Bar>
+                  <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}/>
                   <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={10} />
                   </BarChart>
                 </ResponsiveContainer>

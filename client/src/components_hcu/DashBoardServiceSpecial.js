@@ -297,6 +297,14 @@ const DashBoardSpecial = (props) => {
               </div>
           </div>
           <div className="admin">
+          <div className="admin-header">
+              <div className="admin-hearder-item">
+                    <a href="#" target="_parent" id="select">Dashboard การใช้บริการ</a>
+                    <a href="/adminDashboardFeedbackAll" target="_parent" >Dashboard คะแนนความพึงพอใจ</a>
+              </div>
+            </div>
+            <br></br>
+            <br></br>
             <div className="admin-header">
                 <div className="admin-hearder-item">
                     <a href="/adminDashboardService"  target="_parent">คลินิกทั้งหมด</a>

@@ -5,6 +5,9 @@
     border: 3px solid rgb(195, 217, 242);
     margin-bottom: 10px;
 }
+.admin-dashboard-feedback-month{
+    margin-bottom: 10px;
+}
 .admin-dashboard-day{
     padding: 2% 0%;
     border-radius: 8px;
@@ -49,6 +52,13 @@
     width: 49.5%;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
+}
+.admin-dashboard-feedback-box4{
+    box-sizing: border-box;
+    width: 49.5%;
+    border-radius: 8px;
+    border: 3px solid rgb(195, 217, 242);
+    padding: 2% 0%;
 }
 .shadow{
     box-shadow: 1px 5px 5px rgba(0,0,0,0.25);

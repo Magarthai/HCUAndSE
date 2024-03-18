@@ -7,7 +7,7 @@ import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
 
-const DashBoardGeneral = (props) => {
+const DashboardFeedbackAll = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -101,160 +101,36 @@ const DashBoardGeneral = (props) => {
 
     const data = [
         {
-            name: '01/02/2024',
-            คลินิกทั่วไป: 4000,
+            name: 'บริการตรวจรักษาโรคโดยแพทย์',
+            score: 5,
            
           },
           {
-            name: '02/02/2024',
-            คลินิกทั่วไป: 3000,
+            name: 'บริการจ่ายโดยพยาบาล',
+            score: 4,
           
           },
           {
-            name: '03/02/2024',
-            คลินิกทั่วไป: 2000,
+            name: 'บริการทำแผล-ฉีดยา',
+            score: 5,
            
           },
           {
-            name: '04/02/2024',
-            คลินิกทั่วไป: 2780,
+            name: 'บริการกายภาพบำบัด',
+            score: 4,
             
           },
           {
-            name: '05/02/2024',
-            คลินิกทั่วไป: 1890,
+            name: 'บริการฝังเข็ม',
+            score: 3,
             
           },
           {
-            name: '06/02/2024',
-            คลินิกทั่วไป: 2390,
+            name: 'อื่นๆ',
+            score: 3,
            
           },
-          {
-            name: '07/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '08/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '09/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
-          {
-            name: '10/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '11/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '12/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '13/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '14/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
-          {
-            name: '15/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '16/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '17/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '18/02/2024',
-            คลินิกทั่วไป: 3490,
-    
-          },
-          {
-            name: '19/02/2024',
-            คลินิกทั่วไป: 3490,
    
-          },
-          {
-            name: '20/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '21/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '22/02/2024',
-            คลินิกทั่วไป: 3490,
-
-          },
-          {
-            name: '23/02/2024',
-            คลินิกทั่วไป: 3490,
-
-          },
-          {
-            name: '24/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '25/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '26/02/2024',
-            คลินิกทั่วไป: 3490,
-
-          },
-          {
-            name: '27/02/2024',
-            คลินิกทั่วไป: 3490,
-      
-          },
-          {
-            name: '28/02/2024',
-            คลินิกทั่วไป: 3490,
-  
-          },
-          {
-            name: '29/02/2024',
-            คลินิกทั่วไป: 3490,
-         
-          },
-          {
-            name: '30/02/2024',
-            คลินิกทั่วไป: 3490,
-     
-          },
-          {
-            name: '31/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
       ];
 
       const data2 = [
@@ -289,7 +165,7 @@ const DashBoardGeneral = (props) => {
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
               <div>
-                  <h1 className="center">Dashboard <br></br>การใช้บริการของ "คลินิกทั่วไป"</h1>
+                  <h1 className="center">Dashboard <br></br>ข้อเสนอแนะ "ทั่วไปและหลังใช้บริการ"</h1>
               </div>
               <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
@@ -297,23 +173,24 @@ const DashBoardGeneral = (props) => {
               </div>
           </div>
           <div className="admin">
-          <div className="admin-header">
+            <div className="admin-header">
               <div className="admin-hearder-item">
-                    <a href="#" target="_parent" id="select">Dashboard การใช้บริการ</a>
-                    <a href="/adminDashboardFeedbackAll" target="_parent" >Dashboard คะแนนความพึงพอใจ</a>
+                    <a href="/adminDashboardService" target="_parent" >Dashboard การใช้บริการ</a>
+                    <a href="#" target="_parent" id="select">Dashboard คะแนนความพึงพอใจ</a>
               </div>
             </div>
             <br></br>
             <br></br>
             <div className="admin-header">
-                <div className="admin-hearder-item">
-                    <a href="/adminDashboardService"  target="_parent">คลินิกทั้งหมด</a>
-                    <a href="#" target="_parent" id="select">คลินิกทั่วไป</a>
-                    <a href="/adminDashboardServiceSpecial" target="_parent" >คลินิกเฉพาะทาง</a>
-                    <a href="/adminDashboardServicePhysical" target="_parent" >คลินิกกายภาพ</a>
-                    <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
+                <div className="admin-hearder-item2">
+                    <a href="#"  target="_parent" id="select">ทั้งหมด</a>
+                    <a href="#" target="_parent" >ข้อเสนอแนะทั่วไป</a>
+                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกทั่วไป</a>
+                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกเฉพาะทาง</a>
+                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกกายภาพ</a>
+                    <a href="#" target="_parent" >ข้อเสนอแนะของคลินิกฝังเข็ม</a>
                 </div>
-                <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div className="admin-hearder-item3 admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
                 </div>
             </div>
@@ -327,17 +204,30 @@ const DashBoardGeneral = (props) => {
             <h2>{formatMonthInThai(selectedDate)}</h2>
           </div>
 
-          <div className="admin-dashboard-month">
-          <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
-          <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 0, bottom: 10}}>
-            <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
-                    <YAxis  tick={{ fontSize: 12 }}/>
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="คลินิกทั่วไป" stroke="#456A91" />
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="admin-dashboard-feedback-month admin-dashboard-flexbox">
+            <div className="admin-dashboard-feedback-box4" style={{height:"300px"}}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={data}
+                      margin={{
+                      top: 5,
+                      right: 30,
+                      left: 5,
+                      bottom: 0,
+                     }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+                      <YAxis tick={{ fontSize: 10 }}/>
+                      <Tooltip />
+                      <Legend style={{ fontSize: '10px' }}/>
+                      <Bar dataKey="score" fill="#365372" maxPointSize={5}></Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+            </div>
+          
           </div>
           
           <div className="admin-dashboard-month-all admin-dashboard-flexbox">
@@ -436,7 +326,7 @@ const DashBoardGeneral = (props) => {
     );
 }
 
-export default DashBoardGeneral;
+export default DashboardFeedbackAll;
 
 
 
