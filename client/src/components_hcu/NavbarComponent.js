@@ -95,7 +95,7 @@ const NavbarComponent = (props) => {
 
       <ul className="nav flex-column font1" id="navInformation">
         <li className="nav-item pr-3">
-          <Link to="#" className="nav-link" target="_parent" style={{height:"50px"}}>
+          <Link to="/adminInformationAll" className="nav-link" target="_parent" style={{height:"50px"}}>
             ข้อมูลทั่วไป
           </Link>
         </li>

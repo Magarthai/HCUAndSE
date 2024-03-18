@@ -391,7 +391,7 @@ const DashboardServiceNeedle = (props) => {
           
           <div className="admin-dashboard-month-all admin-dashboard-flexbox">
               <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+                  <img src={people} style={{width:"45px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   <h1>150 คน</h1>
@@ -463,7 +463,7 @@ const DashboardServiceNeedle = (props) => {
         
           <div className="admin-dashboard-day-all admin-dashboard-flexbox">
                 <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+                  <img src={people} style={{width:"45px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   <h1>150 คน</h1>

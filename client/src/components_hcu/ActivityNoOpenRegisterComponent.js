@@ -171,8 +171,8 @@ const ActivityNoOpenRegisterComponent = (props) => {
                         if (a === "success") {
                         Swal.fire(
                             {
-                                title: 'การลบการนัดหมายสำเร็จ!',
-                                text: `การนัดหมายถูกลบเรียบร้อยแล้ว!`,
+                                title: 'การลบการกิจกรรมสำเร็จ!',
+                                text: `การกิจกรรมถูกลบเรียบร้อยแล้ว!`,
                                 icon: 'success',
                                 confirmButtonText: 'ตกลง',
                                 confirmButtonColor: '#263A50',
