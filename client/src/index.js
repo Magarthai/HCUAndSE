@@ -70,6 +70,10 @@ import AdminDashboardFeedbackGeneral from './components_hcu/DashboardFeedbackGen
 import AdminDashboardFeedbackSpecial from './components_hcu/DashboardFeedbackSpecial.js';
 import AdminDashboardFeedbackPhysical from './components_hcu/DashboardFeedbackPhysical.js';
 import AdminDashboardFeedbackNeedle from './components_hcu/DashboardFeedbackNeedle.js';
+import AdminInformationAdd from './components_hcu/InformationAdd.js';
+import AdminInformationAll from './components_hcu/InformationAll.js';
+import AdminInformationEdit from './components_hcu/InformationEdit.js';
+import AdminInformationPreview from './components_hcu/InformationPreview.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
 import './index.css'
@@ -124,10 +128,6 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <ErrorPage/>
-  },
-  {
-    path: "/homeUser",
-    element: <ProtectRoute><AdminHomeComponent /></ProtectRoute>
   },
   {
     path: "/homeAdmin",
@@ -316,6 +316,22 @@ const router = createBrowserRouter([
   {
     path: "/adminDashboardFeedbackNeedle",
     element: <ProtectAdminRoute><AdminDashboardFeedbackNeedle/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminInformationAll",
+    element: <ProtectAdminRoute><AdminInformationAll/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminInformationAdd",
+    element: <ProtectAdminRoute><AdminInformationAdd/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminInformationEdit",
+    element: <ProtectAdminRoute><AdminInformationEdit/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminInformationPreview",
+    element: <ProtectAdminRoute><AdminInformationPreview/></ProtectAdminRoute>
   },
   {
     path: "/appointment/detail/:id",
