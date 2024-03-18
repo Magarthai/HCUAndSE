@@ -7,7 +7,7 @@ import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
 
-const DashboardServiceAll = (props) => {
+const DashboardServiceNeedle = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -102,231 +102,199 @@ const DashboardServiceAll = (props) => {
     const data = [
         {
             name: '01/02/2024',
-            genaral: 4000,
-            special: 2400,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
+
           },
           {
             name: '02/02/2024',
-            genaral: 3000,
-            special: 1398,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '03/02/2024',
-            genaral: 2000,
-            special: 9800,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '04/02/2024',
-            genaral: 2780,
-            special: 3908,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '05/02/2024',
-            genaral: 1890,
-            special: 4800,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '06/02/2024',
-            genaral: 2390,
-            special: 3800,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '07/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '08/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '09/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '10/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '11/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '12/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '13/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '14/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '15/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '16/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '17/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '18/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '19/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '20/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '21/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '22/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '23/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '24/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '25/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '26/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '27/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '28/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '29/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '30/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
           {
             name: '31/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกฝังเข็ม: 2400,
+            ปรึกษาแพทย์: 1000,
+            ทำฝังเข็ม: 1400
           },
       ];
 
       const data2 = [
-        { name: 'คลินิกทั่วไป', value: 400 },
-        { name: 'คลินิกเฉพาะทาง', value: 300 },
-        { name: 'คลินิกกายภาพ', value: 300 },
-        { name: 'คลินิกฝังเข็ม', value: 200 },
+        { name: 'ปรึกษาแพทย์', value: 400 },
+        { name: 'ทำฝังเข็ม', value: 300 },
       ];
-      const COLORS = ['#BABABA', '#7C9DC1', '#456A91', '#263A50'];
-      const COLORSDAY = ['#BABABA', '#ABD9D8', '#54B2B0', '#295B5B'];
+      const COLORS = ['#BABABA', '#456A91'];
+      const COLORSDAY = ['#BABABA', '#54B2B0'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -345,29 +313,17 @@ const DashboardServiceAll = (props) => {
 
       const data3 = [
         {
-          name: 'ทั่วไป',
+          name: 'ปรึกษาแพทย์',
           สำเร็จ: 4000,
           ไม่สำเร็จ: 2400,
          
         },
         {
-          name: 'เฉพาะทาง',
+          name: 'ทำฝังเข็ม',
           สำเร็จ: 4000,
           ไม่สำเร็จ: 2400,
          
         },
-        {
-          name: 'กายภาพ',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-          
-        },
-        {
-          name: 'ฝังเข็ม',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        }
       ];
 
 
@@ -380,7 +336,7 @@ const DashboardServiceAll = (props) => {
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
               <div>
-                  <h1 className="center">Dashboard <br></br> การใช้บริการของแต่ละคลินิก</h1>
+                  <h1 className="center">Dashboard <br></br> การใช้บริการของ "คลินิกฝังเข็ม"</h1>
               </div>
               <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
@@ -388,21 +344,13 @@ const DashboardServiceAll = (props) => {
               </div>
           </div>
           <div className="admin">
-            {/* <div className="admin-header">
-              <div className="admin-hearder-item">
-                    <a href="#" target="_parent" id="select">Dashboard การใช้บริการ</a>
-                    <a href="#" target="_parent" >Dashboard คะแนนความพึงพอใจ</a>
-              </div>
-            </div>
-            <br></br>
-            <br></br> */}
             <div className="admin-header">
                 <div className="admin-hearder-item">
-                    <a href="#" target="_parent" id="select">คลินิกทั้งหมด</a>
+                    <a href="/adminDashboardService" target="_parent">คลินิกทั้งหมด</a>
                     <a href="/adminDashboardServiceGeneral" target="_parent" >คลินิกทั่วไป</a>
                     <a href="/adminDashboardServiceSpecial" target="_parent" >คลินิกเฉพาะทาง</a>
                     <a href="/adminDashboardServicePhysical" target="_parent" >คลินิกกายภาพ</a>
-                    <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
+                    <a href="#" target="_parent" id="select">คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
@@ -426,10 +374,9 @@ const DashboardServiceAll = (props) => {
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#BABABA" />
-                    <Line type="monotone" dataKey="special" stroke="#7C9DC1" />
-                    <Line type="monotone" dataKey="physic" stroke="#456A91" />
-                    <Line type="monotone" dataKey="needle" stroke="#263A50" />
+                    <Line type="monotone" dataKey="ปรึกษาแพทย์" stroke="#BABABA" />
+                    <Line type="monotone" dataKey="ทำฝังเข็ม" stroke="#7C9DC1" />
+                    <Line type="monotone" dataKey="คลินิกฝังเข็ม" stroke="#456A91" />
             </LineChart>
           </ResponsiveContainer>
           </div>
@@ -443,7 +390,7 @@ const DashboardServiceAll = (props) => {
               </div>
 
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+                <h4>จำนวนผู้ใช้บริการแต่ละส่วนของคลินิกฝังเข็ม</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -474,7 +421,7 @@ const DashboardServiceAll = (props) => {
               </div>
 
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละคลินิก</h4>
+                <h4>การดำเนินการแต่ละส่วนของคลินิกฝังเข็ม</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
@@ -517,7 +464,7 @@ const DashboardServiceAll = (props) => {
          
                </div>
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+                <h4>จำนวนผู้ใช้บริการแต่ละส่วนของคลินิกฝังเข็ม</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -547,7 +494,7 @@ const DashboardServiceAll = (props) => {
                 </div>
               </div>
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละคลินิก</h4>
+                <h4>การดำเนินการแต่ละส่วนของคลินิกฝังเข็ม</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -584,7 +531,7 @@ const DashboardServiceAll = (props) => {
     );
 }
 
-export default DashboardServiceAll;
+export default DashboardServiceNeedle;
 
 
 

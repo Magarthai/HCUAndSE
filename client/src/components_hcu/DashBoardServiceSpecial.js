@@ -7,7 +7,7 @@ import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
 
-const DashboardServiceAll = (props) => {
+const DashBoardSpecial = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -102,231 +102,168 @@ const DashboardServiceAll = (props) => {
     const data = [
         {
             name: '01/02/2024',
-            genaral: 4000,
-            special: 2400,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 4000,
+           
           },
           {
             name: '02/02/2024',
-            genaral: 3000,
-            special: 1398,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3000,
+          
           },
           {
             name: '03/02/2024',
-            genaral: 2000,
-            special: 9800,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 2000,
+           
           },
           {
             name: '04/02/2024',
-            genaral: 2780,
-            special: 3908,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 2780,
+            
           },
           {
             name: '05/02/2024',
-            genaral: 1890,
-            special: 4800,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 1890,
+            
           },
           {
             name: '06/02/2024',
-            genaral: 2390,
-            special: 3800,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 2390,
+           
           },
           {
             name: '07/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '08/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '09/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+          
           },
           {
             name: '10/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '11/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '12/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '13/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '14/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+          
           },
           {
             name: '15/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '16/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '17/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '18/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+    
           },
           {
             name: '19/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+   
           },
           {
             name: '20/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '21/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '22/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+
           },
           {
             name: '23/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+
           },
           {
             name: '24/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+           
           },
           {
             name: '25/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+            
           },
           {
             name: '26/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+
           },
           {
             name: '27/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+      
           },
           {
             name: '28/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+  
           },
           {
             name: '29/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+         
           },
           {
             name: '30/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+     
           },
           {
             name: '31/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
+            คลินิกเฉพาะทาง: 3490,
+          
           },
       ];
 
       const data2 = [
-        { name: 'คลินิกทั่วไป', value: 400 },
-        { name: 'คลินิกเฉพาะทาง', value: 300 },
-        { name: 'คลินิกกายภาพ', value: 300 },
-        { name: 'คลินิกฝังเข็ม', value: 200 },
+        { name: 'สำเร็จ', value: 400 },
+        { name: 'ไม่สำเร็จ', value: 300 },
+   
       ];
-      const COLORS = ['#BABABA', '#7C9DC1', '#456A91', '#263A50'];
-      const COLORSDAY = ['#BABABA', '#ABD9D8', '#54B2B0', '#295B5B'];
+      const COLORS = ['#BABABA', '#7C9DC1'];
+      const COLORSDAY = ['#BABABA', '#54B2B0'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -343,34 +280,6 @@ const DashboardServiceAll = (props) => {
         );
       };
 
-      const data3 = [
-        {
-          name: 'ทั่วไป',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-        {
-          name: 'เฉพาะทาง',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-        {
-          name: 'กายภาพ',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-          
-        },
-        {
-          name: 'ฝังเข็ม',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        }
-      ];
-
-
 
     return (
         
@@ -380,7 +289,7 @@ const DashboardServiceAll = (props) => {
           <div className="admin-topicBox colorPrimary-800">
               <div></div>
               <div>
-                  <h1 className="center">Dashboard <br></br> การใช้บริการของแต่ละคลินิก</h1>
+                  <h1 className="center">Dashboard <br></br>การใช้บริการของ "คลินิกเฉพาะทาง"</h1>
               </div>
               <div className="dateTime">
                 <p className="admin-textBody-large">Date : {currentDate}</p>
@@ -388,19 +297,11 @@ const DashboardServiceAll = (props) => {
               </div>
           </div>
           <div className="admin">
-            {/* <div className="admin-header">
-              <div className="admin-hearder-item">
-                    <a href="#" target="_parent" id="select">Dashboard การใช้บริการ</a>
-                    <a href="#" target="_parent" >Dashboard คะแนนความพึงพอใจ</a>
-              </div>
-            </div>
-            <br></br>
-            <br></br> */}
             <div className="admin-header">
                 <div className="admin-hearder-item">
-                    <a href="#" target="_parent" id="select">คลินิกทั้งหมด</a>
+                    <a href="/adminDashboardService"  target="_parent">คลินิกทั้งหมด</a>
                     <a href="/adminDashboardServiceGeneral" target="_parent" >คลินิกทั่วไป</a>
-                    <a href="/adminDashboardServiceSpecial" target="_parent" >คลินิกเฉพาะทาง</a>
+                    <a href="#" target="_parent" id="select">คลินิกเฉพาะทาง</a>
                     <a href="/adminDashboardServicePhysical" target="_parent" >คลินิกกายภาพ</a>
                     <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                 </div>
@@ -426,24 +327,21 @@ const DashboardServiceAll = (props) => {
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#BABABA" />
-                    <Line type="monotone" dataKey="special" stroke="#7C9DC1" />
-                    <Line type="monotone" dataKey="physic" stroke="#456A91" />
-                    <Line type="monotone" dataKey="needle" stroke="#263A50" />
+                    <Line type="monotone" dataKey="คลินิกเฉพาะทาง" stroke="#456A91" />
             </LineChart>
           </ResponsiveContainer>
           </div>
           
           <div className="admin-dashboard-month-all admin-dashboard-flexbox">
-              <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+              <div className="admin-dashboard-box4 boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"60px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   <h1>150 คน</h1>
               </div>
 
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+              <div className="admin-dashboard-box3 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการในคลินิกเฉพาะทาง</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -465,7 +363,7 @@ const DashboardServiceAll = (props) => {
                       align="right" 
                       verticalAlign="middle" 
                       iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value})`}
                       layout="vertical"
                     />
                    </PieChart>
@@ -473,34 +371,7 @@ const DashboardServiceAll = (props) => {
                 </div>
               </div>
 
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละคลินิก</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      width={500}
-                      height={300}
-                      data={data3}
-                      margin={{
-                      top: 5,
-                      right: 30,
-                      left: 5,
-                      bottom: 0,
-                     }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }}/>
-                      <Tooltip />
-                      <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={5}>
-                        <LabelList dataKey="name" content={renderCustomizedLabel} />
-                      </Bar>
-                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={10} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+              
 
           </div> 
           
@@ -509,15 +380,15 @@ const DashboardServiceAll = (props) => {
           </div>  
         
           <div className="admin-dashboard-day-all admin-dashboard-flexbox">
-                <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+                <div className="admin-dashboard-box3 boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"60px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   <h1>150 คน</h1>
          
                </div>
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+              <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการในคลินิกเฉพาะทาง</h4>
                 <div style={{ width: '100%', height: '180px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -539,41 +410,14 @@ const DashboardServiceAll = (props) => {
                     align="right" 
                     verticalAlign="middle" 
                     iconType="circle"
-                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value}))`}
                     layout="vertical"
                   />
                   </PieChart>
                   </ResponsiveContainer>
                 </div>
               </div>
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละคลินิก</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    width={500}
-                    height={300}
-                    data={data3}
-                    margin={{
-                    top: 5,
-                    right: 30,
-                    left: 5,
-                    bottom: 0,
-                  }}
-                  >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
-                  <YAxis tick={{ fontSize: 12 }}/>
-                  <Tooltip />
-                 <Legend style={{ fontSize: '10px' }}/>
-                 <Bar dataKey="สำเร็จ" fill="#295B5B" minPointSize={5}>
-                    <LabelList dataKey="name" content={renderCustomizedLabel} />
-                  </Bar>
-                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" minPointSize={10} />
-                  </BarChart>
-                </ResponsiveContainer>
-                </div>
-              </div>
+      
             </div>
     
           
@@ -584,7 +428,4 @@ const DashboardServiceAll = (props) => {
     );
 }
 
-export default DashboardServiceAll;
-
-
-
+export default DashBoardSpecial;

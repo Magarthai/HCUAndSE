@@ -100,7 +100,7 @@ const NavbarComponent = (props) => {
           </Link>
         </li>
         <li className="nav-item pr-3">
-          <Link to="#" className="nav-link" target="_parent" style={{height:"50px"}}>
+          <Link to="/adminFeedbackGeneralAll" className="nav-link" target="_parent" style={{height:"50px"}}>
             ข้อเสนอแนะ
           </Link>
         </li>

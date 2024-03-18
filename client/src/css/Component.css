@@ -309,6 +309,10 @@
         font-size: 18px;
         font-weight: 500;
     }
+    .admin-textBody-large2{
+        font-size: 23px;
+        font-weight: 400;
+    }
     .user{
         width: 100%;
         margin: 0px;
@@ -354,6 +358,14 @@
     .admin-hearder-item{
         box-sizing: border-box;
         width: 50%;
+    }
+    .admin-hearder-item2{
+        box-sizing: border-box;
+        width: 80%;
+    }
+    .admin-hearder-item3{
+        box-sizing: border-box;
+        width: 20%;
     }
     .admin-right{
         text-align: right;
