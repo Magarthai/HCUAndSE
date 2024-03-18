@@ -6,11 +6,16 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
-
+import axios from "axios"
 const DashboardServiceAll = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
+    const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
+    const [Todaydata2, setTodayData2] = useState([]);
+
+    const [count, setCount] = useState({});
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
   
@@ -25,7 +30,11 @@ const DashboardServiceAll = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData){
+        fetchData();
+        fetchCount();
+        fetchData2();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -43,7 +52,7 @@ const DashboardServiceAll = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -90,6 +99,7 @@ const DashboardServiceAll = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
+
     const dataInday = [
         {
             name: selectedDate,
@@ -98,233 +108,46 @@ const DashboardServiceAll = (props) => {
             amt: 2400,
           }
     ]
+    const REACT_APP_API = process.env.REACT_APP_API
+    const fetchData = async() => {
+      const info = {
+        userData: userData
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRange`,info)
+      if (respones.data){
+        setData(respones.data)
+        console.log(respones.data)
+      }
+    };
 
-    const data = [
-        {
-            name: '01/02/2024',
-            genaral: 4000,
-            special: 2400,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '02/02/2024',
-            genaral: 3000,
-            special: 1398,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '03/02/2024',
-            genaral: 2000,
-            special: 9800,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '04/02/2024',
-            genaral: 2780,
-            special: 3908,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '05/02/2024',
-            genaral: 1890,
-            special: 4800,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '06/02/2024',
-            genaral: 2390,
-            special: 3800,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '07/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '08/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '09/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '10/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '11/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '12/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '13/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '14/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '15/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '16/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '17/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '18/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '19/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '20/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '21/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '22/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '23/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '24/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '25/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '26/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '27/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '28/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '29/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '30/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-          {
-            name: '31/02/2024',
-            genaral: 3490,
-            special: 4300,
-            physic: 2400,
-            needle:1000
-          },
-      ];
+    const fetchData2 = async() => {
+      const info = {
+        userData: userData
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRangeCount`,info)
+      if (respones.data){
+        setData2(respones.data)
+        console.log(respones.data)
+      }
+      const respones2 = await axios.post(`${REACT_APP_API}/api/getDashboardMonthTodayCount`,info)
+      if (respones2.data){
+        setTodayData2(respones2.data)
+        console.log(respones2.data)
+      }
+    };
 
-      const data2 = [
-        { name: 'คลินิกทั่วไป', value: 400 },
-        { name: 'คลินิกเฉพาะทาง', value: 300 },
-        { name: 'คลินิกกายภาพ', value: 300 },
-        { name: 'คลินิกฝังเข็ม', value: 200 },
-      ];
+    const fetchCount = async() => {
+      const info = {
+        userData: userData
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/getCountAppointment`,info)
+      if (respones.data){
+        setCount(respones.data,"respones.data")
+        console.log(respones.data)
+      }
+    };
+  
+
       const COLORS = ['#BABABA', '#7C9DC1', '#456A91', '#263A50'];
       const COLORSDAY = ['#BABABA', '#ABD9D8', '#54B2B0', '#295B5B'];
       const RADIAN = Math.PI / 180;
@@ -426,7 +249,7 @@ const DashboardServiceAll = (props) => {
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="genaral" stroke="#BABABA" />
+                    <Line type="monotone" dataKey="general" stroke="#BABABA" />
                     <Line type="monotone" dataKey="special" stroke="#7C9DC1" />
                     <Line type="monotone" dataKey="physic" stroke="#456A91" />
                     <Line type="monotone" dataKey="needle" stroke="#263A50" />
@@ -439,7 +262,7 @@ const DashboardServiceAll = (props) => {
                   <img src={people} style={{width:"20%"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.all} คน</h1>}
               </div>
 
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
@@ -513,7 +336,7 @@ const DashboardServiceAll = (props) => {
                   <img src={people} style={{width:"20%"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.today} คน</h1>}
          
                </div>
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
@@ -522,7 +345,7 @@ const DashboardServiceAll = (props) => {
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                   <Pie
-                    data={data2}
+                    data={Todaydata2}
                       cx="50%"
                       cy="50%"
                       labelLine={false}

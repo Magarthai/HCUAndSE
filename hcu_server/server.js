@@ -37,6 +37,10 @@ const deleteTimeTable = require('./allapi/Acitivity/admin/TimeTable/deleteTimeTa
 const toggleTimeTable = require('./allapi/Acitivity/admin/TimeTable/toggleTimeTable');
 const QueueNotTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityNotTodayQueue');
 const UpdateToSuccessStatus = require('./mongodb_api/dashboard/appointmentSuccessStatusUpdate');
+const appointmentCurrentMonthRange = require('./mongodb_api/dashboard/appointmentCurrentMonthRange');
+const appointmentCurrentMonthRangeCount = require('./mongodb_api/dashboard/appointmentCurrentMonthRangeCount');
+const appointmentCurrentMonthTodayCount = require('./mongodb_api/dashboard/appointmentCurrentMonthTodayCount');
+const appointmentMonthCount = require('./mongodb_api/dashboard/appointmentMonthCount');
 
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
@@ -56,6 +60,11 @@ app.use('/api', toggleTimeTable);
 app.use('/api', fetchTodayActivity);
 app.use('/api', fetchNoQueueTodayActivity);
 app.use('/api', UpdateToSuccessStatus);
+app.use('/api', appointmentCurrentMonthRange);
+app.use('/api', appointmentCurrentMonthRangeCount);
+app.use('/api', appointmentCurrentMonthTodayCount);
+app.use('/api', appointmentMonthCount);
+
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -81,7 +90,7 @@ const Dashboard = require("./model/appointmentDashboard.model");
 async function createDashboardData(feedbackData) {
     try {
         const newData = await Dashboard.create(feedbackData); 
-        return newFeedback;
+        return newData;
     } catch (error) {
         console.log(error, "createData");
         throw error;
