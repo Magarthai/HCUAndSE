@@ -5,6 +5,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "firebase": "^10.8.0",
-    "moment-timezone": "^0.5.45"
+    "moment-timezone": "^0.5.45",
+    "mongoose": "^8.2.2",
+    "morgan": "^1.10.0"
   }
 }

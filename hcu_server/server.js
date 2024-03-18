@@ -5,12 +5,15 @@ const { getFirestore } = require('firebase/firestore');
 const axios = require('axios');
 const cors = require('cors');
 const app = express();
-app.use(cors());
+const morgan = require('morgan');;
 const moment = require('moment-timezone');
+const dbConnect = require('./db.connector');
+dbConnect();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(morgan('dev'));
+app.use(cors());
 const firebaseConfig = require('./firebase');
 const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
 const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
@@ -33,6 +36,8 @@ const deleteActivity = require('./allapi/Acitivity/admin/deleteActivity');
 const deleteTimeTable = require('./allapi/Acitivity/admin/TimeTable/deleteTimeTable');
 const toggleTimeTable = require('./allapi/Acitivity/admin/TimeTable/toggleTimeTable');
 const QueueNotTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityNotTodayQueue');
+const UpdateToSuccessStatus = require('./mongodb_api/dashboard/appointmentSuccessStatusUpdate');
+
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
@@ -50,6 +55,7 @@ app.use('/api', deleteTimeTable);
 app.use('/api', toggleTimeTable);
 app.use('/api', fetchTodayActivity);
 app.use('/api', fetchNoQueueTodayActivity);
+app.use('/api', UpdateToSuccessStatus);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -70,6 +76,16 @@ const LINE_BOT_API = "https://api.line.me/v2/bot/message";
 const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` 
+}
+const Dashboard = require("./model/appointmentDashboard.model");
+async function createDashboardData(feedbackData) {
+    try {
+        const newData = await Dashboard.create(feedbackData); 
+        return newFeedback;
+    } catch (error) {
+        console.log(error, "createData");
+        throw error;
+    }
 }
 
 const fetchUserDataWithAppointments = async () => {
@@ -195,7 +211,7 @@ const updateAppointmentsStatus = async () => {
                             "messages":[
                                 {
                                     "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ` // Message content
+                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ`
                                 }
                             ]
                         }
@@ -206,6 +222,21 @@ const updateAppointmentsStatus = async () => {
                             console.error('Error:', error.response.data);
                         }
                     }
+                    if (appointment.clinic === "คลินิกทั่วไป" || appointment.clinic === "คลินิกเฉพาะทาง") {
+                        const info = {
+                            status: "ไม่สำเร็จ",
+                            clinic: appointment.clinic,
+                        };
+                        createDashboardData(info);
+                    } else {
+                        const info = {
+                            status: "ไม่สำเร็จ",
+                            clinic: appointment.clinic,
+                            type: appointment.type
+                        };
+                        createDashboardData(info);
+                    }
+                    
                     await updateDoc(docRef, { status: "ไม่สำเร็จ" });
                     console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สำเร็จ"`);
                 }
@@ -236,6 +267,21 @@ const updateAppointmentsStatus = async () => {
                             console.error('Error:', error.response.data);
                         }
                     }
+                    if (appointment.clinic === "คลินิกทั่วไป" || appointment.clinic === "คลินิกเฉพาะทาง") {
+                        const info = {
+                            status: "เสร็จสิ้น",
+                            clinic: appointment.clinic,
+                        };
+                        createDashboardData(info);
+                    } else {
+                        const info = {
+                            status: "เสร็จสิ้น",
+                            clinic: appointment.clinic,
+                            type: appointment.type
+                        };
+                        createDashboardData(info);
+                    }
+                    
                     await updateDoc(docRef, { status: "เสร็จสิ้น" });
                     console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic} to "เสร็จสิ้น"`);
                 }
@@ -265,6 +311,20 @@ const updateAppointmentsStatus = async () => {
                         } catch (error) {
                             console.error('Error:', error.response.data);
                         }
+                    }
+                    if (appointment.clinic === "คลินิกทั่วไป" || appointment.clinic === "คลินิกเฉพาะทาง") {
+                        const info = {
+                            status: "ไม่สำเร็จ",
+                            clinic: appointment.clinic,
+                        };
+                        createDashboardData(info);
+                    } else {
+                        const info = {
+                            status: "ไม่สำเร็จ",
+                            clinic: appointment.clinic,
+                            type: appointment.type
+                        };
+                        createDashboardData(info);
                     }
                     await updateDoc(docRef, { status: 'ไม่สำเร็จ' });
                     console.log(`Updated status for appointment user id : ${AppointmentUserData.id} from clinic : ${AppointmentUserData.appointment.clinic} to "ไม่สําเร็จ"`);

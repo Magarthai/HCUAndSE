@@ -9,6 +9,7 @@ import verify_rights_icon from "../picture/verify_rights_icon.png";
 import Swal from "sweetalert2";
 import { getUserDataFromUserId } from '../backend/getDataFromUserId'
 import { ScaleLoader } from "react-spinners";
+import axios from "axios"
 import 'react-loading-skeleton/dist/skeleton.css'
 const QueueManagementSystemComponentSpecial = (props) => {
     const { user, userData } = useUserAuth();
@@ -109,14 +110,15 @@ const QueueManagementSystemComponentSpecial = (props) => {
                 confirmButton: 'custom-confirm-button',
                 cancelButton: 'custom-cancel-button',
             }
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
                 try {
-                    const docRef = doc(db, 'appointment', id);
-                    updateDoc(docRef, { status: "เสร็จสิ้น" }).catch(error => {
-                        console.error('Error updating timetable status:', error);
-                    });
-
+                    const info = {
+                        id: id,
+                        AppointmentUserData: AppointmentUserData,
+                    }
+                    const updateStatus = await axios.post(`${process.env.REACT_APP_API}/api/UpdateToSuccessStatus`,info)
+                    if(updateStatus == "success"){
                     Swal.fire(
                         {
                             title: 'การอัปเดตคิวสำเร็จ!',
@@ -137,8 +139,9 @@ const QueueManagementSystemComponentSpecial = (props) => {
                             }
                         }
                     });
-                } catch {
-
+                }
+                } catch (error){
+                    console.log(error);
                 }
 
             } else if (
@@ -162,7 +165,6 @@ const QueueManagementSystemComponentSpecial = (props) => {
 
 
     };
-
 
     const adminQueueCards = document.querySelectorAll('.admin-queue-card');
 

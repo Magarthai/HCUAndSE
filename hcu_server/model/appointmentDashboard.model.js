@@ -10,15 +10,12 @@ function setToMidnight() {
         millisecond: 0
     });
     
-    return thaiTime.format();
+    return thaiTime;
 }
 
-let feedbackSchema = new mongoose.Schema({
-    score: {
-        type: Number,
-        required: true,
-    },
-    detail: {
+
+let dashboardSchema = new mongoose.Schema({
+    status: {
         type: String,
         required: true,
     },
@@ -33,9 +30,6 @@ let feedbackSchema = new mongoose.Schema({
     type: {
         type: String,
     },
-    typeFeedback:  {
-        type: String,
-    }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Feedback', feedbackSchema);
+module.exports = mongoose.model('Dashboard', dashboardSchema);
