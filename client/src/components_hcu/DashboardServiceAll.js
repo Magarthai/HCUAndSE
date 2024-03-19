@@ -266,7 +266,7 @@ const DashboardServiceAll = (props) => {
           
           <div className="admin-dashboard-month-all admin-dashboard-flexbox">
               <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+                  <img src={people} style={{width:"45px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   {count && <h1>{count.all} คน</h1>}
@@ -338,7 +338,7 @@ const DashboardServiceAll = (props) => {
         
           <div className="admin-dashboard-day-all admin-dashboard-flexbox">
                 <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"20%"}}/>
+                  <img src={people} style={{width:"45px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
                   {count && <h1>{count.today} คน</h1>}

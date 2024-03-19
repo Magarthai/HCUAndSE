@@ -25,21 +25,20 @@
 }
 .admin-dashboard-month-all{
     width: 100%;
-    height: 250px;
+    /* height: 250px; */
     background-color: rgb(219, 235, 252);
     border-radius: 10px;
     margin-bottom: 20px;
 }
 .admin-dashboard-feedback-all{
     width: 100%;
-  
     background-color: rgb(219, 235, 252);
     border-radius: 10px;
     margin-bottom: 20px;
 }
 .admin-dashboard-day-all{
     width: 100%;
-    height: 250px;
+    /* height: 250px; */
     background-color: #ABD9D8;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -134,4 +133,107 @@
     justify-content: center;
     align-items: center;
     
+}
+@media (max-width: 1150px) {
+    .admin-dashboard-box3{
+        box-sizing: border-box;
+        width: 49%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box4{
+        box-sizing: border-box;
+        width: 49.3%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box1{
+        box-sizing: border-box;
+        width: 38.5%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box{
+        box-sizing: border-box;
+        width: 20%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    
+
+}
+@media (max-width: 1050px) {
+    .admin-dashboard-box1{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    
+
+}
+@media (max-width: 900px) {
+    .admin-dashboard-feedback-box4{
+        box-sizing: border-box;
+        width: 100%;
+        
+    }
+    .admin-dashboard-feedback-box5{
+        box-sizing: border-box;
+        width: 100%;
+       
+    }
+    .admin-dashboard-box1{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box4{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+}
+@media (max-width: 600px) {
+    .admin-dashboard-box3, .admin-dashboard-box4{
+        box-sizing: border-box;
+        width: 48.5%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box4{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box1{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+    .admin-dashboard-box{
+        box-sizing: border-box;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+   
+
+
 }

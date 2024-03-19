@@ -80,6 +80,7 @@
     width: 100%;
     min-height: 550px;
     max-height: 550px;
+    object-fit: cover;
 }
 .admin-activity-form{
     padding: 0px 30px ;
@@ -96,7 +97,6 @@
     margin-bottom: 10px;
     width: 30%;
     margin-left: 70%;
-    
     color: #263A50 !important;
     
     
