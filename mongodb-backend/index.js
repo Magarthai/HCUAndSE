@@ -19,6 +19,9 @@ const getFeedbackTimeRange = require('./controllers/Feedback/getFeedbackTimeRang
 const getFeedbackTimeRangeByClinic = require('./controllers/Feedback/getFeedbackTimeRangeByClinic');
 const getFeedbackManyType = require('./controllers/Feedback/getFeedbackManyType');
 const getFeedbackCurrentDateByClinic = require('./controllers/Feedback/getFeedbackCurrentDateByClinic');
+const getFeedbackTimeRangeData2 = require('./controllers/Feedback/getFeedbackTimeRangeData2');
+const getFeedbackTimeRangeTodayRange = require('./controllers/Feedback/getFeedbackTimeRangeTodayRange');
+const getFeedbackTimeRangeToday = require('./controllers/Feedback/getFeedbackTimeRangeToday');
 const cors = require('cors');
 app.use(cors());
 dbConnect();
@@ -39,6 +42,9 @@ app.use('/api', getFeedbackTimeRange);
 app.use('/api', getFeedbackTimeRangeByClinic);
 app.use('/api', getFeedbackManyType);
 app.use('/api', getFeedbackCurrentDateByClinic);
+app.use('/api', getFeedbackTimeRangeData2);
+app.use('/api', getFeedbackTimeRangeTodayRange);
+app.use('/api', getFeedbackTimeRangeToday);
 app.get('/', (req, res) => {
     res.send('test')
 })

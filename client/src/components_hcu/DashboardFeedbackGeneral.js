@@ -139,7 +139,6 @@ const DashboardFeedbackGeneral = (props) => {
         { name: '3', value: 50 },
         { name: '2', value: 50 },
         { name: '1', value: 50 },
-   
       ];
       const totalItemCount = data2.reduce((total, item) => total + item.value, 0);
 

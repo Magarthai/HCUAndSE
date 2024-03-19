@@ -3,20 +3,27 @@ const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
 const moment = require('moment-timezone');
-router.post('/getFeedbackByRange', asyncHandler(async (req, res) => {
+function setToMidnight() {
+    const thaiTime = moment().tz('Asia/Bangkok');
+    
+    thaiTime.set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+    });
+    return thaiTime.toDate();
+}
+
+router.post('/getFeedbackTimeRangeTodayRange', asyncHandler(async (req, res) => {
     const role = req.body.role;
     if (role != 'admin') {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
-        console.log(startDate,endDate);
+        const currentDate = await setToMidnight();
         const feedback = await Feedback.find({ 
-            date: {
-                $gte: startDate,
-                $lt: endDate
-            },
+            date: currentDate,
             clinic: "คลินิกทั้งหมด",
         });
         let firstScore = 0;

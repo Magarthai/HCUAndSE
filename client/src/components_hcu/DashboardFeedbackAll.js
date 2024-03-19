@@ -6,6 +6,7 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
+import axios from "axios";
 
 const DashboardFeedbackAll = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -13,8 +14,22 @@ const DashboardFeedbackAll = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-  
-  
+    const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
+    const [data4, setData4] = useState([]);
+    const [data5, setData5] = useState([]);
+    const [data6, setData6] = useState([]);
+    const [data7, setData7] = useState([]);
+
+    const [data8, setData8] = useState([]);
+    const [data9, setData9] = useState([]);
+    const [data10, setData10] = useState([]);
+    const [data11, setData11] = useState([]);
+    const [data12, setData12] = useState([]);
+    const [data13, setData13] = useState([]);
+
+    const [dataToday, setDataToday] = useState([]);
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -25,7 +40,9 @@ const DashboardFeedbackAll = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData){
+            fetchData();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -43,7 +60,7 @@ const DashboardFeedbackAll = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -98,49 +115,127 @@ const DashboardFeedbackAll = (props) => {
             amt: 2400,
           }
     ]
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
+    const fetchData = async() => {
+        const info = {
+            role: userData.role
+        };
+        const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackByRange`,info);
+        console.log(respone.data,"data")
+        setData(respone.data)
 
-    const data = [
-        {
-            name: 'บริการตรวจรักษาโรคโดยแพทย์',
-            score: 5,
-           
-          },
-          {
-            name: 'บริการจ่ายโดยพยาบาล',
-            score: 4,
-          
-          },
-          {
-            name: 'บริการทำแผล-ฉีดยา',
-            score: 5,
-           
-          },
-          {
-            name: 'บริการกายภาพบำบัด',
-            score: 4,
-            
-          },
-          {
-            name: 'บริการฝังเข็ม',
-            score: 3,
-            
-          },
-          {
-            name: 'อื่นๆ',
-            score: 3,
-           
-          },
-   
-      ];
+        const responeToday = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeTodayRange`,info);
+        console.log(responeToday.data,"responeToday")
+        setDataToday(responeToday.data)
 
-      const data2 = [
-        { name: '5', value: 60 },
-        { name: '4', value: 50 },
-        { name: '3', value: 50 },
-        { name: '2', value: 50 },
-        { name: '1', value: 50 },
-   
-      ];
+        const respone2 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeData2`,info);
+        console.log(respone2.data.length,"data");
+        const handleData = respone2.data;
+
+        const handleData2 = [];
+        handleData2.push(handleData[0][0]);
+        handleData2.push(handleData[0][1]);
+        handleData2.push(handleData[0][2]);
+        handleData2.push(handleData[0][3]);
+        handleData2.push(handleData[0][4]);
+        setData2(handleData2);
+
+        const handleData3 = [];
+        handleData3.push(handleData[1][0]);
+        handleData3.push(handleData[1][1]);
+        handleData3.push(handleData[1][2]);
+        handleData3.push(handleData[1][3]);
+        handleData3.push(handleData[1][4]);
+        setData3(handleData3);
+
+        const handleData4 = [];
+        handleData4.push(handleData[2][0]);
+        handleData4.push(handleData[2][1]);
+        handleData4.push(handleData[2][2]);
+        handleData4.push(handleData[2][3]);
+        handleData4.push(handleData[2][4]);
+        setData4(handleData4);
+
+        const handleData5 = [];
+        handleData5.push(handleData[3][0]);
+        handleData5.push(handleData[3][1]);
+        handleData5.push(handleData[3][2]);
+        handleData5.push(handleData[3][3]);
+        handleData5.push(handleData[3][4]);
+        setData5(handleData5);
+
+        const handleData6 = [];
+        handleData6.push(handleData[4][0]);
+        handleData6.push(handleData[4][1]);
+        handleData6.push(handleData[4][2]);
+        handleData6.push(handleData[4][3]);
+        handleData6.push(handleData[4][4]);
+        setData6(handleData6);
+
+        const handleData7 = [];
+        handleData7.push(handleData[5][0]);
+        handleData7.push(handleData[5][1]);
+        handleData7.push(handleData[5][2]);
+        handleData7.push(handleData[5][3]);
+        handleData7.push(handleData[5][4]);
+        setData7(handleData7);
+
+
+        const respone3 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeTodayRange`,info);
+        console.log(respone3.data,"respone3.data.");
+        const handleDataToday = respone3.data;
+
+        const handleData8 = [];
+        handleData8.push(handleDataToday[0][0]);
+        handleData8.push(handleDataToday[0][1]);
+        handleData8.push(handleDataToday[0][2]);
+        handleData8.push(handleDataToday[0][3]);
+        handleData8.push(handleDataToday[0][4]);
+        setData8(handleData8);
+
+        const handleData9 = [];
+        handleData9.push(handleDataToday[1][0]);
+        handleData9.push(handleDataToday[1][1]);
+        handleData9.push(handleDataToday[1][2]);
+        handleData9.push(handleDataToday[1][3]);
+        handleData9.push(handleDataToday[1][4]);
+        setData9(handleData9);
+
+        const handleData10 = [];
+        handleData10.push(handleDataToday[2][0]);
+        handleData10.push(handleDataToday[2][1]);
+        handleData10.push(handleDataToday[2][2]);
+        handleData10.push(handleDataToday[2][3]);
+        handleData10.push(handleDataToday[2][4]);
+        setData10(handleData10);
+
+        const handleData11 = [];
+        handleData11.push(handleDataToday[3][0]);
+        handleData11.push(handleDataToday[3][1]);
+        handleData11.push(handleDataToday[3][2]);
+        handleData11.push(handleDataToday[3][3]);
+        handleData11.push(handleDataToday[3][4]);
+        setData11(handleData11);
+
+        const handleData12 = [];
+        handleData12.push(handleDataToday[4][0]);
+        handleData12.push(handleDataToday[4][1]);
+        handleData12.push(handleDataToday[4][2]);
+        handleData12.push(handleDataToday[4][3]);
+        handleData12.push(handleDataToday[4][4]);
+        setData12(handleData12);
+
+        const handleData13 = [];
+        handleData13.push(handleDataToday[5][0]);
+        handleData13.push(handleDataToday[5][1]);
+        handleData13.push(handleDataToday[5][2]);
+        handleData13.push(handleDataToday[5][3]);
+        handleData13.push(handleDataToday[5][4]);
+        setData13(handleData13);
+
+
+    };
+
 
       const totalItemCount = data2.reduce((total, item) => total + item.value, 0);
 
@@ -221,8 +316,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[0] && (<h1 style={{fontSize:"50px"}}>{dataToday[0].score}</h1> )}
+                        {data && data[0] && (<h3> จาก {dataToday[0].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -255,8 +350,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[1] && (<h1 style={{fontSize:"50px"}}>{dataToday[1].score}</h1> )}
+                        {data && data[1] && (<h3> จาก {dataToday[1].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -265,7 +360,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data3}
                             margin={{
                             top: 0,
                             right: 20,
@@ -289,8 +384,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[2] && (<h1 style={{fontSize:"50px"}}>{dataToday[2].score}</h1> )}
+                        {data && data[2] && (<h3> จาก {dataToday[2].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -299,7 +394,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data4}
                             margin={{
                             top: 0,
                             right: 20,
@@ -322,8 +417,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[3] && (<h1 style={{fontSize:"50px"}}>{dataToday[3].score}</h1> )}
+                        {data && data[3] && (<h3> จาก {dataToday[3].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -332,7 +427,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data5}
                             margin={{
                             top: 0,
                             right: 20,
@@ -355,8 +450,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการฝังเข็ม</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[4] && (<h1 style={{fontSize:"50px"}}>{dataToday[4].score}</h1> )}
+                        {data && data[4] && (<h3> จาก {dataToday[4].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -365,7 +460,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data6}
                             margin={{
                             top: 0,
                             right: 20,
@@ -388,8 +483,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">อื่นๆ</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {data && data[5] && (<h1 style={{fontSize:"50px"}}>{dataToday[5].score}</h1> )}
+                        {data && data[5] && (<h3> จาก {dataToday[5].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -398,7 +493,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data7}
                             margin={{
                             top: 0,
                             right: 20,
@@ -429,7 +524,7 @@ const DashboardFeedbackAll = (props) => {
                     <BarChart
                       width={500}
                       height={300}
-                      data={data}
+                      data={dataToday}
                       margin={{
                       top: 10,
                       right: 20,
@@ -451,8 +546,8 @@ const DashboardFeedbackAll = (props) => {
           <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[0] && (<h1 style={{fontSize:"50px"}}>{dataToday[0].score}</h1> )}
+                        {dataToday && dataToday[0] && (<h3> จาก {dataToday[0].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -461,7 +556,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data8}
                             margin={{
                             top: 0,
                             right: 20,
@@ -484,8 +579,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[1] && (<h1 style={{fontSize:"50px"}}>{dataToday[1].score}</h1> )}
+                        {dataToday && dataToday[1] && (<h3> จาก {dataToday[1].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -494,7 +589,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data9}
                             margin={{
                             top: 0,
                             right: 20,
@@ -517,8 +612,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[2] && (<h1 style={{fontSize:"50px"}}>{dataToday[2].score}</h1> )}
+                        {dataToday && dataToday[2] && (<h3> จาก {dataToday[2].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -527,7 +622,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data10}
                             margin={{
                             top: 0,
                             right: 20,
@@ -550,8 +645,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[3] && (<h1 style={{fontSize:"50px"}}>{dataToday[3].score}</h1> )}
+                        {dataToday && dataToday[3] && (<h3> จาก {dataToday[3].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -560,7 +655,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data11}
                             margin={{
                             top: 0,
                             right: 20,
@@ -584,8 +679,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการฝังเข็ม</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[4] && (<h1 style={{fontSize:"50px"}}>{dataToday[4].score}</h1> )}
+                        {dataToday && dataToday[4] && (<h3> จาก {dataToday[4].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -594,7 +689,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data12}
                             margin={{
                             top: 0,
                             right: 20,
@@ -618,8 +713,8 @@ const DashboardFeedbackAll = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">อื่นๆ</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
-                        <h3> จาก 5 </h3>
+                        {dataToday && dataToday[5] && (<h1 style={{fontSize:"50px"}}>{dataToday[5].score}</h1> )}
+                        {dataToday && dataToday[5] && (<h3> จาก {dataToday[5].lenght} </h3>)}
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
@@ -628,7 +723,7 @@ const DashboardFeedbackAll = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data13}
                             margin={{
                             top: 0,
                             right: 20,
@@ -658,6 +753,3 @@ const DashboardFeedbackAll = (props) => {
 }
 
 export default DashboardFeedbackAll;
-
-
-
