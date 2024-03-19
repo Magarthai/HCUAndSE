@@ -76,6 +76,7 @@ import AdminInformationEdit from './components_hcu/InformationEdit.js';
 import AdminInformationPreview from './components_hcu/InformationPreview.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
+import UserLocation from './components_user/UserLocation.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -461,6 +462,10 @@ const router = createBrowserRouter([
   {
     path: "/feedback/needle/service",
     element: <ProtectRoute><UserFeedbackComponentNeedle2/></ProtectRoute>
+  },
+  {
+    path: "/location",
+    element: <ProtectRoute><UserLocation/></ProtectRoute>
   },
 ])
 
