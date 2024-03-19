@@ -65,7 +65,7 @@ const ActivityQueueComponent = (props) => {
                 }
             }).then(() => {
                 
-                navigate('/activity');
+                navigate('/adminActivityAllComponent');
             });
         } else {
             fetchQueueActivity();

@@ -256,10 +256,10 @@ const DashboardServiceAll = (props) => {
                     <YAxis  tick={{ fontSize: 12 }}/>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="general" stroke="#BABABA" />
-                    <Line type="monotone" dataKey="special" stroke="#7C9DC1" />
-                    <Line type="monotone" dataKey="physic" stroke="#456A91" />
-                    <Line type="monotone" dataKey="needle" stroke="#263A50" />
+                    <Line type="monotone" dataKey="คลินิกทั่วไป" stroke="#BABABA" />
+                    <Line type="monotone" dataKey="คลินิกเฉพาะทาง" stroke="#7C9DC1" />
+                    <Line type="monotone" dataKey="คลินิกกายภาพ" stroke="#456A91" />
+                    <Line type="monotone" dataKey="คลินิกฝังเข็ม" stroke="#263A50" />
             </LineChart>
           </ResponsiveContainer>
           </div>

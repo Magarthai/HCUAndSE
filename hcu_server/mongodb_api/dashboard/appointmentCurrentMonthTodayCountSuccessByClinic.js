@@ -33,37 +33,60 @@ function groupBy(arr, key) {
 
 
 
-  router.get('/appointmentCurrentMonthTodayCountNeedlePhysic', asyncHandler(async (req, res) => {
+  router.post('/appointmentCurrentMonthTodayCountSuccessByClinic', asyncHandler(async (req, res) => {
 
     try {
         const currentDate = await setToMidnight();
+        const clinic = req.body.clinic
+        const startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        const endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
         const Dashboards = await Dashboard.find({ 
             date: currentDate,
+            clinic: clinic,
         });
 
         const groupedData = groupBy(Dashboards, 'clinic');
         console.log(groupedData);
-        const data = [];
-        const infoGeneral = {
-            name: 'คลินิกทั่วไป',
-            value: 0,
-            ไม่สำเร็จ: 0,
-          };
-        const infoSpecial = {
-            name: 'คลินิกเฉพาะทาง',
-            สำเร็จ: 0,
-            ไม่สำเร็จ: 0,
-        };
-        const infoPhysic = {
-            name: 'คลินิกกายภาพ',
-            สำเร็จ: 0,
-            ไม่สำเร็จ: 0,
-        };
-        const infoNeedle = {
-            name: 'คลินิกฝังเข็ม',
-            สำเร็จ: 0,
-            ไม่สำเร็จ: 0,
-        };
+        const infoGeneral = [
+            {
+                name: 'สําเร็จ',
+                value: 0,
+            }, 
+            {
+                name: 'ไม่สำเร็จ',
+                value: 0,
+            }, 
+        ]
+        const infoSpecial = [
+            {
+                name: 'สําเร็จ',
+                value: 0,
+            }, 
+            {
+                name: 'ไม่สำเร็จ',
+                value: 0,
+            }, 
+        ]
+        const infoPhysic = [
+            {
+                name: 'สําเร็จ',
+                value: 0,
+            }, 
+            {
+                name: 'ไม่สำเร็จ',
+                value: 0,
+            }, 
+        ]
+        const infoNeedle = [
+            {
+                name: 'สําเร็จ',
+                value: 0,
+            }, 
+            {
+                name: 'ไม่สำเร็จ',
+                value: 0,
+            }, 
+        ]
         const dataList = [];
         for (const key in groupedData) {
             if (groupedData.hasOwnProperty(key)) {
@@ -74,39 +97,46 @@ function groupBy(arr, key) {
                     console.log(item.status);
                     if (item.clinic === "คลินิกทั่วไป") {
                         if(item.status == "เสร็จสิ้น"){
-                            infoGeneral.สำเร็จ++;
+                            infoGeneral[0].value++;
                         } else {
-                            infoGeneral.ไม่สำเร็จ++;
+                            infoGeneral[1].value++;
                         }
                     } else if (item.clinic === "คลินิกเฉพาะทาง") {
                         if(item.status == "เสร็จสิ้น"){
-                            infoSpecial.สำเร็จ++;
+                            infoSpecial[0].value++;
                         } else {
-                            infoSpecial.ไม่สำเร็จ++;
+                            infoSpecial[1].value++;
                         }
                     } else if (item.clinic === "คลินิกกายภาพ") {
                         if(item.status == "เสร็จสิ้น"){
-                            infoPhysic.สำเร็จ++;
+                            infoPhysic[0].value++;
                         } else {
-                            infoPhysic.ไม่สำเร็จ++;
+                            infoPhysic[1].value++;
                         }
                     } else if (item.clinic === "คลินิกฝังเข็ม") {
                         if(item.status == "เสร็จสิ้น"){
-                            infoNeedle.สำเร็จ++;
+                            infoNeedle[0].value++;
                         } else {
-                            infoNeedle.ไม่สำเร็จ++;
+                            infoNeedle[0].value++;
                         }
                     }
                 });
 
             }
         }
-        dataList.push(infoGeneral);
-        dataList.push(infoSpecial);
-        dataList.push(infoPhysic);
-        dataList.push(infoNeedle);
+            if (clinic === "คลินิกทั่วไป") {
+                res.json(infoGeneral);;
+            } else if (clinic === "คลินิกเฉพาะทาง"){
+                res.json(infoSpecial);
+            } else if (clinic === "คลินิกกายภาพ"){
+                res.json(infoPhysic);
+            } else if (clinic === "คลินิกฝังเข็ม"){
+                res.json(infoNeedle);
+            } else {
+                res.status(500).send("Internal Server Error"); 
+            }
 
-        res.json(dataList);
+        
     } catch (error) {
         console.log(error, "getDashboardMonthRange");
         res.status(500).send("Internal Server Error"); 
@@ -115,3 +145,4 @@ function groupBy(arr, key) {
 
 
 module.exports = router;
+

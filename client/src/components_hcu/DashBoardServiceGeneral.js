@@ -6,15 +6,18 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
-
+import axios from "axios"
 const DashBoardGeneral = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-  
-  
+    const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
+    const REACT_APP_API = process.env.REACT_APP_API
+    const [count, setCount] = useState({});
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -25,7 +28,10 @@ const DashBoardGeneral = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if (userData) {
+          fetchData();
+          fetchCount();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -43,7 +49,7 @@ const DashBoardGeneral = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -99,169 +105,47 @@ const DashBoardGeneral = (props) => {
           }
     ]
 
-    const data = [
-        {
-            name: '01/02/2024',
-            คลินิกทั่วไป: 4000,
-           
-          },
-          {
-            name: '02/02/2024',
-            คลินิกทั่วไป: 3000,
-          
-          },
-          {
-            name: '03/02/2024',
-            คลินิกทั่วไป: 2000,
-           
-          },
-          {
-            name: '04/02/2024',
-            คลินิกทั่วไป: 2780,
-            
-          },
-          {
-            name: '05/02/2024',
-            คลินิกทั่วไป: 1890,
-            
-          },
-          {
-            name: '06/02/2024',
-            คลินิกทั่วไป: 2390,
-           
-          },
-          {
-            name: '07/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '08/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '09/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
-          {
-            name: '10/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '11/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '12/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '13/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '14/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
-          {
-            name: '15/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '16/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '17/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '18/02/2024',
-            คลินิกทั่วไป: 3490,
-    
-          },
-          {
-            name: '19/02/2024',
-            คลินิกทั่วไป: 3490,
-   
-          },
-          {
-            name: '20/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '21/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '22/02/2024',
-            คลินิกทั่วไป: 3490,
+    const fetchData = async() => {
+      try {
+      const info = {
+        userData: userData,
+        clinic : "คลินิกทั่วไป"
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeByClinic`,info)
+      if (respones.data){
+        setData(respones.data,"คลินิกทั่วไป")
+        console.log(respones.data)
+      }
+      const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
+      if (respone2.data){
+        setData2(respone2.data,"คลินิกทั่วไป")
+        console.log(respone2.data)
+      }
+      const respone3 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);
+      if (respone3.data){
+        setData3(respone3.data)
+        console.log(respone3.data,"respone3")
+      }
+    } catch (error) {
+      console.log("Network error occurred:", error);
+    }
+    };
 
-          },
-          {
-            name: '23/02/2024',
-            คลินิกทั่วไป: 3490,
-
-          },
-          {
-            name: '24/02/2024',
-            คลินิกทั่วไป: 3490,
-           
-          },
-          {
-            name: '25/02/2024',
-            คลินิกทั่วไป: 3490,
-            
-          },
-          {
-            name: '26/02/2024',
-            คลินิกทั่วไป: 3490,
-
-          },
-          {
-            name: '27/02/2024',
-            คลินิกทั่วไป: 3490,
-      
-          },
-          {
-            name: '28/02/2024',
-            คลินิกทั่วไป: 3490,
-  
-          },
-          {
-            name: '29/02/2024',
-            คลินิกทั่วไป: 3490,
-         
-          },
-          {
-            name: '30/02/2024',
-            คลินิกทั่วไป: 3490,
-     
-          },
-          {
-            name: '31/02/2024',
-            คลินิกทั่วไป: 3490,
-          
-          },
-      ];
-
-      const data2 = [
-        { name: 'สำเร็จ', value: 400 },
-        { name: 'ไม่สำเร็จ', value: 300 },
-   
-      ];
+    const fetchCount = async() => {
+      const info = {
+        userData: userData,
+        clinic: "คลินิกทั่วไป"
+      }
+      try {
+      const respones = await axios.post(`${REACT_APP_API}/api/getCountAppointmentByClinic`,info)
+      if (respones.data){
+        setCount(respones.data,"respones.data")
+        console.log(respones.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    };
       const COLORS = ['#BABABA', '#7C9DC1'];
       const COLORSDAY = ['#BABABA', '#54B2B0'];
       const RADIAN = Math.PI / 180;
@@ -345,7 +229,7 @@ const DashBoardGeneral = (props) => {
                   <img src={people} style={{width:"60px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.all} คน</h1>}
               </div>
 
               <div className="admin-dashboard-box3 boxcenter2" style={{padding:"10px"}}>
@@ -371,7 +255,11 @@ const DashBoardGeneral = (props) => {
                       align="right" 
                       verticalAlign="middle" 
                       iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value})`}
+                      formatter={(value, entry) => {
+                        const percentage = entry.payload.percent * 100;
+                        const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                        return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                      }}
                       layout="vertical"
                     />
                    </PieChart>
@@ -392,7 +280,7 @@ const DashBoardGeneral = (props) => {
                   <img src={people} style={{width:"60px"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.today} คน</h1>}
          
                </div>
               <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
@@ -401,7 +289,7 @@ const DashBoardGeneral = (props) => {
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                   <Pie
-                    data={data2}
+                    data={data3}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
@@ -418,7 +306,11 @@ const DashBoardGeneral = (props) => {
                     align="right" 
                     verticalAlign="middle" 
                     iconType="circle"
-                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%, ${entry.payload.value}))`}
+                    formatter={(value, entry) => {
+                      const percentage = entry.payload.percent * 100;
+                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                    }}
                     layout="vertical"
                   />
                   </PieChart>

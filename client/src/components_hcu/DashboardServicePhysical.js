@@ -6,44 +6,53 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
-
+import axios from "axios";
 const DashboardServicePhysical = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
+    const [data, setData] = useState([]);
+    const [count, setCount] = useState({});
+    const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
+    const [data4, setData4] = useState([]);
+    const [data5, setData5] = useState([]);
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
   
-  
+    const REACT_APP_API = process.env.REACT_APP_API
     useEffect(() => {
-        document.title = 'Health Care Unit';
-        console.log(user);
-        console.log(userData)
-        const responsivescreen = () => {
-        const innerWidth = window.innerWidth;
-        const baseWidth = 1920;
-        const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
-        setZoomLevel(newZoomLevel);
-        };
+      document.title = 'Health Care Unit';
+      console.log(user);
+      console.log(userData)
+      const responsivescreen = () => {
+      const innerWidth = window.innerWidth;
+      const baseWidth = 1920;
+      const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
+      setZoomLevel(newZoomLevel);
+      };
+      if (userData) {
+        fetchData();
+        fetchCount();
+      }
+      responsivescreen();
+      window.addEventListener("resize", responsivescreen);
+      const updateShowTime = () => {
+      const newTime = getShowTime();
+      if (newTime !== showTime) {
+          setShowTime(newTime);
+      }
+      animationFrameRef.current = requestAnimationFrame(updateShowTime);
+      };
 
-        responsivescreen();
-        window.addEventListener("resize", responsivescreen);
-        const updateShowTime = () => {
-        const newTime = getShowTime();
-        if (newTime !== showTime) {
-            setShowTime(newTime);
-        }
-        animationFrameRef.current = requestAnimationFrame(updateShowTime);
-        };
+      animationFrameRef.current = requestAnimationFrame(updateShowTime);
   
-        animationFrameRef.current = requestAnimationFrame(updateShowTime);
-    
-        return () => {
-            cancelAnimationFrame(animationFrameRef.current);
-            window.removeEventListener("resize", responsivescreen);
-        };
-    
-    }, [user]); 
+      return () => {
+          cancelAnimationFrame(animationFrameRef.current);
+          window.removeEventListener("resize", responsivescreen);
+      };
+  
+  }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -59,6 +68,56 @@ const DashboardServicePhysical = (props) => {
     function formatNumber(num) {
         return num < 10 ? "0" + num : num.toString();
     }
+    const fetchCount = async() => {
+      const info = {
+        userData: userData,
+        clinic: "คลินิกกายภาพ"
+      }
+      try {
+      const respones = await axios.post(`${REACT_APP_API}/api/getCountAppointmentByClinic`,info)
+      if (respones.data){
+        setCount(respones.data,"respones.data")
+        console.log(respones.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+    const fetchData = async() => {
+      try {
+      const info = {
+        userData: userData,
+        clinic : "คลินิกกายภาพ"
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeByClinic`,info)
+      if (respones.data){
+        setData(respones.data)
+        console.log(respones.data)
+      }
+      const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
+      if (respone2.data){
+        setData2(respone2.data,"คลินิกกายภาพ")
+        console.log(respone2.data)
+      }
+      const respone5 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);
+      if (respone5.data){
+        setData5(respone5.data,"คลินิกกายภาพ")
+        console.log(respone5.data)
+      }
+      const respone3 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle`,info);
+      if (respone3.data){
+        setData3(respone3.data)
+        console.log(respone3.data,"3")
+      }
+      const respone4 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle`,info);
+      if (respone4.data){
+        setData4(respone4.data)
+        console.log(respone4.data,"4")
+      }
+    } catch (error) {
+      console.log("Network error occurred:", error);
+    }
+    };
 
     const locale = 'en';
     const today = new Date();
@@ -99,200 +158,7 @@ const DashboardServicePhysical = (props) => {
           }
     ]
 
-    const data = [
-        {
-            name: '01/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-
-          },
-          {
-            name: '02/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '03/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '04/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '05/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '06/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '07/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '08/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '09/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '10/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '11/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '12/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '13/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '14/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '15/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '16/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '17/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '18/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '19/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '20/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '21/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '22/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '23/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '24/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '25/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '26/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '27/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '28/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '29/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '30/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-          {
-            name: '31/02/2024',
-            คลินิกกายภาพ: 2400,
-            ปรึกษาแพทย์: 1000,
-            ทำกายภาพ: 1400
-          },
-      ];
-
-      const data2 = [
-        { name: 'ปรึกษาแพทย์', value: 400 },
-        { name: 'ทำกายภาพ', value: 300 },
-      ];
+    
       const COLORS = ['#BABABA', '#456A91'];
       const COLORSDAY = ['#BABABA', '#54B2B0'];
       const RADIAN = Math.PI / 180;
@@ -310,22 +176,6 @@ const DashboardServicePhysical = (props) => {
         
         );
       };
-
-      const data3 = [
-        {
-          name: 'ปรึกษาแพทย์',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-        {
-          name: 'ทำกายภาพ',
-          สำเร็จ: 4000,
-          ไม่สำเร็จ: 2400,
-         
-        },
-      ];
-
 
 
     return (
@@ -394,7 +244,7 @@ const DashboardServicePhysical = (props) => {
                   <img src={people} style={{width:"20%"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.all} คน</h1>}
               </div>
 
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
@@ -420,7 +270,11 @@ const DashboardServicePhysical = (props) => {
                       align="right" 
                       verticalAlign="middle" 
                       iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                      formatter={(value, entry) => {
+                        const percentage = entry.payload.percent * 100;
+                        const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                        return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                      }}
                       layout="vertical"
                     />
                    </PieChart>
@@ -466,7 +320,7 @@ const DashboardServicePhysical = (props) => {
                   <img src={people} style={{width:"20%"}}/>
                   <br></br>
                   <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  <h1>150 คน</h1>
+                  {count && <h1>{count.today} คน</h1>}
          
                </div>
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
@@ -475,7 +329,7 @@ const DashboardServicePhysical = (props) => {
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                   <Pie
-                    data={data2}
+                    data={data5}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
@@ -492,7 +346,11 @@ const DashboardServicePhysical = (props) => {
                     align="right" 
                     verticalAlign="middle" 
                     iconType="circle"
-                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                    formatter={(value, entry) => {
+                      const percentage = entry.payload.percent * 100;
+                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                    }}
                     layout="vertical"
                   />
                   </PieChart>
@@ -506,7 +364,7 @@ const DashboardServicePhysical = (props) => {
                   <BarChart
                     width={500}
                     height={300}
-                    data={data3}
+                    data={data4}
                     margin={{
                     top: 5,
                     right: 30,
