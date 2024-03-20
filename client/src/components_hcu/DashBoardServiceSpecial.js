@@ -80,6 +80,45 @@ const DashBoardSpecial = (props) => {
         'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
       ];
 
+      useEffect(() =>{
+        if(userData){
+        handleDashboardDateSelected(selectedDate);
+        }
+      },[selectedDate,userData]);
+
+    const handleDashboardDateSelected = async(selectedDate) => {
+      try {
+      const info = {
+        userData: userData,
+        clinic : "คลินิกเฉพาะทาง",
+        selectedDate: selectedDate
+      };
+      
+      const respones = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeByClinic`,info)
+      if (respones.data){
+        setData(respones.data)
+        console.log(respones.data)
+      }
+      const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
+      if (respone2.data){
+        setData2(respone2.data)
+        console.log(respone2.data)
+      }
+      const respone3 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);
+      if (respone3.data){
+        setData3(respone3.data)
+        console.log(respone3.data)
+      }
+      const respones4 = await axios.post(`${REACT_APP_API}/api/getCountAppointmentByClinic`,info)
+      if (respones4.data){
+        setCount(respones4.data)
+        console.log(respones4.data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+    };
+
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value);
         console.log(selectedDate)

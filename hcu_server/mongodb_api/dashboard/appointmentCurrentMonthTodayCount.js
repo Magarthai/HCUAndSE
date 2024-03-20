@@ -39,7 +39,19 @@ function groupBy(arr, key) {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        const currentDate = await setToMidnight();
+        let currentDate = await setToMidnight();
+        const selectedDate = req.body.selectedDate
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+    
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime
+        };
         const Dashboards = await Dashboard.find({ 
             date: currentDate,
         });

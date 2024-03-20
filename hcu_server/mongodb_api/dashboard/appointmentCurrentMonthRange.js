@@ -40,9 +40,16 @@ router.post('/getDashboardMonthRange', asyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
     try {
-        const startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
-        const endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
 
+        
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+
+        if (req.body.selectedDate != undefined && req.body.selectedDate){
+            startOfMonth = moment(req.body.selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth = moment(req.body.selectedDate).endOf('month').tz('Asia/Bangkok');
+        }
+        
         const Dashboards = await Dashboard.find({
             date: {
                 $gte: startOfMonth,

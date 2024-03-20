@@ -88,7 +88,55 @@ const DashboardServiceAll = (props) => {
         setSelectedDate(event.target.value);
         console.log(selectedDate)
     };
+    useEffect(() =>{
+      if(userData){
+        setData4();
+        console.log(selectedDate)
+      handleDashboardDateSelected(selectedDate);
+      }
+    },[selectedDate,userData]);
 
+    const handleDashboardDateSelected = async(selectedDate) => {
+      const info = {
+        userData: userData,
+        selectedDate: selectedDate
+      }
+      const responesAll = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRange`,info)
+      if (responesAll.data){
+        setData(responesAll.data)
+        console.log(responesAll.data)
+      }
+      const respones = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRangeCount`, info);
+        if (respones.data) {
+          setData2(respones.data);
+          console.log(respones.data);
+        }
+    
+        const respones2 = await axios.post(`${REACT_APP_API}/api/getDashboardMonthTodayCount`, info);
+        if (respones2.data) {
+          setTodayData2(respones2.data);
+          console.log(respones2.data);
+        }
+    
+        const respones3 = await axios.post(`${REACT_APP_API}/api/getDashboardMonthRangeCountNeedlePhysic`, info);
+        if (respones3.data) {
+          setData3(respones3.data, "respones3.data");
+          console.log(respones3.data);
+        }
+    
+        const respones4 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountNeedlePhysic`, info);
+        if (respones4.data) {
+          setData4(respones4.data, "respones4.data");
+          console.log(respones4.data);
+        }
+
+        const responesCount = await axios.post(`${REACT_APP_API}/api/getCountAppointment`,info)
+      if (responesCount.data){
+        setCount(responesCount.data,"respones.data")
+        console.log(responesCount.data)
+      }
+
+    }
     const formatDateInThai = (date) => {
         const [year, month, day] = date.split('-');
         const thaiMonth = monthsInThai[parseInt(month, 10) - 1];
@@ -101,15 +149,6 @@ const DashboardServiceAll = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
-
-    const dataInday = [
-        {
-            name: selectedDate,
-            uv: 4000,
-            pv: 2400,
-            amt: 2400,
-          }
-    ]
     const REACT_APP_API = process.env.REACT_APP_API
     const fetchData = async() => {
       try {
@@ -169,7 +208,6 @@ const DashboardServiceAll = (props) => {
       }
       try {
 
-      
       const respones = await axios.post(`${REACT_APP_API}/api/getCountAppointment`,info)
       if (respones.data){
         setCount(respones.data,"respones.data")
@@ -287,7 +325,8 @@ const DashboardServiceAll = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {data.map((entry, index) => (
+                      
+                      {data2 && data2.length > 0 && data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
@@ -359,7 +398,7 @@ const DashboardServiceAll = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                   >
-                    {data.map((entry, index) => (
+                    {Todaydata2 && Todaydata2.length > 0 && data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>

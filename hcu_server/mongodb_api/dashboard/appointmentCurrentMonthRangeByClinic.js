@@ -40,8 +40,14 @@ router.post('/appointmentCurrentMonthRangeByClinic', asyncHandler(async (req, re
         res.status(500).send("Internal Server Error");
     }
     try {
-        const startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
-        const endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        const selectedDate = req.body.selectedDate
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+
+        if(selectedDate != undefined && selectedDate){
+            startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         const clinic = req.body.clinic
         const Dashboards = await Dashboard.find({
             date: {

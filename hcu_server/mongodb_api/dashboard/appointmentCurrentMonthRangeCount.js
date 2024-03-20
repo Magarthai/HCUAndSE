@@ -39,9 +39,13 @@ function groupBy(arr, key) {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        const startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
-        const endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
-
+        const selectedDate = req.body.selectedDate;
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         const Dashboards = await Dashboard.find({ 
             date: {
                 $gte: startOfMonth,

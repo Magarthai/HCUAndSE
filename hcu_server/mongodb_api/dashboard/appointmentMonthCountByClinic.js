@@ -23,10 +23,24 @@ function setToMidnight() {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        const currentDate = await setToMidnight();
+        let currentDate = await setToMidnight();
         console.log(currentDate,"currentDate")
-        const startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
-        const endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        const selectedDate = req.body.selectedDate
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+    
+                thaiTime.set({
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0
+                });
+            currentDate = thaiTime
+        };
         const clinic = req.body.clinic
         const Dashboards = await Dashboard.find({ 
             date: {

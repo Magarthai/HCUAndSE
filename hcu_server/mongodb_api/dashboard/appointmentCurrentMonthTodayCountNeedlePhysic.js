@@ -33,17 +33,31 @@ function groupBy(arr, key) {
 
 
 
-  router.get('/appointmentCurrentMonthTodayCountNeedlePhysic', asyncHandler(async (req, res) => {
-
+  router.post('/appointmentCurrentMonthTodayCountNeedlePhysic', asyncHandler(async (req, res) => {
+    if (req.body.userData.role != "admin"){
+        res.status(500).send("Internal Server Error"); 
+    }
     try {
-        const currentDate = await setToMidnight();
+        let currentDate = await setToMidnight();
+        const selectedDate = req.body.selectedDate
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+    
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+
+            currentDate = thaiTime;
+        };
         const Dashboards = await Dashboard.find({ 
-            date: currentDate,
+            date: currentDate
         });
 
         const groupedData = groupBy(Dashboards, 'clinic');
         console.log(groupedData);
-        const data = [];
         const infoGeneral = {
             name: 'คลินิกทั่วไป',
             value: 0,

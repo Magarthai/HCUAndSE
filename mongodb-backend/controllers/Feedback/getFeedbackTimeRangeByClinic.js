@@ -4,6 +4,9 @@ const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
 
 router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
+    if (req.body.userData.role != "admin"){
+        res.status(500).send("Internal Server Error"); 
+    }
     if(req.body.clinic != "คลินิกกายภาพ"){
     try {
         const startDate = new Date(req.body.startDate);

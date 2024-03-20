@@ -57,6 +57,54 @@ const DashboardServicePhysical = (props) => {
         zoom: zoomLevel,
     };
 
+    useEffect(() =>{
+      if(userData){
+      handleDashboardDateSelected(selectedDate);
+      }
+    },[selectedDate,userData]);
+
+    const handleDashboardDateSelected = async(selectedDate) => {
+      try{
+        const info = {
+          userData: userData,
+          clinic: "คลินิกกายภาพ",
+          selectedDate: selectedDate
+        }
+        const responescount = await axios.post(`${REACT_APP_API}/api/getCountAppointmentByClinic`,info)
+        if (responescount.data){
+          setCount(responescount.data)
+          console.log(responescount.data)
+        }
+        const respones = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeByClinic`,info)
+        if (respones.data){
+          setData(respones.data)
+          console.log(respones.data)
+        }
+        const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
+        if (respone2.data){
+          setData2(respone2.data)
+          console.log(respone2.data)
+        }
+        const respone5 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);
+        if (respone5.data){
+          setData5(respone5.data)
+          console.log(respone5.data)
+        }
+        const respone3 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle`,info);
+        if (respone3.data){
+          setData3(respone3.data)
+          console.log(respone3.data,"3")
+        }
+        const respone4 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle`,info);
+        if (respone4.data){
+          setData4(respone4.data)
+          console.log(respone4.data,"4")
+        }
+      } catch(error) {
+        console.error(error);
+      }
+    }
+
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();

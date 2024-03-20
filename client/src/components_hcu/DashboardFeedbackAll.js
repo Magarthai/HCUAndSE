@@ -65,6 +65,10 @@ const DashboardFeedbackAll = (props) => {
         zoom: zoomLevel,
     };
 
+    useEffect(() => {
+        console.log(selectedDate)
+    },[selectedDate])
+
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -92,7 +96,6 @@ const DashboardFeedbackAll = (props) => {
 
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value);
-        console.log(selectedDate)
     };
 
     const formatDateInThai = (date) => {
@@ -107,14 +110,6 @@ const DashboardFeedbackAll = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
-    const dataInday = [
-        {
-            name: selectedDate,
-            uv: 4000,
-            pv: 2400,
-            amt: 2400,
-          }
-    ]
     const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchData = async() => {
         const info = {
@@ -232,8 +227,6 @@ const DashboardFeedbackAll = (props) => {
         handleData13.push(handleDataToday[5][3]);
         handleData13.push(handleDataToday[5][4]);
         setData13(handleData13);
-
-
     };
 
 

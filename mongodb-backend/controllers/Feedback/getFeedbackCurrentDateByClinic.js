@@ -2,16 +2,38 @@ const router = require('express').Router();
 const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
+const moment = require('moment-timezone');
+function setToMidnight() {
+    const thaiTime = moment().tz('Asia/Bangkok');
+    
+    thaiTime.set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+    });
+    return thaiTime.toDate();
+}
 
 router.post('/getFeedbackCurrentDateByClinic', asyncHandler(async (req, res) => {
+    if (req.body.userData.role != "admin"){
+        res.status(500).send("Internal Server Error"); 
+    }
     if(req.body.clinic != "คลินิกกายภาพ"){
     try {
-        const currentDate = new Date();
-        currentDate.setHours(0);
-        currentDate.setMinutes(0);
-        currentDate.setSeconds(0);
-        currentDate.setMilliseconds(0);
-        console.log(currentDate);
+
+        let currentDate = await setToMidnight();
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
+        };
+
         const feedback = await Feedback.find({ 
             date: currentDate,
             clinic: req.body.clinic
@@ -45,12 +67,17 @@ router.post('/getFeedbackCurrentDateByClinic', asyncHandler(async (req, res) => 
     }
 } else {
     try {
-        const currentDate = new Date();
-        currentDate.setHours(0);
-        currentDate.setMinutes(0);
-        currentDate.setSeconds(0);
-        currentDate.setMilliseconds(0);
-        console.log(currentDate);
+        let currentDate = await setToMidnight();
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
+        };
         const feedbackTalk = await Feedback.find({ 
             date: currentDate,
             clinic: req.body.clinic,

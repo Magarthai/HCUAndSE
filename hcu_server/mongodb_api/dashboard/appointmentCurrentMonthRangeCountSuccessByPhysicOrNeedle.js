@@ -37,7 +37,19 @@ function groupBy(arr, key) {
 
     try {
         const clinic = req.body.clinic
-        const currentDate = await setToMidnight();
+        const selectedDate = req.body.selectedDate
+        let currentDate = await setToMidnight();
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+    
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime
+        };
         const Dashboards = await Dashboard.find({ 
             date: currentDate,
         });
