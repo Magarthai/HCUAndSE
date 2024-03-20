@@ -2,20 +2,26 @@ const router = require('express').Router();
 const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
-
+const moment = require('moment-timezone');
 router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
     if (req.body.userData.role != "admin"){
         res.status(500).send("Internal Server Error"); 
     }
     if(req.body.clinic != "คลินิกกายภาพ"){
     try {
-        const startDate = new Date(req.body.startDate);
-        const endDate = new Date(req.body.endDate);
+        const selectedDate = req.body.selectedDate;
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         console.log(startDate,endDate);
         const feedback = await Feedback.find({ 
             date: {
-            $gte: startDate,
-            $lt: endDate},
+            $gte: startOfMonth,
+            $lt: endOfMonth
+        },
             clinic: req.body.clinic
          });
         if (feedback.length > 0){
@@ -47,13 +53,18 @@ router.post('/getFeedbackTimeRangeByClinic', asyncHandler(async (req, res) => {
     }
 } else {
     try {
-        const startDate = new Date(req.body.startDate);
-        const endDate = new Date(req.body.endDate);
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         console.log(startDate,endDate);
         const feedbackTalk = await Feedback.find({ 
             date: {
-            $gte: startDate,
-            $lt: endDate},
+            $gte: startOfMonth,
+            $lt: endOfMonth
+        },
             clinic: req.body.clinic,
             type: "talk"
          });

@@ -24,11 +24,17 @@ router.post('/getFeedbackTodayGetByClinicScore2', asyncHandler(async (req, res) 
     };
     try {
         const clinic = req.body.clinic;
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
-        console.log(startDate,endDate);
-
-        const currentDate = await setToMidnight();
+        let currentDate = await setToMidnight();
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
+        };
 
         const feedback = await Feedback.find({ 
             date: currentDate,

@@ -23,7 +23,18 @@ router.post('/getFeedbackTodayGetByClinicPhysicNeedle', asyncHandler(async (req,
     };
     try {
         const clinic = req.body.clinic;
-        const currentDate = await setToMidnight();
+        let currentDate = await setToMidnight();
+        if(selectedDate != undefined && selectedDate){
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
+        };
+        
         const feedback = await Feedback.find({
             date: currentDate,
             clinic: clinic,

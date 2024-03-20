@@ -23,11 +23,26 @@ router.post('/getFeedbackTimeRangeToday', asyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error"); 
     };
     try {
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
+        const selectedDate = req.body.selectedDate;
+        let currentDate = await setToMidnight();
+        let startDate = moment().startOf('month').tz('Asia/Bangkok');
+        let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
+        };
+
         console.log(startDate,endDate);
 
-        const currentDate = await setToMidnight();
+        
 
         const feedback = await Feedback.find({ 
             date: currentDate,

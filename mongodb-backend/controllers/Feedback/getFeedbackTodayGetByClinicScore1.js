@@ -24,9 +24,13 @@ router.post('/getFeedbackTodayGetByClinicScore1', asyncHandler(async (req, res) 
     };
     try {
         const clinic = req.body.clinic;
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
-        console.log(startDate,endDate);
+        const selectedDate = req.body.selectedDate;
+        let startDate = moment().startOf('month').tz('Asia/Bangkok');
+        let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
 
         const currentDate = await setToMidnight();
 

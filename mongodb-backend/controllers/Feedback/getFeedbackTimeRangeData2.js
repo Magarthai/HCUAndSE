@@ -9,9 +9,13 @@ router.post('/getFeedbackTimeRangeData2', asyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
-        console.log(startDate,endDate);
+        const selectedDate = req.body.selectedDate;
+        let startDate = moment().startOf('month').tz('Asia/Bangkok');
+        let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         const feedback = await Feedback.find({ 
             date: {
                 $gte: startDate,

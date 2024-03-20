@@ -228,15 +228,15 @@ const updateAppointmentsStatus = async () => {
                 console.log(userData.userLineID);
                 if (userData) {
                     if(userData.userLineID != ""){
-                        const body = {
-                            "to": userData.userLineID,
-                            "messages":[
-                                {
-                                    "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ`
-                                }
-                            ]
-                        }
+                    const body = {
+                        "to": userData.userLineID,
+                        "messages":[
+                            {
+                                "type":"text",
+                                "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ`
+                            }
+                        ]
+                    }
                         try {
                             const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                             console.log('Response:', response.data);

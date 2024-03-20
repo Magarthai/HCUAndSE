@@ -9,18 +9,19 @@ router.post('/getFeedbackByRange', asyncHandler(async (req, res) => {
         res.status(500).send("Internal Server Error"); 
     }
     try {
-        let startDate = moment().startOf('month').tz('Asia/Bangkok');
-        let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        const selectedDate = req.body.selectedDate;
+        let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
+        let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
 
         if(selectedDate != undefined && selectedDate){
             startOfMonth=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
             endOfMonth=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
         };
-        
+
         const feedback = await Feedback.find({ 
             date: {
-                $gte: startDate,
-                $lt: endDate
+                $gte: startOfMonth,
+                $lt: endOfMonth
             },
             clinic: "คลินิกทั้งหมด",
         });

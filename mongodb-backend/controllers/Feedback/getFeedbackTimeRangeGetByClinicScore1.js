@@ -11,8 +11,13 @@ router.post('/getFeedbackTimeRangeGetByClinicScore1', asyncHandler(async (req, r
     };
     try {
         const clinic = req.body.clinic;
-        const startDate = moment().startOf('month').tz('Asia/Bangkok');
-        const endDate = moment().endOf('month').tz('Asia/Bangkok');
+        const selectedDate = req.body.selectedDate;
+        let startDate = moment().startOf('month').tz('Asia/Bangkok');
+        let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        if(selectedDate != undefined && selectedDate){
+            startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
+            endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+        };
         const feedback = await Feedback.find({ 
             date: {
                 $gte: startDate,

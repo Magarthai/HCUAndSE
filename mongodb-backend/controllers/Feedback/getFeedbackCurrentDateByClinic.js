@@ -21,7 +21,7 @@ router.post('/getFeedbackCurrentDateByClinic', asyncHandler(async (req, res) => 
     }
     if(req.body.clinic != "คลินิกกายภาพ"){
     try {
-
+        const selectedDate = req.body.selectedDate;
         let currentDate = await setToMidnight();
         if(selectedDate != undefined && selectedDate){
             const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
