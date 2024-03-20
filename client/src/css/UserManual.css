@@ -16,6 +16,7 @@
 }
 .user-Manual_list h3 {
     margin:0;
+    cursor: pointer;
 }
 .gap-16 {
     margin-bottom: 16px;

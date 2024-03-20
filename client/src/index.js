@@ -76,7 +76,9 @@ import AdminInformationEdit from './components_hcu/InformationEdit.js';
 import AdminInformationPreview from './components_hcu/InformationPreview.js';
 import ErrorPage from './components_all/ErrorPage.js';
 import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
+import AdminUserManual from './components_hcu/UserManual.js';
 import UserLocation from './components_user/UserLocation.js';
+import UserManualFunction1 from './components_user/UserManualFunction1.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -335,6 +337,10 @@ const router = createBrowserRouter([
     element: <ProtectAdminRoute><AdminInformationPreview/></ProtectAdminRoute>
   },
   {
+    path: "/adminUserManual",
+    element: <ProtectAdminRoute><AdminUserManual/></ProtectAdminRoute>
+  },
+  {
     path: "/appointment/detail/:id",
     element: <ProtectRoute><AppointmentDetail /></ProtectRoute>
   },
@@ -426,6 +432,10 @@ const router = createBrowserRouter([
   {
     path: "/manual",
     element: <ProtectRoute><UserManual/></ProtectRoute>
+  },
+  {
+    path: "/manual/function1",
+    element: <ProtectRoute><UserManualFunction1/></ProtectRoute>
   },
   {
     path: "/information",

@@ -81,7 +81,7 @@ const FeedbackServiceGeneral = (props) => {
             "date": "2024-03-15",
             "serviceType1": "บริการตรวจรักษาโรคโดยแพทย์",
             "score1": 3,
-            "serviceType2": "บริการจ่ายโดยพยาบาล",
+            "serviceType2": "บริการจ่ายยาโดยพยาบาล",
             "score2": 4,
             "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
         },
@@ -89,7 +89,7 @@ const FeedbackServiceGeneral = (props) => {
             "date": "2024-03-15",
             "serviceType1": "บริการตรวจรักษาโรคโดยแพทย์",
             "score1": 5,
-            "serviceType2": "บริการจ่ายโดยพยาบาล",
+            "serviceType2": "บริการจ่ายยาโดยพยาบาล",
             "score2": 3,
             "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
         }

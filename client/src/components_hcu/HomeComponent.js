@@ -116,7 +116,7 @@ const HomeComponent = () => {
         <Link to="/adminFeedbackGeneralAll" className="function">
           <img className="function" src={function7} alt="Feedback" />
         </Link>
-        <Link to="#" className="function">
+        <Link to="/adminUserManual" className="function">
           <img className="function" src={function8} alt="User manual" />
         </Link>
       </div>
