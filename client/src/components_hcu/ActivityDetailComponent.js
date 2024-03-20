@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import NavbarUserComponent from './NavbarComponent';
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 const ActivityDetail = (props) =>{
     const { user, userData } = useUserAuth();
     const navigate = useNavigate();

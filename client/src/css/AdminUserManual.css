@@ -1,0 +1,42 @@
+.admin-userManual{
+    width: 100%;
+    background-color: #EEF2F7;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 15px;
+}
+.admin-userManual-box1{
+    width: 70%;
+    box-sizing: border-box;
+}
+.admin-userManual-box2{
+    width: 30%;
+    box-sizing: border-box;
+}
+.admin-userManual-btn{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+.admin-userManual-btn:active {
+    background-color: #BDCEE0;
+}
+.admin-pdf{
+    border-radius: 0px 15px 15px 0px;
+    display: none;
+    
+}
+.active{
+    background-color: #BDCEE0;
+}

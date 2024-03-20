@@ -84,7 +84,7 @@ const FeedbackGeneralNeedle = (props) => {
             "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
         },
         {
-            "serviceType": "บริการจ่ายโดยพยาบาล",
+            "serviceType": "บริการจ่ายยาโดยพยาบาล",
             "date": "2024-03-16",
             "score": 4,
             "details": "บริการดีมาก พนักงานเป็นมิตรและเป็นประโยชน์",
@@ -118,7 +118,7 @@ const FeedbackGeneralNeedle = (props) => {
                 <div className="admin-hearder-item2">
                     <a href="/adminFeedbackGeneralAll" target="_parent" >ทั้งหมด</a>
                     <a href="/adminFeedbackGeneralDoctor" target="_parent" >บริการตรวจรักษาโรคโดยแพทย์</a>
-                    <a href="/adminFeedbackGeneralNurses" target="_parent" >บริการจ่ายโดยพยาบาล</a>
+                    <a href="/adminFeedbackGeneralNurses" target="_parent" >บริการจ่ายยาโดยพยาบาล</a>
                     <a href="/adminFeedbackGeneralDressing" target="_parent" >บริการทำแผล-ฉีดยา</a>
                     <a href="/adminFeedbackGeneralPhysical" target="_parent" >บริการกายภาพบำบัด</a>
                     <a href="#" target="_parent" id="select">บริการฝังเข็ม</a>
