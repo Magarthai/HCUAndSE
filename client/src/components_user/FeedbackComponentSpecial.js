@@ -6,10 +6,11 @@ import axios from 'axios';
 const FeedbackComponentSpecial = (props) => {
     const [state, setState] = useState({
         score:"",
+        score2:"",
         detail:"",
         clinic: "คลินิกเฉพาะทาง"
       });
-    const {score, detail,clinic} = state;
+    const {score,score2, detail,clinic} = state;
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
       };
@@ -26,7 +27,7 @@ const FeedbackComponentSpecial = (props) => {
     const submitForm = async (e) => {
         e.preventDefault();
         Swal.fire({
-            icon: "alret",
+            icon: "warning",
             title: "ยืนยันคําตอบ!",
             text: "กดตกลงเพื่อยืนยัน!",
             confirmButtonText: "ตกลง",
@@ -39,6 +40,7 @@ const FeedbackComponentSpecial = (props) => {
                 try {
                 const info = {
                     score: score,
+                    score2:score2,
                     detail: detail,
                     clinic: clinic
                 };
@@ -123,6 +125,21 @@ const FeedbackComponentSpecial = (props) => {
                                     onChange={() => handleScoreChange('score', value)}
                                 />
                                 <label htmlFor={`star1-${value}`}>&#9733;</label>
+                            </React.Fragment>
+                        ))}
+                    </div>
+                    <label className="textBody-big colorPrimary-800">บริการจ่ายโดยพยาบาล</label>
+                    <div className="rating">
+                        {[5, 4, 3, 2, 1].map((value2) => (
+                            <React.Fragment key={`star2-${value2}`}>
+                                <input
+                                    type="radio"
+                                    id={`star2-${value2}`}
+                                    name="rating2"
+                                    value={value2}
+                                    onChange={() => handleScoreChange('score2', value2)}
+                                />
+                                <label htmlFor={`star2-${value2}`}>&#9733;</label>
                             </React.Fragment>
                         ))}
                     </div>

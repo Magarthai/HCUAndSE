@@ -107,7 +107,7 @@ router.post('/getFeedbackTimeRangeToday', asyncHandler(async (req, res) => {
                 } else if(item.score == 1){
                     feedbackList[0][4].value++;
                 } 
-            } else if (item.typeFeedback == "บริการจ่ายโดยพยาบาล"){
+            } else if (item.typeFeedback == "บริการจ่ายยาโดยพยาบาล"){
                 feedbackList[1][5].score += item.score;
                 secondScore++;
                 if(item.score == 5){

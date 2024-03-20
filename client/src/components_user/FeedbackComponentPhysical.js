@@ -144,6 +144,7 @@ const FeedbackComponentPhysical = (props) => {
                     <div>
                         <label className="textBody-big colorPrimary-800">เพิ่มเติม</label>
                         <textarea className="acivity-detail" rows="5" value={detail} onChange={inputValue("detail")}></textarea>
+                        <span style={{ display: 'flex',justifyContent:"right", alignItems: 'center', color: detail.length > 135 ? 'red' : 'grey' }}>{detail.length}/135</span>
                     </div>
                     <div>
                         <br></br>

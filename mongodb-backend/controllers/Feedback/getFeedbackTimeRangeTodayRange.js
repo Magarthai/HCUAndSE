@@ -40,7 +40,7 @@ router.post('/getFeedbackTimeRangeTodayRange', asyncHandler(async (req, res) => 
                 
             },
             {
-                name: 'บริการจ่ายโดยพยาบาล',
+                name: 'บริการจ่ายยาโดยพยาบาล',
                 score: 0,
                 lenght: 0,
             },
@@ -70,7 +70,7 @@ router.post('/getFeedbackTimeRangeTodayRange', asyncHandler(async (req, res) => 
             if(item.typeFeedback == "บริการตรวจรักษาโรคโดยแพทย์"){
                 feedbackList[0].score += item.score;
                 firstScore++;
-            } else if (item.typeFeedback == "บริการจ่ายโดยพยาบาล"){
+            } else if (item.typeFeedback == "บริการจ่ายยาโดยพยาบาล"){
                 feedbackList[1].score += item.score;
                 secondScore++;
             } else if (item.typeFeedback == "บริการทำแผล-ฉีดยา"){

@@ -18,6 +18,9 @@ let feedbackSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    score2: {
+        type: Number,
+    },
     detail: {
         type: String,
         required: true,

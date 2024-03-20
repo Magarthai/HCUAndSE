@@ -317,11 +317,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[0] && (<h1 style={{fontSize:"50px"}}>{data[0].score}</h1> )}
-                        {data && data[0] && (<h3> จาก {data[0].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[0] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[0].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -348,14 +348,14 @@ const DashboardFeedbackAll = (props) => {
                 </div>
 
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
-                    <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
+                    <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[1] && (<h1 style={{fontSize:"50px"}}>{data[1].score}</h1> )}
-                        {data && data[1] && (<h3> จาก {data[1].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[1] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[1].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -385,11 +385,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[2] && (<h1 style={{fontSize:"50px"}}>{data[2].score}</h1> )}
-                        {data && data[2] && (<h3> จาก {data[2].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[2] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[2].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -418,11 +418,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[3] && (<h1 style={{fontSize:"50px"}}>{data[3].score}</h1> )}
-                        {data && data[3] && (<h3> จาก {data[3].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[3] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[3].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -451,11 +451,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการฝังเข็ม</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[4] && (<h1 style={{fontSize:"50px"}}>{data[4].score}</h1> )}
-                        {data && data[4] && (<h3> จาก {data[4].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[4] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[4].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -484,11 +484,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">อื่นๆ</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data && data[5] && (<h1 style={{fontSize:"50px"}}>{data[5].score}</h1> )}
-                        {data && data[5] && (<h3> จาก {data[5].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data && data[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data[5].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -547,11 +547,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[0] && (<h1 style={{fontSize:"50px"}}>{dataToday[0].score}</h1> )}
-                        {dataToday && dataToday[0] && (<h3> จาก {dataToday[0].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[0] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[0].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -577,14 +577,14 @@ const DashboardFeedbackAll = (props) => {
                 </div>
 
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
-                    <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
+                    <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[1] && (<h1 style={{fontSize:"50px"}}>{dataToday[1].score}</h1> )}
-                        {dataToday && dataToday[1] && (<h3> จาก {dataToday[1].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[1] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[1].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -613,11 +613,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[2] && (<h1 style={{fontSize:"50px"}}>{dataToday[2].score}</h1> )}
-                        {dataToday && dataToday[2] && (<h3> จาก {dataToday[2].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[2] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[2].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -646,11 +646,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[3] && (<h1 style={{fontSize:"50px"}}>{dataToday[3].score}</h1> )}
-                        {dataToday && dataToday[3] && (<h3> จาก {dataToday[3].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[3] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[3].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -680,11 +680,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">บริการฝังเข็ม</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[4] && (<h1 style={{fontSize:"50px"}}>{dataToday[4].score}</h1> )}
-                        {dataToday && dataToday[4] && (<h3> จาก {dataToday[4].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[4] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[4].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -714,11 +714,11 @@ const DashboardFeedbackAll = (props) => {
                     <h4 className="center">อื่นๆ</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {dataToday && dataToday[5] && (<h1 style={{fontSize:"50px"}}>{dataToday[5].score}</h1> )}
-                        {dataToday && dataToday[5] && (<h3> จาก {dataToday[5].lenght} </h3>)}
+                        <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {dataToday && dataToday[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {dataToday[5].lenght}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}

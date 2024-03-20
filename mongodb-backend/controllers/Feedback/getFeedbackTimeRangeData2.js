@@ -19,6 +19,7 @@ router.post('/getFeedbackTimeRangeData2', asyncHandler(async (req, res) => {
             },
             clinic: "คลินิกทั้งหมด",
         });
+        
         let firstScore = 0;
         let secondScore = 0;
         let thirdScore = 0;
@@ -93,7 +94,7 @@ router.post('/getFeedbackTimeRangeData2', asyncHandler(async (req, res) => {
                 } else if(item.score == 1){
                     feedbackList[0][4].value++;
                 } 
-            } else if (item.typeFeedback == "บริการจ่ายโดยพยาบาล"){
+            } else if (item.typeFeedback == "บริการจ่ายยาโดยพยาบาล"){
                 feedbackList[1][5].score += item.score;
                 secondScore++;
                 if(item.score == 5){

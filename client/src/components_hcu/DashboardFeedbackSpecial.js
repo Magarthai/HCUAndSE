@@ -6,10 +6,14 @@ import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import {Bar, BarChart, LabelList,  PieChart, Pie, Cell,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import people from "../picture/people.png";
-
+import axios from "axios";
 const DashboardFeedbackSpecial = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const { user, userData } = useUserAuth();
+    const [ data1, setData1] = useState([]);
+    const [ data2, setData2] = useState([]);
+    const [ data3, setData3] = useState([]);
+    const [ data4, setData4] = useState([]);
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
@@ -25,7 +29,10 @@ const DashboardFeedbackSpecial = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData){
+            fetchData();
+            fetchDataTimeRange();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -43,7 +50,7 @@ const DashboardFeedbackSpecial = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -59,7 +66,51 @@ const DashboardFeedbackSpecial = (props) => {
     function formatNumber(num) {
         return num < 10 ? "0" + num : num.toString();
     }
+    
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API;
 
+    const fetchData = async() => {
+        try{
+        const info = {
+            role : userData.role,
+            clinic : "คลินิกเฉพาะทาง"
+        }
+        const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTodayGetByClinicScore1`,info);
+        if (respone.data){
+            setData3(respone.data);
+        }
+
+        const respone2 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTodayGetByClinicScore2`,info);
+        if (respone2.data){
+            setData4(respone2.data);
+        }
+        
+    } catch(error) {
+        console.error(error);
+    }
+    }
+
+
+    const fetchDataTimeRange = async() => {
+        try{
+        const info = {
+            role : userData.role,
+            clinic : "คลินิกเฉพาะทาง"
+        }
+        const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeGetByClinicScore1`,info);
+        if (respone.data){
+            setData1(respone.data);
+        }
+
+        const respone2 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeGetByClinicScore2`,info);
+        if (respone2.data){
+            setData2(respone2.data);
+        }
+        
+    } catch(error) {
+        console.error(error);
+    }
+    }
     const locale = 'en';
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -99,48 +150,6 @@ const DashboardFeedbackSpecial = (props) => {
           }
     ]
 
-    const data = [
-        {
-            name: 'บริการตรวจรักษาโรคโดยแพทย์',
-            score: 5,
-           
-          },
-          {
-            name: 'บริการจ่ายโดยพยาบาล',
-            score: 4,
-          
-          },
-          {
-            name: 'บริการทำแผล-ฉีดยา',
-            score: 5,
-           
-          },
-          {
-            name: 'บริการกายภาพบำบัด',
-            score: 4,
-            
-          },
-          {
-            name: 'บริการฝังเข็ม',
-            score: 3,
-            
-          },
-          {
-            name: 'อื่นๆ',
-            score: 3,
-           
-          },
-   
-      ];
-
-      const data2 = [
-        { name: '5', value: 60 },
-        { name: '4', value: 50 },
-        { name: '3', value: 50 },
-        { name: '2', value: 50 },
-        { name: '1', value: 50 },
-   
-      ];
       const totalItemCount = data2.reduce((total, item) => total + item.value, 0);
 
     return (
@@ -194,17 +203,17 @@ const DashboardFeedbackSpecial = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                    {data1 && data1[5] && (<h1 style={{fontSize:"50px"}}>{data1[5].score}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data1 && data1[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data1[5].totalSubmit}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data1}
                             margin={{
                             top: 0,
                             right: 20,
@@ -228,12 +237,12 @@ const DashboardFeedbackSpecial = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                    {data2 && data2[5] && (<h1 style={{fontSize:"50px"}}>{data2[5].score}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data2 && data2[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data2[5].totalSubmit}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
@@ -271,17 +280,17 @@ const DashboardFeedbackSpecial = (props) => {
           <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                    {data3 && data3[5] && (<h1 style={{fontSize:"50px"}}>{data3[5].score}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '240px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data3 && data3[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data3[5].totalSubmit}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data3}
                             margin={{
                             top: 0,
                             right: 20,
@@ -305,12 +314,12 @@ const DashboardFeedbackSpecial = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        <h1 style={{fontSize:"50px"}}>4.8</h1>
+                    {data4 && data4[5] && (<h1 style={{fontSize:"50px"}}>{data4[5].score}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
                         <div style={{ width: '100%', height: '250px'}}>
-                        <p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {totalItemCount}</p>
+                        {data4 && data4[5] && (<p style={{fontSize:"14px", textAlign:"right", margin:"0% 20px 0% 0%"}}>ทั้งหมด {data4[5].totalSubmit}</p>)}
                         <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             width={500}

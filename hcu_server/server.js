@@ -123,7 +123,6 @@ const fetchUserDataWithAppointments = async () => {
         dayName: thaiTime.format('dddd'),
         time: currentTime
     };
-    console.log('Data updated:', selectedDate);
         if (selectedDate && selectedDate.dayName) {
             const appointmentsCollection = collection(db, 'appointment');
             const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
@@ -316,7 +315,6 @@ const updateAppointmentsStatus = async () => {
             thaiTime >= timeslotEnd
         ) {
             try {
-                console.log(userData.userLineID);
                 if (userData) {
                     if(userData.userLineID != ""){
                         const body = {
