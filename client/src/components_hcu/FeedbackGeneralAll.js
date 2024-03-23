@@ -5,14 +5,15 @@ import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import calendarFlat_icon from "../picture/calendar-flat.png";
-
+import Swal from "sweetalert2";
+import axios from 'axios'
 const FeedbackGeneralAll = (props) => {
     const [selectedDate, setSelectedDate] = useState();
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-  
+    const [feedbackItems, setFeedbackItems] = useState([]);
   
     useEffect(() => {
         document.title = 'Health Care Unit';
@@ -24,7 +25,9 @@ const FeedbackGeneralAll = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData){
+            fetchFeedbackItems();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -42,7 +45,7 @@ const FeedbackGeneralAll = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -76,21 +79,95 @@ const FeedbackGeneralAll = (props) => {
         return `${day}/${month}/${year}`;
     };
 
-    const feedbackItems = [
-        {
-            "serviceType": "บริการตรวจรักษาโรคโดยแพทย์",
-            "date": "2024-03-15",
-            "score": 3,
-            "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
-        },
-        {
-            "serviceType": "บริการจ่ายโดยพยาบาล",
-            "date": "2024-03-16",
-            "score": 4,
-            "details": "บริการดีมาก พนักงานเป็นมิตรและเป็นประโยชน์",
+
+
+    // const feedbackItems = [
+    //     {
+    //         "typeFeedback": "บริการตรวจรักษาโรคโดยแพทย์",
+    //         "date": "2024-03-15",
+    //         "score": 3,
+    //         "detail": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
+    //     },
+    //     {
+    //         "typeFeedback": "บริการจ่ายโดยพยาบาล",
+    //         "date": "2024-03-16",
+    //         "score": 4,
+    //         "detail": "บริการดีมาก พนักงานเป็นมิตรและเป็นประโยชน์",
            
+    //     }
+    // ]
+
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
+
+    useEffect(() => {
+        if(userData) {
+            handleDateSelectData(selectedDate);
+            console.log("test")
         }
-    ]
+    },[selectedDate])
+    const handleDateSelectData = async(selectedDate) => {
+        try{
+            const info = {
+                role: userData.role,
+                selectedDate: selectedDate,
+            };
+            const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackAllGeneral`,info);
+            if(feedback) {
+                if(feedback.data == "not found"){
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        text: `ไม่มีขอเสนอแนะในวันนี้!`,
+                        icon: 'warning',
+                        confirmButtonText: 'ย้อนกลับ',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                            cancelButton: 'custom-cancel-button',
+                        },
+                       
+                    })
+                    setFeedbackItems([]);
+                    return;
+                }
+                setFeedbackItems(feedback.data);
+                console.log(feedback);
+            }
+        } catch (error){
+            console.error(error);
+        }
+    }
+
+    const fetchFeedbackItems = async() => {
+        try{
+            const info = {
+                role: userData.role,
+            };
+            const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackAllGeneral`,info);
+            if(feedback) {
+                if(feedback.data == "not found"){
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        text: `ไม่มีขอเสนอแนะในเดือนนี้!`,
+                        icon: 'error',
+                        confirmButtonText: 'ย้อนกลับ',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                            cancelButton: 'custom-cancel-button',
+                        },
+                       
+                    })
+                    return;
+                }
+                setFeedbackItems(feedback.data);
+                console.log(feedback);
+            }
+        } catch (error){
+            console.error(error);
+        }
+    };
 
     return (
         <div style={containerStyle}>
@@ -137,7 +214,7 @@ const FeedbackGeneralAll = (props) => {
                     <div className="admin-feedback-item"  key={index}>
                         <div className="admin-feedback-item-header">
                             <div className="admin-feedback-item-header-box">
-                                <p className="admin-textBody-large2">ประเภทบริการ: {feedback.serviceType}</p>
+                                <p className="admin-textBody-large2">ประเภทบริการ: {feedback.typeFeedback}</p>
                             </div>
                             <div class="admin-rating admin-feedback-item-header-box2" style={{textAlign:"right"}}>
                                     {[...Array(5)].map((_, i) => (
@@ -146,9 +223,9 @@ const FeedbackGeneralAll = (props) => {
                             </div>
 
                         </div>
-                        <p className="admin-textBody-big"><b>วันที่:</b> {formatDate(feedback.date)}</p>
+                        <p className="admin-textBody-big"><b>วันที่:</b> {feedback.date}</p>
                         <p className="admin-textBody-large">รายละเอียดเพิ่มเติม</p>
-                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.details}</p>
+                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.detail}</p>
                     </div>
                    ))}
 

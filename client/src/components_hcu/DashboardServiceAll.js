@@ -97,6 +97,7 @@ const DashboardServiceAll = (props) => {
     },[selectedDate,userData]);
 
     const handleDashboardDateSelected = async(selectedDate) => {
+      try {
       const info = {
         userData: userData,
         selectedDate: selectedDate
@@ -135,7 +136,9 @@ const DashboardServiceAll = (props) => {
         setCount(responesCount.data,"respones.data")
         console.log(responesCount.data)
       }
-
+    } catch(error) {
+      console.error(error);
+    }
     }
     const formatDateInThai = (date) => {
         const [year, month, day] = date.split('-');

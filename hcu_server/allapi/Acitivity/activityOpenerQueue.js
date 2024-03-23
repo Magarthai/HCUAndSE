@@ -38,7 +38,7 @@ const fetchAvailableActivities = async () => {
         if (activitiesToday.length > 0) {
             const filteredActivities = activitiesToday.filter(item => {
                 const openQueueDate = new Date(item.openQueueDate);
-                return openQueueDate = today;
+                return openQueueDate.getTime() === today.getTime();
             });
             console.log(today,"todayXD")
             if (filteredActivities.length > 0) {

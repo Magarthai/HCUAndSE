@@ -104,6 +104,9 @@ const DashboardFeedbackPhysical = (props) => {
     },[selectedDate,userData])
 
     const handleDateSelectData = async(selectedDate) => {
+        try{
+
+        
         const info = {
             role : userData.role,
             clinic : "คลินิกกายภาพ",
@@ -126,6 +129,9 @@ const DashboardFeedbackPhysical = (props) => {
             setData1(data[0])
             setData2(data[1])
         }
+    } catch(error){
+        console.error(error)
+    }
 
     }
     const fetchData = async() => {

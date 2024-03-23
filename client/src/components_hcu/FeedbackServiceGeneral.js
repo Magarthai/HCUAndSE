@@ -83,7 +83,7 @@ const FeedbackServiceGeneral = (props) => {
             "score1": 3,
             "serviceType2": "บริการจ่ายยาโดยพยาบาล",
             "score2": 4,
-            "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
+            "detail": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
         },
         {
             "date": "2024-03-15",
@@ -91,7 +91,7 @@ const FeedbackServiceGeneral = (props) => {
             "score1": 5,
             "serviceType2": "บริการจ่ายยาโดยพยาบาล",
             "score2": 3,
-            "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
+            "detail": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
         }
     ]
 
@@ -158,9 +158,9 @@ const FeedbackServiceGeneral = (props) => {
                             </div>
 
                         </div>
-                        <p className="admin-textBody-big"><b>วันที่:</b> {formatDate(feedback.date)}</p>
+                        <p className="admin-textBody-big"><b>วันที่:</b> {feedback.date}</p>
                         <p className="admin-textBody-large">รายละเอียดเพิ่มเติม</p>
-                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.details}</p>
+                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.detail}</p>
                     </div>
                    ))}
 

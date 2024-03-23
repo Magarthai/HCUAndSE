@@ -59,6 +59,7 @@ const DashboardFeedbackNeedle = (props) => {
     },[selectedDate,userData])
 
     const handleDateSelectData = async(selectedDate) => {
+        try {
         const info = {
             role : userData.role,
             clinic : "คลินิกฝังเข็ม",
@@ -81,7 +82,9 @@ const DashboardFeedbackNeedle = (props) => {
             setData1(data[0])
             setData2(data[1])
         }
-
+    } catch(error){
+        console.error(error)
+    }
     }
     const containerStyle = {
         zoom: zoomLevel,

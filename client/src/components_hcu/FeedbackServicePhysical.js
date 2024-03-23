@@ -5,12 +5,13 @@ import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import calendarFlat_icon from "../picture/calendar-flat.png";
-
+import axios from 'axios'
 const FeedbackServicePhysical = (props) => {
     const [selectedDate, setSelectedDate] = useState();
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
+    const [feedbackItems, setFeedbackItems] = useState([]);
     const animationFrameRef = useRef();
   
   
@@ -24,7 +25,9 @@ const FeedbackServicePhysical = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData) {
+            fetchData();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -42,7 +45,7 @@ const FeedbackServicePhysical = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -76,22 +79,45 @@ const FeedbackServicePhysical = (props) => {
         return `${day}/${month}/${year}`;
     };
 
-    const feedbackItems = [
-        {   
-            "Type": "ปรึกษาแพทย์",
-            "date": "2024-03-15",
-            "serviceType": "บริการตรวจรักษาโรคโดยแพทย์",
-            "score": 3,
-            "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
-        },
-        {
-            "Type": "ทำกายภาพบำบัด",
-            "date": "2024-03-15",
-            "serviceType": "บริการกายภาพบำบัด",
-            "score": 5,
-            "details": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API;
+    useEffect(() => {
+        if(userData) {
+            setFeedbackItems([]);
+            handleDateSelectData(selectedDate);
+            console.log("test")
         }
-    ]
+    },[selectedDate])
+    const handleDateSelectData = async(selectedDate) => {
+        const info = {
+            role: userData.role,
+            clinic : "คลินิกกายภาพ",
+            selectedDate: selectedDate
+        }
+        try {
+            const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getPhysicNeedleFeedback`,info);
+            console.log(respone.data,"respone.data")
+            if(respone.data != "not found"){
+                setFeedbackItems(respone.data);
+            } 
+        } catch(error) {
+            console.error(error);
+        }
+    }
+    const fetchData = async() => {
+        try {
+            const info = {
+                role: userData.role,
+                clinic : "คลินิกกายภาพ"
+            }
+            const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getPhysicNeedleFeedback`,info);
+            console.log(respone.data,"respone.data")
+            if(respone.data != "not found"){
+                setFeedbackItems(respone.data);
+            } 
+        } catch(error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div style={containerStyle}>
@@ -136,7 +162,7 @@ const FeedbackServicePhysical = (props) => {
                     <div className="admin-feedback-item"  key={index}>
                         <div className="admin-feedback-item-header">
                             <div className="admin-feedback-item-header-box">
-                                <p className="admin-textBody-large2">บริการ : {feedback.Type}</p>
+                                <p className="admin-textBody-large2">บริการ : {feedback.type}</p>
                                 <p className="admin-textBody-big"><b>ประเภทบริการ: </b>{feedback.serviceType}</p>
                             </div>
                             <div class="admin-rating admin-feedback-item-header-box2" style={{textAlign:"right"}}>
@@ -146,9 +172,9 @@ const FeedbackServicePhysical = (props) => {
                             </div>
                         </div>
                        
-                        <p className="admin-textBody-big"><b>วันที่:</b> {formatDate(feedback.date)}</p>
+                        <p className="admin-textBody-big"><b>วันที่:</b> {feedback.date}</p>
                         <p className="admin-textBody-large">รายละเอียดเพิ่มเติม</p>
-                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.details}</p>
+                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.detail}</p>
                     </div>
                    ))}
 

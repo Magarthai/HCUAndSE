@@ -74,7 +74,7 @@ const DashboardFeedbackAll = (props) => {
 
 
     const handleDateSelectData = async(selectedDate) => {
-       
+        try{
             const info = {
                 role: userData.role,
                 selectedDate: selectedDate
@@ -191,7 +191,9 @@ const DashboardFeedbackAll = (props) => {
             handleData13.push(handleDataToday[5][3]);
             handleData13.push(handleDataToday[5][4]);
             setData13(handleData13);
-        
+        } catch (error) {
+            console.error(error)
+        }
     }
     function getShowTime() {
         const today = new Date();
@@ -236,6 +238,7 @@ const DashboardFeedbackAll = (props) => {
 
     const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchData = async() => {
+        try{
         const info = {
             role: userData.role
         };
@@ -351,6 +354,9 @@ const DashboardFeedbackAll = (props) => {
         handleData13.push(handleDataToday[5][3]);
         handleData13.push(handleDataToday[5][4]);
         setData13(handleData13);
+    } catch(error) {
+        console.log(error)
+    }
     };
 
 
