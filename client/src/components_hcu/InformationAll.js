@@ -10,13 +10,14 @@ import information from "../picture/information.jpg";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import preview from "../picture/preview.png";
-
+import axios from 'axios';
 const InformationAll = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
     const navigate = useNavigate();
+    const [information, setInformation] = useState([])
   
     useEffect(() => {
         document.title = 'Health Care Unit';
@@ -28,7 +29,10 @@ const InformationAll = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData){
+        fetchData();
+        console.log("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -46,10 +50,21 @@ const InformationAll = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
+
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
+    const fetchData = async() => {
+        console.log("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+        const respone = await axios.get(`${REACT_APP_MONGO_API}/api/getAllInformation`)
+        if(respone.data) {
+            setInformation(respone.data)
+            console.log(respone.data,"dataaaaaaa");
+        }
+    }
+
 
     function getShowTime() {
         const today = new Date();
@@ -73,18 +88,20 @@ const InformationAll = (props) => {
 
 
     const EditInformation = (informations) => {
-            navigate('/adminInformationEdit');
+            navigate('/adminInformationEdit', { state: { information: informations } });
     }
 
     const PreviewInformation = (informations) => {
-        navigate('/adminInformationPreview');
+        if (informations) {
+        navigate('/adminInformationPreview', { state: { information: informations } });
+        }
     }
 
     const deletedInformation = (informations) => {
         if (informations) {
             Swal.fire({
                 title: 'ลบบทความ',
-                text: `คุณแน่ใจว่าจะลบบทความ :  ?`,
+                text: `คุณแน่ใจว่าจะลบบทความ : ${informations.informationName} ?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'ลบ',
@@ -97,6 +114,8 @@ const InformationAll = (props) => {
                 }
             }).then(async(result) => {
                 if (result.isConfirmed) {
+                        const deleteRespone = await axios.post(`${REACT_APP_MONGO_API}/api/deleteInformation`,informations);
+                        if (deleteRespone.data == "success"){
                         Swal.fire(
                             {
                                 title: 'การลบการบทความสำเร็จ!',
@@ -110,11 +129,22 @@ const InformationAll = (props) => {
                             }
                         ).then((result) => {
                             if (result.isConfirmed) {
-                              // รีโหลดหน้าเว็บ
-                              navigate('/adminInformationAll')
+                              window.location.reload();
                             }
                           });
                         }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'กรุณาทํารายการใหม่อีกครั้ง',
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+            
+                                confirmButton: 'custom-confirm-button',
+                            }
+                        });
+                    }
                     })
         }}
         
@@ -143,18 +173,20 @@ const InformationAll = (props) => {
                 </div>
             <div className="admin-body">
                 <div className="admin-information">
+                {information.map((information, index) => (
                     <div className="admin-information-item" >
                         <div className="admin-information-item-hearder">
                             <div className="admin-information-item-hearder-box1">
-                                <p className="admin-textBody-large2 colorPrimary-800" style={{textDecoration: "underline", cursor:"pointer"}} onClick={() => PreviewInformation()}>รถฉุกเฉินใน มจธ.</p>
+                                <p className="admin-textBody-large2 colorPrimary-800" style={{textDecoration: "underline", cursor:"pointer"}} onClick={() => PreviewInformation(information)}>{information.informationName}</p>
                             </div>
                             <div className="admin-information-item-hearder-box2">
-                                    <a href="/adminInformationEdit" target="_parent"><img src={edit} className="icon" onClick={() => EditInformation()} /></a>
-                                    <img onClick={() => deletedInformation()} src={icon_delete} className="icon" />
+                                    <a href="/adminInformationEdit" target="_parent"><img src={edit} className="icon" onClick={() => EditInformation(information)} /></a>
+                                    <img onClick={() => deletedInformation(information)} src={icon_delete} className="icon" />
                             </div>
                         </div>
-                        <img src={information} className="admin-information-img"/>
+                        <img src={information.image} className="admin-information-img"/>
                     </div>
+                ))}
             
                 </div>
                 

@@ -7,10 +7,12 @@ import "../css/AdminTimeTableComponent.css";
 import img_information from "../picture/img-activity.png";
 import "../css/AdminInformation.css";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { ref, uploadBytes, getStorage, getDownloadURL } from 'firebase/storage';
 const InformationEdit = (props) => {
     const { user, userData } = useUserAuth();
+    const location = useLocation();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
@@ -18,8 +20,11 @@ const InformationEdit = (props) => {
     const [state, setState] = useState({
         informationName: "",
         informationDetail: "",
+        image: "",
     });
-    const {informationName, informationDetail} = state
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
+    const { information } = location.state || {};
+    const {informationName, informationDetail,image} = state
     const inputValue = (name) => (event) => {
         setState({ ...state, [name]: event.target.value });
     }
@@ -33,7 +38,26 @@ const InformationEdit = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
+        if (!information) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่มีข้อมูลกิจกรรม',
+                confirmButtonColor: '#263A50',
+                customClass: {
 
+                    confirmButton: 'custom-confirm-button',
+                }
+            }).then(() => {
+                navigate('/adminInformationAll');
+            });
+        } else {
+            setState({
+                informationName: information.informationName,
+                informationDetail: information.informationDetail,
+                image: information.image
+            });
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -78,9 +102,52 @@ const InformationEdit = (props) => {
     const [imgSrc, setImgSrc] = useState(null);
 
     const submitForm = async (e) => {
+        e.preventDefault();
+        const fileInput = document.querySelector('.input-activity-img');
+        const file = fileInput?.files[0];
+        if (file) {
+            const allowedMimeTypes = ["image/jpeg", "image/png"];
+                if (!allowedMimeTypes.includes(file.type)) {
+                    throw new Error("ไฟล์ที่อัปโหลดไม่ใช่รูปภาพ");
+                }
+
+                // ตรวจสอบ magic number
+                const imageSignatures = {
+                    jpeg: [0xFF, 0xD8],
+                    png: [0x89, 0x50, 0x4E, 0x47]
+                };
+
+                function checkFileSignature(file, signature) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const arr = new Uint8Array(reader.result).slice(0, signature.length);
+                        if (!arr.every((byte, index) => byte === signature[index])) {
+                            throw new Error("Signature ของไฟล์ไม่ถูกต้อง");
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+
+                let fileSignature = null;
+                if (file.type === "image/jpeg") {
+                    fileSignature = imageSignatures.jpeg;
+                } else if (file.type === "image/png") {
+                    fileSignature = imageSignatures.png;
+                } else {
+                    throw new Error("ไฟล์ที่อัปโหลดไม่ใช่รูปภาพ");
+                }
+
+                // เช็ค signature ของไฟล์
+                checkFileSignature(file, fileSignature);
+
+                // เพิ่มการตรวจสอบขนาดไฟล์และอัปโหลดไฟล์
+                const maxSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxSize) {
+                    throw new Error("ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป");
+                }
         Swal.fire({
             title: 'สร้างบทความ',
-            html: `ตกลงที่จะสร้างบทความ : ${informationName} `,
+            html: `ตกลงที่จะแก้บทความ : ${information.informationName} `,
             showConfirmButton: true,
             showCancelButton: true,
             icon: 'warning',
@@ -94,6 +161,29 @@ const InformationEdit = (props) => {
             },
         }).then(async (result) => {
             if (result.isConfirmed) {
+                const timestamp = Date.now();
+                const fileNameWithTimestamp = `${file.name}-${timestamp}`;
+                const storage = getStorage();
+                const storageRef = ref(storage, `information_images/${fileNameWithTimestamp}`);
+                try {
+                    await uploadBytes(storageRef, file);
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error);
+                    throw new Error("ไม่สามารถอัปโหลดไฟล์ได้");
+                }
+                
+                const downloadURL = await getDownloadURL(storageRef);
+                const info = {
+                    informationName:informationName,
+                    informationDetail:informationDetail,
+                    image:downloadURL,
+                    _id: information._id
+
+                }
+                const respone = await axios.post(`${REACT_APP_MONGO_API}/api/updateInformation`,info);
+                console.log()
+                if( respone.data == "success") {
+                console.log(downloadURL)
               Swal.fire({
                 title: 'สร้างบทความสําเร็จ',
                 icon: 'success',
@@ -107,10 +197,74 @@ const InformationEdit = (props) => {
                     navigate('/adminInformationAll')
                 }
               });
+            } else {
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    },
+                  })
+            }
             }
         });
+    } else {
+        Swal.fire({
+            title: 'สร้างบทความ',
+            html: `ตกลงที่จะแก้บทความ : ${information.informationName} `,
+            showConfirmButton: true,
+            showCancelButton: true,
+            icon: 'warning',
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonColor: '#263A50',
+            reverseButtons: true,
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+              cancelButton: 'custom-cancel-button',
+            },
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const info = {
+                    informationName:informationName,
+                    informationDetail:informationDetail,
+                    image:imgSrc,
+                    _id: information._id
+                }
+                const respone = await axios.post(`${REACT_APP_MONGO_API}/api/updateInformation`,info)
+                if( respone.data == "success") {
+              Swal.fire({
+                title: 'สร้างบทความสําเร็จ',
+                icon: 'success',
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#263A50',
+                customClass: {
+                  confirmButton: 'custom-confirm-button',
+                },
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/adminInformationAll')
+                }
+              });
+            } else {
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    },
+                  })
+            }
+            }
+        });
+        
     }
-
+    
+    }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
 
@@ -148,7 +302,7 @@ const InformationEdit = (props) => {
                             <div className="admin-activity-add-hearder-flexbox">
                                 <div className="admin-activity-today-hearder-box">
                                     <img
-                                        src={imgSrc || img_information}
+                                        src={imgSrc || image}
                                         className="admin-img-activity"
                                         alt={imgSrc ? "Selected Activity Image" : img_information}
                                     />

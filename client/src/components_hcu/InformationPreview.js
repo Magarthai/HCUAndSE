@@ -4,16 +4,31 @@ import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
 import information from "../picture/information.jpg";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const InformationPreview = (props) => {
     const { user, userData } = useUserAuth();
-
-  
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { information } = location.state || {};
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
         console.log(userData)
-        
+        if (!information) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่มีข้อมูลกิจกรรม',
+                confirmButtonColor: '#263A50',
+                customClass: {
+
+                    confirmButton: 'custom-confirm-button',
+                }
+            }).then(() => {
+                navigate('/adminInformationAll');
+            });
+        }
     
     }, [user]); 
    
@@ -24,12 +39,12 @@ const InformationPreview = (props) => {
         <div className="user">
        
                 <div className="user-body-infomation-preview colorPrimary-800" style={{marginTop:"20px"}}>
-                    <h3>รถฉุกเฉินในมจธ.</h3>
+                    {information &&<h3>{information.informationName}</h3>}
                     <div className="center">
-                        <img src={information} className="user-information-preview-img"/>
+                    {information && <img src={information.image} className="user-information-preview-img"/>}
                     </div>
                    
-                    <p className="textBody-large">dsgdddddddddddddddasfaaaffsgdddddddddddddddasfaaaff</p>
+                    {information && <p className="textBody-large">{information.informationDetail}</p>}
                     
                 </div>
                 <div className="user-activity-vaccine_button_container">

@@ -31,7 +31,10 @@ const getFeedbackTodayGetByClinicPhysicNeedle = require('./controllers/Feedback/
 
 const getNormalFeedbackAllGeneral = require('./controllers/Feedback/getFeedbackAPI/getNormalFeedbackAllGeneral');
 const getNormalFeedbackQuery = require('./controllers/Feedback/getFeedbackAPI/getNormalFeedbackQuery');
-
+const createInformation = require('./controllers/Information/createInformation');
+const getAllInformation = require('./controllers/Information/getAllInformation');
+const deleteInformation = require('./controllers/Information/deleteInformation');
+const updateInformation = require('./controllers/Information/updateInformation');
 const getPhysicNeedleFeedback = require('./controllers/Feedback/getFeedbackAPI/getPhysicNeedleFeedback');
 const getGeneralSpecialFeedback = require('./controllers/Feedback/getFeedbackAPI/getGeneralSpecialFeedback');
 const cors = require('cors');
@@ -68,6 +71,11 @@ app.use('/api', getNormalFeedbackAllGeneral);
 app.use('/api', getNormalFeedbackQuery);
 app.use('/api', getPhysicNeedleFeedback);
 app.use('/api', getGeneralSpecialFeedback);
+
+app.use('/api', createInformation);
+app.use('/api', getAllInformation);
+app.use('/api', deleteInformation);
+app.use('/api', updateInformation);
 app.get('/', (req, res) => {
     res.send('test')
 })

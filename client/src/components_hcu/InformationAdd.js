@@ -7,7 +7,9 @@ import "../css/AdminTimeTableComponent.css";
 import img_information from "../picture/img-activity.png";
 import "../css/AdminInformation.css";
 import Swal from "sweetalert2";
+import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { ref, uploadBytes, getStorage, getDownloadURL } from 'firebase/storage';
 const InformationAdd = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -76,7 +78,51 @@ const InformationAdd = (props) => {
     const currentDate = `${day} ${month}/${date}/${year}`;
     const [imgSrc, setImgSrc] = useState(null);
 
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
     const submitForm = async (e) => {
+        e.preventDefault();
+        const fileInput = document.querySelector('.input-activity-img');
+        const file = fileInput?.files[0];
+        if (file) {
+            const allowedMimeTypes = ["image/jpeg", "image/png"];
+                if (!allowedMimeTypes.includes(file.type)) {
+                    throw new Error("ไฟล์ที่อัปโหลดไม่ใช่รูปภาพ");
+                }
+
+                // ตรวจสอบ magic number
+                const imageSignatures = {
+                    jpeg: [0xFF, 0xD8],
+                    png: [0x89, 0x50, 0x4E, 0x47]
+                };
+
+                function checkFileSignature(file, signature) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const arr = new Uint8Array(reader.result).slice(0, signature.length);
+                        if (!arr.every((byte, index) => byte === signature[index])) {
+                            throw new Error("Signature ของไฟล์ไม่ถูกต้อง");
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+
+                let fileSignature = null;
+                if (file.type === "image/jpeg") {
+                    fileSignature = imageSignatures.jpeg;
+                } else if (file.type === "image/png") {
+                    fileSignature = imageSignatures.png;
+                } else {
+                    throw new Error("ไฟล์ที่อัปโหลดไม่ใช่รูปภาพ");
+                }
+
+                // เช็ค signature ของไฟล์
+                checkFileSignature(file, fileSignature);
+
+                // เพิ่มการตรวจสอบขนาดไฟล์และอัปโหลดไฟล์
+                const maxSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxSize) {
+                    throw new Error("ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป");
+                }
         Swal.fire({
             title: 'สร้างบทความ',
             html: `ตกลงที่จะสร้างบทความ : ${informationName} `,
@@ -93,6 +139,26 @@ const InformationAdd = (props) => {
             },
         }).then(async (result) => {
             if (result.isConfirmed) {
+                const timestamp = Date.now();
+                const fileNameWithTimestamp = `${file.name}-${timestamp}`;
+                const storage = getStorage();
+                const storageRef = ref(storage, `information_images/${fileNameWithTimestamp}`);
+                try {
+                    await uploadBytes(storageRef, file);
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error);
+                    throw new Error("ไม่สามารถอัปโหลดไฟล์ได้");
+                }
+                
+                const downloadURL = await getDownloadURL(storageRef);
+                const info = {
+                    informationName:informationName,
+                    informationDetail:informationDetail,
+                    image:downloadURL
+                }
+                const respone = await axios.post(`${REACT_APP_MONGO_API}/api/createInformation`,info)
+                if( respone.data == "success") {
+                console.log(downloadURL)
               Swal.fire({
                 title: 'สร้างบทความสําเร็จ',
                 icon: 'success',
@@ -106,8 +172,31 @@ const InformationAdd = (props) => {
                     navigate('/adminInformationAll')
                 }
               });
+            } else {
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด',
+                    icon: 'error',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#263A50',
+                    customClass: {
+                      confirmButton: 'custom-confirm-button',
+                    },
+                  })
+            }
             }
         });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'กรุณาเลือกรูปภาพ',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+                confirmButton: 'custom-confirm-button',
+            },
+        });
+    }
+    
     }
 
     const handleFileChange = (event) => {
