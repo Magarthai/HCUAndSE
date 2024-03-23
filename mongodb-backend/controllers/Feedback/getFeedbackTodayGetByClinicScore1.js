@@ -27,13 +27,22 @@ router.post('/getFeedbackTodayGetByClinicScore1', asyncHandler(async (req, res) 
         const selectedDate = req.body.selectedDate;
         let startDate = moment().startOf('month').tz('Asia/Bangkok');
         let endDate = moment().endOf('month').tz('Asia/Bangkok');
+        
+
+        let currentDate = await setToMidnight();
+
         if(selectedDate != undefined && selectedDate){
             startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
             endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
+            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            thaiTime.set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+            });
+            currentDate = thaiTime;
         };
-
-        const currentDate = await setToMidnight();
-
         const feedback = await Feedback.find({ 
             date: currentDate,
             clinic: clinic,
@@ -67,7 +76,10 @@ router.post('/getFeedbackTodayGetByClinicScore1', asyncHandler(async (req, res) 
             }
           });
 
-          const meanScore = totalScore / allSubmit
+          let meanScore = 0;
+          if (allSubmit > 0) {
+            meanScore = totalScore / allSubmit
+          }
           feedbackList[5].score = feedbackList[5].score + meanScore
           feedbackList[5].totalSubmit = feedbackList[5].totalSubmit + allSubmit;
 

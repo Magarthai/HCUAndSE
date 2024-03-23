@@ -9,7 +9,7 @@ const morgan = require('morgan');
 const createUser = require('./controllers/Auth/Register.crlt');
 const checkStudentIdExits = require('./controllers/Auth/CheckStudentIdExits');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const createHoliday = require('./controllers/Holiday/CreateHoliday');
 const deleteHoliday = require('./controllers/Holiday/DeleteHoliday');
 const checkDateHoliday = require('./controllers/Holiday/CheckDateHoliday');

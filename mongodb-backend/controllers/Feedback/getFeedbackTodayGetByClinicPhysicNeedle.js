@@ -22,6 +22,7 @@ router.post('/getFeedbackTodayGetByClinicPhysicNeedle', asyncHandler(async (req,
         res.status(500).send("Internal Server Error");
     };
     try {
+        const selectedDate = req.body.selectedDate;
         const clinic = req.body.clinic;
         let currentDate = await setToMidnight();
         if(selectedDate != undefined && selectedDate){

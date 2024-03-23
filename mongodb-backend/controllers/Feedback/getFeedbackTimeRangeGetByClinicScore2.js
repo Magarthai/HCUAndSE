@@ -68,7 +68,10 @@ router.post('/getFeedbackTimeRangeGetByClinicScore2', asyncHandler(async (req, r
             }
           });
 
-          const meanScore = totalScore / allSubmit
+          let meanScore = 0;
+          if (allSubmit > 0) {
+            meanScore = totalScore / allSubmit
+          }
           feedbackList[5].score = feedbackList[5].score + meanScore
           feedbackList[5].totalSubmit = feedbackList[5].totalSubmit + allSubmit;
 

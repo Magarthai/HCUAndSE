@@ -97,6 +97,37 @@ const DashboardFeedbackPhysical = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
+    useEffect(() => {
+        if(userData){
+            handleDateSelectData(selectedDate);
+        }
+    },[selectedDate,userData])
+
+    const handleDateSelectData = async(selectedDate) => {
+        const info = {
+            role : userData.role,
+            clinic : "คลินิกกายภาพ",
+            selectedDate: selectedDate
+        }
+        const responeToday = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTodayGetByClinicPhysicNeedle`,info);
+        if (responeToday.data){
+            const data = responeToday.data;
+            console.log(data[0],"data 2 ")
+
+            setData3(data[0])
+            setData4(data[1])
+        }
+
+        const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeGetByClinicPhysicNeedle`,info);
+        if (respone.data){
+            const data = respone.data;
+            console.log(data[0],"data  ")
+
+            setData1(data[0])
+            setData2(data[1])
+        }
+
+    }
     const fetchData = async() => {
         try{
         const info = {

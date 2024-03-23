@@ -23,6 +23,7 @@ router.post('/getFeedbackTodayGetByClinicScore2', asyncHandler(async (req, res) 
         res.status(500).send("Internal Server Error"); 
     };
     try {
+        const selectedDate = req.body.selectedDate;
         const clinic = req.body.clinic;
         let currentDate = await setToMidnight();
         if(selectedDate != undefined && selectedDate){
@@ -69,11 +70,14 @@ router.post('/getFeedbackTodayGetByClinicScore2', asyncHandler(async (req, res) 
             }
           });
 
-          const meanScore = totalScore / allSubmit
+          let meanScore = 0;
+          if (allSubmit > 0) {
+            meanScore = totalScore / allSubmit
+          }
           feedbackList[5].score = feedbackList[5].score + meanScore
           feedbackList[5].totalSubmit = feedbackList[5].totalSubmit + allSubmit;
 
-            res.json(feedbackList);
+            res.send(feedbackList);
     } catch (error) {
         console.log(error, "getFeedbackByRange");
         res.status(500).send("Internal Server Error"); 

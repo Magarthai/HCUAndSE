@@ -55,6 +55,45 @@ const DashboardFeedbackSpecial = (props) => {
         zoom: zoomLevel,
     };
 
+    useEffect(() => {
+        console.log(selectedDate);
+        if(userData){
+        handleDateSelectData(selectedDate);
+        }
+    },[selectedDate,userData]);
+
+    const handleDateSelectData = async(selectedDate) => {
+        try{
+            const info = {
+                role : userData.role,
+                clinic : "คลินิกเฉพาะทาง",
+                selectedDate: selectedDate
+            }
+            const responeToday1 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTodayGetByClinicScore1`,info);
+            if (responeToday1.data){
+                setData3(responeToday1.data);
+            }
+    
+            const responeToday2 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTodayGetByClinicScore2`,info);
+            if (responeToday2.data){
+                console.log(responeToday2,"responeToday2")
+                setData4(responeToday2.data);
+            }
+
+            const respone3 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeGetByClinicScore1`,info);
+            if (respone3.data){
+                setData1(respone3.data);
+            }
+
+            const respone4 = await axios.post(`${REACT_APP_MONGO_API}/api/getFeedbackTimeRangeGetByClinicScore2`,info);
+            if (respone4.data){
+                setData2(respone4.data);
+                console.log(respone4,"data2")
+            }
+        } catch(error){
+            console.error(error);
+        }
+    }
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -324,7 +363,7 @@ const DashboardFeedbackSpecial = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data4}
                             margin={{
                             top: 0,
                             right: 20,
