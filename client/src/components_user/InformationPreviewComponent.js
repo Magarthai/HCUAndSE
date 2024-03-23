@@ -3,10 +3,30 @@ import "../css/Login&SignupComponent.css";
 import "../css/UserInformationComponent.css";
 import NavbarUserComponent from './NavbarComponent';
 import information from "../picture/information.jpg"
-
+import Swal from "sweetalert2";
+import { useNavigate, useLocation } from "react-router-dom";
 const InformationPreviewComponent = (props) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { information } = location.state || {};
+    useEffect(() => {
+        document.title = 'Health Care Unit';
+        if (!information) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่มีข้อมูลกิจกรรม',
+                confirmButtonColor: '#263A50',
+                customClass: {
 
-
+                    confirmButton: 'custom-confirm-button',
+                }
+            }).then(() => {
+                navigate('/adminInformationAll');
+            });
+        }
+    
+    }); 
     return (
         
         <div className="user">
@@ -20,12 +40,12 @@ const InformationPreviewComponent = (props) => {
             </header>
             <div className="user-body">
                 <div className="user-body-infomation-preview colorPrimary-800">
-                    <h3>รถฉุกเฉินในมจธ.</h3>
+                    {information &&<h3>{information.informationName}.</h3>}
                     <div className="center">
-                        <img src={information} className="user-information-preview-img"/>
+                    {information &&<img src={information.image} className="user-information-preview-img"/>}
                     </div>
                    
-                    <p className="textBody-large">dsgdddddddddddddddasfaaaffsgdddddddddddddddasfaaaff</p>
+                    {information &&<p className="textBody-large">{information.informationDetail}</p>}
                     
                 </div>
             </div>
