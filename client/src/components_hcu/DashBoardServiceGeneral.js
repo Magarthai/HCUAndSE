@@ -194,7 +194,7 @@ const DashBoardGeneral = (props) => {
 
         return (
         
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+          <text x={x} y={y} fill="white" fontSize={12} textAnchor="middle" dominantBaseline="middle">
             {`${(percent * 100).toFixed(0)}%`}
           </text>
           
@@ -236,7 +236,7 @@ const DashBoardGeneral = (props) => {
                     <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
             </div>
            
@@ -285,7 +285,7 @@ const DashBoardGeneral = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {data.map((entry, index) => (
+                      {data2 && data2.length > 0 && data2.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
@@ -336,7 +336,7 @@ const DashBoardGeneral = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                   >
-                    {data.map((entry, index) => (
+                    {data3 && data3.length > 0 &&  data3.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>

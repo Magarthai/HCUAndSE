@@ -208,7 +208,7 @@ const DashboardFeedbackPhysical = (props) => {
                     <a href="/adminDashboardFeedbackNeedle" target="_parent" >หลังใช้บริการคลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item3 admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
             </div>
            
@@ -226,7 +226,7 @@ const DashboardFeedbackPhysical = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        {data1 && data1[5] && (<h1 style={{fontSize:"50px"}}>{data1[5].score}</h1>)}
+                        {data1 && data1[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data1[5].score) ? data1[5].score : data1[5].score.toFixed(2)}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
@@ -260,7 +260,7 @@ const DashboardFeedbackPhysical = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        {data2 && data2[5] && (<h1 style={{fontSize:"50px"}}>{data2[5].score}</h1>)}
+                        {data2 && data2[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data2[5].score) ? data2[5].score : data2[5].score.toFixed(2)}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
@@ -303,7 +303,7 @@ const DashboardFeedbackPhysical = (props) => {
           <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        {data3 && data3[5] && (<h1 style={{fontSize:"50px"}}>{data3[5].score}</h1>)}
+                        {data3 && data3[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data3[5].score) ? data3[5].score : data3[5].score.toFixed(2)}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">
@@ -337,7 +337,7 @@ const DashboardFeedbackPhysical = (props) => {
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
                     <h4 className="center">บริการกายภาพบำบัด</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                        {data4 && data4[5] && (<h1 style={{fontSize:"50px"}}>{data4[5].score}</h1>)}
+                        {data4 && data4[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data4[5].score) ? data4[5].score : data4[5].score.toFixed(2)}</h1>)}
                         <h3> จาก 5 </h3>
                     </div>
                     <div className="admin-dashboard-feedback-box4">

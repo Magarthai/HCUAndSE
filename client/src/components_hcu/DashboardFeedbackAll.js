@@ -396,7 +396,7 @@ const DashboardFeedbackAll = (props) => {
                             <a href="/adminDashboardFeedbackNeedle" target="_parent" >หลังใช้บริการคลินิกฝังเข็ม</a>
                         </div>
                         <div className="admin-hearder-item3 admin-right" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <input type="date" className="form-control" style={{ width: 250 }} value={selectedDate} onChange={handleDateChange} />
+                            <input type="date" className="form-control" style={{ width: 250 }} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                         </div>
                     </div>
 
@@ -439,7 +439,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[0] && (<h1 style={{ fontSize: "50px" }}>{data[0].score}</h1>)}
+                            {data && data[0] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[0].score) ? data[0].score : data[0].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -473,7 +473,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[1] && (<h1 style={{ fontSize: "50px" }}>{data[1].score}</h1>)}
+                            {data && data[1] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[1].score) ? data[1].score : data[1].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -507,7 +507,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[2] && (<h1 style={{ fontSize: "50px" }}>{data[2].score}</h1>)}
+                            {data && data[2] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[2].score) ? data[2].score : data[2].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -540,7 +540,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการกายภาพบำบัด</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[3] && (<h1 style={{ fontSize: "50px" }}>{data[3].score}</h1>)}
+                            {data && data[3] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[3].score) ? data[3].score : data[3].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -573,7 +573,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการฝังเข็ม</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[4] && (<h1 style={{ fontSize: "50px" }}>{data[4].score}</h1>)}
+                            {data && data[4] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[5].score) ? data[5].score : data[5].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -606,7 +606,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">อื่นๆ</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[5] && (<h1 style={{ fontSize: "50px" }}>{data[5].score}</h1>)}
+                            {data && data[5] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[5].score) ? data[5].score : data[5].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -669,7 +669,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[0] && (<h1 style={{ fontSize: "50px" }}>{dataToday[0].score}</h1>)}
+                            {dataToday && dataToday[0] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[0].score) ? dataToday[0].score : dataToday[0].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -702,7 +702,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[1] && (<h1 style={{ fontSize: "50px" }}>{dataToday[1].score}</h1>)}
+                            {dataToday && dataToday[1] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[1].score) ? dataToday[1].score : dataToday[1].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -735,7 +735,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[2] && (<h1 style={{ fontSize: "50px" }}>{dataToday[2].score}</h1>)}
+                            {dataToday && dataToday[2] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[2].score) ? dataToday[2].score : dataToday[2].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -768,7 +768,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการกายภาพบำบัด</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[3] && (<h1 style={{ fontSize: "50px" }}>{dataToday[3].score}</h1>)}
+                            {dataToday && dataToday[3] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[3].score) ? dataToday[3].score : dataToday[3].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -802,7 +802,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการฝังเข็ม</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[4] && (<h1 style={{ fontSize: "50px" }}>{dataToday[4].score}</h1>)}
+                            {dataToday && dataToday[4] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[4].score) ? dataToday[4].score : dataToday[4].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
@@ -836,7 +836,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">อื่นๆ</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {dataToday && dataToday[5] && (<h1 style={{ fontSize: "50px" }}>{dataToday[5].score}</h1>)}
+                            {dataToday && dataToday[5] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(dataToday[5].score) ? dataToday[5].score : dataToday[5].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">
