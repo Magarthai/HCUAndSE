@@ -104,7 +104,8 @@ router.post('/getFeedbackCurrentDateByClinic', asyncHandler(async (req, res) => 
              score2 += feedbackScore
              feedbackListMain.push(feedbackMain[i])
          }
-         const meanScore2 = score2 / feedbackMain.length
+         
+        const meanScore2 = score2 / feedbackMain.length
         const respone = {
             totalSubmit: feedbackTalk.length || 0,
             totalSubmit2: feedbackMain.length || 0,
