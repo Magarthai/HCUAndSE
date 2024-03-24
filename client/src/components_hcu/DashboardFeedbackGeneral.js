@@ -90,6 +90,7 @@ const DashboardFeedbackGeneral = (props) => {
                 setData2(respone4.data);
                 console.log(respone4,"data2")
             }
+            
         } catch(error){
             console.error(error);
         }
