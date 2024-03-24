@@ -49,6 +49,12 @@ const appointmentCurrentMonthTodayCountSuccessByClinic = require('./mongodb_api/
 const appointmentCurrentMonthRangeCountSuccessByClinic = require('./mongodb_api/dashboard/appointmentCurrentMonthRangeCountSuccessByClinic');
 const appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle = require('./mongodb_api/dashboard/appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle');
 const appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle = require('./mongodb_api/dashboard/appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle');
+
+const NotificationAddAppointment = require('./allapi/Notification/appointment/NotificationAddAppointment');
+const NotificationDeleteAppointment = require('./allapi/Notification/appointment/NotificationDeleteAppointment');
+const NotificationEditAppointment = require('./allapi/Notification/appointment/NotificationEditAppointment');
+
+
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
@@ -79,6 +85,11 @@ app.use('/api', appointmentCurrentMonthTodayCountSuccessByClinic);
 app.use('/api', appointmentCurrentMonthRangeCountSuccessByClinic);
 app.use('/api', appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle);
 app.use('/api', appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle);
+app.use('/api', NotificationAddAppointment);
+
+app.use('/api', NotificationDeleteAppointment);
+
+app.use('/api', NotificationEditAppointment);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);

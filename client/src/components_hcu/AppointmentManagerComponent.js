@@ -28,7 +28,7 @@ const AppointmentManagerComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [isChecked, setIsChecked] = useState({});
     const [timeOptions, setTimeOptions] = useState([]);
-
+    const REACT_APP_API = process.env.REACT_APP_API;
 
     const [state, setState] = useState({
         appointmentDate: "",
@@ -191,9 +191,14 @@ const AppointmentManagerComponent = (props) => {
     const [selectedCount, setSelectedCount] = useState(1);
 
     
-    const handleSelectChange = () => {
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        console.log(timeRange);
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
+
     const [selectedValue, setSelectedValue] = useState("");
     const submitForm = async (e) => {
         e.preventDefault();
@@ -322,6 +327,16 @@ const AppointmentManagerComponent = (props) => {
                                         await updateDoc(timeTableDocRef, {
                                             appointmentList: arrayUnion(timeTableAppointment),
                                         });
+                                        const info = {
+                                            role: userData.role,
+                                            date: appointmentInfo.appointmentDate,
+                                            time: timeLabel,
+                                            clinic: appointmentInfo.clinic,
+                                            id: appointmentInfo.appointmentId,
+                                        };
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+
+                                        
                                         Swal.fire(
                                             {
                                                 title: 'สําเร็จ!',
@@ -334,6 +349,7 @@ const AppointmentManagerComponent = (props) => {
                                                 }
                                             }
                                         )
+
                                         window.location.reload();
                                         
                             } catch(firebaseError) {
@@ -341,7 +357,7 @@ const AppointmentManagerComponent = (props) => {
                                     {
                                         title: 'เกิดข้อผิดพลาด!',
                                         text: firebaseError,
-                                        icon: 'success',
+                                        icon: 'error',
                                         confirmButtonText: 'ตกลง',
                                         confirmButtonColor: '#263A50',
                                         customClass: {
@@ -523,6 +539,14 @@ const AppointmentManagerComponent = (props) => {
                                 });
 
                         }
+                        const info = {
+                            role: userData.role,
+                            date: updatedTimetable.appointmentDate,
+                            time: timeLabel,
+                            clinic: updatedTimetable.clinic,
+                            id: updatedTimetable.appointmentId,
+                        };
+                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
                         Swal.fire({
                             icon: "success",
                             title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -786,7 +810,6 @@ const AppointmentManagerComponent = (props) => {
     }
 
 
-
     const handleDateSelect = (selectedDate) => {
         setAllAppointmentUsersData([]);
         setSelectedDate(selectedDate);
@@ -884,7 +907,7 @@ const AppointmentManagerComponent = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
 
-    }, [selectedDate]);
+    }, [selectedDate,userData]);
     const containerStyle = {
         zoom: zoomLevel,
     };
@@ -923,7 +946,7 @@ const AppointmentManagerComponent = (props) => {
             element.style.color = '#A1A1A1';
         }
     }
-
+    const [timeLabel, setTimeLabel] = useState("");
     statusElements.forEach(changeStatusTextColor);
 
     let statusElementDetail = document.getElementById("detail-appointment-status");
@@ -951,6 +974,9 @@ const AppointmentManagerComponent = (props) => {
             statusElementDetail.classList.add("pending-confirmation-background");
         }
     }
+    useEffect(() => {
+        console.log("timeLabel",timeLabel)
+    },[timeLabel]);
 
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 3);
@@ -1070,7 +1096,7 @@ const AppointmentManagerComponent = (props) => {
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}
                                             onChange={(e) => {
-                                                handleSelectChange();
+                                                handleSelectChange(e);
                                                 setSelectedValue(e.target.value); 
                                                 const selectedValue = JSON.parse(e.target.value);
 
@@ -1083,7 +1109,7 @@ const AppointmentManagerComponent = (props) => {
                                                         },
                                                     });
 
-                                                    handleSelectChange();
+                                                    handleSelectChange(e);
                                                 } else if (e.target.value === "") {
                                                     inputValue("appointmentTime")({
                                                         target: {
@@ -1091,7 +1117,7 @@ const AppointmentManagerComponent = (props) => {
                                                         },
                                                     });
 
-                                                    handleSelectChange();
+                                                    handleSelectChange(e);
                                                 } else {
                                                     console.error("Invalid selected value:", selectedValue);
                                                 }
@@ -1099,13 +1125,15 @@ const AppointmentManagerComponent = (props) => {
                                             className={selectedCount >= 2 ? 'selected' : ''}
                                         >
                                             {timeOptions.map((timeOption, index) => (
-                                <option
-                                    key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
-                                    value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
-                                    hidden={index===0}
-                                >
-                                    {timeOption.label}
-                                </option>
+
+                                            <option  
+                                            key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
+                                            value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}
+                                            hidden={index === 0}
+                                            >
+                                            {timeOption.label}
+                                            </option>
+
                             ))}
                                         </select>
                                     </div>
@@ -1180,7 +1208,7 @@ const AppointmentManagerComponent = (props) => {
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}
                                             onChange={(e) => {
-                                                handleSelectChange();
+                                                handleSelectChange(e);
                                                 setSelectedValue(e.target.value); 
                                                 const selectedValue = JSON.parse(e.target.value);
 
@@ -1193,7 +1221,7 @@ const AppointmentManagerComponent = (props) => {
                                                         },
                                                     });
 
-                                                    handleSelectChange();
+                                                    handleSelectChange(e);
                                                 } else if (e.target.value === "") {
                                                     inputValue("appointmentTime")({
                                                         target: {
@@ -1201,7 +1229,7 @@ const AppointmentManagerComponent = (props) => {
                                                         },
                                                     });
 
-                                                    handleSelectChange();
+                                                    handleSelectChange(e);
                                                 } else {
                                                     console.error("Invalid selected value:", selectedValue);
                                                 }

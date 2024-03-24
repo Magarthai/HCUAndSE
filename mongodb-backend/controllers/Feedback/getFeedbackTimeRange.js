@@ -101,7 +101,7 @@ router.post('/getFeedbackByRange', asyncHandler(async (req, res) => {
           if(feedbackList[3].score != 0){
           feedbackList[3].score = feedbackList[3].score / fourthScore;
           }
-          if (feedbackList[3].score != 0){
+          if (feedbackList[4].score != 0){
           feedbackList[4].score = feedbackList[4].score / fifthScore;
           }
           if (feedbackList[5].score != 0){
