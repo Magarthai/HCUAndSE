@@ -172,6 +172,20 @@
 #user-Activity_card_time{
     margin: 0;
 }
+.user-activity-box-noToday{
+    background-color: #FBFFFF;
+    box-shadow: 1px 5px 5px rgba(0,0,0,0.25);
+    margin: 0% 5%;
+    height: 20%;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    
+    
+    
+}
 @media (max-width: 600px) {
     .user-Activity_card_registed_container{
         /* height: 180px; */
