@@ -1036,15 +1036,16 @@ const AppointmentManagerComponent = (props) => {
                                 <div className="admin-appointment-box-card">
                                     {AppointmentUsersData.sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start)).map((AppointmentUserData, index) => (
                                         <div className="admin-appointment-card colorPrimary-800" key={index} onClick={handleCardClick}>
-                                            <div className="admin-appointment-card-detail" onClick={(event) => openDetailAppointment(event,AppointmentUserData)}>
-                                                <div className="admin-appointment-card-time admin-textBody-small">
-                                                    {AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}
-                                                </div>
-                                                <div className="admin-appointment-info flex-column">
-                                                    <p id="student-id" className="admin-textBody-huge">{AppointmentUserData.id}</p>
-                                                    <p id="student-name" className="admin-textBody-small" style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
-                                                </div>
-                                           
+                                            <div className="admin-appointment-card-detail" >
+                                                <span className="admin-appointment-card-detail-box" onClick={(event) => openDetailAppointment(event,AppointmentUserData)}>
+                                                    <div className="admin-appointment-card-time admin-textBody-small">
+                                                        {AppointmentUserData.timeslot.start}-{AppointmentUserData.timeslot.end}
+                                                    </div>
+                                                    <div className="admin-appointment-info flex-column">
+                                                        <p id="student-id" className="admin-textBody-huge">{AppointmentUserData.id}</p>
+                                                        <p id="student-name" className="admin-textBody-small" style={{overflow:"hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{`${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`}</p>
+                                                    </div>
+                                                </span>
                                                 <div className="admin-appointment-functon">
                                                 {`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}` === DateToCheck ? (
                                                     <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>

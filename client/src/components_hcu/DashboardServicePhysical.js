@@ -314,6 +314,12 @@ const DashboardServicePhysical = (props) => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
+                    {data2 && data2[0] && data2[1] && data2[0].value === 0 && data2[1].value === 0 && ( 
+                      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+                      </text>
+                    )}
+                    {data2 && data2[0] && data2[1] && (data2[0].value != 0 || data2[1].value != 0) && (
                     <Legend 
                       align="right" 
                       verticalAlign="middle" 
@@ -325,6 +331,7 @@ const DashboardServicePhysical = (props) => {
                       }}
                       layout="vertical"
                     />
+                    )} 
                    </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -390,6 +397,12 @@ const DashboardServicePhysical = (props) => {
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>
+                  {data5 && data5[0] && data5[1] && data5[0].value === 0 && data5[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                  {data5 && data5[0] && data5[1] && (data5[0].value !== 0 || data5[1].value !== 0) && (
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 
@@ -401,6 +414,7 @@ const DashboardServicePhysical = (props) => {
                     }}
                     layout="vertical"
                   />
+                  )} 
                   </PieChart>
                   </ResponsiveContainer>
                 </div>

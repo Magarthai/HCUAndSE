@@ -332,6 +332,11 @@ const DashboardServiceAll = (props) => {
                       {data2 && data2.length > 0 && data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
+                      {data2 && data2.length === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
+      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#000">
+        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+      </text>
+    )}
                     </Pie>
                     <Legend 
                       align="right" 
@@ -405,7 +410,13 @@ const DashboardServiceAll = (props) => {
                     {Todaydata2 && Todaydata2.length > 0 && data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
+                    
                   </Pie>
+                  {Todaydata2 && Todaydata2.length === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
+                    <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                      ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                    </text>
+                  )}
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 

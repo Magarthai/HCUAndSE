@@ -573,7 +573,7 @@ const DashboardFeedbackAll = (props) => {
                     <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
                         <h4 className="center">บริการฝังเข็ม</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
-                            {data && data[4] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[5].score) ? data[5].score : data[5].score.toFixed(2)}</h1>)}
+                            {data && data[4] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[4].score) ? data[4].score : data[4].score.toFixed(2)}</h1>)}
                             <h3> จาก 5 </h3>
                         </div>
                         <div className="admin-dashboard-feedback-box4">

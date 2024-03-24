@@ -288,7 +288,14 @@ const DashBoardGeneral = (props) => {
                       {data2 && data2.length > 0 && data2.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
+
                     </Pie>
+                    {data2 && data2[0] && data2[1] && data2[0].value === 0 && data2[1].value === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
+                      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+                      </text>
+                    )}
+                     {data2 && data2[0] && data2[1] && (data2[0].value != 0 || data2[1].value != 0) && (
                     <Legend 
                       align="right" 
                       verticalAlign="middle" 
@@ -300,6 +307,7 @@ const DashBoardGeneral = (props) => {
                       }}
                       layout="vertical"
                     />
+                     )}
                    </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -340,6 +348,12 @@ const DashBoardGeneral = (props) => {
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>
+                    {data3 && data3[0] && data3[1] && data3[0].value === 0 && data3[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                    {data3 && data3[0] && data3[1] && (data3[0].value !== 0 || data3[1].value !== 0) && (
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 
@@ -351,6 +365,7 @@ const DashBoardGeneral = (props) => {
                     }}
                     layout="vertical"
                   />
+                  )}
                   </PieChart>
                   </ResponsiveContainer>
                 </div>
