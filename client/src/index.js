@@ -102,6 +102,13 @@ import UserFeedbackComponentPhysical from "./components_user/FeedbackComponentPh
 import UserFeedbackComponentPhysical2 from "./components_user/FeedbackComponentPhysical2.js"
 import UserFeedbackComponentNeedle from './components_user/FeedbackComponentNeedle.js';
 import UserFeedbackComponentNeedle2 from './components_user/FeedbackComponentNeedle2.js';
+import UserManualFunction2 from './components_user/UserManualFunction2.js';
+import UserManualFunction3 from './components_user/UserManualFunction3.js';
+import UserManualFunction4 from './components_user/UserManualFunction4.js';
+import UserManualFunction5 from './components_user/UserManualFunction5.js';
+import UserManualFunction6 from './components_user/UserManualFunction6.js';
+import UserManualFunction7 from './components_user/UserManualFunction7.js';
+import UserManualFunction8 from './components_user/UserManualFunction8.js';
 
 const router = createBrowserRouter([
   {
@@ -436,6 +443,34 @@ const router = createBrowserRouter([
   {
     path: "/manual/function1",
     element: <ProtectRoute><UserManualFunction1/></ProtectRoute>
+  },
+  {
+    path: "/manual/function2",
+    element: <ProtectRoute><UserManualFunction2/></ProtectRoute>
+  },
+  {
+    path: "/manual/function3",
+    element: <ProtectRoute><UserManualFunction3/></ProtectRoute>
+  },
+  {
+    path: "/manual/function4",
+    element: <ProtectRoute><UserManualFunction4/></ProtectRoute>
+  },
+  {
+    path: "/manual/function5",
+    element: <ProtectRoute><UserManualFunction5/></ProtectRoute>
+  },
+  {
+    path: "/manual/function6",
+    element: <ProtectRoute><UserManualFunction6/></ProtectRoute>
+  },
+  {
+    path: "/manual/function7",
+    element: <ProtectRoute><UserManualFunction7/></ProtectRoute>
+  },
+  {
+    path: "/manual/function8",
+    element: <ProtectRoute><UserManualFunction8/></ProtectRoute>
   },
   {
     path: "/information",
