@@ -118,6 +118,7 @@
 .AppointList-body-cardCommitted-item-innerCard{
     margin: 0px 5%;
     margin-top: 5px;
+    margin-bottom: 20px;
     padding: 16px;
     border-radius: var(--Radius-Card, 20px);
     background: var(--Neutral-blue-50, #FBFFFF);

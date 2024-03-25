@@ -47,7 +47,7 @@ const InformationAllComponent = (props) => {
                 <div className="user-body-infomation colorPrimary-800">
                     <h3>ข้อมูลทั่วไป</h3>
                     {information.map((information, index) => (
-                    <a onClick={() => PreviewInformation(information)}className="user-card-infornation-flexbox">
+                    <a onClick={() => PreviewInformation(information)} className="user-card-infornation-flexbox" style={{textDecoration:"none", cursor:"pointer"}}>
                         <div className="user-card-infornation-box-img">
                             <img src={information.image}/>
                         </div>

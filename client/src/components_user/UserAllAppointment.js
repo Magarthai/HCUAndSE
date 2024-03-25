@@ -15,6 +15,8 @@ import { startOfWeek, endOfWeek, parse, isWithinInterval } from 'date-fns';
 import { PulseLoader } from "react-spinners";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import "../css/Component.css";
+
 const UserAllAppointment = () => {
     const navigate = useNavigate();
     const { user, userData } = useUserAuth();
@@ -441,7 +443,7 @@ const handleDateSelect = (selectedDate) => {
                                             <label className="user-appointment-warn">: กรุณายืนยันสิทธิ์ก่อน 15 นาที</label>
 
                                             <div className="user-appointment-btn-submit-set">
-                                                <button onClick={() => DeleteAppointment(AppointmentUserData, AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)} className="user-appointment-btn-cancel">ยกเลิกสิทธิ์</button>
+                                                <button onClick={() => DeleteAppointment(AppointmentUserData, AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)} className="user-appointment-btn-cancel colorPrimary-800">ยกเลิกสิทธิ์</button>
                                                 <button onClick={() => handleApprove(AppointmentUserData.appointment.appointmentuid, AppointmentUserData)} className="user-appointment-btn-submit">ยืนยันสิทธิ์</button>
                                             </div>
                                         </div>
