@@ -172,7 +172,7 @@ const getUserDataFromUserId = async (appointment,userId,timeslot,appointmentuid)
 
 export const DeleteAppointment = async (userData,appointmentuid, uid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData) => {
     const timetableRef = doc(db, 'appointment', appointmentuid);
-  
+    const time = `${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`
     Swal.fire({
       title: 'ลบนัดหมาย',
       text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา  ${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`,
@@ -205,6 +205,7 @@ export const DeleteAppointment = async (userData,appointmentuid, uid, setAllAppo
             date: AppointmentUserData.appointment.appointmentDate,
             clinic: AppointmentUserData.appointment.clinic,
             id: AppointmentUserData.id,
+            time:time
         };
         const REACT_APP_API = process.env.REACT_APP_API;
         console.log(info,"infoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfo");

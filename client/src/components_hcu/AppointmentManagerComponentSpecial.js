@@ -531,6 +531,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                             time: timeLabel,
                             clinic: updatedTimetable.clinic,
                             id: updatedTimetable.appointmentId,
+                            oldDate: updatedTimetableRollBack.appointmentDate,
                         };
                         const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
                         Swal.fire({
@@ -742,7 +743,7 @@ const AppointmentManagerComponentSpecial = (props) => {
 
     const DeleteAppointment = async (appointmentuid, uid,AppointmentUserData) => {
         const timetableRef = doc(db, 'appointment', appointmentuid);
-    
+        const time = `${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`
         Swal.fire({
             title: 'ลบนัดหมาย',
             text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา ${AppointmentUserData.timeslot.start}-${AppointmentUserData.timeslot.end}`,
@@ -774,6 +775,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                     date: AppointmentUserData.appointment.appointmentDate,
                     clinic: AppointmentUserData.appointment.clinic,
                     id: AppointmentUserData.id,
+                    time:time,
                 };
                 const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
 

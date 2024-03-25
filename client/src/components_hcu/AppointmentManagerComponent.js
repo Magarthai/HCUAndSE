@@ -545,6 +545,7 @@ const AppointmentManagerComponent = (props) => {
                             time: timeLabel,
                             clinic: updatedTimetable.clinic,
                             id: updatedTimetable.appointmentId,
+                            oldDate: updatedTimetableRollBack.appointmentDate,
                         };
                         const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
                         Swal.fire({

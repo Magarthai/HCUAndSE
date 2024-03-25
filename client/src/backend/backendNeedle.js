@@ -2,7 +2,8 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import { getUserDataFromUserId } from './getDataFromUserId'
-
+import axios from "axios";
+const REACT_APP_API = process.env.REACT_APP_API
 export const fetchTimeTableDataNeedle = async (user, selectedDate) => {
     try {
         if (user && selectedDate && selectedDate.dayName) {
@@ -47,7 +48,7 @@ export const fetchTimeTableMainDataNeedle = async (user, selectedDates) => {
     }
 }
 
-export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation) => {
+export const submitFormNeedle = async (userData,timeLabel,selectedDate, timeOptions, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation) => {
     try {
         const appointmentInfo = {
             appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
@@ -183,7 +184,14 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
                                     )
                                     window.location.reload();
                                 }
-
+                                const info = {
+                                    role: userData.role,
+                                    date: appointmentInfo.appointmentDate,
+                                    time: timeLabel,
+                                    clinic: appointmentInfo.clinic,
+                                    id: appointmentInfo.appointmentId,
+                                };
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
                         } catch(firebaseError) {
                             Swal.fire(
                                 {
@@ -248,8 +256,14 @@ export const submitFormNeedle = async (selectedDate, timeOptions, selectedValue,
     }
 }
 
-export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr) => {
+export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr) => {
     try {
+        let type = ""
+        if(typecheck == "main") {
+            type = "needle"
+        } else {
+            type = "talk"
+        }
         const timetableRef = doc(db, 'appointment', uid);
         console.log(uid);
         const usersCollection = collection(db, 'users');
@@ -403,6 +417,16 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                             .catch((error) => {
                                                 console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                                             });
+                                            const info = {
+                                                role: userData.role,
+                                                date: updatedTimetable.appointmentDate,
+                                                time: timeLabel,
+                                                clinic: updatedTimetable.clinic,
+                                                id: updatedTimetable.appointmentId,
+                                                oldDate: updatedTimetableRollBack.appointmentDate,
+                                                type: type,
+                                            };
+                                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -424,7 +448,7 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                     {
                                         title: 'เกิดข้อผิดพลาด!',
                                         text: firebaseError,
-                                        icon: 'success',
+                                        icon: 'error',
                                         confirmButtonText: 'ตกลง',
                                         confirmButtonColor: '#263A50',
                                         customClass: {
@@ -498,28 +522,22 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                         await updateDoc(timetableRef, updatedTimetableRollBack);
                                         return;
                                     }
-                                    Swal.fire({
-                                        icon: "success",
-                                        title: "การอัปเดตการนัดหมายสำเร็จ!",
-                                        text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
-                                        confirmButtonText: 'ตกลง',
-                                        confirmButtonColor: '#263A50',
-                                        customClass: {
-                                            confirmButton: 'custom-confirm-button',
-                                        }
-                                    }
-                                    ).then(async (result) => {
-                                        if (result.isConfirmed) {
-                                            await updateDoc(timetableRef, updatedTimetable);
-                                            window.location.reload();
-                                        }
-                                    });
+                                    const info = {
+                                        role: userData.role,
+                                        date: updatedTimetable.appointmentDate,
+                                        time: timeLabel,
+                                        clinic: updatedTimetable.clinic,
+                                        id: updatedTimetable.appointmentId,
+                                        oldDate: updatedTimetableRollBack.appointmentDate,
+                                        type: type,
+                                    };
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                             } catch (firebaseError) {
                                 Swal.fire(
                                     {
                                         title: 'เกิดข้อผิดพลาด!',
                                         text: firebaseError,
-                                        icon: 'success',
+                                        icon: 'error',
                                         confirmButtonText: 'ตกลง',
                                         confirmButtonColor: '#263A50',
                                         customClass: {
@@ -569,9 +587,20 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
+                                const info = {
+                                    role: userData.role,
+                                    date: updatedTimetable.appointmentDate,
+                                    time: timeLabel,
+                                    clinic: updatedTimetable.clinic,
+                                    id: updatedTimetable.appointmentId,
+                                    oldDate: updatedTimetableRollBack.appointmentDate,
+                                    type: type,
+                                };
+                                await updateDoc(timetableRef, updatedTimetable);
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -584,7 +613,6 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                 }
                                 ).then(async (result) => {
                                     if (result.isConfirmed) {
-                                        await updateDoc(timetableRef, updatedTimetable);
                                         window.location.reload();
                                     }
                                 });
@@ -634,9 +662,20 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
+                                await updateDoc(timetableRef, updatedTimetable);
+                                const info = {
+                                    role: userData.role,
+                                    date: updatedTimetable.appointmentDate,
+                                    time: timeLabel,
+                                    clinic: updatedTimetable.clinic,
+                                    id: updatedTimetable.appointmentId,
+                                    oldDate: updatedTimetableRollBack.appointmentDate,
+                                    type: type,
+                                };
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -649,10 +688,27 @@ export const editFormNeedle = async (selectedDate, timeOptions, timeOptionsss, t
                                 }
                                 ).then(async (result) => {
                                     if (result.isConfirmed) {
-                                        await updateDoc(timetableRef, updatedTimetable);
+                                        
                                         window.location.reload();
                                     }
                                 });
+                                
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "การอัปเดตการนัดหมายสำเร็จ!",
+                                        text: "การนัดหมายถูกอัปเดตเรียบร้อยแล้ว!",
+                                        confirmButtonText: 'ตกลง',
+                                        confirmButtonColor: '#263A50',
+                                        customClass: {
+                                            confirmButton: 'custom-confirm-button',
+                                        }
+                                    }
+                                    ).then(async (result) => {
+                                        if (result.isConfirmed) {
+                                            await updateDoc(timetableRef, updatedTimetable);
+                                            window.location.reload();
+                                        }
+                                    });
                             } catch (firebaseError) {
                                 Swal.fire(
                                     {
@@ -901,9 +957,9 @@ export const submitFormAddContinue2Needle = async (appointmentId, time, state, a
     }
 };
 
-const DeleteAppointmentNeedle = async (appointmentuid, uid,AppointmentUserData) => {
+const DeleteAppointmentNeedle = async (userData,type,appointmentuid, uid,AppointmentUserData) => {
     const timetableRef = doc(db, 'appointment', appointmentuid);
-
+    const time = `${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`
     Swal.fire({
         title: 'ลบนัดหมาย',
         text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา  ${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`,
@@ -929,6 +985,15 @@ const DeleteAppointmentNeedle = async (appointmentuid, uid,AppointmentUserData) 
                 await updateDoc(userRef, {
                     "appointments": arrayRemove("appointments", appointmentuid)
                 });
+                const info = {
+                    role: userData.role,
+                    date: AppointmentUserData.appointment.appointmentDate,
+                    clinic: AppointmentUserData.appointment.clinic,
+                    id: AppointmentUserData.id,
+                    time:time,
+                    type:type
+                };
+                const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointmentV2`, info);
                 window.location.reload();
                 Swal.fire(
                     {
