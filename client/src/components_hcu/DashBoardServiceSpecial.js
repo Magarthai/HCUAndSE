@@ -197,7 +197,7 @@ const DashBoardSpecial = (props) => {
 
         return (
         
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+          <text x={x} y={y} fill="white" fontSize={12} textAnchor="middle" dominantBaseline="middle">
             {`${(percent * 100).toFixed(0)}%`}
           </text>
           
@@ -239,7 +239,7 @@ const DashBoardSpecial = (props) => {
                     <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
             </div>
            
@@ -288,10 +288,16 @@ const DashBoardSpecial = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {data.map((entry, index) => (
+                      {data2 && data2.length > 0 && data2.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
+                    {data2 && data2[0] && data2[1] && data2[0].value === 0 && data2[1].value === 0 && ( 
+                      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+                      </text>
+                    )}
+                    {data2 && data2[0] && data2[1] && (data2[0].value != 0 || data2[1].value != 0) && (
                     <Legend 
                       align="right" 
                       verticalAlign="middle" 
@@ -303,6 +309,7 @@ const DashBoardSpecial = (props) => {
                       }}
                       layout="vertical"
                     />
+                     )} 
                    </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -339,10 +346,16 @@ const DashBoardSpecial = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                   >
-                    {data.map((entry, index) => (
+                    {data3 && data3.length > 0 && data3.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>
+                  {data3 && data3[0] && data3[1] && data3[0].value === 0 && data3[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                  {data3 && data3[0] && data3[1] && (data3[0].value !== 0 || data3[1].value !== 0) && (
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 
@@ -354,6 +367,7 @@ const DashBoardSpecial = (props) => {
                     }}
                     layout="vertical"
                   />
+                  )} 
                   </PieChart>
                   </ResponsiveContainer>
                 </div>

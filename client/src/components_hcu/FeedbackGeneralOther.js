@@ -183,7 +183,7 @@ const FeedbackGeneralOther = (props) => {
                     <a href="#" target="_parent" id="select">อื่นๆ</a>
                 </div> 
                 <div className="admin-hearder-item3 admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
 
             </div>

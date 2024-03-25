@@ -71,7 +71,7 @@ const  UserManual = (props) => {
     function showUserManual(functionUserManual, btn){
         const elements1 = Array.from(document.querySelectorAll(".admin-userManual-btn"));
         elements1.forEach(element => {
-            element.classList.remove("active");
+            element.classList.remove("admin-manual-active");
         });
         
         const elements = Array.from(document.querySelectorAll(".admin-pdf"));
@@ -82,7 +82,7 @@ const  UserManual = (props) => {
         let x = document.getElementById(functionUserManual);
         let z = document.getElementById(btn);
         if (x !== null) {
-            z.classList.add("active")
+            z.classList.add("admin-manual-active")
             x.style.display = "block";
         } else {
             console.error(`Element with ID ${functionUserManual} not found.`);

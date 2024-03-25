@@ -318,8 +318,8 @@ const UserActivity = (props) => {
                             
                                 )
                         ) )): (
-                            <div>
-                                <h4>ไม่มีกิจกรรมที่เปิดวันนี้</h4>
+                            <div className="user-activity-box-noToday">
+                                <h4 className="colorPrimary-800">ไม่มีกิจกรรมที่เปิดวันนี้</h4>
                             </div>
                         
                         )}
@@ -360,7 +360,8 @@ const UserActivity = (props) => {
                                 </div>
                             </div>
                         ) )): (
-                            <div>
+                            <div className="user-activity-box-noToday">
+                                <h4 className="colorPrimary-800">ไม่มีกิจกรรมเร็วๆนี้</h4>
                             </div>
                         
                         )}

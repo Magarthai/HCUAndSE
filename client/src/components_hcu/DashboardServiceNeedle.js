@@ -218,7 +218,7 @@ const DashboardServiceNeedle = (props) => {
 
         return (
         
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+          <text x={x} y={y} fill="white" fontSize={12} textAnchor="middle" dominantBaseline="middle">
             {`${(percent * 100).toFixed(0)}%`}
           </text>
           
@@ -262,7 +262,7 @@ const DashboardServiceNeedle = (props) => {
                     <a href="#" target="_parent" id="select">คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
             </div>
            
@@ -313,10 +313,16 @@ const DashboardServiceNeedle = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {data.map((entry, index) => (
+                      {data2 && data2.length > 0 && data2.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
+                    {data2 && data2[0] && data2[1] && data2[0].value === 0 && data2[1].value === 0 && ( 
+                      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+                      </text>
+                    )}
+                    {data2 && data2[0] && data2[1] && (data2[0].value != 0 || data2[1].value != 0) && (
                     <Legend 
                       align="right" 
                       verticalAlign="middle" 
@@ -328,6 +334,7 @@ const DashboardServiceNeedle = (props) => {
                       }}
                       layout="vertical"
                     />
+                    )} 
                    </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -389,10 +396,16 @@ const DashboardServiceNeedle = (props) => {
                       fill="#8884d8"
                       dataKey="value"
                   >
-                    {data.map((entry, index) => (
+                    {data5 && data5.length > 0 && data5.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
                   </Pie>
+                  {data5 && data5[0] && data5[1] && data5[0].value === 0 && data5[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                  {data5 && data5[0] && data5[1] && (data5[0].value !== 0 || data5[1].value !== 0) && (
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 
@@ -405,6 +418,7 @@ const DashboardServiceNeedle = (props) => {
                     layout="vertical"
                     
                   />
+                  )} 
                   </PieChart>
                   </ResponsiveContainer>
                 </div>

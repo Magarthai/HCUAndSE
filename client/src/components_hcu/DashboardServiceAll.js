@@ -232,7 +232,7 @@ const DashboardServiceAll = (props) => {
 
         return (
         
-          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+          <text x={x} y={y} fill="white" fontSize={12}   textAnchor="middle" dominantBaseline="middle">
             {`${(percent * 100).toFixed(0)}%`}
           </text>
           
@@ -276,7 +276,7 @@ const DashboardServiceAll = (props) => {
                     <a href="/adminDashboardServiceNeedle" target="_parent" >คลินิกฝังเข็ม</a>
                 </div>
                 <div className="admin-hearder-item admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
                 </div>
             </div>
            
@@ -332,6 +332,11 @@ const DashboardServiceAll = (props) => {
                       {data2 && data2.length > 0 && data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
+                      {data2 && data2.length === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
+      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#000">
+        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+      </text>
+    )}
                     </Pie>
                     <Legend 
                       align="right" 
@@ -400,17 +405,26 @@ const DashboardServiceAll = (props) => {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
+                      tick={{ fontSize: 12 }}
                   >
                     {Todaydata2 && Todaydata2.length > 0 && data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
                     ))}
+                    
                   </Pie>
+                  {Todaydata2 && Todaydata2.length === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
+                    <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                      ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                    </text>
+                  )}
                   <Legend 
                     align="right" 
                     verticalAlign="middle" 
                     iconType="circle"
                     formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
                     layout="vertical"
+                    
+
                   />
                   </PieChart>
                   </ResponsiveContainer>
