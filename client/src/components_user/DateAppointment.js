@@ -455,13 +455,18 @@ const formatDateForDisplay = (isoDate) => {
       const handleToggle = () => {
         setIsOpen(!isOpen);
       };
-      
       const today = new Date();
       const nextThreeMonths = new Date();
       nextThreeMonths.setMonth(today.getMonth() + 3);
       const tomorrow = new Date();
       tomorrow.setDate(today.getDate() + 1); 
+      console.log(tomorrow.toISOString().split('T')[0], "safas")
 
+      window.onload = function() {
+        const minDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById("myDate").setAttribute("min", minDate);
+    };
+   
 
     return (
         <div className="user">
@@ -493,9 +498,9 @@ const formatDateForDisplay = (isoDate) => {
                     <input
                         type="date"
                         className="form-control"
-                        
-                        min={tomorrow.toISOString().split('T')[0]} 
-                        max={nextThreeMonths.toISOString().split('T')[0] } 
+                        id="myDate"
+                        // min={tomorrow.toISOString().split('T')[0]} 
+                        // max={nextThreeMonths.toISOString().split('T')[0] } 
                         
                         onChange={(e) => {
                             inputValue("appointmentDate")(e);
