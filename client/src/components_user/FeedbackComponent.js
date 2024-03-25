@@ -140,7 +140,7 @@ const FeedbackComponent = (props) => {
                             <option value="บริการจ่ายยาโดยพยาบาล">บริการจ่ายยาโดยพยาบาล</option>
                             <option value="บริการทำแผล-ฉีดยา">บริการทำแผล-ฉีดยา</option>
                             <option value="บริการกายภาพบำบัด">บริการกายภาพบำบัด</option>
-                            <option value="บริการกายภาพบำบัด">บริการฝังเข็ม</option>
+                            <option value="บริการฝังเข็ม">บริการฝังเข็ม</option>
                             <option value="อื่นๆ">อื่นๆ</option>
                         </select>
                     </div>
