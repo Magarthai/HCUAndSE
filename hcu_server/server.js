@@ -86,9 +86,7 @@ app.use('/api', appointmentCurrentMonthRangeCountSuccessByClinic);
 app.use('/api', appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle);
 app.use('/api', appointmentCurrentMonthTodayCountSuccessByPhysicOrNeedle);
 app.use('/api', NotificationAddAppointment);
-
 app.use('/api', NotificationDeleteAppointment);
-
 app.use('/api', NotificationEditAppointment);
 let locale = 'th-TH';
 let today = new Date();

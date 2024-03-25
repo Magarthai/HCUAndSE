@@ -1051,7 +1051,7 @@ const AppointmentManagerComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(userData,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
                                                     </>
                                                 )}
                                                 </div>

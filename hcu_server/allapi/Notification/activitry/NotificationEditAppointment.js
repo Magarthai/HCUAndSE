@@ -31,7 +31,7 @@ const limitRequests = (req, res, next) => {
 
 
 
-router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) => {
+router.post('/NotificationEditAppointment', limitRequests, async (req, res) => {
     const role = req.body.role;
     if(role != "admin") {
         console.error(`Error sending data: ${error}`);
@@ -49,7 +49,7 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                 "messages": [
                     {
                     "type": "flex",
-                    "altText": "‼️ นัดหมายถูกยกเลิก ‼️",
+                    "altText": "‼️ นัดหมายถูกปรับเปลี่ยน ‼️",
                     "contents": {
                             "type": "bubble",
                             "header": {
@@ -58,7 +58,7 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "‼️ นัดหมายถูกยกเลิก ‼️"
+                                    "text": "‼️ นัดหมายถูกปรับเปลี่ยน ‼️"
                                 }
                                 ]
                             },
@@ -74,7 +74,7 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "🗓️ รายละเอียดการนัดที่ถูกยกเลิก"
+                                    "text": "🗓️ รายละเอียดการนัดที่ถูกปรับเปลี่ยน"
                                 },
                                 {
                                     "type": "text",
@@ -82,11 +82,14 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 },
                                 {
                                     "type": "text",
+                                    "text": `เวลา : ${data.time}`
+                                },
+                                {
+                                    "type": "text",
                                     "text": `คลินิก : ${data.clinic}`
                                 },
                                 {
                                     "type": "text",
-                                    "wrap": true,
                                     "text": `🙏🏻 ขออภัยในความไม่สะดวก กรุณาลงทะเบียนนัดหมายใหม่อีกครั้ง!`
                                 }
                                 ]
@@ -101,6 +104,7 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
         console.log('Response:', response.data);
         } catch (error) {
         console.error('Error:', error);
+        return res.status(500).json({ error: 'Internal server error' }); 
         }
         return res.json("success");
 
