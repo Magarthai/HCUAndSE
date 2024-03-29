@@ -961,7 +961,6 @@ const AppointmentManagerPhysicComponent = (props) => {
 
 
                                     divElement.innerHTML = `
-                                    
                             <p class="admin-textBody-large">วันที่ ${formatdate} สถานะ : ${existingAppointments.length > 0 ? 'มีช่วงเวลาไม่ว่าง กรุณาเปลี่ยน' : 'ว่าง'} </p>
                             ${templateCommon}
                         `;
