@@ -1,8 +1,10 @@
 const express = require('express');
-const { collection,getDocs,query,where} = require('firebase/firestore');
+const { collection,addDoc,doc,updateDoc,arrayUnion,arrayRemove,getDoc,deleteDoc,getDocs,query,where} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
-const firebaseConfig = require('../../../firebase');
+const { runTransaction } = require('firebase/firestore');
+const { FieldValue } = require('firebase/firestore');
+const firebaseConfig = require('../../../../firebase');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const router = express.Router();
@@ -31,25 +33,35 @@ const limitRequests = (req, res, next) => {
 
 
 
-router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) => {
+router.post('/NotificationAddContinueAppointmentV2', limitRequests, async (req, res) => {
     const role = req.body.role;
     if(role != "admin") {
-        console.error(`Error sending data: ${error}`);
         return res.status(500).json({ error: 'Internal server error' }); 
     };
     try {
         const data = req.body;
+        const appointments = req.body.timeList
         const studentID = req.body.id;
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', studentID)));
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+        let output = "";
+        for (let i = 0; i < appointments.length; i++) {
+            output += `ครั้งที่ ${i+1} \n วันที่ ${appointments[i].date} เวลา ${appointments[i].time}.\n`;
+        }
+        let type = ""
+        if(req.body.clinic == "คลินิกกายภาพ"){
+            type = "บริการทํากายภาพ"
+        } else {
+            type = "บริการทําฝังเข็ม"
+        }
         const body = {
             "to": `${userData.userLineID}`,
                 "messages": [
                     {
                     "type": "flex",
-                    "altText": "‼️ นัดหมายถูกยกเลิก ‼️",
+                    "altText": "‼️ การนัดหมายใหม่ ‼️",
                     "contents": {
                             "type": "bubble",
                             "header": {
@@ -58,7 +70,7 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "‼️ นัดหมายถูกยกเลิก ‼️"
+                                    "text": "‼️ การนัดหมายใหม่ ‼️"
                                 }
                                 ]
                             },
@@ -74,11 +86,12 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "🗓️ รายละเอียดการนัดที่ถูกยกเลิก"
+                                    "text": "🗓️ รายละเอียดการนัดหมายใหม่"
                                 },
                                 {
                                     "type": "text",
-                                    "text": `วันที่ : ${data.date}`
+                                    "wrap": true,
+                                    "text": `${output}`
                                 },
                                 {
                                     "type": "text",
@@ -86,7 +99,11 @@ router.post('/NotificationDeleteAppointment', limitRequests, async (req, res) =>
                                 },
                                 {
                                     "type": "text",
-                                    "text": `🙏🏻 ขออภัยในความไม่สะดวก กรุณาลงทะเบียนนัดหมายใหม่อีกครั้ง!`
+                                    "text": `ประเภทนัดหมาย: ${type}`
+                                },
+                                {
+                                    "type": "text",
+                                    "text": `🙏🏻 กรุณามาก่อนเวลานัดหมาย 10 นาที`
                                 }
                                 ]
                             }

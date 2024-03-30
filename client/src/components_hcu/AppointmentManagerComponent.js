@@ -545,6 +545,7 @@ const AppointmentManagerComponent = (props) => {
                             time: timeLabel,
                             clinic: updatedTimetable.clinic,
                             id: updatedTimetable.appointmentId,
+                            oldDate: updatedTimetableRollBack.appointmentDate,
                         };
                         const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
                         Swal.fire({
@@ -1052,7 +1053,7 @@ const AppointmentManagerComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointment(userData,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData)} />
                                                     </>
                                                 )}
                                                 </div>

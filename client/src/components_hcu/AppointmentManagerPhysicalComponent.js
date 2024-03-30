@@ -19,6 +19,7 @@ import DeleteAppointmentPhysic from "../backend/backendPhysic";
 import Swal from "sweetalert2";
 import icon_date from "../picture/datepicker.png"
 import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
 const AppointmentManagerPhysicComponent = (props) => {
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const [selectedDate, setSelectedDate] = useState(null);
@@ -32,6 +33,8 @@ const AppointmentManagerPhysicComponent = (props) => {
     const [timeOptionss, setTimeOptionss] = useState([]);
     const [timeOptionsss, setTimeOptionsss] = useState([]);
     const [selectedValue, setSelectedValue] = useState("");
+
+    const [timeLabel, setTimeLabel] = useState("");
     const handleDateSelect = (selectedDate) => {
         console.log("Selected Date in AppointmentManager:", selectedDate);
         setAllAppointmentUsersData([]);
@@ -59,7 +62,13 @@ const AppointmentManagerPhysicComponent = (props) => {
         z.style.display = "none";
 
     };
-
+    const handleSelectChange2 = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        console.log(timeRange);
+        setTimeLabel(timeRange)
+        setSelectedCount(selectedCount + 1);
+    };
     const [state, setState] = useState({
         appointmentDate: "",
         appointmentDates: "",
@@ -193,6 +202,7 @@ const AppointmentManagerPhysicComponent = (props) => {
         }
         return isoDate;
     };
+    
     const [datePicker, setDatePicker] = useState(null);
     const handleChange = (e) => {
         const date1 =  `${e.getFullYear()}-${e.getMonth() + 1}-${e.getDate()}`
@@ -429,13 +439,13 @@ const AppointmentManagerPhysicComponent = (props) => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        await submitFormPhysic(selectedDate,timeOptions,selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation);
+        await submitFormPhysic(userData,timeLabel,selectedDate,timeOptions,selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation);
     };
 
 
     const handleFormEdit = async (e) => {
         e.preventDefault();
-        await editFormPhysic(selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr);
+        await editFormPhysic(userData,timeLabel,selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr);
     };
 
     const [saveDetailId, setsaveDetailId] = useState([])
@@ -951,7 +961,6 @@ const AppointmentManagerPhysicComponent = (props) => {
 
 
                                     divElement.innerHTML = `
-                                    
                             <p class="admin-textBody-large">วันที่ ${formatdate} สถานะ : ${existingAppointments.length > 0 ? 'มีช่วงเวลาไม่ว่าง กรุณาเปลี่ยน' : 'ว่าง'} </p>
                             ${templateCommon}
                         `;
@@ -1054,7 +1063,7 @@ const AppointmentManagerPhysicComponent = (props) => {
         const formattedDate = `${day}/${month}/${year}`;
         return formattedDate;
     };
-
+    const REACT_APP_API = process.env.REACT_APP_API;
     
     const submitFormAddContinue2 = async (e) => {
         handleSelectChange();
@@ -1102,6 +1111,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                 }).then( async(result) => {
                     if (result.isConfirmed) {
                         try {
+                            const timeList = [];
                             let check = 0
                             for (let i = 1; i <= time; i++) {
                                 const variableName = `appointmentTime${i}`;
@@ -1127,7 +1137,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         status2: "เสร็จสิ้น",
                                         subject: "เพิ่มนัดหมาย",
                                     };
-                
+                                    
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
                                     const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
                                     const querySnapshot = await getDoc(timeTableDocRef);
@@ -1149,8 +1159,17 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                 }
                                             });
                                             return;
+                                        } else {
+                                            const timeIndex = timeTableData.timeablelist[updatedTimetable.appointmentTime.timeSlotIndex];
+                                            const time = `${timeIndex.start} - ${timeIndex.end}`;
+                                            const dateObject = {
+                                                date: updatedTimetable.appointmentDate,
+                                                time: time,
+                                            }
+                                            timeList.push(dateObject);
                                         }
                                     }
+                                    
                                     const userDocRef = doc(db, 'users', userId);
                                     const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: updatedTimetable.appointmentDate}
                                     await updateDoc(userDocRef, {
@@ -1159,6 +1178,8 @@ const AppointmentManagerPhysicComponent = (props) => {
                                     await updateDoc(timeTableDocRef, {
                                         appointmentList: arrayUnion(timeTableAppointment),
                                     });
+
+                                    
                             }}
                             } else {
                                 Swal.fire({
@@ -1173,7 +1194,15 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 });
                                 return;
                             }
+                            const info = {
+                                id: appointmentId,
+                                role: userData.role,
+                                timeList: timeList,
+                                clinic: "คลินิกกายภาพ",
+                            };
                             
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
+                            console.log(timeList,"timeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeList")
                                 Swal.fire({
                                     icon: "success",
                                     title: "การนัดหมายสำเร็จ!",
@@ -1271,7 +1300,9 @@ const AppointmentManagerPhysicComponent = (props) => {
             currentCard.classList.add('focused');
         }
     }
-
+    useEffect(() => {
+        console.log(typecheck)
+    },[typecheck]);
     const statusElements = document.querySelectorAll('.admin-appointment-status');
 
     function changeStatusTextColor(element) {
@@ -1327,6 +1358,8 @@ const AppointmentManagerPhysicComponent = (props) => {
         const formattedDate = formatDateForDisplay(date.toISOString().split("T")[0]);
         console.log("Formatted Date:", formattedDate);
       };
+      const talk = "talk";
+    const main = "physic";
     return (
         <div className="appointment" style={containerStyle}>
             <NavbarComponent />
@@ -1402,7 +1435,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) => openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentPhysic(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentPhysic(userData,talk,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                                     </>
                                                 )}  
                                             </div>
@@ -1430,7 +1463,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) => openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentPhysic(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentPhysic(userData,main,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                                     </>
                                                 )}
                                             </div>
@@ -1473,7 +1506,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             value={JSON.stringify(appointmentTime)}
                                             onChange={(e) => {
                                                 setSelectedValue(e.target.value);
-                                                handleSelectChange();
+                                                handleSelectChange2(e);
                                                 const selectedValue = JSON.parse(e.target.value);
 
                                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -1488,7 +1521,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                             timeSlotIndex: timeSlotIndex,
                                                         },
                                                     }));
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else if (e.target.value === "") {
                                                     inputValue("appointmentTime")({
                                                         target: {
@@ -1496,7 +1529,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                         },
                                                     });
 
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else {
                                                     console.error("Invalid selected value:", selectedValue);
                                                 }
@@ -1586,7 +1619,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             onChange={(e) => {
                                                 setSelectedValue(e.target.value);
                                                 console.log(e.target.value,"XD")
-                                                handleSelectChange();
+                                                handleSelectChange2(e);
                                                  
                                                 const selectedValue = JSON.parse(e.target.value);
                                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -1601,14 +1634,14 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                             timeSlotIndex: timeSlotIndex,
                                                         },
                                                     }));
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else if (e.target.value === "") {
                                                     inputValue("appointmentTime")({
                                                         target: {
                                                             value: {},
                                                         },
                                                     });
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else {
                                                     console.error("Invalid selected value:", selectedValue);
                                                 }
@@ -1625,7 +1658,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                                         {timeOption.label}
                                                     </option>
                                                 )) :
-                                                timeOptions.map((timeOption, index) => (
+                                                timeOptionsss.map((timeOption, index) => (
                                                     <option
                                                         key={`${timeOption.value.timetableId}-${timeOption.value.timeSlotIndex}`}
                                                         value={index === 0 ? 0 : JSON.stringify({ timetableId: timeOption.value.timetableId, timeSlotIndex: timeOption.value.timeSlotIndex })}

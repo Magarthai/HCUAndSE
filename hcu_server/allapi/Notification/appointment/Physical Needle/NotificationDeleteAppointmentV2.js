@@ -1,10 +1,8 @@
 const express = require('express');
-const { collection,addDoc,doc,updateDoc,arrayUnion,arrayRemove,getDoc,deleteDoc,getDocs,query,where} = require('firebase/firestore');
+const { collection,getDocs,query,where} = require('firebase/firestore');
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
-const { runTransaction } = require('firebase/firestore');
-const { FieldValue } = require('firebase/firestore');
-const firebaseConfig = require('../../../firebase');
+const firebaseConfig = require('../../../../firebase');
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const router = express.Router();
@@ -33,7 +31,7 @@ const limitRequests = (req, res, next) => {
 
 
 
-router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
+router.post('/NotificationDeleteAppointmentV2', limitRequests, async (req, res) => {
     const role = req.body.role;
     if(role != "admin") {
         console.error(`Error sending data: ${error}`);
@@ -45,13 +43,21 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
         const usersCollection = collection(db, 'users');
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', studentID)));
         const userDocuments = userQuerySnapshot.docs;
+        let type = "";
+        if (data.type === "talk"){
+            type = "ปรึกษาแพทย์";
+        } else if (data.type === "physic"){
+            type = "บริการทํากายภาพ"
+        } else {
+            type = "บริการฝังเข็ม"
+        }
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const body = {
             "to": `${userData.userLineID}`,
                 "messages": [
                     {
                     "type": "flex",
-                    "altText": "‼️ การนัดหมายใหม่ ‼️",
+                    "altText": "‼️ นัดหมายถูกยกเลิก ‼️",
                     "contents": {
                             "type": "bubble",
                             "header": {
@@ -60,7 +66,7 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "‼️ การนัดหมายใหม่ ‼️"
+                                    "text": "‼️ นัดหมายถูกยกเลิก ‼️"
                                 }
                                 ]
                             },
@@ -76,7 +82,7 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
                                 "contents": [
                                 {
                                     "type": "text",
-                                    "text": "🗓️ รายละเอียดการนัดหมายใหม่"
+                                    "text": "🗓️ รายละเอียดการนัดที่ถูกยกเลิก"
                                 },
                                 {
                                     "type": "text",
@@ -84,15 +90,20 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
                                 },
                                 {
                                     "type": "text",
-                                    "text": `เวลา : ${data.time}`
-                                },
-                                {
-                                    "type": "text",
                                     "text": `คลินิก : ${data.clinic}`
                                 },
                                 {
                                     "type": "text",
-                                    "text": `🙏🏻 กรุณามาก่อนเวลานัดหมาย 10 นาที`
+                                    "text": `เวลา : ${data.time}`
+                                },
+                                {
+                                    "type": "text",
+                                    "text": `ประเภทนัดหมาย: ${type}`
+                                },
+                                {
+                                    "type": "text",
+                                    "wrap": true,
+                                    "text": `🙏🏻 ขออภัยในความไม่สะดวก กรุณาลงทะเบียนนัดหมายใหม่อีกครั้ง!`
                                 }
                                 ]
                             }
@@ -106,7 +117,6 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
         console.log('Response:', response.data);
         } catch (error) {
         console.error('Error:', error);
-        return res.status(500).json({ error: 'Internal server error' }); 
         }
         return res.json("success");
 

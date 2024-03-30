@@ -4,7 +4,7 @@ import edit from "../picture/icon_edit.jpg";
 import icon_delete from "../picture/icon_delete.jpg";
 import { useEffect, useState, useRef } from "react";
 import { useUserAuth } from "../context/UserAuthContext";
-import { db, getDocs, collection } from "../firebase/config";
+import { db, getDocs,getDoc, collection } from "../firebase/config";
 import { query, where, arrayUnion, addDoc, updateDoc, doc } from 'firebase/firestore';
 import 'react-datepicker/dist/react-datepicker.css';
 import "../css/AdminAppointmentComponent.css";
@@ -18,7 +18,7 @@ import icon_date from "../picture/datepicker.png"
 import DatePicker from "react-datepicker";
 import axios from "axios";
 const AppointmentManagerNeedleComponent = (props) => {
-
+    const REACT_APP_API = process.env.REACT_APP_API;
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDates, setSelectedDates] = useState(null);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -29,6 +29,7 @@ const AppointmentManagerNeedleComponent = (props) => {
     const [timeOptions, setTimeOptions] = useState([]);
     const [timeOptionss, setTimeOptionss] = useState([]);
     const [timeOptionsss, setTimeOptionsss] = useState([]);
+    const [timeLabel, setTimeLabel] = useState("");
     const handleDateSelect = (selectedDate) => {
         console.log("Selected Date in AppointmentManager:", selectedDate);
         setAllAppointmentUsersData([]);
@@ -113,6 +114,14 @@ const AppointmentManagerNeedleComponent = (props) => {
         setSelectedCount(selectedCount + 1);
         console.log(selectedCount)
 
+    };
+
+    const handleSelectChange2 = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        console.log(timeRange);
+        setTimeLabel(timeRange)
+        setSelectedCount(selectedCount + 1);
     };
 
     const formatDateForDisplay = (isoDate) => {
@@ -457,13 +466,13 @@ const AppointmentManagerNeedleComponent = (props) => {
     const [selectedValue, setSelectedValue] = useState("");
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        await submitFormNeedle(selectedDate,timeOptions,selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation);
+        await submitFormNeedle(userData,timeLabel,selectedDate,timeOptions,selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation);
     };
 
 
     const handleFormEdit = async (e) => {
         e.preventDefault();
-        await editFormNeedle(selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr);
+        await editFormNeedle(userData,timeLabel,selectedDate, timeOptions,timeOptionsss,typecheck,selectedValue,appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr,clinicr,typecheckr);
     };
 
     const [saveDetailId, setsaveDetailId] = useState([])
@@ -1134,6 +1143,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                 }).then( async(result) => {
                     if (result.isConfirmed) {
                         try {
+                            const timeList = [];
                             let check = 0
                             for (let i = 1; i <= time; i++) {
                                 const variableName = `appointmentTime${i}`;
@@ -1162,6 +1172,35 @@ const AppointmentManagerNeedleComponent = (props) => {
                 
                                     const appointmentRef = await addDoc(collection(db, 'appointment'), updatedTimetable);
                                     const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
+                                    const querySnapshot = await getDoc(timeTableDocRef);
+                                    if (querySnapshot.exists()){
+                                        const timeTableData = querySnapshot.data();
+                                        if (timeTableData.isDelete === "Yes" || timeTableData.status === "Disabled") {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "เกิดข้อผิดพลาด!",
+                                                html: `เวลาถูกปิดไม่ให้ใช้งานต่อแล้ว! <br/> ตั้งแต่วันที่ ${updatedTimetable.appointmentDate}`,
+                                                confirmButtonText: 'ตกลง',
+                                                confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    confirmButton: 'custom-confirm-button',
+                                                }
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    resetForm();
+                                                }
+                                            });
+                                            return;
+                                        } else {
+                                            const timeIndex = timeTableData.timeablelist[updatedTimetable.appointmentTime.timeSlotIndex];
+                                            const time = `${timeIndex.start} - ${timeIndex.end}`;
+                                            const dateObject = {
+                                                date: updatedTimetable.appointmentDate,
+                                                time: time,
+                                            }
+                                            timeList.push(dateObject);
+                                        }
+                                    }
                                     const userDocRef = doc(db, 'users', userId);
                                     const timeTableAppointment = {appointmentId: appointmentRef.id, appointmentDate: updatedTimetable.appointmentDate}
                                     await updateDoc(userDocRef, {
@@ -1184,7 +1223,14 @@ const AppointmentManagerNeedleComponent = (props) => {
                                 });
                                 return;
                             }
+                            const info = {
+                                id: appointmentId,
+                                role: userData.role,
+                                timeList: timeList,
+                                clinic: "คลินิกฝังเข็ม",
+                            };
                             
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การนัดหมายสำเร็จ!",
@@ -1331,7 +1377,8 @@ const AppointmentManagerNeedleComponent = (props) => {
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 3);
     maxDate.setDate(0)
-
+    const talk = "talk";
+    const main = "needle";
     return (
         <div className="appointment" style={containerStyle}>
             <NavbarComponent />
@@ -1407,7 +1454,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) => openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentNeedle(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentNeedle(userData,talk,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                                     </>
                                                 )}  
                                             </div>
@@ -1435,7 +1482,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) => openEditAppointment(event,AppointmentUserData)} />
-                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentNeedle(AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid)} />
+                                                        <img src={icon_delete} className="icon_apppointment" onClick={() => DeleteAppointmentNeedle(userData,main,AppointmentUserData.appointment.appointmentuid, AppointmentUserData.userUid,AppointmentUserData)} />
                                                     </>
                                                 )}
                                             </div>
@@ -1478,7 +1525,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         value={JSON.stringify(appointmentTime)}
                                         onChange={(e) => {
                                             setSelectedValue(e.target.value);
-                                            handleSelectChange();
+                                            handleSelectChange2(e);
                                             const selectedValue = JSON.parse(e.target.value);
 
                                             if (selectedValue && typeof selectedValue === 'object') {
@@ -1493,7 +1540,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                         timeSlotIndex: timeSlotIndex,
                                                     },
                                                 }));
-                                                handleSelectChange();
+                                                handleSelectChange2(e);
                                             } else if (e.target.value === "") {
                                                 inputValue("appointmentTime")({
                                                     target: {
@@ -1501,7 +1548,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                     },
                                                 });
 
-                                                handleSelectChange();
+                                                handleSelectChange2(e);
                                             } else {
                                                 console.error("Invalid selected value:", selectedValue);
                                             }
@@ -1589,7 +1636,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                             value={selectedValue}
                                             onChange={(e) => {
                                                 setSelectedValue(e.target.value);
-                                                handleSelectChange();
+                                                handleSelectChange2(e);
                                                 const selectedValue = JSON.parse(e.target.value);
                                                 if (selectedValue && typeof selectedValue === 'object') {
                                                     const { timetableId, timeSlotIndex } = selectedValue;
@@ -1603,14 +1650,14 @@ const AppointmentManagerNeedleComponent = (props) => {
                                                             timeSlotIndex: timeSlotIndex,
                                                         },
                                                     }));
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else if (e.target.value === "") {
                                                     inputValue("appointmentTime")({
                                                         target: {
                                                             value: {},
                                                         },
                                                     });
-                                                    handleSelectChange();
+                                                    handleSelectChange2(e);
                                                 } else {
                                                     console.error("Invalid selected value:", selectedValue);
                                                 }

@@ -1,7 +1,11 @@
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import Swal from 'sweetalert2';
+import axios from "axios";
 import { getUserDataFromUserId } from './getDataFromUserId'
+import { useEffect } from "react";
+
+const REACT_APP_API = process.env.REACT_APP_API
 export const fetchTimeTableDataPhysic = async (user, selectedDate) => {
     try {
         if (user && selectedDate && selectedDate.dayName) {
@@ -45,7 +49,7 @@ export const fetchTimeTableMainDataPhysic = async (user, selectedDates) => {
     }
 }
 
-export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation) => {
+export const submitFormPhysic = async (userData,timeLabel,selectedDate, timeOptions, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation) => {
     try {
         const appointmentInfo = {
             appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
@@ -195,6 +199,14 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
                                     await updateDoc(timeTableDocRef, {
                                         appointmentList: arrayUnion(timeTableAppointment),
                                     });
+                                    const info = {
+                                        role: userData.role,
+                                        date: appointmentInfo.appointmentDate,
+                                        time: timeLabel,
+                                        clinic: appointmentInfo.clinic,
+                                        id: appointmentInfo.appointmentId,
+                                    };
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
                                     Swal.fire(
                                         {
                                             title: 'สําเร็จ!',
@@ -275,8 +287,14 @@ export const submitFormPhysic = async (selectedDate, timeOptions, selectedValue,
 }
 
 
-export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr) => {
+export const editFormPhysic = async (userData,timeLabel,selectedDate, timeOptions, timeOptionsss, typecheck, selectedValue, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, uid,appointmentDater,appointmentTimer,appointmentIdr,appointmentCasuer,appointmentSymptomr,appointmentNotationr) => {
     try {
+        let type = ""
+        if(typecheck == "main") {
+            type = "physic"
+        } else {
+            type = "talk"
+        }
         const timetableRef = doc(db, 'appointment', uid);
         console.log(uid);
         const usersCollection = collection(db, 'users');
@@ -430,6 +448,16 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                         .catch((error) => {
                                             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                                         });
+                                        const info = {
+                                            role: userData.role,
+                                            date: updatedTimetable.appointmentDate,
+                                            time: timeLabel,
+                                            clinic: updatedTimetable.clinic,
+                                            id: updatedTimetable.appointmentId,
+                                            oldDate: updatedTimetableRollBack.appointmentDate,
+                                            type: type,
+                                        };
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -525,6 +553,16 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                         await updateDoc(timetableRef, updatedTimetableRollBack);
                                         return;
                                     }
+                                    const info = {
+                                        role: userData.role,
+                                        date: updatedTimetable.appointmentDate,
+                                        time: timeLabel,
+                                        clinic: updatedTimetable.clinic,
+                                        id: updatedTimetable.appointmentId,
+                                        oldDate: updatedTimetableRollBack.appointmentDate,
+                                        type: type,
+                                    };
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -596,9 +634,20 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
+                                await updateDoc(timetableRef, updatedTimetable);
+                                const info = {
+                                    role: userData.role,
+                                    date: updatedTimetable.appointmentDate,
+                                    time: timeLabel,
+                                    clinic: updatedTimetable.clinic,
+                                    id: updatedTimetable.appointmentId,
+                                    oldDate: updatedTimetableRollBack.appointmentDate,
+                                    type: type,
+                                };
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -611,7 +660,6 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                 }
                                 ).then(async (result) => {
                                     if (result.isConfirmed) {
-                                        await updateDoc(timetableRef, updatedTimetable);
                                         window.location.reload();
                                     }
                                 });
@@ -661,9 +709,20 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                             confirmButton: 'custom-confirm-button',
                             cancelButton: 'custom-cancel-button',
                         }
-                    }).then((result) => {
+                    }).then(async(result) => {
                         if (result.isConfirmed) {
                             try {
+                                await updateDoc(timetableRef, updatedTimetable);
+                                const info = {
+                                    role: userData.role,
+                                    date: updatedTimetable.appointmentDate,
+                                    time: timeLabel,
+                                    clinic: updatedTimetable.clinic,
+                                    id: updatedTimetable.appointmentId,
+                                    oldDate: updatedTimetableRollBack.appointmentDate,
+                                    type: type,
+                                };
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -676,7 +735,6 @@ export const editFormPhysic = async (selectedDate, timeOptions, timeOptionsss, t
                                 }
                                 ).then(async (result) => {
                                     if (result.isConfirmed) {
-                                        await updateDoc(timetableRef, updatedTimetable);
                                         window.location.reload();
                                     }
                                 });
@@ -933,9 +991,9 @@ export const submitFormAddContinue2Physic = async (appointmentId, time, state, a
     }
 };
 
-const DeleteAppointmentPhysic = async (appointmentuid, uid,AppointmentUserData) => {
+const DeleteAppointmentPhysic = async (userData,type,appointmentuid, uid,AppointmentUserData) => {
     const timetableRef = doc(db, 'appointment', appointmentuid);
-
+    const time = `${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`
     Swal.fire({
         title: 'ลบนัดหมาย',
         text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา ${AppointmentUserData.timeslot.start}-${AppointmentUserData.timeslot.end}`,
@@ -961,7 +1019,15 @@ const DeleteAppointmentPhysic = async (appointmentuid, uid,AppointmentUserData) 
                 await updateDoc(userRef, {
                     "appointments": arrayRemove("appointments", appointmentuid)
                 });
-                
+                const info = {
+                    role: userData.role,
+                    date: AppointmentUserData.appointment.appointmentDate,
+                    clinic: AppointmentUserData.appointment.clinic,
+                    id: AppointmentUserData.id,
+                    time:time,
+                    type:type
+                };
+                const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointmentV2`, info);
                 Swal.fire(
                     {
                         title: 'การลบการนัดหมายสำเร็จ!',

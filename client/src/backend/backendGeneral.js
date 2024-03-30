@@ -1,7 +1,7 @@
 import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion ,deleteDoc,arrayRemove } from 'firebase/firestore';
 import Swal from 'sweetalert2';
-
+import axios from 'axios';
 export const fetchTimeTableDataFromBackend = async (user, selectedDate) => {
     try {
         if (user && selectedDate && selectedDate.dayName) {
@@ -170,9 +170,9 @@ const getUserDataFromUserId = async (appointment,userId,timeslot,appointmentuid)
 
 
 
-export const DeleteAppointment = async (appointmentuid, uid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData) => {
+export const DeleteAppointment = async (userData,appointmentuid, uid, setAllAppointmentUsersData, fetchUserDataWithAppointmentsWrapper,AppointmentUserData) => {
     const timetableRef = doc(db, 'appointment', appointmentuid);
-  
+    const time = `${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`
     Swal.fire({
       title: 'ลบนัดหมาย',
       text: `วันที่ ${AppointmentUserData.appointment.appointmentDate} เวลา  ${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}`,
@@ -200,6 +200,17 @@ export const DeleteAppointment = async (appointmentuid, uid, setAllAppointmentUs
           });
   
           console.log(appointmentuid);
+          const info = {
+            role: userData.role,
+            date: AppointmentUserData.appointment.appointmentDate,
+            clinic: AppointmentUserData.appointment.clinic,
+            id: AppointmentUserData.id,
+            time:time
+        };
+        const REACT_APP_API = process.env.REACT_APP_API;
+        console.log(info,"infoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfo");
+        const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
+        console.log(respone.data,"XDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
           setAllAppointmentUsersData([]);
           fetchUserDataWithAppointmentsWrapper();
           Swal.fire({
@@ -213,10 +224,24 @@ export const DeleteAppointment = async (appointmentuid, uid, setAllAppointmentUs
             },
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.reload();
+              // window.location.reload();
             }
           });
         } catch (error) {
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'ลบนัดหมายสำเร็จ',
+            icon: 'success',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#263A50',
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // window.location.reload();
+            }
+          });
           console.error('Error deleting appointment:', error);
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {

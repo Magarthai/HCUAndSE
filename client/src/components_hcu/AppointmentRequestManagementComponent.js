@@ -10,6 +10,7 @@ import { db, getDocs, collection, doc, getDoc, firestore } from "../firebase/con
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const AppointmentRequestManagementComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -19,7 +20,7 @@ const AppointmentRequestManagementComponent = (props) => {
     const [AppointmentUsersData, setAllAppointmentUsersData] = useState([]);
     const [isChecked, setIsChecked] = useState({});
     const [timeOptions, setTimeOptions] = useState([]);
-    
+    const REACT_APP_API = process.env.REACT_APP_API
 
     const [state, setState] = useState({
         appointmentDate: "",
@@ -214,7 +215,22 @@ const AppointmentRequestManagementComponent = (props) => {
                 appointmentDateOld: AppointmentUserData.appointment.appointmentDate2,
                 appointmentTimeOld: AppointmentUserData.appointment.appointmentTime2,
             };
-    
+            const timeTableDocNew = doc(db, 'timeTable', AppointmentUserData.appointment.appointmentTime.timetableId);
+            const timeTableDocRef = doc(db, 'timeTable', updatedAppointment.appointmentTimeOld.timetableId);
+
+            const querySnapshot = await getDoc(timeTableDocRef);
+            const querySnapshot2 = await getDoc(timeTableDocNew);
+            let time1 = "";
+            let time2 = "";
+
+            if (querySnapshot.exists() && querySnapshot2.exists()){
+                const oldData = querySnapshot.data();
+                const newData = querySnapshot2.data();
+                time1 = `${oldData.timeablelist[updatedAppointment.appointmentTimeOld.timeSlotIndex].start} - ${oldData.timeablelist[updatedAppointment.appointmentTimeOld.timeSlotIndex].end}`
+                time2 = `${newData.timeablelist[updatedAppointment.appointmentTime.timeSlotIndex].start} - ${oldData.timeablelist[updatedAppointment.appointmentTime.timeSlotIndex].end}`
+                
+            }
+
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
                 html: `อัพเดตเป็นวันที่ ${AppointmentUserData.appointment.appointmentDate}  เวลา ${AppointmentUserData.timeslot.start} -  ${AppointmentUserData.timeslot.end} <br/> จากเดิม ${AppointmentUserData.appointment.appointmentDate2} เวลา  ${AppointmentUserData.timeslot2.start} -  ${AppointmentUserData.timeslot2.end}`,
@@ -232,7 +248,16 @@ const AppointmentRequestManagementComponent = (props) => {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await updateDoc(appointmentRef, updatedAppointment);
-
+                    const info = {
+                        clinic : AppointmentUserData.appointment.clinic,
+                        date: updatedAppointment.appointmentDateOld,
+                        time: time1,
+                        date2: updatedAppointment.appointmentDate,
+                        time2: time2,
+                        id: AppointmentUserData.id,
+                        role: userData.role,
+                    }
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationSuccessRequest`, info);
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
@@ -278,7 +303,15 @@ const AppointmentRequestManagementComponent = (props) => {
                 appointmentDateOld: AppointmentUserData.appointment.appointmentDate2,
                 appointmentTimeOld: AppointmentUserData.appointment.appointmentTime2,
             };
-    
+            const timeTableDocRef = doc(db, 'timeTable', updatedTimetable.appointmentTimeOld.timetableId);
+
+            const querySnapshot = await getDoc(timeTableDocRef);
+            let time1 = "";
+
+            if (querySnapshot.exists()){
+                const oldData = querySnapshot.data();
+                time1 = `${oldData.timeablelist[updatedTimetable.appointmentTimeOld.timeSlotIndex].start} - ${oldData.timeablelist[updatedTimetable.appointmentTimeOld.timeSlotIndex].end}`
+            }
             Swal.fire({
                 title: "ไม่อนุมัตินัดหมาย",
                 html: `ไม่อนุมัตินัดหมายของ ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}<br/>`,
@@ -321,6 +354,14 @@ const AppointmentRequestManagementComponent = (props) => {
                         .catch((error) => {
                             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                         });
+                        const info = {
+                            clinic : AppointmentUserData.appointment.clinic,
+                            date: updatedTimetable.appointmentDateOld,
+                            time: time1,
+                            id: AppointmentUserData.id,
+                            role: userData.role,
+                        }
+                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationRejectRequest`, info);
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
