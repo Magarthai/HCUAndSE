@@ -247,7 +247,62 @@ const DashBoardSpecial = (props) => {
         </div>
 
         <div className="admin colorPrimary-800" >
-
+        <div className="admin-body">
+            <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
+          </div>  
+        
+          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
+                <div className="admin-dashboard-box4 boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"60px"}}/>
+                  <br></br>
+                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
+                  {count && <h1>{count.today} คน</h1>}
+         
+               </div>
+              <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการในคลินิกเฉพาะทาง</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                  <Pie
+                    data={data3}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                  >
+                    {data3 && data3.length > 0 && data3.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
+                    ))}
+                  </Pie>
+                  {data3 && data3[0] && data3[1] && data3[0].value === 0 && data3[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                  {data3 && data3[0] && data3[1] && (data3[0].value !== 0 || data3[1].value !== 0) && (
+                  <Legend 
+                    align="right" 
+                    verticalAlign="middle" 
+                    iconType="circle"
+                    formatter={(value, entry) => {
+                      const percentage = entry.payload.percent * 100;
+                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                    }}
+                    layout="vertical"
+                  />
+                  )} 
+                  </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+      
+            </div>
+            
           <div className="admin-body">
             <h2>{formatMonthInThai(selectedDate)}</h2>
           </div>
@@ -319,61 +374,7 @@ const DashBoardSpecial = (props) => {
 
           </div> 
           
-          <div className="admin-body">
-            <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
-          </div>  
-        
-          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
-                <div className="admin-dashboard-box4 boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"60px"}}/>
-                  <br></br>
-                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  {count && <h1>{count.today} คน</h1>}
-         
-               </div>
-              <div className="admin-dashboard-box4 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการในคลินิกเฉพาะทาง</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                  <Pie
-                    data={data3}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                  >
-                    {data3 && data3.length > 0 && data3.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
-                    ))}
-                  </Pie>
-                  {data3 && data3[0] && data3[1] && data3[0].value === 0 && data3[1].value === 0 && (
-                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
-                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
-                        </text>
-                    )}
-                  {data3 && data3[0] && data3[1] && (data3[0].value !== 0 || data3[1].value !== 0) && (
-                  <Legend 
-                    align="right" 
-                    verticalAlign="middle" 
-                    iconType="circle"
-                    formatter={(value, entry) => {
-                      const percentage = entry.payload.percent * 100;
-                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
-                    }}
-                    layout="vertical"
-                  />
-                  )} 
-                  </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-      
-            </div>
+
     
           
         </div>
