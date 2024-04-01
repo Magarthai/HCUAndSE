@@ -192,6 +192,18 @@ const DashboardFeedbackGeneral = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
+    function getColorForScore(score) {
+        if (score >= 0 && score <= 1.7) {
+            return "red";
+        } else if (score > 1.7 && score <= 3.3) {
+            return "#FFCC00";
+        } else if (score > 3.3 && score <= 5.0) {
+            return "green";
+        } else {
+            return "white"; 
+        };
+    }
+
     return (
         
       <div>
@@ -240,7 +252,7 @@ const DashboardFeedbackGeneral = (props) => {
 
          
           <div className="admin-dashboard-feedback-all admin-dashboard-flexbox" >
-                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px", borderColor: data1[5] && getColorForScore(data1[5].score)  }}>
                     <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data1 && data1[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data1[5].score) ? data1[5].score : data1[5].score.toFixed(2)}</h1>)}
@@ -274,7 +286,7 @@ const DashboardFeedbackGeneral = (props) => {
                     </div>
                 </div>
 
-                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" }}>
+                <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" , borderColor: data2[5] && getColorForScore(data2[5].score) }}>
                     <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data2 && data2[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data2[5].score) ? data2[5].score : data2[5].score.toFixed(2)}</h1>)}
@@ -312,7 +324,7 @@ const DashboardFeedbackGeneral = (props) => {
 
           </div> 
           
-          <div className="admin-body">
+          {/* <div className="admin-body">
             <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
           </div>  
          
@@ -343,7 +355,6 @@ const DashboardFeedbackGeneral = (props) => {
                             <XAxis type="number" tick={{ fontSize: 10}}/>
                             <YAxis  type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1,5]} />
                             <Tooltip />
-                            {/* <Legend style={{ fontSize: '10px'}}/> */}
                             <Bar dataKey="value" fill="#54B2B0" ></Bar>
                         </BarChart>
                         </ResponsiveContainer>
@@ -387,7 +398,7 @@ const DashboardFeedbackGeneral = (props) => {
 
               
             </div>
-    
+     */}
           
         </div>
       </div>

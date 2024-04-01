@@ -285,101 +285,7 @@ const DashboardServiceAll = (props) => {
 
         <div className="admin colorPrimary-800" >
 
-          <div className="admin-body">
-            <h2>{formatMonthInThai(selectedDate)}</h2>
-          </div>
-
-          <div className="admin-dashboard-month">
-          <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
-          <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 0, bottom: 10}}>
-            <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
-                    <YAxis  tick={{ fontSize: 12 }}/>
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="คลินิกทั่วไป" stroke="#BABABA" />
-                    <Line type="monotone" dataKey="คลินิกเฉพาะทาง" stroke="#7C9DC1" />
-                    <Line type="monotone" dataKey="คลินิกกายภาพ" stroke="#456A91" />
-                    <Line type="monotone" dataKey="คลินิกฝังเข็ม" stroke="#263A50" />
-            </LineChart>
-          </ResponsiveContainer>
-          </div>
-          
-          <div className="admin-dashboard-month-all admin-dashboard-flexbox">
-              <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"45px"}}/>
-                  <br></br>
-                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  {count && <h1>{count.all} คน</h1>}
-              </div>
-
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                    <Pie
-                      data={data2}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      
-                      {data2 && data2.length > 0 && data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                      {data2 && data2.length === 0 && ( // เพิ่มเงื่อนไขตรวจสอบว่าไม่มีข้อมูล
-      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#000">
-        ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
-      </text>
-    )}
-                    </Pie>
-                    <Legend 
-                      align="right" 
-                      verticalAlign="middle" 
-                      iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
-                      layout="vertical"
-                    />
-                   </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละคลินิก</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      width={500}
-                      height={300}
-                      data={data3}
-                      margin={{
-                      top: 5,
-                      right: 30,
-                      left: 5,
-                      bottom: 0,
-                     }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }}/>
-                      <Tooltip />
-                      <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={0}/>
-                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={0} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-          </div> 
-          
-          <div className="admin-body">
+        <div className="admin-body">
             <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
           </div>  
         
@@ -457,6 +363,103 @@ const DashboardServiceAll = (props) => {
                 </div>
               </div>
             </div>
+
+          <div className="admin-body">
+            <h2>{formatMonthInThai(selectedDate)}</h2>
+          </div>
+
+          <div className="admin-dashboard-month">
+          <ResponsiveContainer width="100%" height={300} style={{padding:"0 3%"}}>
+          <LineChart data={data}   width={500} height={300} margin={{ top: 20, right: 30, left: 0, bottom: 10}}>
+            <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
+                    <YAxis  tick={{ fontSize: 12 }}/>
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="คลินิกทั่วไป" stroke="#BABABA" />
+                    <Line type="monotone" dataKey="คลินิกเฉพาะทาง" stroke="#7C9DC1" />
+                    <Line type="monotone" dataKey="คลินิกกายภาพ" stroke="#456A91" />
+                    <Line type="monotone" dataKey="คลินิกฝังเข็ม" stroke="#263A50" />
+            </LineChart>
+          </ResponsiveContainer>
+          </div>
+          
+          <div className="admin-dashboard-month-all admin-dashboard-flexbox">
+              <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"45px"}}/>
+                  <br></br>
+                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
+                  {count && <h1>{count.all} คน</h1>}
+              </div>
+
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>จำนวนผู้ใช้บริการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                    <Pie
+                      data={data2}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      
+                      {data2 && data2.length > 0 && data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+     
+                    </Pie>
+                    {data2 && data2.length === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับเดือน {formatMonthInThai(selectedDate)}
+                        </text>
+                    )}
+                    <Legend 
+                      align="right" 
+                      verticalAlign="middle" 
+                      iconType="circle"
+                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
+                      layout="vertical"
+                    />
+                   </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการแต่ละคลินิก</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={data3}
+                      margin={{
+                      top: 5,
+                      right: 30,
+                      left: 5,
+                      bottom: 0,
+                     }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                      <YAxis tick={{ fontSize: 12 }}/>
+                      <Tooltip />
+                      <Legend style={{ fontSize: '10px' }}/>
+                      <Bar dataKey="สำเร็จ" fill="#365372" minPointSize={0}/>
+                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1" minPointSize={0} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+          </div> 
+          
+          
     
           
         </div>

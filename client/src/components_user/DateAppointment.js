@@ -455,13 +455,39 @@ const formatDateForDisplay = (isoDate) => {
       const handleToggle = () => {
         setIsOpen(!isOpen);
       };
-      
       const today = new Date();
       const nextThreeMonths = new Date();
       nextThreeMonths.setMonth(today.getMonth() + 3);
       const tomorrow = new Date();
       tomorrow.setDate(today.getDate() + 1); 
-
+      const minDate = today.toISOString().split('T')[0];
+        const maxDate = nextThreeMonths.toISOString().split('T')[0]
+        const [savedate, setSaveDate] = useState(null);
+        
+        const formatDateInThai = (date) => {
+            const [year, month, day] = date.split('-');
+            const formattedMonth = parseInt(month).toString();
+            const formattedDay = parseInt(day).toString();
+            return `${formattedDay}/${formattedMonth}/${year}`;
+        };
+        const AlertDate = (savedate1) => {
+            Swal.fire({
+                title: `ไม่สามารถเลือกวันที่ ${formatDateInThai(savedate1)}`,
+                html: `กรุณาเลือกวันในช่วงวันที่ ${formatDateInThai(minDate)} - ${formatDateInThai(maxDate)}`,
+                showConfirmButton: true,
+                icon: 'warning',
+                confirmButtonText: "ตกลง",
+                reverseButtons: true,
+                confirmButtonColor: '#263A50',
+                customClass: {
+                    confirmButton: 'custom-confirm-button',
+                }
+            })
+        }
+        
+        
+    
+   
 
     return (
         <div className="user">
@@ -493,15 +519,29 @@ const formatDateForDisplay = (isoDate) => {
                     <input
                         type="date"
                         className="form-control"
-                        
+                        id="myDate"
                         min={tomorrow.toISOString().split('T')[0]} 
                         max={nextThreeMonths.toISOString().split('T')[0] } 
-                        
                         onChange={(e) => {
-                            inputValue("appointmentDate")(e);
-                            const formattedDate = formatDateForDisplay(e.target.value);
-                            console.log("Formatted Date:", formattedDate);
-                            fetchMainTimeTableData();
+                            if ( maxDate > e.target.value && e.target.value >= minDate) {
+                                inputValue("appointmentDate")(e);
+                                setSaveDate(e.target.value)
+                                console.log(e.target.value,"asas")
+                                const formattedDate = formatDateForDisplay(e.target.value);
+                                console.log("Formatted Date:", formattedDate);
+                                fetchMainTimeTableData();
+                            }else{
+                                console.log("Selected date cannot be less than min date");
+                                const save = e.target.value
+                                e.target.value = savedate
+                                inputValue("appointmentDate")(e);
+                                console.log(e.target.value,"asas")
+                                const formattedDate = formatDateForDisplay(e.target.value);
+                                console.log("Formatted Date:", formattedDate);
+                                fetchMainTimeTableData();
+                                AlertDate(save);
+                                
+                            }
                         }}
                     />
                              {/* <DatePicker selected={date}  onChange={(e) => {handleChange(e);}} onClick={(e) => {handleChange(e);}}dateFormat="dd/MM/yyyy"   className="datepicker" calendarClassName="custom-calendar"

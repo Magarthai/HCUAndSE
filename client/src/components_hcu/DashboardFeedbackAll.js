@@ -358,7 +358,17 @@ const DashboardFeedbackAll = (props) => {
             console.log(error)
         }
     };
-
+    function getColorForScore(score) {
+        if (score >= 0 && score <= 1.7) {
+            return "red";
+        } else if (score > 1.7 && score <= 3.3) {
+            return "#FFCC00";
+        } else if (score > 3.3 && score <= 5.0) {
+            return "green";
+        } else {
+            return "white"; 
+        };
+    }
 
     const totalItemCount = data2.reduce((total, item) => total + item.value, 0);
 
@@ -436,7 +446,7 @@ const DashboardFeedbackAll = (props) => {
 
                 </div>
                 <div className="admin-dashboard-feedback-all admin-dashboard-flexbox" >
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" , borderColor: data[0] && getColorForScore(data[0].score) }}>
                         <h4 className="center">บริการตรวจรักษาโรคโดยแพทย์</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[0] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[0].score) ? data[0].score : data[0].score.toFixed(2)}</h1>)}
@@ -470,7 +480,7 @@ const DashboardFeedbackAll = (props) => {
                         </div>
                     </div>
 
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" , borderColor: data[1] && getColorForScore(data[1].score)}}>
                         <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[1] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[1].score) ? data[1].score : data[1].score.toFixed(2)}</h1>)}
@@ -504,7 +514,7 @@ const DashboardFeedbackAll = (props) => {
                         </div>
                     </div>
 
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" , borderColor: data[2] && getColorForScore(data[2].score)}}>
                         <h4 className="center">บริการทำแผล-ฉีดยา</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[2] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[2].score) ? data[2].score : data[2].score.toFixed(2)}</h1>)}
@@ -537,7 +547,7 @@ const DashboardFeedbackAll = (props) => {
                         </div>
                     </div>
 
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px", borderColor: data[3] && getColorForScore(data[3].score) }}>
                         <h4 className="center">บริการกายภาพบำบัด</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[3] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[3].score) ? data[3].score : data[3].score.toFixed(2)}</h1>)}
@@ -570,7 +580,7 @@ const DashboardFeedbackAll = (props) => {
                         </div>
                     </div>
 
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" , borderColor: data[4] && getColorForScore(data[4].score)}}>
                         <h4 className="center">บริการฝังเข็ม</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[4] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[4].score) ? data[4].score : data[4].score.toFixed(2)}</h1>)}
@@ -603,7 +613,7 @@ const DashboardFeedbackAll = (props) => {
                         </div>
                     </div>
 
-                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" }}>
+                    <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{ padding: "10px" , borderColor: data[5] && getColorForScore(data[5].score)}}>
                         <h4 className="center">อื่นๆ</h4>
                         <div className="admin-dashboard-feedback-box5 boxcenter3" >
                             {data && data[5] && (<h1 style={{ fontSize: "50px" }}>{Number.isInteger(data[5].score) ? data[5].score : data[5].score.toFixed(2)}</h1>)}
@@ -638,7 +648,7 @@ const DashboardFeedbackAll = (props) => {
 
                 </div>
 
-                <div className="admin-body">
+                {/* <div className="admin-body">
                     <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
                 </div>
                 <div className="admin-dashboard-feedback-day admin-dashboard-flexbox" style={{ height: "300px" }}>
@@ -865,7 +875,7 @@ const DashboardFeedbackAll = (props) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
 
             </div>

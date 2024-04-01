@@ -270,6 +270,87 @@ const DashboardServiceNeedle = (props) => {
         </div>
 
         <div className="admin colorPrimary-800" >
+        <div className="admin-body">
+            <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
+          </div>  
+        
+          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
+                <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
+                  <img src={people} style={{width:"45px"}}/>
+                  <br></br>
+                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
+                  {count && <h1>{count.today} คน</h1>}
+         
+               </div>
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>จำนวนผู้ใช้บริการแต่ละส่วนของคลินิกฝังเข็ม</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                  <Pie
+                    data={data5}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                  >
+                    {data5 && data5.length > 0 && data5.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
+                    ))}
+                  </Pie>
+                  {data5 && data5[0] && data5[1] && data5[0].value === 0 && data5[1].value === 0 && (
+                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
+                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
+                        </text>
+                    )}
+                  {data5 && data5[0] && data5[1] && (data5[0].value !== 0 || data5[1].value !== 0) && (
+                  <Legend 
+                    align="right" 
+                    verticalAlign="middle" 
+                    iconType="circle"
+                    formatter={(value, entry) => {
+                      const percentage = entry.payload.percent * 100;
+                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                    }}
+                    layout="vertical"
+                    
+                  />
+                  )} 
+                  </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
+                <h4>การดำเนินการแต่ละส่วนของคลินิกฝังเข็ม</h4>
+                <div style={{ width: '100%', height: '180px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={data4}
+                    margin={{
+                    top: 5,
+                    right: 30,
+                    left: 5,
+                    bottom: 0,
+                  }}
+                  >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
+                  <YAxis tick={{ fontSize: 12 }}/>
+                  <Tooltip />
+                 <Legend style={{ fontSize: '10px' } }/>
+                   <Bar dataKey="สำเร็จ" fill="#295B5B" />
+                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" />
+                  </BarChart>
+                </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
 
           <div className="admin-body">
             <h2>{formatMonthInThai(selectedDate)}</h2>
@@ -369,88 +450,6 @@ const DashboardServiceNeedle = (props) => {
 
           </div> 
           
-          <div className="admin-body">
-            <h2>{selectedDate && formatDateInThai(selectedDate)}</h2>
-          </div>  
-        
-          <div className="admin-dashboard-day-all admin-dashboard-flexbox">
-                <div className="admin-dashboard-box boxcenter" style={{padding:"30px"}}>
-                  <img src={people} style={{width:"45px"}}/>
-                  <br></br>
-                  <h5>จำนวนผู้ใช้บริการทั้งหมด</h5>
-                  {count && <h1>{count.today} คน</h1>}
-         
-               </div>
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>จำนวนผู้ใช้บริการแต่ละส่วนของคลินิกฝังเข็ม</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                  <Pie
-                    data={data5}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                  >
-                    {data5 && data5.length > 0 && data5.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORSDAY[index % COLORSDAY.length]} />
-                    ))}
-                  </Pie>
-                  {data5 && data5[0] && data5[1] && data5[0].value === 0 && data5[1].value === 0 && (
-                        <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize={16} fill="#263A50">
-                          ไม่มีข้อมูลสำหรับวันที่ {formatDateInThai(selectedDate)}
-                        </text>
-                    )}
-                  {data5 && data5[0] && data5[1] && (data5[0].value !== 0 || data5[1].value !== 0) && (
-                  <Legend 
-                    align="right" 
-                    verticalAlign="middle" 
-                    iconType="circle"
-                    formatter={(value, entry) => {
-                      const percentage = entry.payload.percent * 100;
-                      const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
-                    }}
-                    layout="vertical"
-                    
-                  />
-                  )} 
-                  </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-              <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
-                <h4>การดำเนินการแต่ละส่วนของคลินิกฝังเข็ม</h4>
-                <div style={{ width: '100%', height: '180px' }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    width={500}
-                    height={300}
-                    data={data4}
-                    margin={{
-                    top: 5,
-                    right: 30,
-                    left: 5,
-                    bottom: 0,
-                  }}
-                  >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }}/>
-                  <YAxis tick={{ fontSize: 12 }}/>
-                  <Tooltip />
-                 <Legend style={{ fontSize: '10px' } }/>
-                   <Bar dataKey="สำเร็จ" fill="#295B5B" />
-                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" />
-                  </BarChart>
-                </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-    
           
         </div>
       </div>

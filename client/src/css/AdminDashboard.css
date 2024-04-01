@@ -134,6 +134,9 @@
     align-items: center;
     
 }
+.admin-dashboard-box3{
+    border: 3px solid #ffff;
+}
 @media (max-width: 1150px) {
     .admin-dashboard-box3{
         box-sizing: border-box;
