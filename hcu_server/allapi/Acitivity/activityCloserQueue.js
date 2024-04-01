@@ -49,7 +49,7 @@ const CloseAvailableActivities = async () => {
     } catch (error) {
         console.log(`fetch activities error : `, error)
     } finally {
-        setTimeout(CloseAvailableActivities, 601000);
+        setTimeout(CloseAvailableActivities, 6000000);
     }
 };
 

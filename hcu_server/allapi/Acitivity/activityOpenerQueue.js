@@ -62,7 +62,7 @@ const fetchAvailableActivities = async () => {
     } catch (error) {
         console.log(`fetch activities error : `, error)
     } finally {
-        setTimeout(fetchAvailableActivities, 600000);
+        setTimeout(fetchAvailableActivities, 6000000);
     }
 };
 
