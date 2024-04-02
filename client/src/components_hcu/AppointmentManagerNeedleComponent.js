@@ -1407,9 +1407,11 @@ const AppointmentManagerNeedleComponent = (props) => {
                         <a href="/adminAppointmentManagerNeedleComponent" target="_parent" id="select">คลินิกฝังเข็ม</a>
                     </div>
                     <div className="admin-hearder-item admin-right">
+                        
                         <a target="_parent" onClick={() => {
                             openContinueAddinAppointment();
                         }} className="colorPrimary-50">เพิ่มนัดหมายต่อเนื่อง +</a>
+                        <a href="/adminCanceledListPeopleAppointment" target="_parent">รายชื่อที่ถูกยกเลิก</a>
                          <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
                     </div>
                 </div>

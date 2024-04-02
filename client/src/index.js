@@ -79,6 +79,8 @@ import AppointmentHoliday from './components_hcu/AppointmentHoliday.js';
 import AdminUserManual from './components_hcu/UserManual.js';
 import UserLocation from './components_user/UserLocation.js';
 import UserManualFunction1 from './components_user/UserManualFunction1.js';
+import CanceledListPeopleAppointment from './components_hcu/CanceledListPeopleAppointment.js';
+import AddAppointment from './components_hcu/AddAppointment.js';
 import './index.css'
 import { UserAuthContextProvider } from './context/UserAuthContext.jsx'
 import {
@@ -346,6 +348,14 @@ const router = createBrowserRouter([
   {
     path: "/adminUserManual",
     element: <ProtectAdminRoute><AdminUserManual/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminCanceledListPeopleAppointment",
+    element: <ProtectAdminRoute><CanceledListPeopleAppointment/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminAddAppointment",
+    element: <ProtectAdminRoute><AddAppointment/></ProtectAdminRoute>
   },
   {
     path: "/appointment/detail/:id",

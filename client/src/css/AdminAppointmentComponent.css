@@ -370,6 +370,14 @@ body{
         box-sizing: border-box;
 	    width: 50%;
     }
+    .appointment-hearder-item1{
+        box-sizing: border-box;
+	    width: 70%;
+    }
+    .appointment-hearder-item2{
+        box-sizing: border-box;
+	    width: 30%;
+    }
     button.appointment-hearder-item{
         width: auto;
         height: 40px;
@@ -379,6 +387,18 @@ body{
         border-radius: 20px;
         border: 0px solid #12121200;
         margin-left: 110px;
+        font-size: 18px;
+        
+    }
+    button.appointment-hearder-item2{
+        width: auto;
+        height: 40px;
+        background-color: #263A50;
+        color: #FBFFFF;
+        padding: 0px 20px;
+        border-radius: 20px;
+        border: 0px solid #12121200;
+        margin-left: 0px;
         font-size: 18px;
         
     }
