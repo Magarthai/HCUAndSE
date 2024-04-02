@@ -28,14 +28,14 @@ const UserManualFunction5 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนดูช่วงเวลาเข้าทําการแพทย์</h3>
-                                    {/* <object 
+                          {/* <object 
                             type="application/pdf"
                             data={user_manual}
                             width={"100%"}
                             height={500}
                           
                         ></object> */}
-                         <Document
+                         {/* <Document
                             file={user_manual}
                             onLoadSuccess={onDocumentLoadSuccess}
                             width={"100%"}
@@ -52,7 +52,9 @@ const UserManualFunction5 = (props) =>{
                                     
                                 />
                             ))}
-                        </Document>
+                        </Document> */}
+
+                        <iframe src="https://drive.google.com/file/d/1l6wM-R-8NeoQI1IreOvDzHIXZ0xeih4k/preview" width="100%" height="500px" />
                     
 
                 </div>        
