@@ -78,6 +78,15 @@ const FeedbackGeneralOther = (props) => {
         const [year, month, day] = date.split('-');
         return `${day}/${month}/${year}`;
     };
+    const monthsInThai = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+      ];
+      
+    const formatMonthInThai = (month, year) => {
+        const thaiMonth = monthsInThai[parseInt(month, 10) - 1];
+        return `${thaiMonth} ${year}`;
+    };
 
     const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API
 
@@ -189,7 +198,7 @@ const FeedbackGeneralOther = (props) => {
             </div>
     
             <div className="admin-body">
-                <h2>{selectedDate ? formatDate(selectedDate) : "ทั้งหมด"}</h2>
+            <h2>{selectedDate ? formatDate(selectedDate) : formatMonthInThai(month, year)}</h2>
                 <div className="admin-feedback">
                 {feedbackItems.map((feedback, index) => (
                     <div className="admin-feedback-item"  key={index}>

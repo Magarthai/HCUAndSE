@@ -287,7 +287,7 @@ const DashboardFeedbackGeneral = (props) => {
                 </div>
 
                 <div className="admin-dashboard-box3 admin-dashboard-flexbox" style={{padding:"10px" , borderColor: data2[5] && getColorForScore(data2[5].score) }}>
-                    <h4 className="center">บริการจ่ายโดยพยาบาล</h4>
+                    <h4 className="center">บริการจ่ายยาโดยพยาบาล</h4>
                     <div className="admin-dashboard-feedback-box5 boxcenter3" >
                         {data2 && data2[5] && (<h1 style={{fontSize:"50px"}}>{Number.isInteger(data2[5].score) ? data2[5].score : data2[5].score.toFixed(2)}</h1>)}
                         <h3>จาก 5</h3>

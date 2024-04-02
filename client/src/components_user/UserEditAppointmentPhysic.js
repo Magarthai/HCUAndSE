@@ -324,7 +324,7 @@ const UserEditAppointmentPhysic = (props) => {
                     Swal.fire({
                         icon: "error",
                         title: "เกิดข้อผิดพลาด!",
-                        html: `เวลาถูกปิดไม่ให้ไม่สามารถนัดหมายได้แล้ว!`,
+                        html: `เวลาถูกปิดไม่สามารถนัดหมายได้แล้ว!`,
                         confirmButtonText: 'ตกลง',
                         confirmButtonColor: '#263A50',
                         customClass: {

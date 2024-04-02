@@ -324,11 +324,15 @@ const DashboardServiceAll = (props) => {
                     </text>
                   )}
                   <Legend 
-                    align="right" 
-                    verticalAlign="middle" 
-                    iconType="circle"
-                    formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
-                    layout="vertical"
+                      align="right" 
+                      verticalAlign="middle" 
+                      iconType="circle"
+                      formatter={(value, entry) => {
+                        const percentage = entry.payload.percent * 100;
+                        const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                        return `${value} (${entry.payload.value})`;
+                      }}
+                      layout="vertical"
                     
 
                   />
@@ -419,11 +423,15 @@ const DashboardServiceAll = (props) => {
                         </text>
                     )}
                     <Legend 
-                      align="right" 
-                      verticalAlign="middle" 
-                      iconType="circle"
-                      formatter={(value, entry) => `${value} (${(entry.payload.percent * 100).toFixed(0)}%)`}
-                      layout="vertical"
+                        align="right" 
+                        verticalAlign="middle" 
+                        iconType="circle"
+                        formatter={(value, entry) => {
+                          const percentage = entry.payload.percent * 100;
+                          const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
+                          return `${value} (${entry.payload.value})`;
+                        }}
+                        layout="vertical"
                     />
                    </PieChart>
                   </ResponsiveContainer>

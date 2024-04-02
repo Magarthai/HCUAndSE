@@ -291,7 +291,7 @@ const DashBoardSpecial = (props) => {
                     formatter={(value, entry) => {
                       const percentage = entry.payload.percent * 100;
                       const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                      return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                      return `${value} (${entry.payload.value})`;
                     }}
                     layout="vertical"
                   />
@@ -360,7 +360,7 @@ const DashBoardSpecial = (props) => {
                       formatter={(value, entry) => {
                         const percentage = entry.payload.percent * 100;
                         const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                        return `${value} (${formattedPercentage}%, ${entry.payload.value})`;
+                        return `${value} (${entry.payload.value})`;
                       }}
                       layout="vertical"
                     />

@@ -436,7 +436,7 @@ const DashboardFeedbackAll = (props) => {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" tick={{ fontSize: 10 }} />
                             <YAxis tick={{ fontSize: 10 }} domain={[0, 5]} />
-                            <Tooltip />
+                            <Tooltip formatter={(value) => `${value.toFixed(2)}`} />
                             <Legend style={{ fontSize: '10px', wordWrap: "break-word" }} />
                             <Bar dataKey="score" fill="#365372" minPointSize={1}></Bar>
                         </BarChart>

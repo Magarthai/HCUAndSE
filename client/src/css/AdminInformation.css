@@ -29,14 +29,14 @@
 }
 .admin-information-item-hearder-box1{
     box-sizing: border-box;
-    width: 90%;
+    width: 85%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .admin-information-item-hearder-box2{
     box-sizing: border-box;
-    width: 10%;
+    width: 15%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

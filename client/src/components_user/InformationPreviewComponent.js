@@ -40,7 +40,7 @@ const InformationPreviewComponent = (props) => {
             </header>
             <div className="user-body">
                 <div className="user-body-infomation-preview colorPrimary-800">
-                    {information &&<h3>{information.informationName}.</h3>}
+                    {information &&<h3>{information.informationName}</h3>}
                     <div className="center">
                     {information &&<img src={information.image} className="user-information-preview-img"/>}
                     </div>
