@@ -34,7 +34,7 @@ const UserManualFunction1 = (props) =>{
                             height={500}
                           
                         ></object> */}
-                         <Document
+                         {/* <Document
                             file={user_manual}
                             onLoadSuccess={onDocumentLoadSuccess}
                             width={"100%"}
@@ -51,7 +51,9 @@ const UserManualFunction1 = (props) =>{
                                     
                                 />
                             ))}
-                        </Document>
+                        </Document> */}
+
+                        <iframe src={user_manual} width="100%" height="500px" />
                     
 
                 </div>        
