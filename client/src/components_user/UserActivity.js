@@ -19,7 +19,7 @@ const UserActivity = (props) => {
     const [NQueueactivities, setNQueueActivities] = useState([]);
     const [NoQueueactivities, setNoQueueActivities] = useState([]);
     const checkCurrentDate = getCurrentDate();
-    const { user, userData,initLine } = useUserAuth();
+    const { user, userData } = useUserAuth();
     const navigate = useNavigate();
     function getCurrentDate() {
         const currentDate = new Date();
@@ -75,7 +75,7 @@ const UserActivity = (props) => {
     const fetchNoQueueActivityAndSetState = async () => {
         if (!isCheckedActivity) {
             try {
-                const response = await axios.post(`${REACT_APP_API}/api/  `, userData, {
+                const response = await axios.post(`${REACT_APP_API}/api/fetchNoQueueTodayActivity`, userData, {
                         activity: userData.userActivity
                     });
                 setNoQueueActivities(response.data);
@@ -162,7 +162,6 @@ const UserActivity = (props) => {
         console.log(user,"user");
         if (user) {
         console.log("userData",userData);
-        initLine();
         }
 
         if (!isCheckedActivity) {
