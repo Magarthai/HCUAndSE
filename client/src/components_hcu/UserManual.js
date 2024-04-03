@@ -3,8 +3,14 @@ import "../css/Component.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
-import user_manual from "../user_manual/HCU_Admin_Manual.pdf";
+import Dashboard from "../user_manual/Dashboard.pdf";
 import nud_maii from "../user_manual/nud_maii.pdf";
+import ระบบจัดการคิว from "../user_manual/ระบบจัดการคิว.pdf";
+import ระบบนัดหมาย from "../user_manual/ระบบนัดหมาย.pdf";
+import ระบบเวลาเข้าทำการ from "../user_manual/ระบบเวลาเข้าทำการ.pdf";
+import ระบบกิจกรรม from "../user_manual/ระบบกิจกรรม.pdf";
+import ระบบข้อเสนอแนะ from "../user_manual/ระบบข้อเสนอแนะ.pdf";
+import ระบบข้อมูลทั่วไป from "../user_manual/ระบบข้อมูลทั่วไป.pdf";
 import "../css/AdminUserManual.css";
 
 const  UserManual = (props) => {
@@ -143,7 +149,7 @@ const  UserManual = (props) => {
                     <div className="admin-userManual-box1">
                         <object 
                             type="application/pdf"
-                            data={user_manual}
+                            data={ระบบจัดการคิว}
                             width={1240}
                             height={700}
                             className="admin-pdf"
@@ -152,7 +158,7 @@ const  UserManual = (props) => {
                         ></object>
                          <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={ระบบนัดหมาย}
                             width={1240}
                             height={700}
                             id="function2"
@@ -160,7 +166,7 @@ const  UserManual = (props) => {
                         ></object>
                          <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={ระบบเวลาเข้าทำการ}
                             width={1240}
                             height={700}
                             id="function3"
@@ -168,7 +174,7 @@ const  UserManual = (props) => {
                         ></object>
                          <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={ระบบกิจกรรม}
                             width={1240}
                             height={700}
                             id="function4"
@@ -176,7 +182,7 @@ const  UserManual = (props) => {
                         ></object>
                             <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={ระบบข้อมูลทั่วไป}
                             width={1240}
                             height={700}
                             id="function5"
@@ -184,7 +190,7 @@ const  UserManual = (props) => {
                         ></object>
                             <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={ระบบข้อเสนอแนะ}
                             width={1240}
                             height={700}
                             id="function6"
@@ -192,7 +198,7 @@ const  UserManual = (props) => {
                         ></object>
                             <object 
                             type="application/pdf"
-                            data={nud_maii}
+                            data={Dashboard}
                             width={1240}
                             height={700}
                             id="function7"

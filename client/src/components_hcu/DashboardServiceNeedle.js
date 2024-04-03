@@ -208,8 +208,8 @@ const DashboardServiceNeedle = (props) => {
 
     
 
-      const COLORS = ['#BABABA', '#456A91'];
-      const COLORSDAY = ['#BABABA', '#54B2B0'];
+        const COLORS = ['#7C9DC1','#BABABA'];
+      const COLORSDAY = ['#54B2B0','#BABABA'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -314,7 +314,7 @@ const DashboardServiceNeedle = (props) => {
                     formatter={(value, entry) => {
                       const percentage = entry.payload.percent * 100;
                       const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                      return `${value} (${entry.payload.value})`;
+                      return `${value} (${entry.payload.value} คน)`;
                     }}
                     layout="vertical"
                     
@@ -344,8 +344,8 @@ const DashboardServiceNeedle = (props) => {
                   <YAxis tick={{ fontSize: 12 }}/>
                   <Tooltip />
                  <Legend style={{ fontSize: '10px' } }/>
-                   <Bar dataKey="สำเร็จ" fill="#295B5B" />
-                  <Bar dataKey="ไม่สำเร็จ" fill="#54B2B0" />
+                   <Bar dataKey="สำเร็จ" fill="#54B2B0" />
+                  <Bar dataKey="ไม่สำเร็จ" fill="#BABABA" />
                   </BarChart>
                 </ResponsiveContainer>
                 </div>
@@ -411,7 +411,7 @@ const DashboardServiceNeedle = (props) => {
                       formatter={(value, entry) => {
                         const percentage = entry.payload.percent * 100;
                         const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                        return `${value} (${entry.payload.value})`;
+                        return `${value} (${entry.payload.value} คน)`;
                       }}
                       layout="vertical"
                     />
@@ -441,8 +441,8 @@ const DashboardServiceNeedle = (props) => {
                       <YAxis tick={{ fontSize: 12 }}/>
                       <Tooltip />
                       <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#365372" />
-                      <Bar dataKey="ไม่สำเร็จ" fill="#7C9DC1"  />
+                      <Bar dataKey="สำเร็จ" fill="#7C9DC1" />
+                      <Bar dataKey="ไม่สำเร็จ" fill="#BABABA"  />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

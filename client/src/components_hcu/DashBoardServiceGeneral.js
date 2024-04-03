@@ -184,8 +184,8 @@ const DashBoardGeneral = (props) => {
       console.log(error);
     }
     };
-      const COLORS = ['#BABABA', '#7C9DC1'];
-      const COLORSDAY = ['#BABABA', '#54B2B0'];
+      const COLORS = ['#7C9DC1','#BABABA'];
+      const COLORSDAY = ['#54B2B0','#BABABA'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -288,7 +288,7 @@ const DashBoardGeneral = (props) => {
                     formatter={(value, entry) => {
                       const percentage = entry.payload.percent * 100;
                       const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                      return `${value} (${entry.payload.value})`;
+                      return `${value} (${entry.payload.value} คน) `;
                     }}
                     layout="vertical"
                   />
@@ -358,7 +358,7 @@ const DashBoardGeneral = (props) => {
                       formatter={(value, entry) => {
                         const percentage = entry.payload.percent * 100;
                         const formattedPercentage = isNaN(percentage) ? 0 : percentage.toFixed(0);
-                        return `${value} (${entry.payload.value})`;
+                        return `${value} (${entry.payload.value} คน)`;
                       }}
                       layout="vertical"
                     />

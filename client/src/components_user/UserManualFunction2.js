@@ -51,8 +51,8 @@ const UserManualFunction2 = (props) =>{
                                 />
                             ))}
                         </Document> */}
-
-<iframe src="https://drive.google.com/file/d/1l6wM-R-8NeoQI1IreOvDzHIXZ0xeih4k/preview" width="100%" height="500px" />
+                       
+                        <iframe src="https://drive.google.com/file/d/1jU0_2-t1yPmLmCcYJdHOchnuP6bRfDtZ/preview" width="100%" height="500px" />
                     
 
                 </div>        
