@@ -254,7 +254,7 @@ const DashboardFeedbackNeedle = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data1}
+                            data={data1.slice(0, -1)}
                             margin={{
                             top: 0,
                             right: 20,
@@ -288,7 +288,7 @@ const DashboardFeedbackNeedle = (props) => {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data2}
+                            data={data2.slice(0, -1)}
                             margin={{
                             top: 0,
                             right: 20,

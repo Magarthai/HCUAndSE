@@ -108,7 +108,7 @@ const FeedbackGeneralOther = (props) => {
                 if(feedback.data == "not found"){
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีขอเสนอแนะในวันนี้!`,
+                        text: `ไม่มีข้อเสนอแนะ!`,
                         icon: 'warning',
                         confirmButtonText: 'ย้อนกลับ',
                         confirmButtonColor: '#263A50',
@@ -139,7 +139,7 @@ const FeedbackGeneralOther = (props) => {
                 if(feedback.data == "not found"){
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีขอเสนอแนะในเดือนนี้!`,
+                        text: `ไม่มีข้อเสนอแนะ!`,
                         icon: 'warning',
                         confirmButtonText: 'ย้อนกลับ',
                         confirmButtonColor: '#263A50',

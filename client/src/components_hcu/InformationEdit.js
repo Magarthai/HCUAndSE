@@ -57,6 +57,8 @@ const InformationEdit = (props) => {
                 informationDetail: information.informationDetail,
                 image: information.image
             });
+            setImgSrc(information.image)
+            console.log(information.image,"image")
         }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
@@ -230,7 +232,7 @@ const InformationEdit = (props) => {
                 const info = {
                     informationName:informationName,
                     informationDetail:informationDetail,
-                    image:imgSrc,
+                    image:image,
                     _id: information._id
                 }
                 const respone = await axios.post(`${REACT_APP_MONGO_API}/api/updateInformation`,info)
