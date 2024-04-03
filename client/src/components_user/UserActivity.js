@@ -19,7 +19,7 @@ const UserActivity = (props) => {
     const [NQueueactivities, setNQueueActivities] = useState([]);
     const [NoQueueactivities, setNoQueueActivities] = useState([]);
     const checkCurrentDate = getCurrentDate();
-    const { user, userData } = useUserAuth();
+    const { user, userData,initLine } = useUserAuth();
     const navigate = useNavigate();
     function getCurrentDate() {
         const currentDate = new Date();
@@ -163,7 +163,7 @@ const UserActivity = (props) => {
         if (user) {
         console.log("userData",userData);
         }
-
+        initLine();
         if (!isCheckedActivity) {
             fetchOpenActivityAndSetState();
             
