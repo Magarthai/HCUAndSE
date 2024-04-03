@@ -47,7 +47,6 @@ router.post('/createHoliday', asyncHandler(async (req, res) => {
                         userDocId: doc.id,
                         ...userData
                     }
-        
                 });
                 console.log(exitUserDataSnapShot[0].userLineID,"lineID")
                 if(exitUserDataSnapShot[0].userLineID != ""){

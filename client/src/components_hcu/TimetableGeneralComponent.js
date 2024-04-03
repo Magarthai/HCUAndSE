@@ -1370,7 +1370,7 @@ const TimetableGeneralComponent = (props) => {
 
                     const response = await axios.post(`${REACT_APP_API}/api/adminDeletTimetable`, timetable)
                     console.log(response.data);
-                    if (response.data === "success") {
+                    if (response.data === "success") { 
                     Swal.fire(
                         {
                             title: 'การลบช่วงเวลาทำการสำเร็จ!',

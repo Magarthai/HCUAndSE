@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 const firebaseConfig = require('./firebase');
+const NotificationActivityToday = require('./allapi/Notification/activity/NotificationActivityToday');
 const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
 const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
 const QueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityOpenQueueToday');
@@ -59,7 +60,11 @@ const NotificationEditAppointmentV2 = require('./allapi/Notification/appointment
 const NotificationAddContinueAppointmentV2 = require('./allapi/Notification/appointment/Physical Needle/NotificationAddContinueAppointmentV2');
 const NotificationSuccessRequest = require('./allapi/Notification/appointment/Request/NotificationSuccessRequest');
 const NotificationRejectRequest = require('./allapi/Notification/appointment/Request/NotificationRejectRequest');
+const getCanceledData = require('./mongodb_api/canceledAppointment/getCanceledData')
 
+const fetchTimeTableByClinic = require('./allapi/FetchTImeTable/fetchTimeTableByClinic');
+const deleteDeletedAppointment = require('./mongodb_api/canceledAppointment/deleteDeletedAppointment')
+const fetchUserDataWithAppointmentss = require('./allapi/FetchTImeTable/fetchUserDataWithAppointments');
 
 app.use('/api', dataRoute);
 app.use('/api', fetchOpenActivity);
@@ -100,6 +105,10 @@ app.use('/api', NotificationDeleteAppointmentV2);
 app.use('/api', NotificationEditAppointmentV2);
 app.use('/api', NotificationSuccessRequest);
 app.use('/api', NotificationRejectRequest);
+app.use('/api', getCanceledData);
+app.use('/api',fetchTimeTableByClinic);
+app.use('/api',fetchUserDataWithAppointmentss);
+app.use ('/api',deleteDeletedAppointment);
 let locale = 'th-TH';
 let today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -214,7 +223,7 @@ const fetchUserDataWithAppointments = async () => {
                 console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
             }
         }
-        setTimeout(fetchUserDataWithAppointments, 6000000);
+        setTimeout(fetchUserDataWithAppointments, 59000);
     } catch (error) {
         console.error('Error fetching user data with appointments:', error);
     }
@@ -407,7 +416,7 @@ const updateAppointmentsStatus = async () => {
             console.log(`Nothing updated for appointment id : ${AppointmentUserData.id} from clinic clinic : ${AppointmentUserData.appointment.clinic}`);
         }
     });
-    setTimeout(updateAppointmentsStatus, 6000000);
+    setTimeout(updateAppointmentsStatus, 60000);
     } catch (error) {
         console.log(error)
     }
@@ -490,6 +499,9 @@ const notificationUserToday = async () => {
                                                         "contents": [
                                                             {
                                                                 "type": "text",
+                                                                "size": "lg",
+                                                                "weight" : "bold",
+                                                                "align" : "center",
                                                                 "text": "‼️ การนัดหมายของคุณในวันพรุ่งนี้ ‼️"
                                                             }
                                                         ]
@@ -498,7 +510,6 @@ const notificationUserToday = async () => {
                                                         "type": "image",
                                                         "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
                                                         "size": "full",
-                                                        "aspectRatio": "2:1"
                                                     },
                                                     "body": {
                                                         "type": "box",
@@ -558,8 +569,166 @@ const notificationUserToday = async () => {
                         return null;
                     }
                 }));
+               
+            } else {
+                console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
+            }
+        }
+        setTimeout(fetchUserDataWithAppointments, 6000000);
+    } catch (error) {
+        console.error('Error fetching user data with appointments:', error);
+    }
+};
 
-                AppointmentUsersData = AppointmentUsersDataArray;
+const notificationUser3DayBefore = async () => {
+    try {
+    const thaiTime = moment().tz('Asia/Bangkok');
+    const currentDate = thaiTime.format('dddd DD/MM/YYYY');
+    const currentTime = thaiTime.format('HH:mm:ss');
+    const selectedDate = {
+        day: thaiTime.date() + 3,
+        month: thaiTime.month() + 1,
+        year: thaiTime.year(),
+        dayName: thaiTime.format('dddd'),
+        time: currentTime
+    };
+    console.log(selectedDate,day);
+        if (selectedDate && selectedDate.dayName) {
+            const appointmentsCollection = collection(db, 'appointment');
+            const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection, where('appointmentDate', '==',
+                `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`)));
+
+            const timeTableCollection = collection(db, 'timeTable');
+            const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
+                const appointmentData = doc.data();
+                return {
+                    appointmentId: doc.id,
+                    appointmentuid: doc.id,
+                    ...appointmentData,
+                };
+            });
+            
+
+            if (existingAppointments.length > 0) {
+                console.log(`Appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}:`, existingAppointments);
+
+                const AppointmentUsersDataArray = await Promise.all(existingAppointments.map(async (appointment) => {
+                    const timeSlotIndex = appointment.appointmentTime.timeSlotIndex;
+                    const timeTableId = appointment.appointmentTime.timetableId;
+
+                    try {
+                        const timetableDocRef = doc(timeTableCollection, timeTableId);
+                        const timetableDocSnapshot = await getDoc(timetableDocRef);
+
+                        if (timetableDocSnapshot.exists()) {
+                            const timetableData = timetableDocSnapshot.data();
+                            console.log("Timetable Data:", timetableData);
+                            const timeslot = timetableData.timeablelist[timeSlotIndex];
+                            console.log("Timeslot info", timeslot);
+
+                           const usersCollection = collection(db, 'users');
+                            const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
+                        
+                            if (userQuerySnapshot.empty) {
+                                console.log("No user found with id:", appointment.appointmentId);
+                                return null;
+                            }
+                        
+                            const userUid = userQuerySnapshot.docs[0].id;
+                            const userDatas = userQuerySnapshot.docs[0].data();
+                            userDatas.timeslot = timeslot;
+                            userDatas.appointment = appointment;
+                            userDatas.appointmentuid = appointment.appointmentuid;
+                            userDatas.userUid = userUid;
+                            const userDetails = userDatas;
+
+                            if (userDetails) {
+                                if(userDetails.userLineID != ""){
+                                    const body = {
+                                        "to": userDetails.userLineID,
+                                        "messages": [
+                                            {
+                                                "type": "flex",
+                                                "altText": "‼️ การนัดหมายของคุณในอีก 3 วัน ‼️",
+                                                "contents": {
+                                                    "type": "bubble",
+                                                    "header": {
+                                                        "type": "box",
+                                                        "layout": "vertical",
+                                                        "contents": [
+                                                            {
+                                                                "type": "text",
+                                                                "size": "14px",
+                                                                "weight" : "bold",
+                                                                "align" : "center",
+                                                                "wrap": true,
+                                                                "text": "‼️ การนัดหมายของคุณในอีก 3 วัน ‼️",
+                                                            }
+                                                        ]
+                                                    },
+                                                    "hero": {
+                                                        "type": "image",
+                                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                                        "size": "full",
+                                                    },
+                                                    "body": {
+                                                        "type": "box",
+                                                        "layout": "vertical",
+                                                        "contents": [
+                                                            {
+                                                                "type": "text",
+                                                                "text": "🗓️รายละเอียดการนัดหมาย"
+                                                            },
+                                                            {
+                                                                "type": "text",
+                                                                "text":` วันที่ : ${userDatas.appointment.appointmentDate}`
+                                                            },
+                                                            {
+                                                                "type": "text",
+                                                                "text": `คลินิก : ${userDatas.appointment.clinic}`
+                                                            },
+                                                            {
+                                                                "type": "text",
+                                                                "text": `เวลา : ${userDatas.timeslot.start}น. - ${userDatas.timeslot.end}น.`
+                                                            },
+                                                            {
+                                                                "type": "text",
+                                                                "text": "‼️ อย่าลืมนัดหมายของคุณ"
+                                                            },
+                                                            {
+                                                                "type": "text",
+                                                                "text": "🙏🏻 กรุณามาก่อนเวลานัดหมาย 10 นาที"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "สามารถดูรายละเอียดผ่านเว็บไซต์ : https://liff.line.me/2002624288-QkgWM7yy"
+                                            }
+                                        ]
+                                    }
+                                    try {
+                                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                                        console.log('Response:', response.data);
+                                    } catch (error) {
+                                        console.error('Error:', error.response.data);
+                                    }
+                                }
+                                return userDetails;
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            console.log("No such document with ID:", timeTableId);
+                            return null;
+                        }
+                    } catch (error) {
+                        console.error('Error fetching timetable data:', error);
+                        return null;
+                    }
+                }));
                
             } else {
                 console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
@@ -592,22 +761,23 @@ setInterval(() => {
 
     if (thaiTime.isAfter(dayToChecks) && notiChecker) {
         notiChecker = false; 
+        console.log("Notification Time!");
         notificationUserToday(); 
+        notificationUser3DayBefore();
+        NotificationActivityToday();
     }    
-
+    
     if (!day.isSame(dayToCheck)) {
         console.log("New day update");
         notiChecker = true;
         console.log(day.format(), dayToCheck.format());
         dayToCheck = moment().tz('Asia/Bangkok').startOf('day');
         day = moment().tz('Asia/Bangkok').startOf('day');
-        updateAppointmentsStatus();
-        fetchUserDataWithAppointments();
         fetchAvailableActivities();
         CloseAvailableActivities();
     }
     else {
-        console.log("this is today")
+        console.log("this is today");
     }
 }, 5000);
 

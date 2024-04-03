@@ -120,7 +120,7 @@ const AppointmentManagerNeedleComponent = (props) => {
         const selectedOption = e.target.options[e.target.selectedIndex];
         const timeRange = selectedOption.textContent; // Extract time range from the label
         console.log(timeRange);
-        setTimeLabel(timeRange)
+        setTimeLabel(timeRange);
         setSelectedCount(selectedCount + 1);
     };
 

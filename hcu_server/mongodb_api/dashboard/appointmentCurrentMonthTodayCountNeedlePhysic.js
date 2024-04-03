@@ -60,7 +60,7 @@ function groupBy(arr, key) {
         console.log(groupedData);
         const infoGeneral = {
             name: 'คลินิกทั่วไป',
-            value: 0,
+            สำเร็จ: 0,
             ไม่สำเร็จ: 0,
           };
         const infoSpecial = {

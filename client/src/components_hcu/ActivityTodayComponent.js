@@ -69,7 +69,7 @@ const ActivityTodayComponent = (props) => {
         if (!isCheckedActivity) {
             try {
                 const response = await axios.get(`${REACT_APP_API}/api/fetchTodayActivity`)
-                
+                console.log(response.data,"testxd")        
                 const todayActivity = response.data;
                 const activitiesData = todayActivity
                 .flatMap((doc) => {

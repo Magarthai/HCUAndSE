@@ -72,7 +72,115 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                     console.log("check1")
                     transaction.delete(appointmentDocRef);
                     console.log("check2")
-                    
+                    const body = {
+                        "to": usersDataMap.userLineID,
+                        "messages": [
+                            {
+                                "type": "flex",
+                                "altText": "‼️ แจ้งเตือนเปลี่ยนแปลง ‼️",
+                                "contents": {
+                                    "type": "bubble",
+                                    "header": {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "size": "lg",
+                                                "weight" : "bold",
+                                                "align" : "center",
+                                                "text": "‼️ แจ้งเตือนเปลี่ยนแปลง ‼️"
+                                            }
+                                        ]
+                                    },
+                                    "hero": {
+                                        "type": "image",
+                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                        "size": "full",
+                                    },
+                                    "body": {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": `การนัดหมายของคุณถูกยกเลิก จาก ${appointmentData.clinic} ณ วันที่ ${appointmentData.appointmentDate} เนื่องจากมีการเปลี่ยนแปลงเวลาทำการ โปรดตรวจสอบการนัดหมายของคุณผ่านช่องทาง : *LINK* ‼️ หากมีข้อสงสัยหรือต้องการนัดหมายใหม่ สามารถนัดหมายได้ใหม่ผ่านลิ้งค์ด้านล่าง`,
+                                                "wrap": true
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "📞ติดต่อผ่านเบอร์ : 02-470-8446"
+                                            },
+                                            
+                                            {
+                                                "type": "button",
+                                                "style": "link",
+                                                "action": {
+                                                    "type": "uri",
+                                                    "label": "นัดหมายใหม่ได้ผ่านลิงค์นี้",
+                                                    "uri": "line://app/2002624288-QkgWM7yy"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                    const body2 = {
+                        "to": usersDataMap.userLineID,
+                        "messages": [
+                            {
+                                "type": "flex",
+                                "altText": "‼️ แจ้งเตือนเปลี่ยนแปลง ‼️",
+                                "contents": {
+                                    "type": "bubble",
+                                    "header": {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "size": "lg",
+                                                "weight" : "bold",
+                                                "align" : "center",
+                                                "text": "‼️ แจ้งเตือนเปลี่ยนแปลง ‼️"
+                                            }
+                                        ]
+                                    },
+                                    "hero": {
+                                        "type": "image",
+                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                        "size": "full",
+                                    },
+                                    "body": {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": `การนัดหมายของคุณถูกยกเลิก จาก ${appointmentData.clinic} ณ วันที่ ${appointmentData.appointmentDate} เนื่องจากมีการเปลี่ยนแปลงเวลาทำการ`,
+                                                "wrap": true
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "📞 กรุณาติดต่อผ่านเบอร์ : 02-470-8446 เผื่อเลือกช่วงเวลานัดหมายใหม่"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝั่งเข็ม"){
+                        if(appointmentData.type == "main"){
+                            const response = await axios.post(`${LINE_BOT_API}/push`, body2, { headers });
+                            console.log('Response:', response.data);
+                        }
+                    } else {
+                        const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
+                        console.log('Response:', response.data);
+                    }
                     return {
                         userDocId: userId,
                         ...usersDataMap,

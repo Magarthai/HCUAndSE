@@ -121,7 +121,7 @@ useEffect(() => {
         }).then(() => {
             navigate('/appointment');
         });
-    return}
+    return }
     
     fetchMainTimeTableData();
 

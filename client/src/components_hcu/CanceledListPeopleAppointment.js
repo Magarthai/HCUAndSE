@@ -12,14 +12,12 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 const CanceledListPeopleAppointment = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-  
-  
+    const [data, setData] = useState([]);
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -30,7 +28,9 @@ const CanceledListPeopleAppointment = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData) {
+            fetchDeletedData();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -48,11 +48,30 @@ const CanceledListPeopleAppointment = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
+
+    useEffect(() => {
+        console.log(data.length,"data.lenght");
+        console.log(data);
+    },[data])
     const containerStyle = {
         zoom: zoomLevel,
     };
-
+    const REACT_APP_API = process.env.REACT_APP_API
+    const fetchDeletedData = async() => {
+        const info = {
+            role: userData.role,
+        };
+        try {
+            const respone = await axios.post(`${REACT_APP_API}/api/getCanceledData`,info)
+            if(respone.data) {
+                console.log("dataXDDDDDDDDDDDDDDDDDD",respone.data);
+                setData(respone.data);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -64,7 +83,7 @@ const CanceledListPeopleAppointment = (props) => {
     function formatNumber(num) {
         return num < 10 ? "0" + num : num.toString();
     }
-
+    const navigate = useNavigate();
     const locale = 'en';
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -72,7 +91,9 @@ const CanceledListPeopleAppointment = (props) => {
     const date = today.getDate();
     const day = today.toLocaleDateString(locale, { weekday: 'long' });
     const currentDate = `${day} ${month}/${date}/${year}`;
-
+    const handleNavigate = (item) => {
+        navigate('/adminAddAppointment', { state: { data: item } });
+    };
     return (
         
         <div style={containerStyle}>
@@ -112,20 +133,39 @@ const CanceledListPeopleAppointment = (props) => {
                         </tr>
                     </thead>
                     <tbody >
+                        {data.length > 0 ? (
+                            data.map((item) => (
+                                <tr key={item.appointmentId}>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.appointmentId}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.name}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.tel}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.clinic}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.appointmentDate}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.time.start} - {item.time.end}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.appointmentSymptom}</td>
+                                    <td className="admin-textBody-huge2 colorPrimary-800">{item.appointmentCasue}</td>
+                                    <td>
+                                        <a target="_parent" className="colorPrimary-50 btn btn-primary" style={{margin:0}} onClick={() => handleNavigate(item)}>เพิ่มนัดหมาย +</a>
+                                    </td>
+                                </tr>
+                            ))
+                            
+                        ): (
                         <tr>
-                            <td className="admin-textBody-huge2 colorPrimary-800" >ต</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
-                            <td className="admin-textBody-huge2 colorPrimary-800">ก</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800" >-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
+                            <td className="admin-textBody-huge2 colorPrimary-800">-</td>
                             <td>
-                                <a target="_parent"  className="colorPrimary-50 btn btn-primary" style={{margin:0}} href="/adminAddAppointment">เพิ่มนัดหมาย +</a>
+                                <a target="_parent" className="colorPrimary-50 btn btn-primary"   style={{margin:0,backgroundColor:"grey"}}>เพิ่มนัดหมาย +</a>
                             </td>
                         </tr>
-                 
+                        )
+                    }
                     </tbody>
                 </table>
             </div>
