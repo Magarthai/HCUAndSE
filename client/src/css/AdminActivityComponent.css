@@ -80,7 +80,7 @@
     width: 100%;
     min-height: 550px;
     max-height: 550px;
-    object-fit: cover;
+    /* object-fit: cover; */
 }
 .admin-activity-form{
     padding: 0px 30px ;
