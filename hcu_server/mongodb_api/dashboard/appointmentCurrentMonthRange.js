@@ -19,9 +19,11 @@ function setToMidnight() {
 
 function formatDate(date) {
     const thaiTime = moment(date).tz('Asia/Bangkok');
-    console.log(thaiTime.format('DD/MM/YYYY'))
-    return thaiTime.format('DD/MM/YYYY');
+    const formattedDate = thaiTime.format('วันที่ DD');
+    console.log(formattedDate);
+    return formattedDate;
 }
+
 function groupBy(arr, key) {
     return arr.reduce((acc, obj) => {
         const group = formatDate(obj[key]);
