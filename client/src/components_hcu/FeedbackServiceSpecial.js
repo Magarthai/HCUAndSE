@@ -172,7 +172,7 @@ const FeedbackServiceSpecial = (props) => {
                             </div>
                             <div class="admin-rating admin-feedback-item-header-box2" style={{textAlign:"right"}}>
                                     {[...Array(5)].map((_, i) => (
-                                        <span key={i} style={{ color: i < feedback.score1 ? '#ffcc00' : '#ddd', fontSize: '25px'}} >&#9733;</span>
+                                        <span key={i} style={{ color: i < feedback.score ? '#ffcc00' : '#ddd', fontSize: '25px'}} >&#9733;</span>
                                     ))}
                             </div>
                         </div>
