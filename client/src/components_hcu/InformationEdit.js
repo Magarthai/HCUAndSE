@@ -303,12 +303,14 @@ const InformationEdit = (props) => {
                         <div className="admin-activity-add">
                             <div className="admin-activity-add-hearder-flexbox">
                                 <div className="admin-activity-today-hearder-box">
-                                    <img
+                                    <div className="admin-img-activity-box">
+                                     <img
                                         src={imgSrc || image}
                                         className="admin-img-activity"
                                         alt={imgSrc ? "Selected Activity Image" : img_information}
-                                    />
-                                    <br />
+                                     />
+                                    </div>
+                                   
                                     <br />
                                     <div className="admin-right">
                                         <input

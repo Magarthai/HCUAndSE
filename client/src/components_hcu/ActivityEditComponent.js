@@ -581,13 +581,15 @@ const ActivityEditComponent = (props) => {
                     <div className="admin-activity-add">
                         <div className="admin-activity-add-hearder-flexbox">
                             <div className="admin-activity-today-hearder-box">
+                                 <div className="admin-img-activity-box">
                                 <img
                                     src={imgSrc || imageURL}
                                     className="admin-img-activity"
                                     alt={imgSrc ? "Selected Activity Image" : imageURL}
                                 />
+                                 </div>
                                 <br />
-                                <br />
+                                
                                 <div className="admin-right">
                                     <input
                                         type="file"
