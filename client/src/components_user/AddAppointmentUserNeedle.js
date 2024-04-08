@@ -12,11 +12,14 @@ import axios from "axios";
 const AddNeedleAppointmentUser = () => {
     const [selectedDate, setSelectedDate] = useState();
     const MONGO_API = process.env.REACT_APP_MONGO_API
-    
-    const handleSelectChange = () => {
+    const [timeLabel, setTimeLabel] = useState("");
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
-
+    const REACT_APP_API = process.env.REACT_APP_API;
     const navigate = useNavigate();
     const [selectedValue, setSelectedValue] = useState("");
     const { user, userData } = useUserAuth();
@@ -329,6 +332,15 @@ const AddNeedleAppointmentUser = () => {
                             cancelButton: 'custom-cancel-button',
                         }
                     });
+
+                    const info = {
+                        role: userData.role,
+                        date: appointmentInfo.appointmentDate,
+                        time: timeLabel,
+                        clinic: appointmentInfo.clinic,
+                        id: appointmentInfo.appointmentId,
+                    };
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
                     await fetchTimeTableData();
 
                     const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
@@ -403,7 +415,7 @@ const AddNeedleAppointmentUser = () => {
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value);
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -414,7 +426,7 @@ const AddNeedleAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime")({
                                         target: {
@@ -422,7 +434,7 @@ const AddNeedleAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else {
                                     console.error("Invalid selected value:", selectedValue);
                                 }

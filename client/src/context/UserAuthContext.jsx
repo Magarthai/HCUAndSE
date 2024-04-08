@@ -152,10 +152,12 @@ export function UserAuthContextProvider({ children }) {
 
 
     const a = async () => {
+      if(userData.userID){
         const userDocRef = doc(db, 'users', userData.userID);
         await updateDoc(userDocRef, {
             userLineID: (userId),
         });
+      }
     } 
 
   useEffect(() => {
