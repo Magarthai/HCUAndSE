@@ -126,8 +126,9 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                                     },
                                     "hero": {
                                         "type": "image",
-                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                        "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
                                         "size": "full",
+                                        "aspectRatio": "1.5:1"
                                     },
                                     "body": {
                                         "type": "box",
@@ -135,7 +136,7 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": `การนัดหมายของคุณถูกยกเลิก จาก ${appointmentData.clinic} ณ วันที่ ${appointmentData.appointmentDate} เนื่องจากคลินิกปิด ณ วันนี้ ขออภัยในความไม่สะดวก สามารถนัดหมายได้ใหม่ผ่านลิ้งค์ด้านล่าง`,
+                                                "text": `การนัดหมายของคุณถูกยกเลิก จาก ${appointmentData.clinic} ณ วันที่ ${appointmentData.appointmentDate} เนื่องจากคลินิกปิด ณ วันนี้ ขออภัยในความไม่สะดวก สามารถดำเนินการผ่านช่องทางเว็บไซต์ที่แนบไว้ด้านล่างด้านล่าง⬇️`,
                                                 "wrap": true
                                             },
                                             {
@@ -144,13 +145,16 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                                             },
                                             {
                                                 "type": "button",
-                                                "style": "link",
+                                                "height": "sm",
+                                                "margin": "sm",
+                                                "style": "primary",
+                                                "color": "#263A50",
                                                 "action": {
                                                     "type": "uri",
-                                                    "label": "นัดหมายใหม่ได้ผ่านลิงค์นี้",
+                                                    "label": "เว็บไซต์ HCU",
                                                     "uri": "line://app/2002624288-QkgWM7yy"
                                                 }
-                                            }
+                                            },
                                         ]
                                     }
                                 }

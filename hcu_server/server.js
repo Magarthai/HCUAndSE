@@ -709,8 +709,9 @@ const notificationUserToday = async () => {
                                                     },
                                                     "hero": {
                                                         "type": "image",
-                                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                                        "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
                                                         "size": "full",
+                                                        "aspectRatio": "1.5:1"
                                                     },
                                                     "body": {
                                                         "type": "box",

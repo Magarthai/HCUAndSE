@@ -181,7 +181,7 @@ export function UserAuthContextProvider({ children }) {
 
 
   return (
-    <userAuthContext.Provider value={{ idToken,displayName,statusMessage,userId,profile,user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify }}>
+    <userAuthContext.Provider value={{ idToken,displayName,statusMessage,userId,profile,user, userData, logIn, signUp, logOut,resetPassword,resetPassword2,sendEmailVerify,initLine }}>
       {children}
     </userAuthContext.Provider>
   );
