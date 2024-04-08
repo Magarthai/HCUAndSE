@@ -23,7 +23,13 @@ const AddAppointmentUser = () => {
         setSelectedDate(selectedDate);
         
     };
-    const handleSelectChange = () => {
+
+    const REACT_APP_API = process.env.REACT_APP_API;
+    const [timeLabel, setTimeLabel] = useState("");
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
     const MONGO_API = process.env.REACT_APP_MONGO_API
@@ -334,6 +340,15 @@ const submitForm = async (e) => {
                         cancelButton: 'custom-cancel-button',
                     }
                 });
+                const info = {
+                    role: userData.role,
+                    date: appointmentInfo.appointmentDate,
+                    time: timeLabel,
+                    clinic: appointmentInfo.clinic,
+                    id: appointmentInfo.appointmentId,
+                };
+                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+                
                 await fetchTimeTableData();
 
                 const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
@@ -423,7 +438,7 @@ const submitForm = async (e) => {
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value);
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -434,7 +449,7 @@ const submitForm = async (e) => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime")({
                                         target: {
@@ -442,7 +457,7 @@ const submitForm = async (e) => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else {
                                     console.error("Invalid selected value:", selectedValue);
                                 }

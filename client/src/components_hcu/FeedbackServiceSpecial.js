@@ -4,6 +4,7 @@ import "../css/AdminFeedback.css";
 import { useUserAuth } from "../context/UserAuthContext";
 import { db, getDocs, collection } from "../firebase/config";
 import NavbarComponent from "./NavbarComponent";
+import axios from 'axios'
 import calendarFlat_icon from "../picture/calendar-flat.png";
 
 const FeedbackServiceSpecial = (props) => {
@@ -12,8 +13,15 @@ const FeedbackServiceSpecial = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-  
-  
+    const [feedbackItems, setFeedbackItems] = useState([]);
+    const REACT_APP_MONGO_API = process.env.REACT_APP_MONGO_API;
+    useEffect(() => {
+        if(userData) {
+            setFeedbackItems([]);
+            handleDateSelectData(selectedDate);
+            console.log("test")
+        }
+    },[selectedDate])
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -24,7 +32,9 @@ const FeedbackServiceSpecial = (props) => {
         const newZoomLevel = (innerWidth / baseWidth) * 100 / 100;
         setZoomLevel(newZoomLevel);
         };
-
+        if(userData) {
+            fetchData();
+        }
         responsivescreen();
         window.addEventListener("resize", responsivescreen);
         const updateShowTime = () => {
@@ -42,11 +52,39 @@ const FeedbackServiceSpecial = (props) => {
             window.removeEventListener("resize", responsivescreen);
         };
     
-    }, [user]); 
+    }, [user,userData]); 
     const containerStyle = {
         zoom: zoomLevel,
     };
-
+    const handleDateSelectData = async(selectedDate) => {
+        const info = {
+            role: userData.role,
+            clinic : "คลินิกกายภาพ",
+            selectedDate: selectedDate
+        }
+        try {
+            const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getGeneralSpecialFeedback`,info);
+            console.log(respone.data,"respone.data")
+            if(respone.data != "not found"){
+                setFeedbackItems(respone.data);
+            } 
+        } catch(error) {
+            console.error(error);
+        }
+    }
+    const fetchData = async() => {
+        const info = {
+            role: userData.role,
+            clinic : "คลินิกเฉพาะทาง",
+            selectedDate: selectedDate
+        }
+        console.log(info);
+        const respone = await axios.post(`${REACT_APP_MONGO_API}/api/getGeneralSpecialFeedback`,info);
+        console.log(respone.data)
+        if(respone.data != 'not found')  {
+            setFeedbackItems(respone.data)
+        }
+    };
     function getShowTime() {
         const today = new Date();
         const hours = today.getHours();
@@ -86,24 +124,6 @@ const FeedbackServiceSpecial = (props) => {
         return `${thaiMonth} ${year}`;
     };
 
-    const feedbackItems = [
-        {   
-            "date": "2024-03-15",
-            "serviceType1": "บริการตรวจรักษาโรคโดยแพทย์",
-            "score1": 3,
-            "serviceType2": "บริการจ่ายยาโดยพยาบาล",
-            "score2": 4,
-            "detail": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
-        },
-        {
-            "date": "2024-03-15",
-            "serviceType1": "บริการตรวจรักษาโรคโดยแพทย์",
-            "score1": 5,
-            "serviceType2": "บริการจ่ายยาโดยพยาบาล",
-            "score2": 3,
-            "detail": "บริการดี แต่ยังมีความจำเป็นในการปรับปรุง",
-        }
-    ]
 
     return (
         <div style={containerStyle}>

@@ -23,9 +23,16 @@ const AddSpecialAppointmentUser = () => {
         setSelectedDate(selectedDate);
         
     };
-    const handleSelectChange = () => {
+
+    const REACT_APP_API = process.env.REACT_APP_API;
+    
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
+    const [timeLabel, setTimeLabel] = useState("");
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const [selectedValue, setSelectedValue] = useState("");
 
@@ -340,6 +347,15 @@ const AddSpecialAppointmentUser = () => {
                         appointmentList: arrayUnion(timeTableAppointment),
                     });
 
+                    const info = {
+                        role: userData.role,
+                        date: appointmentInfo.appointmentDate,
+                        time: timeLabel,
+                        clinic: appointmentInfo.clinic,
+                        id: appointmentInfo.appointmentId,
+                    };
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+
                     Swal.fire({
                         icon: "success",
                         title: "การนัดหมายสําเร็จ!",
@@ -415,7 +431,7 @@ const AddSpecialAppointmentUser = () => {
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value);
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -426,7 +442,7 @@ const AddSpecialAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime")({
                                         target: {
@@ -434,7 +450,7 @@ const AddSpecialAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else {
                                     console.error("Invalid selected value:", selectedValue);
                                 }

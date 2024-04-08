@@ -18,7 +18,7 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
 
         let feedback = [];
 
-        if( selectedDate = "") {
+        if( selectedDate =="") {
             feedback = await Feedback.find({
                 date: {
                     $gte: startOfMonth,

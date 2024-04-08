@@ -118,7 +118,7 @@ const QueueManagementSystemComponentSpecial = (props) => {
                         AppointmentUserData: AppointmentUserData,
                     }
                     const updateStatus = await axios.post(`${process.env.REACT_APP_API}/api/UpdateToSuccessStatus`,info)
-                    if(updateStatus == "success"){
+                    if(updateStatus.data == "success"){
                     Swal.fire(
                         {
                             title: 'การอัปเดตคิวสำเร็จ!',

@@ -20,8 +20,9 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
         let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
 
         let feedback = [];
-
-        if( selectedDate = "") {
+        console.log(selectedDate)
+        if( selectedDate == "") {
+            console.log("XD")
             feedback = await Feedback.find({
                 date: {
                     $gte: startOfMonth,
@@ -30,11 +31,14 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
                 clinic: clinic,
             }).sort({date: -1})
         } else {
+            console.log(selectedDate)
+            console.log("XD2")
             feedback = await Feedback.find({
                 date: selectedDate,
                 clinic: clinic,
             });
         }
+        console.log(feedback);
         const formattedFeedback = feedback.map(item => {
             const parsedDate = moment(item.date).format('DD/MM/YYYY');
             
@@ -49,9 +53,10 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
         if (formattedFeedback.length > 0){
             res.send(formattedFeedback);
         } else {
-            res.send('not found');
-            res.status(500).send("Internal Server Error"); 
+            res.send('not found'); // Sending a 404 status for resource not found
         }
+        
+        
 
     } catch(error) {
         console.log(error);
