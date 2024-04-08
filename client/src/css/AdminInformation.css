@@ -43,9 +43,28 @@
     justify-content: center;
     align-items: center;
 }
-.admin-information-img{
+/* .admin-information-img{
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0px 0px 15px 15px;
+}
+.admin-information-img-box{
     width: 100%;
     height: 400px;
-    object-fit: cover;
+    
     border-radius: 0px 0px 15px 15px;
+} */
+
+.admin-information-img-box {
+    width: 100%;
+    height: 400px;
+    border-radius: 0px 0px 15px 15px;
+    overflow: hidden; /* ใช้เพื่อครอบภาพที่อาจล้นออกจากขอบ */
+}
+
+.admin-information-img-box img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* ทำให้ภาพเรียงตรงกันภายใน div */
 }

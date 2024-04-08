@@ -519,12 +519,13 @@ const ActivityAddComponent = (props) => {
                         <div className="admin-activity-add">
                             <div className="admin-activity-add-hearder-flexbox">
                                 <div className="admin-activity-today-hearder-box">
+                                 <div className="admin-img-activity-box">
                                     <img
                                         src={imgSrc || img_activity}
                                         className="admin-img-activity"
                                         alt={imgSrc ? "Selected Activity Image" : img_activity}
                                     />
-                                    <br />
+                                     </div>
                                     <br />
                                     <div className="admin-right">
                                         <input

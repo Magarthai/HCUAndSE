@@ -18,9 +18,10 @@ const InformationAll = (props) => {
     const animationFrameRef = useRef();
     const navigate = useNavigate();
     const [information, setInformation] = useState([])
-  
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         document.title = 'Health Care Unit';
+
         console.log(user);
         console.log(userData)
         const responsivescreen = () => {
@@ -184,7 +185,11 @@ const InformationAll = (props) => {
                                     <img onClick={() => deletedInformation(information)} src={icon_delete} className="icon" />
                             </div>
                         </div>
-                        <img src={information.image} className="admin-information-img"/>
+
+                        <div className="admin-information-img-box">
+                            <img src={information.image} className="admin-information-img"/>
+                        </div>
+                        
                     </div>
                 ))}
             
