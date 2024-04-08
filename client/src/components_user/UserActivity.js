@@ -157,6 +157,8 @@ const UserActivity = (props) => {
             }
         })
     }
+
+    
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user,"user");
