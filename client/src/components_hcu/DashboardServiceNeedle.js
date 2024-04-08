@@ -424,27 +424,26 @@ const DashboardServiceNeedle = (props) => {
               <div className="admin-dashboard-box1 boxcenter2" style={{padding:"10px"}}>
                 <h4>การดำเนินการแต่ละส่วนของคลินิกฝังเข็ม</h4>
                 <div style={{ width: '100%', height: '180px' }}>
-                  <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%">
                     <BarChart
-                      width={500}
-                      height={300}
-                      data={data3}
-                      margin={{
-                      top: 5,
-                      right: 30,
-                      left: 5,
-                      bottom: 0,
-                     }}
+                        width={500}
+                        height={300}
+                        data={data4}
+                        margin={{
+                            top: 0,
+                            right: 20,
+                            left: -30,
+                            bottom: 10,
+                        }}
+                        layout="vertical"
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }}/>
-                      <Tooltip />
-                      <Legend style={{ fontSize: '10px' }}/>
-                      <Bar dataKey="สำเร็จ" fill="#7C9DC1" />
-                      <Bar dataKey="ไม่สำเร็จ" fill="#BABABA"  />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis type="number" tick={{ fontSize: 10 }} />
+                        <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} domain={[1, 5]} />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#365372" minPointSize={5}></Bar>
                     </BarChart>
-                  </ResponsiveContainer>
+                </ResponsiveContainer>
                 </div>
               </div>
 

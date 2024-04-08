@@ -60,25 +60,28 @@ router.post('/NotificationAddContinueAppointmentV2', limitRequests, async (req, 
             "to": `${userData.userLineID}`,
                 "messages": [
                     {
-                    "type": "flex",
-                    "altText": "‼️ การนัดหมายใหม่ ‼️",
-                    "contents": {
-                            "type": "bubble",
-                            "header": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "‼️ การนัดหมายใหม่ ‼️"
-                                }
-                                ]
+                        "type": "flex",
+                        "altText": "‼️ การนัดหมายใหม่ ‼️",
+                        "contents": {
+                        "type": "bubble",
+                        "header": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "size": "lg",
+                                "weight" : "bold",
+                                "align" : "center",
+                                "text": "‼️ การนัดหมายใหม่ ‼️"
+                            }
+                        ]
                             },
                             "hero": {
                                 "type": "image",
                                 "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
                                 "size": "full",
-                                "aspectRatio": "2:1"
+                                "aspectRatio": "1.5:1"
                             },
                             "body": {
                                 "type": "box",

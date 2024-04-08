@@ -46,29 +46,33 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', studentID)));
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
+        
         const body =  {
             "to": `${userData.userLineID}`,
             "messages": [
               {
-                "type": "flex",
-                "altText": "‼️ การนัดหมายใหม่ ‼️",
-                "contents": {
-                      "type": "bubble",
-                      "header": {
-                          "type": "box",
-                          "layout": "vertical",
-                          "contents": [
-                          {
-                              "type": "text",
-                              "text": "‼️ การนัดหมายใหม่ ‼️"
-                          }
-                          ]
-                      },
+                  "type": "flex",
+                  "altText": "‼️ การนัดหมายใหม่ ‼️",
+                  "contents": {
+                  "type": "bubble",
+                  "header": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                      {
+                          "type": "text",
+                          "size": "lg",
+                          "weight" : "bold",
+                          "align" : "center",
+                          "text": "‼️ การนัดหมายใหม่ ‼️"
+                      }
+                  ]
+                  },            
                       "hero": {
                           "type": "image",
                           "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
                           "size": "full",
-                          "aspectRatio": "2:1"
+                          "aspectRatio": "1.5:1"
                       },
                       "body": {
                           "type": "box",
@@ -82,14 +86,14 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
                               "type": "text",
                               "text": `วันที่ : ${data.date}`
                           },
-                        {
-                            "type": "text",
-                            "text": `คลินิก : ${data.clinic}`
-                        },
-                        {
-                            "type": "text",
-                            "text": `เวลา : ${data.time}`
-                        },
+                          {
+                              "type": "text",
+                              "text": `คลินิก : ${data.clinic}`
+                          },
+                          {
+                              "type": "text",
+                              "text": `เวลา : ${data.time}`
+                          },
                           {
                               "type": "text",
                               "text": "🙏🏻 กรุณามาก่อนเวลานัดหมาย 10 นาที"
@@ -102,8 +106,10 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
             ]
           }
         try {
+            if(userData.userLineID != "") {
         const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
         console.log('Response:', response.data);
+            }
         } catch (error) {
         console.error('Error:', error);
         return res.status(500).json({ error: 'Internal server error' }); 

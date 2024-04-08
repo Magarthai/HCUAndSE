@@ -48,27 +48,30 @@ router.post('/NotificationEditAppointment', limitRequests, async (req, res) => {
         const body = {
             "to": `${userData.userLineID}`,
             "messages": [
-              {
-                "type": "flex",
-                "altText": "‼️ เลื่อนการนัดหมาย ‼️",
-                "contents": {
-                      "type": "bubble",
-                      "header": {
-                          "type": "box",
-                          "layout": "vertical",
-                          "contents": [
-                          {
-                              "type": "text",
-                              "text": "‼️ เลื่อนการนัดหมาย ‼️"
-                          }
-                          ]
-                      },
-                      "hero": {
-                          "type": "image",
-                          "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
-                          "size": "full",
-                          "aspectRatio": "2:1"
-                      },
+                {
+                    "type": "flex",
+                    "altText": "‼️ เลื่อนการนัดหมาย ‼️",
+                    "contents": {
+                    "type": "bubble",
+                    "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "size": "lg",
+                            "weight" : "bold",
+                            "align" : "center",
+                            "text": "‼️ เลื่อนการนัดหมาย ‼️"
+                        }
+                    ]
+                        },
+                        "hero": {
+                            "type": "image",
+                            "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
+                            "size": "full",
+                            "aspectRatio": "1.5:1"
+                        },
                       "body": {
                           "type": "box",
                           "layout": "vertical",

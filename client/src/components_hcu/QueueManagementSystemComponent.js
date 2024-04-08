@@ -92,6 +92,7 @@ const QueueManagementSystemComponent = (props) => {
 
     const handleToggle = async (id, AppointmentUserData) => {
         let x = document.getElementById("detail-appointment");
+        console.log(AppointmentUserData)
         Swal.fire({
             title: 'Confirm',
             text: `ยืนยันคิว ${AppointmentUserData.firstName} ${AppointmentUserData.lastName}`,
@@ -113,7 +114,8 @@ const QueueManagementSystemComponent = (props) => {
                         AppointmentUserData: AppointmentUserData,
                     }
                     const updateStatus = await axios.post(`${process.env.REACT_APP_API}/api/UpdateToSuccessStatus`,info)
-                    if(updateStatus == "success"){
+                    console.log(updateStatus)
+                    if(updateStatus.data == "success"){
                     Swal.fire(
                         {
                             title: 'การอัปเดตคิวสำเร็จ!',
@@ -156,11 +158,8 @@ const QueueManagementSystemComponent = (props) => {
                 )
             }
         })
-
-
-
     };
-
+    
 
     const adminQueueCards = document.querySelectorAll('.admin-queue-card');
 

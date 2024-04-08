@@ -250,6 +250,31 @@ const updateAppointmentsStatus = async () => {
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const currentFormattedTime2 = moment(timeslotStart).subtract(15, 'minutes');
 
+
+        const link = (e) => {
+            if (e.appointment.clinic == "คลินิกทั่วไป"){
+                return "https://hcukmutt.vercel.app/feedback/general"
+            } else if (e.appointment.clinic == "คลินิกเฉพาะทาง"){
+                return "https://hcukmutt.vercel.app/feedback/special"
+                
+            } else if (e.appointment.clinic == "คลินิกกายภาพ"){
+                if(e.appointment.type == "main"){
+                return "https://hcukmutt.vercel.app/feedback/physical/service"
+                } else {
+                    return "https://hcukmutt.vercel.app/feedback/physical"
+                }
+                
+            } else if (e.appointment.clinic == "คลินิกฝังเข็ม"){
+                if(e.appointment.type == "main"){
+                return "https://hcukmutt.vercel.app/feedback/needle/service"
+                } else {
+                    return "https://hcukmutt.vercel.app/feedback/needle"
+                }
+                
+            }
+        
+        }
+
         if (
             appointment.status == 'ลงทะเบียนแล้ว' &&
             thaiTime >= timeslotEnd
@@ -260,13 +285,51 @@ const updateAppointmentsStatus = async () => {
                     if(userData.userLineID != ""){
                     const body = {
                         "to": userData.userLineID,
-                        "messages":[
-                            {
-                                "type":"text",
-                                "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สำเร็จ`
+                        "messages": [
+                          {
+                            "type": "flex",
+                            "altText": "‼️ อัพเดตสถานะ ‼️",
+                            "contents": {
+                                  "type": "bubble",
+                                  "header": {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "contents": [
+                                      {
+                                          "type": "text",
+                                          "text": "‼️ อัพเดตสถานะการนัดหมาย ‼️"
+                                      }
+                                      ]
+                                  },
+                                  "hero": {
+                                      "type": "image",
+                                      "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
+                                      "size": "full",
+                                      "aspectRatio": "2:1"
+                                  },
+                                  "body": {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "contents": [
+                                      {
+                                          "type": "text",
+                                          "text": "อัพเดตสถานะการเข้าใช้บริการ : ไม่สําเร็จ"
+                                      },
+                                      {
+                                          "type": "text",
+                                          "text": `วันที่ : ${AppointmentUserData.appointment.appointmentDate}`
+                                      },
+                                      {
+                                          "type": "text",
+                                          "text": `คลินิก : ${AppointmentUserData.appointment.clinic}`
+                                      }
+                                      ]
+                                  }
+                                  }
                             }
+                          
                         ]
-                    }
+                      }
                         try {
                             const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                             console.log('Response:', response.data);
@@ -305,10 +368,69 @@ const updateAppointmentsStatus = async () => {
                     if(userData.userLineID != ""){
                         const body = {
                             "to": userData.userLineID,
-                            "messages":[
+                            "messages": [
                                 {
-                                    "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to เสร็จสิ้น` // Message content
+                                    "type": "flex",
+                                    "altText": "‼️ ประเมินความพึงพอใจ ‼️",
+                                    "contents": {
+                                        "type": "bubble",
+                                        "header": {
+                                            "type": "box",
+                                            "layout": "vertical",
+                                            "contents": [
+                                                {
+                                                    "type": "text",
+                                                    "align" : "center",
+                                                    "text": "‼️ ประเมินความพึงพอใจ ‼️"
+                                                }
+                                            ]
+                                        },
+                                        "hero": {
+                                            "type": "image",
+                                            "url": "https://i.pinimg.com/564x/2c/43/3e/2c433ecbb353b1a96615f57dd49803d5.jpg",
+                                            "size": "full",
+                                            "aspectRatio": "1.75:1"
+                                        },
+                                        "body": {
+                                            "type": "box",
+                                            "layout": "vertical",
+                                            "contents": [ 
+                                                {
+                                                    "type": "text",
+                                                    "text": "📝แบบประเมินความพึงพอใจ",
+                                                    "wrap": true
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": "ขอขอบคุณสำหรับการใช้บริการ HCU",
+                                                    "wrap": true
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text":"เพื่อให้เราสามารถปรับปรุงและพัฒนาบริการให้ดียิ่งขึ้นต่อไป กรุณาให้คะแนนความพึงพอใจของท่านด้านล่างนี้ได้เลยครับ/ค่ะ\n",
+                                                    "wrap": true
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "height": "sm",
+                                                    "margin": "sm",
+                                                    "style": "primary",
+                                                    "color": "#263A50",
+                                                    "action": {
+                                                        "type": "uri",
+                                                        "label": "ประเมินการใช้บรการ HCU",
+                                                        "uri": link(AppointmentUserData)
+                                                    }
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "align" : "center",
+                                                    "text": "\n🙏🏻ขอบคุณค่ะ/คร้บ 🙏🏻",
+                                                    "wrap": true
+                                                }
+                                            ]
+                                        }
+                                    }
                                 }
                             ]
                         }
@@ -349,13 +471,52 @@ const updateAppointmentsStatus = async () => {
                     if(userData.userLineID != ""){
                         const body = {
                             "to": userData.userLineID,
-                            "messages":[
-                                {
-                                    "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to ไม่สําเร็จ`
+                            "messages": [
+                              {
+                                "type": "flex",
+                                "altText": "‼️ อัพเดตสถานะ ‼️",
+                                "contents": {
+                                      "type": "bubble",
+                                      "header": {
+                                          "type": "box",
+                                          "layout": "vertical",
+                                          "contents": [
+                                          {
+                                              "type": "text",
+                                              "text": "‼️ อัพเดตสถานะการนัดหมาย ‼️"
+                                          }
+                                          ]
+                                      },
+                                      "hero": {
+                                          "type": "image",
+                                          "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
+                                          "size": "full",
+                                          "aspectRatio": "1.5:1"
+                                      },
+                                      "body": {
+                                          "type": "box",
+                                          "layout": "vertical",
+                                          "contents": [
+                                          {
+                                              "type": "text",
+                                              "wrap": true,
+                                              "text": "อัพเดตสถานะการเข้าใช้บริการ : ไม่สําเร็จ"
+                                          },
+                                          {
+                                              "type": "text",
+                                              "text": `วันที่ : ${AppointmentUserData.appointment.appointmentDate}`
+                                          },
+                                          {
+                                              "type": "text",
+                                              "text": `คลินิก : ${AppointmentUserData.appointment.clinic}`
+                                          }
+                                          ]
+                                      }
+                                      }
                                 }
+                              
                             ]
-                        }
+                          }
                         try {
                             const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                             console.log('Response:', response.data);
@@ -392,13 +553,52 @@ const updateAppointmentsStatus = async () => {
                     if(userData.userLineID != ""){
                         const body = {
                             "to": userData.userLineID,
-                            "messages":[
-                                {
-                                    "type":"text",
-                                    "text": `Updated status ${userData.firstName} ${userData.lastName} appointment date ${appointment.appointmentDate} from clinic : ${AppointmentUserData.appointment.clinic} to รอยืนยันสิทธิ์` // Message content
+                            "messages": [
+                              {
+                                "type": "flex",
+                                "altText": "‼️ อัพเดตสถานะ ‼️",
+                                "contents": {
+                                      "type": "bubble",
+                                      "header": {
+                                          "type": "box",
+                                          "layout": "vertical",
+                                          "contents": [
+                                          {
+                                              "type": "text",
+                                              "text": "‼️ อัพเดตสถานะการนัดหมาย ‼️"
+                                          }
+                                          ]
+                                      },
+                                      "hero": {
+                                          "type": "image",
+                                          "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
+                                          "size": "full",
+                                          "aspectRatio": "1.5:1"
+                                      },
+                                      "body": {
+                                          "type": "box",
+                                          "layout": "vertical",
+                                          "contents": [
+                                          {
+                                              "type": "text",
+                                              "wrap": true,
+                                              "text": "อัพเดตสถานะการเข้าใช้บริการ : รอยืนยันสิทธิ์"
+                                          },
+                                          {
+                                              "type": "text",
+                                              "text": `วันที่ : ${AppointmentUserData.appointment.appointmentDate}`
+                                          },
+                                          {
+                                              "type": "text",
+                                              "text": `คลินิก : ${AppointmentUserData.appointment.clinic}`
+                                          }
+                                          ]
+                                      }
+                                      }
                                 }
+                              
                             ]
-                        }
+                          }
                         try {
                             const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                             console.log('Response:', response.data);
@@ -499,9 +699,10 @@ const notificationUserToday = async () => {
                                                         "contents": [
                                                             {
                                                                 "type": "text",
-                                                                "size": "lg",
+                                                                "size": "14px",
                                                                 "weight" : "bold",
                                                                 "align" : "center",
+                                                                "wrap": true,
                                                                 "text": "‼️ การนัดหมายของคุณในวันพรุ่งนี้ ‼️"
                                                             }
                                                         ]
