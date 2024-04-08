@@ -88,7 +88,7 @@ export function UserAuthContextProvider({ children }) {
 
     const initLine = () => {
       if(liff.isInClient()){
-        liff.init({ liffId: '2002624288-QkgWM7yy' }, () => {
+        liff.init({ liffId: '2003922114-JkmGxejX' }, () => {
           if(liff.isInClient()){
             if (liff.isLoggedIn()) {
                 runApp();

@@ -22,13 +22,18 @@ const AddAppointmentUser = () => {
         setAllAppointmentUsersData([]);
         setSelectedDate(selectedDate);
     };
-    const handleSelectChange = () => {
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
+
+    
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const [selectedValue, setSelectedValue] = useState("");
     const navigate = useNavigate();
-
+    const [timeLabel, setTimeLabel] = useState("");
     const { user, userData } = useUserAuth();
     const [timeOptions, setTimeOptions] = useState([]);
     const [selectedCount, setSelectedCount] = useState(1);
@@ -46,7 +51,7 @@ const AddAppointmentUser = () => {
         timeablelist: "",
         userID:"",
     })
-
+    const REACT_APP_API = process.env.REACT_APP_API;
     const { appointmentDate, appointmentTime, appointmentId, appointmentCasue, appointmentSymptom, appointmentNotation, clinic, uid, timeablelist,userID } = state
     const isSubmitEnabled =
         !appointmentTime
@@ -356,7 +361,14 @@ const AddAppointmentUser = () => {
                         }
                     });
                     await fetchTimeTableData();
-
+                    const info = {
+                        role: userData.role,
+                        date: appointmentInfo.appointmentDate,
+                        time: timeLabel,
+                        clinic: appointmentInfo.clinic,
+                        id: appointmentInfo.appointmentId,
+                    };
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
                     const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
                     navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
                 }
@@ -441,7 +453,7 @@ const AddAppointmentUser = () => {
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value);
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -452,7 +464,7 @@ const AddAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime")({
                                         target: {
@@ -460,7 +472,7 @@ const AddAppointmentUser = () => {
                                         },
                                     });
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else {
                                     console.error("Invalid selected value:", selectedValue);
                                 }

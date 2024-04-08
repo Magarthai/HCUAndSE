@@ -348,11 +348,9 @@ const submitForm = async (e) => {
                     id: appointmentInfo.appointmentId,
                 };
                 const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
-                
-                await fetchTimeTableData();
-
                 const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
                 navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
+
             }
         });}else if (
             result.dismiss === Swal.DismissReason.cancel

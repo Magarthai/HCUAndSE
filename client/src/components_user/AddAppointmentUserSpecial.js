@@ -354,7 +354,6 @@ const AddSpecialAppointmentUser = () => {
                         clinic: appointmentInfo.clinic,
                         id: appointmentInfo.appointmentId,
                     };
-                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
 
                     Swal.fire({
                         icon: "success",
@@ -366,8 +365,7 @@ const AddSpecialAppointmentUser = () => {
                             cancelButton: 'custom-cancel-button',
                         }
                     });
-                    await fetchTimeTableData();
-
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
                     const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
                     navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
                 }
