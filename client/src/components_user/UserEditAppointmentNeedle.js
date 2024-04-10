@@ -284,6 +284,7 @@ const UserEditAppointmentNeedle = (props) => {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
                 appointmentDate2: appointmentDate,
                 appointmentTime: appointmentTime2,
+                clinic:"คลินิกฝังเข็ม",
                 appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
                 status: "ยื่นแก้ไข",

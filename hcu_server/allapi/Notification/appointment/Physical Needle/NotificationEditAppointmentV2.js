@@ -49,64 +49,75 @@ router.post('/NotificationEditAppointmentV2', limitRequests, async (req, res) =>
         }
         const body = {
             "to": `${userData.userLineID}`,
-                "messages": [
-                    {
+            "messages": [
+                {
                     "type": "flex",
-                    "altText": "‼️ นัดหมายถูกปรับเปลี่ยน ‼️",
+                    "altText": "‼️ เลื่อนการนัดหมาย ‼️",
                     "contents": {
-                            "type": "bubble",
-                            "header": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "‼️ นัดหมายถูกปรับเปลี่ยน ‼️"
-                                }
-                                ]
+                    "type": "bubble",
+                    "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "size": "lg",
+                            "weight" : "bold",
+                            "align" : "center",
+                            "text": "‼️ เลื่อนการนัดหมาย ‼️"
+                        }
+                    ]
+                        },
+                        "hero": {
+                            "type": "image",
+                            "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
+                            "size": "full",
+                            "aspectRatio": "1.5:1"
+                        },
+                      "body": {
+                          "type": "box",
+                          "layout": "vertical",
+                          "contents": [
+                            {
+                                "type": "text",
+                                "text": `🗓️จากเดิม`
                             },
-                            "hero": {
-                                "type": "image",
-                                "url": "https://i.pinimg.com/564x/8f/59/1a/8f591a8ae350cf6cbeb5c7534463c11a.jpg",
-                                "size": "full",
-                                "aspectRatio": "2:1"
-                            },
-                            "body": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "🗓️ รายละเอียดการนัดที่ถูกปรับเปลี่ยน"
-                                },
-                                {
-                                    "type": "text",
-                                    "text": `วันที่ : ${data.date}`
-                                },
-                                {
-                                    "type": "text",
-                                    "text": `เวลา : ${data.time}`
-                                },
-                                {
-                                    "type": "text",
-                                    "text": `คลินิก : ${data.clinic}`
-                                },
-                                {
-                                    "type": "text",
-                                    "text": `ประเภทนัดหมาย: ${type}`
-                                },
-                                {
-                                    "type": "text",
-                                    "wrap": true,
-                                    "text": `🙏🏻 ขออภัยในความไม่สะดวก กรุณาลงทะเบียนนัดหมายใหม่อีกครั้ง!`
-                                }
-                                ]
-                            }
-                            }
-                    }
-                    
-                ]
-        }
+                          {
+                              "type": "text",
+                              "text": `วันที่ : ${data.oldDate}`
+                          },
+                          {
+                              "type": "text",
+                              "text": `คลินิก : ${data.clinic}`
+                          },
+                          {
+                          
+                              "type": "text",
+                              "text": "🗓️เป็น"
+                          },
+                          {
+                              "type": "text",
+                              "text": `วันที่ : ${data.date}`
+                          },
+                          {
+                              "type": "text",
+                              "text": `คลินิก : ${data.clinic}`
+                          },
+                          {
+                            "type": "text",
+                            "text": `ประเภทนัดหมาย : ${type}`
+                        },
+                          {
+                              "type": "text",
+                              "text": `เวลา : ${data.time}`
+                          }
+                          ]
+                      }
+                      }
+                }
+              
+            ]
+          }
         try {
         const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
         console.log('Response:', response.data);

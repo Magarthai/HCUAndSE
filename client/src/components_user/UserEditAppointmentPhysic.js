@@ -297,7 +297,9 @@ const UserEditAppointmentPhysic = (props) => {
             const updatedTimetable = {
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
                 appointmentDate2: appointmentDate,
+                appointmentId: appointmentId,
                 appointmentTime: appointmentTime2,
+                clinic:"คลินิกกายภาพ",
                 appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
                 status: "ยื่นแก้ไข",
@@ -444,6 +446,30 @@ const UserEditAppointmentPhysic = (props) => {
                                     await updateDoc(timeTableDocNew, {
                                         appointmentList: arrayUnion(timeTableAppointment),
                                     });
+                                    const info = {
+                                        role: userData.role,
+                                        date: updatedTimetable.appointmentDate,
+                                        time: timeLabel,
+                                        clinic: updatedTimetable.clinic,
+                                        id: updatedTimetable.appointmentId,
+                                        oldDate: updatedTimetableRollBack.appointmentDate,
+                                        type: type,
+                                    };
+                                    try{
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                    } catch(error) {
+                                        console.log(error);
+                                        Swal.fire({
+                                            title: "ส่งแจ้งเตือนไม่สําเร็จ",
+                                            icon: "error",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    cancelButton: 'custom-cancel-button',
+                                                }
+                                        }); 
+                                        navigate('/appointment');
+                                    }
                                     } else {
                                     console.log('ไม่พบเอกสาร timeTable');
                                     }
@@ -454,30 +480,7 @@ const UserEditAppointmentPhysic = (props) => {
                                 .catch((error) => {
                                     console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                                 });
-                                const info = {
-                                    role: userData.role,
-                                    date: updatedTimetable.appointmentDate,
-                                    time: timeLabel,
-                                    clinic: updatedTimetable.clinic,
-                                    id: updatedTimetable.appointmentId,
-                                    oldDate: updatedTimetableRollBack.appointmentDate,
-                                    type: type,
-                                };
-                                try{
-                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
-                                } catch(error) {
-                                    console.log(error);
-                                    Swal.fire({
-                                        title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                        icon: "error",
-                                        confirmButtonText: "ตกลง",
-                                        confirmButtonColor: '#263A50',
-                                            customClass: {
-                                                cancelButton: 'custom-cancel-button',
-                                            }
-                                    }); 
-                                    navigate('/appointment');
-                                }
+                                
                                 
                 }
                 Swal.fire({
