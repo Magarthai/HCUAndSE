@@ -152,7 +152,7 @@ export function UserAuthContextProvider({ children }) {
 
 
     const a = async () => {
-      if(userData.userID){
+      if(userData.userID.length > 1){
         const userDocRef = doc(db, 'users', userData.userID);
         await updateDoc(userDocRef, {
             userLineID: (userId),
