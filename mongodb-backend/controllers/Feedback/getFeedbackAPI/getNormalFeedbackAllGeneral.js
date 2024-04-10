@@ -33,7 +33,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
         console.log(feedback,selectedDate)
     };
     const formattedFeedback = feedback.map(item => {
-        const parsedDate = moment(item.date).format('DD/MM/YYYY');
+        const parsedDate = moment(item.createdAt).format('DD/MM/YYYY');
         
         return {
             ...item.toObject(), 

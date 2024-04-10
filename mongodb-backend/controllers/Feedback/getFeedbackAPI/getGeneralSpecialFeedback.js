@@ -40,7 +40,7 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
         }
         console.log(feedback);
         const formattedFeedback = feedback.map(item => {
-            const parsedDate = moment(item.date).format('DD/MM/YYYY');
+            const parsedDate = moment(item.createdAt).format('DD/MM/YYYY');
             
             return {
                 ...item.toObject(), 

@@ -386,7 +386,7 @@ const AddAppointment = (props) => {
                                                 }
                                             }
                                         )
-                                        window.location.reload();
+                                        navigate(`/adminCanceledListPeopleAppointment`);
                                     }
                                     const info = {
                                         role: userData.role,

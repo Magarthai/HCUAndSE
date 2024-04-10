@@ -313,6 +313,7 @@ const updateAppointmentsStatus = async () => {
                                       "contents": [
                                       {
                                           "type": "text",
+                                          "wrap": true,
                                           "text": "อัพเดตสถานะการเข้าใช้บริการ : ไม่สําเร็จ"
                                       },
                                       {
