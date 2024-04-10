@@ -122,7 +122,7 @@ body{
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 30%;
+        width: 30% !important;
         border-right: #D1D1D1 2px solid;
         height: 100%;
     
@@ -148,9 +148,9 @@ body{
         display: flex;
         text-align: left;
         justify-content: center;
-        align-items: left;
+        /* align-items: left; */
         margin-left: 10px;
-        width: 70%;
+        width: 65%;
     }
     /* .appoint-info{
         
