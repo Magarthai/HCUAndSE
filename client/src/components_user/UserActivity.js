@@ -275,7 +275,7 @@ const UserActivity = (props) => {
                                 ))
                             ) : (
                                 <div className="user-Activity_card gap-16" >
-                                    <h4 style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "60px" }}>ไม่มีกิจกรรมในวันนี้</h4>
+                                    <h4 style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "60px" ,marginBottom:0}}>ไม่มีกิจกรรมในวันนี้</h4>
                                 </div>
 
                             )}
@@ -320,12 +320,12 @@ const UserActivity = (props) => {
                                 )
                         ) )): (
                             <div className="user-activity-box-noToday">
-                                <h4 className="colorPrimary-800">ไม่มีกิจกรรมที่เปิดวันนี้</h4>
+                                <h4 className="colorPrimary-800" style={{marginBottom:0}}>ไม่มีกิจกรรมที่เปิดวันนี้</h4>
                             </div>
                         
                         )}
                         <div className="AppointList-body-BetweenCard">
-                            <p className="AppointList-body-BetweenCard-txt" style={{color:"#263A50"}}>--------- กิจกรรมที่จะถึงเร็วๆนี้ ---------</p>
+                            <p className="AppointList-body-BetweenCard-txt" style={{color:"#263A50", marginBottom:0}}>--------- กิจกรรมที่จะถึงเร็วๆนี้ ---------</p>
                         </div>
                         {NQueueactivities && NQueueactivities.length > 0 ? (
                             NQueueactivities.map((Queueactivities, index) => (
@@ -342,11 +342,13 @@ const UserActivity = (props) => {
                                     <p className="textBody-small user-Activity_ticket_text">รับคิว</p>
                                 </button>
                                 :
-                                <div></div>
+                                <div>
+                                </div>
                                 }
                             </div>
                         ) )): (
-                            <div>
+                            <div className="user-activity-box-noToday">
+                                <h4 className="colorPrimary-800" style={{marginBottom:0}}>ไม่มีกิจกรรมเร็วๆนี้</h4>
                             </div>
                         
                         )}
@@ -361,8 +363,8 @@ const UserActivity = (props) => {
                                 </div>
                             </div>
                         ) )): (
-                            <div className="user-activity-box-noToday">
-                                <h4 className="colorPrimary-800">ไม่มีกิจกรรมเร็วๆนี้</h4>
+                            <div>
+                               
                             </div>
                         
                         )}

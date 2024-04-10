@@ -175,7 +175,8 @@
 .user-activity-box-noToday{
     background-color: #FBFFFF;
     box-shadow: 1px 5px 5px rgba(0,0,0,0.25);
-    margin: 0% 5%;
+    margin-left: 16px;
+    margin-right: 8px;
     height: 20%;
     border-radius: 12px;
     display: flex;

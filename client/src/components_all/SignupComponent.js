@@ -302,7 +302,7 @@ const SignupComponent = (props) => {
             value={firstName}
             onChange={inputValue("firstName")}
             placeholder="ชื่อจริง"
-            pattern="[A-Za-z0-9]*" title="กรุณาป้อนเฉพาะตัวอักษรและตัวเลขเท่านั้น"
+           
           />
         </div>
 
@@ -314,7 +314,7 @@ const SignupComponent = (props) => {
             value={lastName}
             onChange={inputValue("lastName")}
             placeholder="นามสกุล"
-            pattern="[A-Za-z0-9]*" title="กรุณาป้อนเฉพาะตัวอักษรและตัวเลขเท่านั้น"
+         
           />
         </div>
 
