@@ -426,7 +426,21 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                                 oldDate: updatedTimetableRollBack.appointmentDate,
                                                 type: type,
                                             };
-                                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                            try{
+                                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                            } catch(error) {
+                                                console.log(error);
+                                                Swal.fire({
+                                                    title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
+                                                    icon: "error",
+                                                    confirmButtonText: "ตกลง",
+                                                    confirmButtonColor: '#263A50',
+                                                        customClass: {
+                                                            cancelButton: 'custom-cancel-button',
+                                                        }
+                                                }); 
+                                                window.location.href('/appointment');
+                                            }
                                     Swal.fire({
                                         icon: "success",
                                         title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -531,7 +545,21 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                         oldDate: updatedTimetableRollBack.appointmentDate,
                                         type: type,
                                     };
-                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                    try{
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                    } catch(error) {
+                                        console.log(error);
+                                        Swal.fire({
+                                            title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
+                                            icon: "error",
+                                            confirmButtonText: "ตกลง",
+                                            confirmButtonColor: '#263A50',
+                                                customClass: {
+                                                    cancelButton: 'custom-cancel-button',
+                                                }
+                                        }); 
+                                        window.location.href('/appointment');
+                                    }
                             } catch (firebaseError) {
                                 Swal.fire(
                                     {
@@ -600,7 +628,21 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                     type: type,
                                 };
                                 await updateDoc(timetableRef, updatedTimetable);
-                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                try{
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                } catch(error) {
+                                    console.log(error);
+                                    Swal.fire({
+                                        title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
+                                        icon: "error",
+                                        confirmButtonText: "ตกลง",
+                                        confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                    }); 
+                                    window.location.href('/appointment');
+                                }
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -675,7 +717,21 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                     oldDate: updatedTimetableRollBack.appointmentDate,
                                     type: type,
                                 };
-                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                try{
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                                } catch(error) {
+                                    console.log(error);
+                                    Swal.fire({
+                                        title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
+                                        icon: "error",
+                                        confirmButtonText: "ตกลง",
+                                        confirmButtonColor: '#263A50',
+                                            customClass: {
+                                                cancelButton: 'custom-cancel-button',
+                                            }
+                                    }); 
+                                    window.location.href('/appointment');
+                                }
                                 Swal.fire({
                                     icon: "success",
                                     title: "การอัปเดตการนัดหมายสำเร็จ!",

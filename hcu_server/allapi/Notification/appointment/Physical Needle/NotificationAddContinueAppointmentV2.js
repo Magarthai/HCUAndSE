@@ -34,10 +34,6 @@ const limitRequests = (req, res, next) => {
 
 
 router.post('/NotificationAddContinueAppointmentV2', limitRequests, async (req, res) => {
-    const role = req.body.role;
-    if(role != "admin") {
-        return res.status(500).json({ error: 'Internal server error' }); 
-    };
     try {
         const data = req.body;
         const appointments = req.body.timeList

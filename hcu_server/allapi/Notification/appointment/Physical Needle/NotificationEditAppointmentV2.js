@@ -32,11 +32,6 @@ const limitRequests = (req, res, next) => {
 
 
 router.post('/NotificationEditAppointmentV2', limitRequests, async (req, res) => {
-    const role = req.body.role;
-    if(role != "admin") {
-        console.error(`Error sending data: ${error}`);
-        return res.status(500).json({ error: 'Internal server error' }); 
-    };
     try {
         const data = req.body;
         const studentID = req.body.id;

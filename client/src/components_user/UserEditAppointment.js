@@ -14,6 +14,7 @@ const UserEditAppointment = (props) => {
     const [selectedDate, setSelectedDate] = useState();
     const { user, userData } = useUserAuth();
     const [isChecked, setIsChecked] = useState({});
+    const REACT_APP_API = process.env.REACT_APP_API
     const [timeOptions, setTimeOptions] = useState([]);
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -36,6 +37,9 @@ const UserEditAppointment = (props) => {
         timebackup:"",
         appointmentTimer:"",
     })
+
+    const [timeLabel, setTimeLabel] = useState("");
+
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const [selectedValue, setSelectedValue] = useState("");
     const fetchTimeTableData = async () => {
@@ -302,6 +306,7 @@ const UserEditAppointment = (props) => {
                 });
                 return;
             }
+            
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
                 html:  `อัพเดตเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} <br/> เวลา ${selectedTimeLabel}`,
@@ -373,6 +378,15 @@ const UserEditAppointment = (props) => {
                         .catch((error) => {
                             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                         });
+                        const info = {
+                            role: userData.role,
+                            date: updatedTimetable.appointmentDate,
+                            time: timeLabel,
+                            clinic: updatedTimetable.clinic,
+                            id: updatedTimetable.appointmentId,
+                            oldDate: updatedTimetableRollBack.appointmentDate,
+                        };
+                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
 
                 }
                 Swal.fire({
@@ -407,7 +421,11 @@ const UserEditAppointment = (props) => {
     };
 
     const [selectedCount, setSelectedCount] = useState(1);
-    const handleSelectChange = () => {
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        console.log(timeRange);
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
     const [selectedTimeLabel, setSelectedTimeLabel] = useState("");
@@ -449,7 +467,7 @@ const UserEditAppointment = (props) => {
                             value={JSON.stringify(appointmentTime)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value); 
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -462,7 +480,7 @@ const UserEditAppointment = (props) => {
                                     });
                                     setSelectedTimeLabel(label || "");
                                     console.log(label)
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime")({
                                         target: {

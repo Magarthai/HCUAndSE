@@ -37,6 +37,8 @@ const UserEditAppointmentNeedle = (props) => {
         type: "",
         appointmentTimer:"",
     })
+    const REACT_APP_API = process.env.REACT_APP_API
+    const [timeLabel, setTimeLabel] = useState("");
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const fetchTimeTableData = async () => {
         try {
@@ -278,6 +280,7 @@ const UserEditAppointmentNeedle = (props) => {
             const timetableRef = doc(db, 'appointment', uid);
             const appointmentsCollection = collection(db, 'appointment');
             const updatedTimetable = {
+                appointmentId: appointmentId,
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
                 appointmentDate2: appointmentDate,
                 appointmentTime: appointmentTime2,
@@ -438,6 +441,30 @@ const UserEditAppointmentNeedle = (props) => {
                         .catch((error) => {
                             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
                         });
+                        const info = {
+                            role: userData.role,
+                            date: updatedTimetable.appointmentDate,
+                            time: timeLabel,
+                            clinic: updatedTimetable.clinic,
+                            id: updatedTimetable.appointmentId,
+                            oldDate: updatedTimetableRollBack.appointmentDate,
+                            type: type,
+                        };
+                        try{
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
+                        } catch(error) {
+                            console.log(error);
+                            Swal.fire({
+                                title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
+                                icon: "error",
+                                confirmButtonText: "ตกลง",
+                                confirmButtonColor: '#263A50',
+                                    customClass: {
+                                        cancelButton: 'custom-cancel-button',
+                                    }
+                            }); 
+                            window.location.href('/appointment');
+                        }
 
                 }
                 Swal.fire({
@@ -471,7 +498,11 @@ const UserEditAppointmentNeedle = (props) => {
         }
     };
     const [selectedCount, setSelectedCount] = useState(1);
-    const handleSelectChange = () => {
+    const handleSelectChange = (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const timeRange = selectedOption.textContent; // Extract time range from the label
+        console.log(timeRange);
+        setTimeLabel(timeRange)
         setSelectedCount(selectedCount + 1);
     };
     const [selectedTimeLabel, setSelectedTimeLabel] = useState(""); // Add this state
@@ -513,7 +544,7 @@ const UserEditAppointmentNeedle = (props) => {
                             value={JSON.stringify(appointmentTime2)}
                             onChange={(e) => {
                                 setSelectedValue(e.target.value); 
-                                handleSelectChange();
+                                handleSelectChange(e);
                                 const selectedValue = JSON.parse(e.target.value);
 
                                 if (selectedValue && typeof selectedValue === 'object') {
@@ -528,7 +559,7 @@ const UserEditAppointmentNeedle = (props) => {
                                     
                                     setSelectedTimeLabel(label || ""); 
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else if (e.target.value === "") {
                                     inputValue("appointmentTime2")({
                                         target: {
@@ -539,7 +570,7 @@ const UserEditAppointmentNeedle = (props) => {
                                     // Clear the label when nothing is selected
                                     setSelectedTimeLabel("");
 
-                                    handleSelectChange();
+                                    handleSelectChange(e);
                                 } else {
                                     console.error("Invalid selected value:", selectedValue);
                                 }
