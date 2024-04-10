@@ -36,6 +36,7 @@ const limitRequests = (req, res, next) => {
 router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
     try {
         timeable = req.body;
+        console.log(LINE_ACCESS_TOKEN,"LINE_ACCESS_TOKEN")
         const timetableRef = doc(db, 'timeTable', `${timeable.id}`);
         console.log(timeable,"timetable");
         console.log(timeable.appointmentList.length,"length")
