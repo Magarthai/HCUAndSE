@@ -126,7 +126,7 @@ router.post('/UpdateToSuccessStatus', async (req,res) => {
                                         "color": "#263A50",
                                         "action": {
                                             "type": "uri",
-                                            "label": "ประเมินการใช้บรการ HCU",
+                                            "label": "ประเมินการใช้บริการ HCU",
                                             "uri": link(appointment)
                                         }
                                     },

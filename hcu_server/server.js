@@ -418,7 +418,7 @@ const updateAppointmentsStatus = async () => {
                                                     "color": "#263A50",
                                                     "action": {
                                                         "type": "uri",
-                                                        "label": "ประเมินการใช้บรการ HCU",
+                                                        "label": "ประเมินการใช้บริการ HCU",
                                                         "uri": link(AppointmentUserData)
                                                     }
                                                 },

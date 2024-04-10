@@ -92,7 +92,7 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                     console.log(usersDataMap.firstName + usersDataMap.lastName, usersDataMap.tel)
                     console.log(data,"datadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadata");
                     console.log(appointmentData.time)
-                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝั่งเข็ม"){
+                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝังเข็ม"){
                         if(appointmentData.type == "main"){
                             const backupData = await DeleteAppointment.create(data);
                         }
