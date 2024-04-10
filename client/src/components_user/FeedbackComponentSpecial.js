@@ -16,7 +16,7 @@ const FeedbackComponentSpecial = (props) => {
       };
 
       const isSubmitEnabled =
-      !score|| !detail || detail.length > 135;
+      !score||!score2|| !detail || detail.length > 135;
     const MONGO_API = process.env.REACT_APP_MONGO_API
     const handleScoreChange = (category, value) => {
         setState({ ...state, [category]: value });

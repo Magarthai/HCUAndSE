@@ -23,7 +23,7 @@ const FeedbackComponentGeneral = (props) => {
         // Additional logic if needed
     };
     const isSubmitEnabled =
-    !score || !detail || detail.length > 135;
+    !score || !score2||!detail || detail.length > 135;
 
     const submitForm = async (e) => {
         e.preventDefault();
