@@ -1049,7 +1049,9 @@ const AppointmentManagerComponent = (props) => {
                                                 </span>
                                                 <div className="admin-appointment-functon">
                                                 {`${selectedDate.day}/${selectedDate.month}/${selectedDate.year}` === DateToCheck ? (
-                                                    <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
+                                                     <div style={{width:"100%", height:"100%", display: "flex", justifyContent: "center",alignItems: "center"}} onClick={(event) => openDetailAppointment(event,AppointmentUserData)}>
+                                                        <p style={{ justifyContent: "center", display: "flex", alignItems: "center", margin: 0, marginRight: 10 }} className="admin-appointment-status admin-textBody-small" >{`${AppointmentUserData.appointment.status}`}</p>
+                                                    </div>
                                                 ) : (
                                                     <>
                                                         <img src={edit} className="icon_apppointment" onClick={(event) =>  openEditAppointment(event,AppointmentUserData)} />
