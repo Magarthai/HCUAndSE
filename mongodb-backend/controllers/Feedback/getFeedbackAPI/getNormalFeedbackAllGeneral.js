@@ -13,7 +13,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     let selectedDate = "";
 
     if(req.body.selectedDate != undefined) {
-        const bangkokDate = moment.tz(req.body.selectedDate, 'Asia/Bangkok'); 
+        const bangkokDate = moment.tz(req.body.selectedDate); 
         bangkokDate.set({
             hour: 0,
             minute: 0,
@@ -21,7 +21,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
             millisecond: 0,
         });
         bangkokDate.toISOString(); 
-        console.log(bangkokDate,"XDDDDDDDDDDDDDDDDD");
+        console.log(bangkokDate.format(),"XDDDDDDDDDDDDDDDDD");
         selectedDate = bangkokDate;
     }
     let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
