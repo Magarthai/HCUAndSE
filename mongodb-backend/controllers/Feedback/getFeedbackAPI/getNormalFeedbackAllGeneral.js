@@ -11,9 +11,12 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     try{
     const clinic = "คลินิกทั้งหมด";
     let selectedDate = "";
-    console.log(req.body.selectedDate);
-    const startDate = moment(req.body.selectedDate).startOf('day').tz('Asia/Bangkok')
-    const endDate = moment(req.body.selectedDate).endOf('day').tz('Asia/Bangkok')
+
+    if(req.body.selectedDate != undefined) {
+        selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok')
+        selectedDate = selectedDate.hour(17).minute(0).second(0).millisecond(0);
+
+    }
     let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
     let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
 
@@ -26,13 +29,10 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     }).sort({ date: -1 });
     if(selectedDate != undefined && selectedDate){
         feedback = await Feedback.find({
-            date: {
-                $gte: startDate,
-                $lte: endDate,   
-              },
+            date: selectedDate,
             clinic: clinic,
         }).sort({ date: -1 });
-        console.log("test",startDate,endDate)
+        console.log(feedback,selectedDate)
     };
     const formattedFeedback = feedback.map(item => {
         const parsedDate = moment(item.createdAt).format('DD/MM/YYYY');
