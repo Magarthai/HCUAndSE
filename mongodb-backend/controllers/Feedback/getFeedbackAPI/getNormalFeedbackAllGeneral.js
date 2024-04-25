@@ -13,7 +13,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     let selectedDate = "";
     console.log(req.body.selectedDate);
     if(req.body.selectedDate != undefined) {
-        selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok')
+        selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok').toISOString();
     }
     let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
     let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
