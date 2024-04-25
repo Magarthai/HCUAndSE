@@ -3,8 +3,7 @@ const moment = require('moment-timezone');
 
 function setToMidnight() {
     const today = new Date();
-    const thaiTime = moment().tz(today, 'Asia/Bangkok'); // Set timezone
-
+    const thaiTime = moment(today).tz('Asia/Bangkok'); 
     // Set time to midnight in 'Asia/Bangkok'
     thaiTime.set({
         hour: 0,
