@@ -213,7 +213,7 @@ const FeedbackGeneralAll = (props) => {
                     <a href="/adminFeedbackGeneralOther" target="_parent" >อื่นๆ</a>
                 </div> 
                 <div className="admin-hearder-item3 admin-right"  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
+                    <input type="date" className="form-control" style={{width: 250}} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split('T')[0]}/>
                 </div>
 
             </div>
@@ -221,24 +221,42 @@ const FeedbackGeneralAll = (props) => {
             <div className="admin-body">
                 <h2>{selectedDate ? formatDate(selectedDate) : formatMonthInThai(month, year)}</h2>
                 <div className="admin-feedback">
-                {feedbackItems.map((feedback, index) => (
-                    <div className="admin-feedback-item"  key={index}>
+                {feedbackItems.map((feedback, index) => {
+                    const dateParts = feedback.date.split('/');
+                    const initialDate = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`); // แปลงเป็น YYYY-MM-DD
+                    initialDate.setDate(initialDate.getDate() + 1);
+                    const newDate = `${('0' + initialDate.getDate()).slice(-2)}/${('0' + (initialDate.getMonth() + 1)).slice(-2)}/${initialDate.getFullYear()}`;
+                    
+                    return (
+                        <div className="admin-feedback-item" key={index}>
                         <div className="admin-feedback-item-header">
                             <div className="admin-feedback-item-header-box">
-                                <p className="admin-textBody-large2">ประเภทบริการ: {feedback.typeFeedback}</p>
+                            <p className="admin-textBody-large2">ประเภทบริการ: {feedback.typeFeedback}</p>
                             </div>
-                            <div class="admin-rating admin-feedback-item-header-box2" style={{textAlign:"right"}}>
-                                    {[...Array(5)].map((_, i) => (
-                                        <span key={i} style={{ color: i < feedback.score ? '#ffcc00' : '#ddd', fontSize: '25px'}} >&#9733;</span>
-                                    ))}
+                            <div
+                            className="admin-rating admin-feedback-item-header-box2"
+                            style={{ textAlign: 'right' }}
+                            >
+                            {[...Array(5)].map((_, i) => (
+                                <span key={i} style={{ color: i < feedback.score ? '#ffcc00' : '#ddd', fontSize: '25px' }}>
+                                &#9733;
+                                </span>
+                            ))}
                             </div>
-
                         </div>
-                        <p className="admin-textBody-big"><b>วันที่:</b> {feedback.date}</p>
+                        <p className="admin-textBody-big">
+                            <b>วันที่:</b> {newDate}
+                        </p>
                         <p className="admin-textBody-large">รายละเอียดเพิ่มเติม</p>
-                        <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.detail}</p>
-                    </div>
-                   ))}
+                        <p
+                            className="admin-textBody-big"
+                            style={{ wordWrap: 'break-word', width: '100%', display: 'inline-block' }}
+                        >
+                            {feedback.detail}
+                        </p>
+                        </div>
+                    );
+                    })}
 
                 </div>
                 

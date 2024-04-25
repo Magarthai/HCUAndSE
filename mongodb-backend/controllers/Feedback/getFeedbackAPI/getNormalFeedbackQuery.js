@@ -14,7 +14,16 @@ router.post('/getNormalFeedbackQuery', asyncHandler(async (req, res) => {
     let selectedDate = "";
 
     if(req.body.selectedDate != undefined) {
-        selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok')
+        const bangkokDate = moment.tz(req.body.selectedDate); 
+        bangkokDate.set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+        });
+        bangkokDate.toISOString(); 
+        console.log(bangkokDate.format(),"XDDDDDDDDDDDDDDDDD");
+        selectedDate = bangkokDate;
     }
     let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
     let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
@@ -33,7 +42,7 @@ router.post('/getNormalFeedbackQuery', asyncHandler(async (req, res) => {
     }).sort({ date: -1 });
     if(selectedDate != undefined && selectedDate){
         feedback = await Feedback.find({
-            date: selectedDate,
+            date: selectedDate.format(),
             clinic: clinic,
             typeFeedback: typeFeedback,
         }).sort({ date: -1 });
