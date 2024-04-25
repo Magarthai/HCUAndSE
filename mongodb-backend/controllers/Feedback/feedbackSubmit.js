@@ -4,14 +4,13 @@ const asyncHandler = require('express-async-handler');
 
 router.post('/createFeedback', asyncHandler(async (req, res) => {
     try {
-        if (req.body.date) {
-            // Set the date to 'Asia/Bangkok' and ensure the correct time is applied
-            let bangkokDate = moment.tz(req.body.date, 'Asia/Bangkok'); // Set timezone
-            bangkokDate = bangkokDate.clone().hour(17).minute(0).second(0).millisecond(0); // Set time
-            
-            req.body.date = bangkokDate.toISOString(); // Convert to ISO string to maintain format
-            console.log(req.body.date);
-        }
+
+        
+        let bangkokDate = moment.tz(req.body.date, 'Asia/Bangkok'); // Set timezone
+        bangkokDate = bangkokDate.clone().hour(17).minute(0).second(0).millisecond(0); // Set time
+        
+        req.body.date = bangkokDate.toISOString(); // Convert to ISO string to maintain format
+        console.log(req.body.date);
         
         // Create new feedback with corrected date
         const newFeedback = await Feedback.create(req.body);
