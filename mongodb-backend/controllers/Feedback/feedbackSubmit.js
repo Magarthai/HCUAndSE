@@ -3,17 +3,16 @@ const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 
 router.post('/createFeedback', asyncHandler(async (req, res) => {
-    try{
+    try {
         if (req.body.date) {
-        const bangkokDate = moment.tz(req.body.date, 'Asia/Bangkok'); 
-        req.body.date = bangkokDate
-        req.body.date = req.body.date.hour(17).minute(0).second(0).millisecond(0);
+            const bangkokDate = moment.tz(req.body.date, 'Asia/Bangkok'); // Set to Bangkok timezone
+            req.body.date = bangkokDate.clone().hour(17).minute(0).second(0).millisecond(0); // Set time in Bangkok
         }
-    const newFeedback = await Feedback.create(req.body);
-    res.json("success")
+        const newFeedback = await Feedback.create(req.body); // Create new feedback with adjusted date
+        res.json("success");
     } catch (error) {
-        console.log(error, "createFeedback");
-        res.status(500).send("Internal Server Error"); 
+        console.error("Error in createFeedback:", error);
+        res.status(500).send("Internal Server Error");
     }
 }));
 
