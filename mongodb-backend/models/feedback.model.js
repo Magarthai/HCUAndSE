@@ -11,7 +11,7 @@ function setToMidnight() {
         second: 0,
         millisecond: 0,
     });
-
+    console.log(thaiTime.format()); 
     return thaiTime.toISOString(); 
 }
 
