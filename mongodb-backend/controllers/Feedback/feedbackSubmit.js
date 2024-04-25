@@ -12,7 +12,7 @@ router.post('/createFeedback', asyncHandler(async (req, res) => {
         typeFeedback: req.body.typeFeedback,
         date: date
     }
-    const newFeedback = await data.create(data);
+    const newFeedback = await Feedback.create(data);
     res.json("success")
     } catch (error) {
         console.log(error, "createFeedback");
