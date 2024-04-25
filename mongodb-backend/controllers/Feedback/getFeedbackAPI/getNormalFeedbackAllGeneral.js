@@ -32,7 +32,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
               },
             clinic: clinic,
         }).sort({ date: -1 });
-        console.log(feedback,selectedDate)
+        console.log("test",startDate,endDate)
     };
     const formattedFeedback = feedback.map(item => {
         const parsedDate = moment(item.createdAt).format('DD/MM/YYYY');
