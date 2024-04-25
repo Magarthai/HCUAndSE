@@ -1,19 +1,14 @@
 const router = require('express').Router(); 
 const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
-const moment = require('moment-timezone');
+
 router.post('/createFeedback', asyncHandler(async (req, res) => {
-    let date = moment(req.body.date).tz('Asia/Bangkok');
-    date = date.hour(17).minute(0).second(0).millisecond(0);
     try{
-    const data = {
-        score: req.body.score,
-        detail: req.body.detail,
-        clinic: req.body.clinic,
-        typeFeedback: req.body.typeFeedback,
-        date: date
-    }
-    const newFeedback = await Feedback.create(data);
+        if (req.body.date) {
+        const bangkokDate = moment.tz(req.body.date, 'Asia/Bangkok'); 
+        req.body.date = bangkokDate.toISOString(); 
+        }
+    const newFeedback = await Feedback.create(req.body);
     res.json("success")
     } catch (error) {
         console.log(error, "createFeedback");
