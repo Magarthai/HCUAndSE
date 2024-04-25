@@ -3,7 +3,8 @@ const Feedback = require("../../models/feedback.model");
 const asyncHandler = require('express-async-handler');
 const moment = require('moment-timezone');
 router.post('/createFeedback', asyncHandler(async (req, res) => {
-    const date = moment(req.body.date).tz('Asia/Bangkok')
+    let date = moment(req.body.date).tz('Asia/Bangkok');
+    date = date.startOf('day');
     try{
     const data = {
         score: req.body.score,
