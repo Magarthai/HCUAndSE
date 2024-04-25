@@ -11,7 +11,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     try{
     const clinic = "คลินิกทั้งหมด";
     let selectedDate = "";
-
+    console.log(req.body.selectedDate);
     if(req.body.selectedDate != undefined) {
         selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok')
     }
