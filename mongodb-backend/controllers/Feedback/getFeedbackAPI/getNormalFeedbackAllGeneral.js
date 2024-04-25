@@ -13,7 +13,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     let selectedDate = "";
 
     if(req.body.selectedDate != undefined) {
-        const bangkokDate = moment.tz(req.body.selectedDate); 
+        const bangkokDate = moment.tz(req.body.selectedDate, 'Asia/Bangkok'); 
         bangkokDate.set({
             hour: 0,
             minute: 0,

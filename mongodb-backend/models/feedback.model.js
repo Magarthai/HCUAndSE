@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const moment = require('moment-timezone');
 
 function setToMidnight() {
-    const thaiTime = moment().tz('Asia/Bangkok'); // Set timezone
+    const today = new Date();
+    const thaiTime = moment().tz(today, 'Asia/Bangkok'); // Set timezone
 
     // Set time to midnight in 'Asia/Bangkok'
     thaiTime.set({
