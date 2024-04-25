@@ -12,8 +12,7 @@ function setToMidnight() {
         millisecond: 0,
     });
 
-    // Return ISO string to ensure proper storage in MongoDB with correct timezone offset
-    return thaiTime.toISOString(); // Converts to ISO 8601 format with timezone information
+    return thaiTime.toISOString(); 
 }
 
 let feedbackSchema = new mongoose.Schema({
