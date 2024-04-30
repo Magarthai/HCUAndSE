@@ -375,7 +375,10 @@ const handleDateSelect = (selectedDate) => {
             </header>
 
             <body className="user-body">
-                <h3 className='User-appointmentmenu-headbar colorPrimary-800'>ปฏิทิน</h3>
+                <div className="user-appointment-bar-btn">
+                    <h3 className='User-appointmentmenu-headbar colorPrimary-800'>ปฏิทิน</h3>
+                    <button className="user-appointment-btn-add"><Link to="/appointment/clinic"><x>เพิ่มนัดหมาย +</x></Link></button>
+                </div>
                 <div className="CalendarUser-appointment">
                     <CalendarUserComponent
                         selectedDate={selectedDate}
@@ -388,7 +391,7 @@ const handleDateSelect = (selectedDate) => {
                 </div>
                 <div className="user-appointment-bar-btn">
                     <h3 className='User-appointmentmenu-headbar'>นัดหมายสัปดาห์นี้</h3>
-                    <button className="user-appointment-btn-add"><Link to="/appointment/clinic"><x>เพิ่มนัดหมาย +</x></Link></button>
+                    {/* <button className="user-appointment-btn-add"><Link to="/appointment/clinic"><x>เพิ่มนัดหมาย +</x></Link></button> */}
                 </div>
                 {isLoading ? (
         <div style={{display:"flex", justifyContent:"center",alignItems:"center" , marginBottom:50}}>
