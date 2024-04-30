@@ -11,18 +11,22 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     try{
     const clinic = "คลินิกทั้งหมด";
     let selectedDate = "";
-
-    if(req.body.selectedDate != undefined) {
-        const bangkokDate = moment.tz(req.body.selectedDate); 
+    console.log(req.body.selectedDate)
+    if (req.body.selectedDate !== undefined) {
+        const date = new Date(req.body.selectedDate);
+        const bangkokDate = moment(date).tz("Asia/Bangkok"); 
+        
+        // Align to start of the day in Bangkok time
         bangkokDate.set({
             hour: 0,
             minute: 0,
             second: 0,
             millisecond: 0,
         });
-        bangkokDate.toISOString(); 
-        console.log(bangkokDate.format(),"XDDDDDDDDDDDDDDDDD");
-        selectedDate = bangkokDate;
+    
+        console.log(bangkokDate.toISOString(), " - Start of the day in Bangkok timezone");
+
+        selectedDate = bangkokDate.toDate(); 
     }
     let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
     let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
@@ -36,7 +40,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     }).sort({ date: -1 });
     if(selectedDate != undefined && selectedDate){
         feedback = await Feedback.find({
-            date: selectedDate.format(),
+            date: selectedDate,
             clinic: clinic,
         }).sort({ date: -1 });
         console.log(feedback,selectedDate)
