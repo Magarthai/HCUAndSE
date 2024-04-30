@@ -243,7 +243,7 @@ const SignupComponent = (props) => {
                 cancelButton: 'custom-cancel-button',
             }        
             });
-          } else if (firebaseError.message === "Student ID already in use") {
+          } else if (firebaseError.message.includes("auth/invalid-email")) {
             Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด!",
@@ -253,7 +253,29 @@ const SignupComponent = (props) => {
                 cancelButton: 'custom-cancel-button',
             }        
             });
-          } else {
+          } else if (firebaseError.message.includes("auth/email-already-in-use")) {
+            Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด!",
+              text: "อีเมลนี้ถูกใช้งานแล้ว",
+              confirmButtonColor: '#263A50',
+            customClass: {
+                cancelButton: 'custom-cancel-button',
+            }        
+            });
+          }
+          else if (firebaseError.message.includes("Student ID already in use")) {
+            Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด!",
+              text: "รหัสนักศึกษาถูกใช้งานแล้ว",
+              confirmButtonColor: '#263A50',
+            customClass: {
+                cancelButton: 'custom-cancel-button',
+            }        
+            });
+          }
+          else {
             console.error('Firebase error response:', firebaseError);
             Swal.fire({
               icon: "error",
