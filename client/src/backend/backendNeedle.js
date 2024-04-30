@@ -191,7 +191,12 @@ export const submitFormNeedle = async (userData,timeLabel,selectedDate, timeOpti
                                     clinic: appointmentInfo.clinic,
                                     id: appointmentInfo.appointmentId,
                                 };
-                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+                                try {
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+                                } catch(err) {
+                                    console.log(err);
+                                  }
+                                
                         } catch(firebaseError) {
                             Swal.fire(
                                 {
@@ -430,16 +435,6 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                                 const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                             } catch(error) {
                                                 console.log(error);
-                                                Swal.fire({
-                                                    title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                                    icon: "error",
-                                                    confirmButtonText: "ตกลง",
-                                                    confirmButtonColor: '#263A50',
-                                                        customClass: {
-                                                            cancelButton: 'custom-cancel-button',
-                                                        }
-                                                }); 
-                                                window.location.href('/appointment');
                                             }
                                     Swal.fire({
                                         icon: "success",
@@ -549,16 +544,6 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                         const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                     } catch(error) {
                                         console.log(error);
-                                        Swal.fire({
-                                            title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                            icon: "error",
-                                            confirmButtonText: "ตกลง",
-                                            confirmButtonColor: '#263A50',
-                                                customClass: {
-                                                    cancelButton: 'custom-cancel-button',
-                                                }
-                                        }); 
-                                        window.location.href('/appointment');
                                     }
                             } catch (firebaseError) {
                                 Swal.fire(
@@ -632,16 +617,6 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                     const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 } catch(error) {
                                     console.log(error);
-                                    Swal.fire({
-                                        title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                        icon: "error",
-                                        confirmButtonText: "ตกลง",
-                                        confirmButtonColor: '#263A50',
-                                            customClass: {
-                                                cancelButton: 'custom-cancel-button',
-                                            }
-                                    }); 
-                                    window.location.href('/appointment');
                                 }
                                 Swal.fire({
                                     icon: "success",
@@ -721,16 +696,6 @@ export const editFormNeedle = async (userData,timeLabel,selectedDate, timeOption
                                     const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                 } catch(error) {
                                     console.log(error);
-                                    Swal.fire({
-                                        title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                        icon: "error",
-                                        confirmButtonText: "ตกลง",
-                                        confirmButtonColor: '#263A50',
-                                            customClass: {
-                                                cancelButton: 'custom-cancel-button',
-                                            }
-                                    }); 
-                                    window.location.href('/appointment');
                                 }
                                 Swal.fire({
                                     icon: "success",
@@ -1049,7 +1014,12 @@ const DeleteAppointmentNeedle = async (userData,type,appointmentuid, uid,Appoint
                     time:time,
                     type:type
                 };
-                const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointmentV2`, info);
+                try {
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointmentV2`, info);
+                } catch(err) {
+                    console.log(err)
+                }
+                
                 window.location.reload();
                 Swal.fire(
                     {

@@ -209,8 +209,16 @@ export const DeleteAppointment = async (userData,appointmentuid, uid, setAllAppo
         };
         const REACT_APP_API = process.env.REACT_APP_API;
         console.log(info,"infoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfoinfo");
-        const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
-        console.log(respone.data,"XDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+
+        try{
+          const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
+          console.log(respone.data,"XDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        } catch(err) {
+          console.log(err);
+        }
+        
+
+        
           setAllAppointmentUsersData([]);
           fetchUserDataWithAppointmentsWrapper();
           Swal.fire({

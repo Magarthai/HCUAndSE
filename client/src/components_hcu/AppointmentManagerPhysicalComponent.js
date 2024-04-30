@@ -1201,7 +1201,13 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 clinic: "คลินิกกายภาพ",
                             };
                             
-                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
+
+                            try {
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
+                            } catch (error) {
+                                console.log(error);
+                            }
+                            
                             console.log(timeList,"timeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeListtimeList")
                                 Swal.fire({
                                     icon: "success",

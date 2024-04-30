@@ -334,7 +334,13 @@ const AppointmentManagerComponent = (props) => {
                                             clinic: appointmentInfo.clinic,
                                             id: appointmentInfo.appointmentId,
                                         };
-                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+
+                                        try {
+                                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+                                        } catch (err) {
+                                            console.log(err);
+                                        }
+                                        
 
                                         
                                         Swal.fire(
@@ -547,7 +553,13 @@ const AppointmentManagerComponent = (props) => {
                             id: updatedTimetable.appointmentId,
                             oldDate: updatedTimetableRollBack.appointmentDate,
                         };
-                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+
+                        try {
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
                         Swal.fire({
                             icon: "success",
                             title: "การอัปเดตการนัดหมายสำเร็จ!",

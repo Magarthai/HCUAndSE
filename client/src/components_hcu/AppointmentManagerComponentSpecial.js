@@ -321,7 +321,13 @@ const AppointmentManagerComponentSpecial = (props) => {
                                             clinic: appointmentInfo.clinic,
                                             id: appointmentInfo.appointmentId,
                                         };
-                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+
+                                        try{
+                                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+                                        } catch(err) {
+                                            console.log(err)
+                                        }
+                                        
                                         Swal.fire(
                                             {
                                                 title: 'สําเร็จ!',
@@ -533,7 +539,14 @@ const AppointmentManagerComponentSpecial = (props) => {
                             id: updatedTimetable.appointmentId,
                             oldDate: updatedTimetableRollBack.appointmentDate,
                         };
-                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+                        
+
+                        try {
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
                         Swal.fire({
                             icon: "success",
                             title: "การอัปเดตการนัดหมายสำเร็จ!",
@@ -777,7 +790,13 @@ const AppointmentManagerComponentSpecial = (props) => {
                     id: AppointmentUserData.id,
                     time:time,
                 };
-                const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
+
+                try {
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationDeleteAppointment`, info);
+                } catch (error) {
+                    console.log(error);
+                }
+                
 
                     console.log(appointmentuid);
                     setAllAppointmentUsersData([])
