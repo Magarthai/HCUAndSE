@@ -176,11 +176,11 @@ const InformationAll = (props) => {
                 <div className="admin-information">
                 {information.map((information, index) => (
                     <div className="admin-information-item" >
-                        <div className="admin-information-item-hearder">
-                            <div className="admin-information-item-hearder-box1">
+                        <div className="admin-information-item-hearder" >
+                            <div className="admin-information-item-hearder-box1" >
                                 <p className="admin-textBody-large2 colorPrimary-800" style={{textDecoration: "underline", cursor:"pointer", width:"auto"}} onClick={() => PreviewInformation(information)}>{information.informationName}</p>
                             </div>
-                            <div className="admin-information-item-hearder-box2">
+                            <div className="admin-information-item-hearder-box2" >
                                     <a href="/adminInformationEdit" target="_parent"><img src={edit} className="icon" onClick={() => EditInformation(information)} /></a>
                                     <img onClick={() => deletedInformation(information)} src={icon_delete} className="icon" />
                             </div>

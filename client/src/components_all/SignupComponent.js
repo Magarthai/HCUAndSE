@@ -353,7 +353,7 @@ const SignupComponent = (props) => {
 
         <div>
           <label className="textBody-big colorPrimary-800">
-            Student ID/Personnel ID
+            รหัสนักศึกษา<a style={{color:"#BABABA"}}> (11 ตัวเลข) </a>/ รหัสพนักงาน <a style={{color:"#BABABA"}}>(5 หรือ 7 ตัวเลข)</a>
           </label>
           <input
             type="text"
@@ -399,7 +399,7 @@ const SignupComponent = (props) => {
         </div>
 
         <div>
-          <label className="textBody-big colorPrimary-800">Password</label>
+          <label className="textBody-big colorPrimary-800">Password <a style={{color:"#BABABA"}}>(กรุณาใส่อย่างน้อย  8 ตัวอักษร)</a></label>
           <input
             type="password"
             className="form-control"
