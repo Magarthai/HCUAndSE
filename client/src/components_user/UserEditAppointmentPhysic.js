@@ -459,16 +459,6 @@ const UserEditAppointmentPhysic = (props) => {
                                         const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                                     } catch(error) {
                                         console.log(error);
-                                        Swal.fire({
-                                            title: "ส่งแจ้งเตือนไม่สําเร็จ",
-                                            icon: "error",
-                                            confirmButtonText: "ตกลง",
-                                            confirmButtonColor: '#263A50',
-                                                customClass: {
-                                                    cancelButton: 'custom-cancel-button',
-                                                }
-                                        }); 
-                                        navigate('/appointment');
                                     }
                                     } else {
                                     console.log('ไม่พบเอกสาร timeTable');

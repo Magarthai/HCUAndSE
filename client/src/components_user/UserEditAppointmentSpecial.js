@@ -383,7 +383,14 @@ const UserEditAppointmentSpecial = (props) => {
                                     id: updatedTimetable.appointmentId,
                                     oldDate: updatedTimetableRollBack.appointmentDate,
                                 };
-                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+
+                                try {
+                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+                                } catch (error) {
+                                    console.log(error);
+                                }
+        
+                                
 
                 }
                 Swal.fire({

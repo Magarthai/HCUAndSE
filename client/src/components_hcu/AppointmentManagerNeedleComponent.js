@@ -1229,8 +1229,14 @@ const AppointmentManagerNeedleComponent = (props) => {
                                 timeList: timeList,
                                 clinic: "คลินิกฝังเข็ม",
                             };
+                    
+
+                            try {
+                                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
+                            } catch (error) {
+                                console.log(error);
+                            }
                             
-                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddContinueAppointmentV2`, info);
                                 Swal.fire({
                                     icon: "success",
                                     title: "การนัดหมายสำเร็จ!",

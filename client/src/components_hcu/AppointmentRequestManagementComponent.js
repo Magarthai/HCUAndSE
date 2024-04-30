@@ -257,7 +257,15 @@ const AppointmentRequestManagementComponent = (props) => {
                         id: AppointmentUserData.id,
                         role: userData.role,
                     }
-                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationSuccessRequest`, info);
+
+                    try {
+                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationSuccessRequest`, info);
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                    
+                    
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
@@ -361,7 +369,14 @@ const AppointmentRequestManagementComponent = (props) => {
                             id: AppointmentUserData.id,
                             role: userData.role,
                         }
-                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationRejectRequest`, info);
+
+
+                        try {
+                            const respone = await axios.post(`${REACT_APP_API}/api/NotificationRejectRequest`, info);
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
                     Swal.fire({
                         title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",

@@ -347,7 +347,13 @@ const submitForm = async (e) => {
                     clinic: appointmentInfo.clinic,
                     id: appointmentInfo.appointmentId,
                 };
-                const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+
+                try {
+                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointment`, info);
+                } catch (error) {
+                    console.log(error);
+                }
+                
                 const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
                 navigate(`/appointment/detail/${appointmentRef.id}?info=${encodedInfo}`);
 

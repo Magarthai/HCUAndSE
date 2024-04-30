@@ -966,7 +966,6 @@ setInterval(() => {
         notiChecker = false; 
         console.log("Notification Time!");
         notificationUserToday(); 
-        notificationUser3DayBefore();
         NotificationActivityToday();
     }    
     

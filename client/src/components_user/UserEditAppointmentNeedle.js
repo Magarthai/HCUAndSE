@@ -455,16 +455,6 @@ const UserEditAppointmentNeedle = (props) => {
                             const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointmentV2`, info);
                         } catch(error) {
                             console.log(error);
-                            Swal.fire({
-                                title: "ส่งแจ้งเตื่อนไม่สําเร็จ",
-                                icon: "error",
-                                confirmButtonText: "ตกลง",
-                                confirmButtonColor: '#263A50',
-                                    customClass: {
-                                        cancelButton: 'custom-cancel-button',
-                                    }
-                            }); 
-                            window.location.href('/appointment');
                         }
 
                 }

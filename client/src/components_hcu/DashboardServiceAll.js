@@ -198,9 +198,8 @@ const DashboardServiceAll = (props) => {
           console.log(respones4.data);
         }
       } catch (error) {
-        // Handle network errors here
         console.log("Network error occurred:", error);
-        // Optionally, you can perform additional actions such as notifying the user or retrying the request.
+
       }
     };
     

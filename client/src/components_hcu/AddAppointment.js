@@ -396,8 +396,16 @@ const AddAppointment = (props) => {
                                         id: appointmentInfo.appointmentId,
                                         _id: data._id
                                     };
-                                    const respone2 = await axios.post(`${REACT_APP_API}/api/deleteDeletedAppointment`, info);
-                                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+                                    try {
+                                        const respone2 = await axios.post(`${REACT_APP_API}/api/deleteDeletedAppointment`, info);
+                                    } catch (err) {
+                                        console.log(err);
+                                    }
+                                    try {
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
                                    
                             } catch(firebaseError) {
                                 Swal.fire(

@@ -340,7 +340,14 @@ const AddNeedleAppointmentUser = () => {
                         clinic: appointmentInfo.clinic,
                         id: appointmentInfo.appointmentId,
                     };
-                    const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+
+
+                    try {
+                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationAddAppointmentV2`, info);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
                     await fetchTimeTableData();
 
                     const encodedInfo = encodeURIComponent(JSON.stringify(appointmentInfo));
