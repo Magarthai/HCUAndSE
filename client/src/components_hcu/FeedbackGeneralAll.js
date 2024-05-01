@@ -222,11 +222,8 @@ const FeedbackGeneralAll = (props) => {
                 <h2>{selectedDate ? formatDate(selectedDate) : formatMonthInThai(month, year)}</h2>
                 <div className="admin-feedback">
                 {feedbackItems.map((feedback, index) => {
-                    const moment = require('moment');
-                    const dateParts = feedback.date.split('/');
-                    const initialDate = moment(feedback.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
-                    const newDate = initialDate;
+                    const newDate = feedback.date;
                     
                     return (
                         <div className="admin-feedback-item" key={index}>
@@ -255,6 +252,7 @@ const FeedbackGeneralAll = (props) => {
                         >
                             {feedback.detail}
                         </p>
+
                         </div>
                     );
                     })}

@@ -14,7 +14,19 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
         let selectedDate = "";
 
         if( req.body.selectedDate != undefined &&  req.body.selectedDate) {
-            selectedDate = moment(req.body.selectedDate).tz('Asia/Bangkok');
+            const date = new Date(req.body.selectedDate);
+        const bangkokDate = moment(date).tz("Asia/Bangkok"); 
+        
+        bangkokDate.set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+        });
+    
+        console.log(bangkokDate.toISOString(), " - Start of the day in Bangkok timezone");
+
+        selectedDate = bangkokDate.toDate(); 
         }
         let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
         let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');

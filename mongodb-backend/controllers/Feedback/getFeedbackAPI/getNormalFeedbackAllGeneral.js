@@ -16,7 +16,6 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
         const date = new Date(req.body.selectedDate);
         const bangkokDate = moment(date).tz("Asia/Bangkok"); 
         
-        // Align to start of the day in Bangkok time
         bangkokDate.set({
             hour: 0,
             minute: 0,
