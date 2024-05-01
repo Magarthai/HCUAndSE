@@ -31,7 +31,7 @@ router.post('/getNormalFeedbackAllGeneral', asyncHandler(async (req, res) => {
     let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
 
     let feedback = await Feedback.find({
-        date: {
+        createdAt: {
             $gte: startOfMonth,
             $lt: endOfMonth
         },

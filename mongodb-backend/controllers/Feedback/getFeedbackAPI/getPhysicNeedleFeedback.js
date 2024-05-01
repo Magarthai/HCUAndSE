@@ -30,7 +30,6 @@ router.post('/getPhysicNeedleFeedback', asyncHandler(async(req,res) => {
         }
         let startOfMonth = moment().startOf('month').tz('Asia/Bangkok');
         let endOfMonth = moment().endOf('month').tz('Asia/Bangkok');
-
         let feedback = [];
 
         if( req.body.selectedDate != undefined) {
@@ -40,7 +39,7 @@ router.post('/getPhysicNeedleFeedback', asyncHandler(async(req,res) => {
             }).sort({date: -1})
         } else {
             feedback = await Feedback.find({
-                date: {
+                createdAt: {
                     $gte: startOfMonth,
                     $lt: endOfMonth
                 },

@@ -20,7 +20,7 @@ router.post('/getGeneralSpecialFeedback', asyncHandler(async(req,res) => {
 
         if( selectedDate =="") {
             feedback = await Feedback.find({
-                date: {
+                createdAt: {
                     $gte: startOfMonth,
                     $lt: endOfMonth
                 },
