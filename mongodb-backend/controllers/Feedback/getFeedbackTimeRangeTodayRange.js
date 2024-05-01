@@ -25,7 +25,8 @@ router.post('/getFeedbackTimeRangeTodayRange', asyncHandler(async (req, res) => 
         let currentDate = await setToMidnight();
 
         if(selectedDate != undefined && selectedDate){
-            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
+            const date = new Date(selectedDate);
+            const thaiTime = moment(date).tz('Asia/Bangkok');
             thaiTime.set({
                 hour: 0,
                 minute: 0,
@@ -33,6 +34,7 @@ router.post('/getFeedbackTimeRangeTodayRange', asyncHandler(async (req, res) => 
                 millisecond: 0
             });
             currentDate = thaiTime;
+            console.log(currentDate,"test");
         };
         
         const feedback = await Feedback.find({ 

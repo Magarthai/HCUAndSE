@@ -34,14 +34,19 @@ router.post('/getFeedbackTodayGetByClinicScore1', asyncHandler(async (req, res) 
         if(selectedDate != undefined && selectedDate){
             startDate=moment(selectedDate).startOf('month').tz('Asia/Bangkok');
             endDate=moment(selectedDate).endOf('month').tz('Asia/Bangkok');
-            const thaiTime = moment(selectedDate).tz('Asia/Bangkok');
-            thaiTime.set({
+            const date = new Date(req.body.selectedDate);
+            const bangkokDate = moment(date).tz("Asia/Bangkok"); 
+            
+            bangkokDate.set({
                 hour: 0,
                 minute: 0,
                 second: 0,
-                millisecond: 0
+                millisecond: 0,
             });
-            currentDate = thaiTime;
+        
+            console.log(bangkokDate.toISOString(), " - Start of the day in Bangkok timezone");
+
+            currentDate = bangkokDate.toDate(); 
         };
         const feedback = await Feedback.find({ 
             date: currentDate,
