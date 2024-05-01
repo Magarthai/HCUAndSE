@@ -34,7 +34,7 @@ router.post('/getNormalFeedbackQuery', asyncHandler(async (req, res) => {
     };
 
     let feedback = await Feedback.find({
-        date: {
+        createdAt: {
             $gte: startOfMonth,
             $lt: endOfMonth
         },
