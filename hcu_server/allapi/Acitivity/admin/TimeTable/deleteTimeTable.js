@@ -181,13 +181,142 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                         ]
                     }
                     if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝั่งเข็ม"){
+                        const nodemailer = require('nodemailer');
+                        const transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'kmutthealthcareunit@gmail.com',
+                                pass: 'vqos ixxk pscf bqwm'
+                            }
+                        })
+                        const option = {
+                            from: 'kmutthealthcareunit@gmail.com',
+                            to: `${usersDataMap.email}`,
+                            subject: `[นัดหมายคุณถูกยกเลิก]`,
+                            html: `
+                        
+                            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${usersDataMap.firstName}  ${usersDataMap.lastName}</h3>
+                            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมายของคุณจากคลินิก <b>${appointmentData.clinic}</b> ในวันที่ <b> ${appointmentData.appointmentDate}</b> เนื่องจากมีการเปลี่ยนแปลงเวลาทำการ</p>
+                            <p style="margin-left: 20px"> <b>📞 กรุณาติดต่อผ่านเบอร์ : 02-470-8446 เผื่อเลือกช่วงเวลานัดหมายใหม่</p>
+                            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                            
+                            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                                <ul>
+                                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                                </ul>
+                                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                                <ul>
+                                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                                </ul>
+                            </div>
+                        
+                            <div style="margin-right: 20px;">
+                                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                                <p style="margin-left: 20px">02 470 8446</p>
+                                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                            </div>
+                        `
+                        }
+                        transporter.sendMail(option, (err, info) => {
+                            if (err) {
+                                console.log('err', err)
+                                return res.status(200).json({
+                                    RespCode: 400,
+                                    RespMessage: 'bad',
+                                    RespError: err
+                                })
+                            }
+                            else {
+                                console.log('Send: ' + info.response)
+                                return res.status(200).json({
+                                    RespCode: 200,
+                                    RespMessage: 'good',
+                                })
+                            }
+                        })
+                        try{
                         if(appointmentData.type == "main"){
                             const response = await axios.post(`${LINE_BOT_API}/push`, body2, { headers });
                             console.log('Response:', response.data);
                         }
+                    } catch(err) {
+                        console.log(err)
+                    }
                     } else {
+                        const nodemailer = require('nodemailer');
+                        const transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'kmutthealthcareunit@gmail.com',
+                                pass: 'vqos ixxk pscf bqwm'
+                            }
+                        })
+                        const option = {
+                            from: 'kmutthealthcareunit@gmail.com',
+                            to: `${usersDataMap.email}`,
+                            subject: `[นัดหมายคุณถูกยกเลิก]`,
+                            html: `
+                        
+                            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${usersDataMap.firstName}  ${usersDataMap.lastName}</h3>
+                            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมายของคุณจากคลินิก <b>${appointmentData.clinic}</b> ในวันที่ <b> ${appointmentData.appointmentDate}</b> เนื่องจากมีการเปลี่ยนแปลงเวลาทำการ โปรดตรวจสอบการนัดหมายของคุณผ่านเว็บไซต์ หากมีข้อสงสัยหรือต้องการนัดหมายใหม่ สามารถดำเนินการผ่านช่องทางเว็บไซต์ที่แนบไว้ด้านล่างด้านล่าง⬇️</p>
+                            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมายของคุณจากคลินิก>เว็บไซต์ HCU https://hcukmutt.vercel.app/</p>
+                            <p style="margin-left: 20px"> <b>หรือ 📞 ติดต่อผ่านเบอร์ : 02-470-8446 เผื่อเลือกช่วงเวลานัดหมายใหม่</p>
+                            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                            
+                            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                                <ul>
+                                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                                </ul>
+                                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                                <ul>
+                                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                                </ul>
+                            </div>
+                        
+                            <div style="margin-right: 20px;">
+                                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                                <p style="margin-left: 20px">02 470 8446</p>
+                                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                            </div>
+                        `
+                        }
+                        transporter.sendMail(option, (err, info) => {
+                            if (err) {
+                                console.log('err', err)
+                                return res.status(200).json({
+                                    RespCode: 400,
+                                    RespMessage: 'bad',
+                                    RespError: err
+                                })
+                            }
+                            else {
+                                console.log('Send: ' + info.response)
+                                return res.status(200).json({
+                                    RespCode: 200,
+                                    RespMessage: 'good',
+                                })
+                            }
+                        })
+                        try{
                         const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                         console.log('Response:', response.data);
+                        } catch(err) {
+                            console.log(err)
+                        }
                     }
                     return {
                         userDocId: userId,
