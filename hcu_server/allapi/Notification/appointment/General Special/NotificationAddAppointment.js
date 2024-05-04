@@ -41,6 +41,7 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const nodemailer = require('nodemailer');
+        console.log(userData.email)
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
