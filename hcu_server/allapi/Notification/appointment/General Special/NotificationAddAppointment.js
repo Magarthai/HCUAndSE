@@ -41,68 +41,71 @@ router.post('/NotificationAddAppointment', limitRequests, async (req, res) => {
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
         const nodemailer = require('nodemailer');
-        console.log(userData.email)
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'kmutthealthcareunit@gmail.com',
-            pass: 'vqos ixxk pscf bqwm'
-        }
-    })
-    const option = {
-        from: 'kmutthealthcareunit@gmail.com',
-        to: `${userData.email}`,
-        subject: `[แจ้งเตื่อนนัดหมาย]`,
-        html: `
-    
-        <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
-        <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
-        <p style="margin-left: 20px; margin-bottom: 40px;">คุณมีนัดหมายการตรวจสุขภาพที่ Health Care Unit KMUTT <b>${data.clinic}</b> ในวันที่ <b> ${data.date}</b>, เวลา <b>${data.time}</b></p>
-        <p style="margin-left: 20px"> <b>กรุณามาถึงอย่างน้อย 15 นาทีก่อนเวลานัดหมาย</b> เพื่อทำการลงทะเบียนและเตรียมตัวสำหรับการตรวจสุขภาพ หากท่านมีประวัติการแพ้ยาหรือมีข้อมูลทางการแพทย์สำคัญอื่นๆ กรุณานำมาให้เราทราบในวันนัดหมาย</p>
-        <p style="margin-left: 20px">หากท่านต้องการเปลี่ยนแปลงหรือยกเลิกนัดหมาย, กรุณาเปลี่ยนแปลงนัดหมายผ่านทางเว็บไซต์ https://hcukmutt.vercel.app/ หรือติดต่อเราผ่านเบอร์โทร 02 470 8446 อย่างน้อย 24 ชั่วโมงก่อนเวลานัดหมาย</p>
-        <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
-        
-        <div style="margin: 0px 20px; margin-bottom: 60px;">
-            <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
-            <ul>
-                <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
-                <li>วันเสาร์: 08.30 - 16.30 น.</li>
-                <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
-            </ul>
-            <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
-            <ul>
-                <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
-                <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
-            </ul>
-        </div>
-    
-        <div style="margin-right: 20px;">
-            <p style="margin-left: 20px">ด้วยความเคารพ,</p>
-            <p style="margin-left: 20px">Health Care Unit KMUTT</p>
-            <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
-            <p style="margin-left: 20px">02 470 8446</p>
-            <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
-        </div>
-    `
-    }
+        console.log(userData,studentID)
 
-    transporter.sendMail(option, (err, info) => {
-        if (err) {
-            console.log('err', err)
-            return res.status(200).json({
-                RespCode: 400,
-                RespMessage: 'bad',
-                RespError: err
-            })
+    if(userData) {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'kmutthealthcareunit@gmail.com',
+                pass: 'vqos ixxk pscf bqwm'
+            }
+        })
+        const option = {
+            from: 'kmutthealthcareunit@gmail.com',
+            to: `${userData.email}`,
+            subject: `[แจ้งเตื่อนนัดหมาย]`,
+            html: `
+        
+            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
+            <p style="margin-left: 20px; margin-bottom: 40px;">คุณมีนัดหมายการตรวจสุขภาพที่ Health Care Unit KMUTT <b>${data.clinic}</b> ในวันที่ <b> ${data.date}</b>, เวลา <b>${data.time}</b></p>
+            <p style="margin-left: 20px"> <b>กรุณามาถึงอย่างน้อย 15 นาทีก่อนเวลานัดหมาย</b> เพื่อทำการลงทะเบียนและเตรียมตัวสำหรับการตรวจสุขภาพ หากท่านมีประวัติการแพ้ยาหรือมีข้อมูลทางการแพทย์สำคัญอื่นๆ กรุณานำมาให้เราทราบในวันนัดหมาย</p>
+            <p style="margin-left: 20px">หากท่านต้องการเปลี่ยนแปลงหรือยกเลิกนัดหมาย, กรุณาเปลี่ยนแปลงนัดหมายผ่านทางเว็บไซต์ https://hcukmutt.vercel.app/ หรือติดต่อเราผ่านเบอร์โทร 02 470 8446 อย่างน้อย 24 ชั่วโมงก่อนเวลานัดหมาย</p>
+            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+            
+            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+            </div>
+        
+            <div style="margin-right: 20px;">
+                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                <p style="margin-left: 20px">02 470 8446</p>
+                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+            </div>
+        `
         }
-        else {
-            console.log('Send: ' + info.response)
-            return res.status(200).json({
-                RespCode: 200,
-                RespMessage: 'good',
-            })
-        }
-    })
+
+        transporter.sendMail(option, (err, info) => {
+            if (err) {
+                console.log('err', err)
+                return res.status(200).json({
+                    RespCode: 400,
+                    RespMessage: 'bad',
+                    RespError: err
+                })
+            }
+            else {
+                console.log('Send: ' + info.response)
+                return res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'good',
+                })
+            }
+        })
+    }
     try {
 
             
