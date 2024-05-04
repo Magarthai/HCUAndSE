@@ -10,7 +10,7 @@ import { getDocs, query, where } from 'firebase/firestore';
 import "../css/Component.css";
 import { sendEmailVerification } from 'firebase/auth';
 import { getAuth } from "firebase/auth";
-
+import { useUserAuth } from "../context/UserAuthContext";
 const SignupComponent = (props) => {
     const [state, setState] = useState({
       firstName: "",
@@ -22,7 +22,7 @@ const SignupComponent = (props) => {
       password: "",
       cpassword: "",
     });
-  
+    const { userId } = useUserAuth();
     const {
       firstName,
       lastName,
@@ -210,6 +210,7 @@ const SignupComponent = (props) => {
             id,
             gender,
             email,
+            userLineID:userId,
             role: "user",
           };
       
