@@ -109,6 +109,8 @@ export function UserAuthContextProvider({ children }) {
             setDisplayName(profile.displayName);
             setStatusMessage(profile.statusMessage);
             setUserId(profile.userId);
+
+
             if (profile.pictureUrl) {
             setProfile(profile.pictureUrl);
             } else {
@@ -142,6 +144,7 @@ export function UserAuthContextProvider({ children }) {
         if (userData) {
           if(liff.isInClient()){
             console.log("get user data ID")
+            initLine();
             a();
             console.log("update doneXDAC",userData.userID)
             
