@@ -27,6 +27,7 @@ const ListAppointmentUser = () => {
   const handleDateSelect = (selectedDate) => {
     console.log("Selected Date in AppointmentManager:", selectedDate);
     setAllAppointmentUsersData([]);
+    setF2AllAppointmentUsersData([]);
     setSelectedDate(selectedDate);
 
     if (!isInitialRender) {
@@ -271,6 +272,8 @@ const ListAppointmentUser = () => {
         }).filter(appointmentData => appointmentData.appointment.status !== "สำเร็จ" || appointmentData.appointment.status !== "ไม่สำเร็จ");
         if (filteredAppointmentUsersDataArray.length > 0) {
           setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
+          setFAllAppointmentUsersData(filteredAppointmentUsersDataArrays)
+          setF2AllAppointmentUsersData(filteredAppointmentUsersDataArray);
           console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
         } else {
           console.log("No user details found for any appointmentId");
@@ -353,6 +356,7 @@ const ListAppointmentUser = () => {
           
           if (filteredAppointmentUsersDataArray.length > 0) {
             setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
+            setF2AllAppointmentUsersData(filteredAppointmentUsersDataArray);
             console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
            
 
@@ -366,6 +370,7 @@ const ListAppointmentUser = () => {
           console.log("filteredAppointmentUsersDataArrays",filteredAppointmentUsersDataArrays)
           setAllAppointmentUsersData(filteredAppointmentUsersDataArray);
           console.log("AppointmentUsersData", filteredAppointmentUsersDataArray);
+          setF2AllAppointmentUsersData(filteredAppointmentUsersDataArray);
         } else {
           console.log(`No appointments found for ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`);
         }
@@ -404,6 +409,7 @@ const ListAppointmentUser = () => {
     const dateParts = isoDate.split("-");
     if (dateParts.length === 3) {
       setAllAppointmentUsersData([]);
+      setF2AllAppointmentUsersData([])
       const [year, month, day] = dateParts;
       const formattedMonth = parseInt(month, 10);
       const formattedDay = parseInt(day, 10);
@@ -418,6 +424,7 @@ const ListAppointmentUser = () => {
         dayName: dayName,
       };
       setAllAppointmentUsersData([]);
+      setF2AllAppointmentUsersData([])
       setSelectedDate(formattedSelectedDate);
       setState({
         ...state,
