@@ -125,19 +125,6 @@ const FeedbackGeneralAll = (props) => {
             const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackAllGeneral`,info);
             if(feedback) {
                 if(feedback.data == "not found"){
-                    Swal.fire({
-                        title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีขอเสนอแนะในวันนี้!`,
-                        icon: 'warning',
-                        confirmButtonText: 'ย้อนกลับ',
-                        confirmButtonColor: '#263A50',
-                        reverseButtons: true,
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                            cancelButton: 'custom-cancel-button',
-                        },
-                       
-                    })
                     setFeedbackItems([]);
                     return;
                 }
@@ -157,19 +144,6 @@ const FeedbackGeneralAll = (props) => {
             const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackAllGeneral`,info);
             if(feedback) {
                 if(feedback.data == "not found"){
-                    Swal.fire({
-                        title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีขอเสนอแนะในเดือนนี้!`,
-                        icon: 'error',
-                        confirmButtonText: 'ย้อนกลับ',
-                        confirmButtonColor: '#263A50',
-                        reverseButtons: true,
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                            cancelButton: 'custom-cancel-button',
-                        },
-                       
-                    })
                     return;
                 }
                 setFeedbackItems(feedback.data);

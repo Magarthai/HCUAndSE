@@ -107,19 +107,6 @@ const FeedbackGeneralNurses = (props) => {
             const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackQuery`,info);
             if(feedback) {
                 if(feedback.data == "not found"){
-                    Swal.fire({
-                        title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีข้อเสนอแนะ!`,
-                        icon: 'warning',
-                        confirmButtonText: 'ย้อนกลับ',
-                        confirmButtonColor: '#263A50',
-                        reverseButtons: true,
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                            cancelButton: 'custom-cancel-button',
-                        },
-                       
-                    })
                     return;
                 }
                 setFeedbackItems(feedback.data);
@@ -139,19 +126,6 @@ const FeedbackGeneralNurses = (props) => {
             const feedback = await axios.post(`${REACT_APP_MONGO_API}/api/getNormalFeedbackQuery`,info);
             if(feedback) {
                 if(feedback.data == "not found"){
-                    Swal.fire({
-                        title: 'เกิดข้อผิดพลาด',
-                        text: `ไม่มีข้อเสนอแนะ!`,
-                        icon: 'warning',
-                        confirmButtonText: 'ย้อนกลับ',
-                        confirmButtonColor: '#263A50',
-                        reverseButtons: true,
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                            cancelButton: 'custom-cancel-button',
-                        },
-                       
-                    })
                     return;
                 }
                 setFeedbackItems(feedback.data);
