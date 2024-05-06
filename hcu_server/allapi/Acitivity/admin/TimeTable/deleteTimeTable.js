@@ -180,7 +180,7 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                             }
                         ]
                     }
-                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝั่งเข็ม"){
+                    if(appointmentData.clinic == "คลินิกกายภาพ" && appointmentData.type == "main"|| appointmentData.clinic == "คลินิกฝังเข็ม" && appointmentData.type == "main"){
                         const nodemailer = require('nodemailer');
                         const transporter = nodemailer.createTransport({
                             service: 'gmail',

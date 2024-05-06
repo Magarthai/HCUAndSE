@@ -92,10 +92,9 @@ router.post('/adminToggleTimetable', limitRequests, async (req, res) => {
                     console.log(usersDataMap.firstName + usersDataMap.lastName, usersDataMap.tel)
                     console.log(data,"datadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadata");
                     console.log(appointmentData.time)
-                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝังเข็ม"){
-                        if(appointmentData.type == "main"){
+                    if(appointmentData.clinic == "คลินิกกายภาพ" && appointmentData.type == "main"|| appointmentData.clinic == "คลินิกฝังเข็ม" && appointmentData.type == "main"){
+
                             const backupData = await DeleteAppointment.create(data);
-                        }
                     }
                     const timeTableRemoveArray = timetable2.appointmentList.filter(item => item.appointmentId !== timeAppointmentSlot.appointmentId);
                     console.log("check3",timeTableRemoveArray)
