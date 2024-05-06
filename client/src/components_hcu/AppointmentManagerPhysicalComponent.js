@@ -1399,6 +1399,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                             }} className="colorPrimary-50">เพิ่มนัดหมายต่อเนื่อง +</a>
                              <a href="/adminCanceledListPeopleAppointment" target="_parent">รายชื่อที่ถูกยกเลิก</a>
                              <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                             <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                         </div>
                     </div>
                     <div className="admin-appointment-flex">

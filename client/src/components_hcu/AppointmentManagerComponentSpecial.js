@@ -1071,6 +1071,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                 </div>
                 <div className="admin-hearder-item admin-right">
                     <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                    <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                 </div>
             </div>
             <div className="admin-appointment-flex">
