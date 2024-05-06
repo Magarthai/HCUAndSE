@@ -161,10 +161,11 @@ const FeedbackComponent = (props) => {
                     <div>
                         <label className="textBody-big colorPrimary-800">เพิ่มเติม</label>
                         <textarea className="acivity-detail" rows="5" value={detail} onChange={inputValue("detail")}></textarea>
+                        <span style={{ display: 'flex',justifyContent:"right", alignItems: 'center', color: detail.length > 135 ? 'red' : 'grey' }}>{detail.length}/135</span>
                     </div>
                     <div>
                         <br></br>
-                        <input type="submit" value="ส่ง" className="btn-primary " target="_parent"/>
+                        <input type="submit" disabled={isSubmitEnabled} value="ส่ง" className="btn-primary " target="_parent"/>
                     </div>
             
                 </form>

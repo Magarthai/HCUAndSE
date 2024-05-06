@@ -75,7 +75,7 @@ const UserQueue = (props) => {
         if (userData) {
             fetchOpenQueueActivityAndSetState();
         }
-        const interval = setInterval(fetchOpenQueueActivityAndSetState, 3000);
+        const interval = setInterval(fetchOpenQueueActivityAndSetState, 10000);
 
         
         return () => clearInterval(interval);
