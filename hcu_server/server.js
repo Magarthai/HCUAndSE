@@ -279,6 +279,68 @@ const updateAppointmentsStatus = async () => {
             appointment.status == 'ลงทะเบียนแล้ว' &&
             thaiTime >= timeslotEnd
         ) {
+            const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'kmutthealthcareunit@gmail.com',
+                pass: 'vqos ixxk pscf bqwm'
+            }
+        })
+        const option = {
+            from: 'kmutthealthcareunit@gmail.com',
+            to: `${userData.email}`,
+            subject: `[อัพเดตสถานะการนัดหมาย]`,
+            html: `
+        
+            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
+            <p style="margin-left: 20px; margin-bottom: 40px;">อัพเดตสถานะการเข้าใช้บริการ : ไม่สําเร็จ</b></p>
+            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${AppointmentUserData.appointment.clinic}</b> ในวันที่ <b>: ${AppointmentUserData.appointment.appointmentDate}</b></p>
+            <p style="margin-left: 20px">หากท่านต้องการนัดหมายใหม่, กรุณานัดหมายผ่านทางเว็บไซต์ https://hcukmutt.vercel.app/ หรือติดต่อเราผ่านเบอร์โทร 02 470 8446 อย่างน้อย 24 ชั่วโมงก่อนเวลานัดหมาย</p>
+            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+            
+            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+            </div>
+        
+            <div style="margin-right: 20px;">
+                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                <p style="margin-left: 20px">02 470 8446</p>
+                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+            </div>
+        `
+        }
+
+        transporter.sendMail(option, (err, info) => {
+            if (err) {
+                console.log('err', err)
+                return res.status(200).json({
+                    RespCode: 400,
+                    RespMessage: 'bad',
+                    RespError: err
+                })
+            }
+            else {
+                console.log('Send: ' + info.response)
+                return res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'good',
+                })
+            }
+        })
             try {
                 console.log(userData.userLineID);
                 if (userData) {
@@ -363,6 +425,70 @@ const updateAppointmentsStatus = async () => {
             appointment.status == 'ยืนยันสิทธิ์แล้ว' &&
             thaiTime >= timeslotEnd
         ) {
+
+            const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'kmutthealthcareunit@gmail.com',
+                pass: 'vqos ixxk pscf bqwm'
+            }
+        })
+        const option = {
+            from: 'kmutthealthcareunit@gmail.com',
+            to: `${userData.email}`,
+            subject: `[อัพเดตสถานะการนัดหมาย]`,
+            html: `
+        
+            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
+            <p style="margin-left: 20px; margin-bottom: 40px;">อัพเดตสถานะการเข้าใช้บริการ : สําเร็จ</b></p>
+            <p style="margin-left: 20px; margin-bottom: 40px;">ขอขอบคุณสำหรับการใช้บริการ HCU</p>
+            <p style="margin-left: 20px; margin-bottom: 20px;">เพื่อให้เราสามารถปรับปรุงและพัฒนาบริการให้ดียิ่งขึ้นต่อไป กรุณาให้คะแนนความพึงพอใจของท่านด้านล่างนี้ได้เลยครับ/ค่ะ</p>
+            <a style="margin-left: 20px;font-size: 20px; border-radius: 5px; padding: 10px;text-decoration: none ;color: white; background-color: #263a50;" href=${link(AppointmentUserData)}>คลิกที่ปุ่มนี้</a>
+            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+            
+            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+            </div>
+        
+            <div style="margin-right: 20px;">
+                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                <p style="margin-left: 20px">02 470 8446</p>
+                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+            </div>
+        `
+        }
+
+        transporter.sendMail(option, (err, info) => {
+            if (err) {
+                console.log('err', err)
+                return res.status(200).json({
+                    RespCode: 400,
+                    RespMessage: 'bad',
+                    RespError: err
+                })
+            }
+            else {
+                console.log('Send: ' + info.response)
+                return res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'good',
+                })
+            }
+        })
             try {
                 console.log(userData.userLineID);
                 if (userData) {
@@ -467,6 +593,67 @@ const updateAppointmentsStatus = async () => {
             appointment.status == 'รอยืนยันสิทธิ์' &&
             thaiTime >= timeslotEnd
         ) {
+            const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'kmutthealthcareunit@gmail.com',
+                pass: 'vqos ixxk pscf bqwm'
+            }
+        })
+        const option = {
+            from: 'kmutthealthcareunit@gmail.com',
+            to: `${userData.email}`,
+            subject: `[อัพเดตสถานะการนัดหมาย]`,
+            html: `
+        
+            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
+            <p style="margin-left: 20px; margin-bottom: 40px;">อัพเดตสถานะการเข้าใช้บริการ : ไม่สําเร็จ</b></p>
+            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${AppointmentUserData.appointment.clinic}</b> ในวันที่ <b>: ${AppointmentUserData.appointment.appointmentDate}</b></p>
+            <p style="margin-left: 20px">หากท่านต้องการนัดหมายใหม่, กรุณานัดหมายผ่านทางเว็บไซต์ https://hcukmutt.vercel.app/ หรือติดต่อเราผ่านเบอร์โทร 02 470 8446 อย่างน้อย 24 ชั่วโมงก่อนเวลานัดหมาย</p>
+            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+            
+            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+            </div>
+        
+            <div style="margin-right: 20px;">
+                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                <p style="margin-left: 20px">02 470 8446</p>
+                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+            </div>
+        `
+        }
+        transporter.sendMail(option, (err, info) => {
+            if (err) {
+                console.log('err', err)
+                return res.status(200).json({
+                    RespCode: 400,
+                    RespMessage: 'bad',
+                    RespError: err
+                })
+            }
+            else {
+                console.log('Send: ' + info.response)
+                return res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'good',
+                })
+            }
+        })
             try {
                 if (userData) {
                     if(userData.userLineID != ""){
@@ -548,6 +735,67 @@ const updateAppointmentsStatus = async () => {
         }
         
         else if (thaiTime >= currentFormattedTime2 && appointment.status == 'ลงทะเบียนแล้ว' && currentFormattedTime2 <= timeslotEnd) {
+            const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'kmutthealthcareunit@gmail.com',
+                pass: 'vqos ixxk pscf bqwm'
+            }
+        })
+        const option = {
+            from: 'kmutthealthcareunit@gmail.com',
+            to: `${userData.email}`,
+            subject: `[อัพเดตสถานะการนัดหมาย]`,
+            html: `
+        
+            <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+            <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userData.firstName}  ${userData.lastName}</h3>
+            <p style="margin-left: 20px; margin-bottom: 40px;">อัพเดตสถานะการเข้าใช้บริการ : รอยืนยันสิทธิ์</b></p>
+            <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${AppointmentUserData.appointment.clinic}</b> ในวันที่ <b>: ${AppointmentUserData.appointment.appointmentDate}</b></p>
+            <p style="margin-left: 20px">กรุณายืนยันสิทธิ์ก่อนเข้าใช้บริการ</p>
+            <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+            
+            <div style="margin: 0px 20px; margin-bottom: 60px;">
+                <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                    <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+                <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                <ul>
+                    <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                    <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                </ul>
+            </div>
+        
+            <div style="margin-right: 20px;">
+                <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                <p style="margin-left: 20px">02 470 8446</p>
+                <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+            </div>
+        `
+        }
+        transporter.sendMail(option, (err, info) => {
+            if (err) {
+                console.log('err', err)
+                return res.status(200).json({
+                    RespCode: 400,
+                    RespMessage: 'bad',
+                    RespError: err
+                })
+            }
+            else {
+                console.log('Send: ' + info.response)
+                return res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'good',
+                })
+            }
+        })
             try {
                 console.log(userData.userLineID);
                 if (userData) {
@@ -685,6 +933,7 @@ const notificationUserToday = async () => {
                             const userDetails = userDatas;
 
                             if (userDetails) {
+                                
                                 if(userDetails.userLineID != ""){
                                     const body = {
                                         "to": userDetails.userLineID,
@@ -752,6 +1001,68 @@ const notificationUserToday = async () => {
                                             }
                                         ]
                                     }
+
+                                    const nodemailer = require('nodemailer');
+                                    const transporter = nodemailer.createTransport({
+                                        service: 'gmail',
+                                        auth: {
+                                            user: 'kmutthealthcareunit@gmail.com',
+                                            pass: 'vqos ixxk pscf bqwm'
+                                        }
+                                    })
+                                    const option = {
+                                        from: 'kmutthealthcareunit@gmail.com',
+                                        to: `${userDatas.email}`,
+                                        subject: `[การนัดหมายของคุณในวันพรุ่งนี้]`,
+                                        html: `
+                                    
+                                        <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                                        <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userDatas.firstName}  ${userDatas.lastName}</h3>
+                                        <p style="margin-left: 20px; margin-bottom: 40px;">🗓️ รายละเอียดการนัดหมาย</b></p>
+                                        <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${userDatas.appointment.clinic}</b> ในวันที่ <b>: ${userDatas.appointment.appointmentDate}</b> เวลา <b>: ${userDatas.timeslot.start}น. - ${userDatas.timeslot.end}น.</b></p>
+                                        <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                                        
+                                        <div style="margin: 0px 20px; margin-bottom: 60px;">
+                                            <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                                            <ul>
+                                                <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                                                <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                                                <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                                            </ul>
+                                            <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                                            <ul>
+                                                <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                                                <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                                            </ul>
+                                        </div>
+                                    
+                                        <div style="margin-right: 20px;">
+                                            <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                                            <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                                            <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                                            <p style="margin-left: 20px">02 470 8446</p>
+                                            <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                                        </div>
+                                    `
+                                    }
+                                    transporter.sendMail(option, (err, info) => {
+                                        if (err) {
+                                            console.log('err', err)
+                                            return res.status(200).json({
+                                                RespCode: 400,
+                                                RespMessage: 'bad',
+                                                RespError: err
+                                            })
+                                        }
+                                        else {
+                                            console.log('Send: ' + info.response)
+                                            return res.status(200).json({
+                                                RespCode: 200,
+                                                RespMessage: 'good',
+                                            })
+                                        }
+                                    })
+
                                     try {
                                         const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                                         console.log('Response:', response.data);
@@ -912,6 +1223,66 @@ const notificationUser3DayBefore = async () => {
                                             }
                                         ]
                                     }
+                                    const nodemailer = require('nodemailer');
+                                    const transporter = nodemailer.createTransport({
+                                        service: 'gmail',
+                                        auth: {
+                                            user: 'kmutthealthcareunit@gmail.com',
+                                            pass: 'vqos ixxk pscf bqwm'
+                                        }
+                                    })
+                                    const option = {
+                                        from: 'kmutthealthcareunit@gmail.com',
+                                        to: `${userDatas.email}`,
+                                        subject: `[การนัดหมายของคุณในอีก 3 วัน]`,
+                                        html: `
+                                    
+                                        <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                                        <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${userDatas.firstName}  ${userDatas.lastName}</h3>
+                                        <p style="margin-left: 20px; margin-bottom: 40px;">🗓️ รายละเอียดการนัดหมาย</b></p>
+                                        <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${userDatas.appointment.clinic}</b> ในวันที่ <b>: ${userDatas.appointment.appointmentDate}</b> เวลา <b>: ${userDatas.timeslot.start}น. - ${userDatas.timeslot.end}น.</b></p>
+                                        <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                                        
+                                        <div style="margin: 0px 20px; margin-bottom: 60px;">
+                                            <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                                            <ul>
+                                                <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                                                <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                                                <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                                            </ul>
+                                            <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                                            <ul>
+                                                <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                                                <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                                            </ul>
+                                        </div>
+                                    
+                                        <div style="margin-right: 20px;">
+                                            <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                                            <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                                            <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                                            <p style="margin-left: 20px">02 470 8446</p>
+                                            <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                                        </div>
+                                    `
+                                    }
+                                    transporter.sendMail(option, (err, info) => {
+                                        if (err) {
+                                            console.log('err', err)
+                                            return res.status(200).json({
+                                                RespCode: 400,
+                                                RespMessage: 'bad',
+                                                RespError: err
+                                            })
+                                        }
+                                        else {
+                                            console.log('Send: ' + info.response)
+                                            return res.status(200).json({
+                                                RespCode: 200,
+                                                RespMessage: 'good',
+                                            })
+                                        }
+                                    })
                                     try {
                                         const response = await axios.post(`${LINE_BOT_API}/push`, body, { headers });
                                         console.log('Response:', response.data);

@@ -72,6 +72,70 @@ const NotificationActivityToday = async () => {
         FilteredData.forEach(async(item) => {
             const userList = item.userList;
             userList.forEach(async(user) => {
+
+                const nodemailer = require('nodemailer');
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'kmutthealthcareunit@gmail.com',
+                        pass: 'vqos ixxk pscf bqwm'
+                    }
+                })
+                const option = {
+                    from: 'kmutthealthcareunit@gmail.com',
+                    to: `${user.email}`,
+                    subject: `[แจ้งเตือนกิจกรรม]`,
+                    html: `
+                
+                    <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                    <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${user.firstName}  ${user.lastName}</h3>
+                    <p style="margin-left: 20px; margin-bottom: 40px;">🗓️ รายละเอียดกิจกรรม ${item.activityName}</b></p>
+                    <p style="margin-left: 20px; margin-bottom: 40px;">วันที่ : ${item.date} เวลา : ${item.startTime} น. - ${item.endTime} น.</p>
+                    <p style="margin-left: 20px"> <b>🙏🏻 กรุณามาตามรายละเอียดวัน เวลาที่ได้แจ้งไว้</p>
+                    <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                    
+                    <div style="margin: 0px 20px; margin-bottom: 60px;">
+                        <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                        <ul>
+                            <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                            <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                            <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                        </ul>
+                        <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                        <ul>
+                            <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                            <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                        </ul>
+                    </div>
+                
+                    <div style="margin-right: 20px;">
+                        <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                        <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                        <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                        <p style="margin-left: 20px">02 470 8446</p>
+                        <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                    </div>
+                `
+                }
+
+                transporter.sendMail(option, (err, info) => {
+                    if (err) {
+                        console.log('err', err)
+                        return res.status(200).json({
+                            RespCode: 400,
+                            RespMessage: 'bad',
+                            RespError: err
+                        })
+                    }
+                    else {
+                        console.log('Send: ' + info.response)
+                        return res.status(200).json({
+                            RespCode: 200,
+                            RespMessage: 'good',
+                        })
+                    }
+                })
+
                  if(user.userLineID != ""){
                     const body = {
                         "to": user.userLineID,
