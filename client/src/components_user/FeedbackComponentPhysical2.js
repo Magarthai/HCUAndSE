@@ -143,12 +143,13 @@ const FeedbackComponentPhysical2 = (props) => {
                     </div>
                     
                     <div>
-                        <label className="textBody-big colorPrimary-800">เพิ่มเติม</label>
+                        <label className="textBody-big colorPrimary-800">เพิ่มเติม<span className="colorRed">*</span></label>
                         <textarea className="acivity-detail" rows="5" value={detail} onChange={inputValue("detail")}></textarea>
                         <span style={{ display: 'flex',justifyContent:"right", alignItems: 'center', color: detail.length > 135 ? 'red' : 'grey' }}>{detail.length}/135</span>
                     </div>
                     <div>
                         <br></br>
+                        <p className="colorRed">หมายเหตุ: การประเมินความพึงพอใจในส่วนนี้ไม่ได้เก็บข้อมูลส่วนบุคคล</p>
                         <input disabled={isSubmitEnabled} type="submit" value="ส่ง" className="btn-primary " target="_parent"/>
                     </div>
             

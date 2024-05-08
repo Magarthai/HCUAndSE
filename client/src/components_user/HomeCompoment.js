@@ -31,6 +31,11 @@ const HomeComponent = (props) => {
         console.log(userId,"userIduserIduserIduserId");
     }, [userId]);
 
+    const toLocation = async () => {
+        navigate('/location');
+      
+      };
+
     return (
         
         <div className="user" style={{userSelect:"none"}}>
@@ -55,14 +60,13 @@ const HomeComponent = (props) => {
                         <div className="user-home-proflie-box colorPrimary-800" style={{width:"70%", justifyContent:"flex-start", paddingLeft:"6%"}}>
                             {userData && <div className="admin-textBody-huge" style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidth: "200px", display: "inline-block",  textAlign:"initial"}}>{userData.firstName} {userData.lastName}<br></br> <div className="admin-textBody-small2">{userData.id}</div></div> }
                         </div>
-                        <div className="user-home-proflie-box admin-right" style={{width:"15%"}}>
+                        <div className="user-home-proflie-box admin-right" style={{width:"15%"}} onClick={toLocation()}  role="button"  target="_parent">
                             <img src={right} style={{width:"40px", height:"40px"}} />
                         </div>  
  
                     </div>
                     </a>                 
                     <div className="user-home-list">
-                    {/* <a href="#" role="button"  target="_parent" className="user-home-list-box1"><img src={function0}/><p>หน้าแรก</p></a> */}
                     <a href="/appointment" role="button"  target="_parent" className="user-home-list-box1"><img src={function1}/><p>นัดหมาย</p></a>
                     <a href="/activity" role="button"  target="_parent" className="user-home-list-box2"><img src={function2}/><p>กิจกรรม</p></a>
                     <a href="/queue" role="button"  target="_parent" className="user-home-list-box2"><img src={function3}/><p>สถานะคิว</p></a>
@@ -71,14 +75,7 @@ const HomeComponent = (props) => {
                     <a href="/information" role="button"  target="_parent" className="user-home-list-box2"><img src={function6}/><p>ข้อมูลทั่วไป</p></a>
                     <a href="/feedback" role="button"  target="_parent" className="user-home-list-box2"><img src={function7}/><p>ประเมินความพึงพอใจ</p></a>
                     <a href="/manual" role="button"  target="_parent" className="user-home-list-box2"><img src={function8}/><p>คู่มือการใช้งาน</p></a>
-                    {/* <a href="/appointment" role="button"  target="_parent"><img src={function1}/><p>นัดหมาย</p></a>
-                    <a href="#" role="button"  target="_parent"><img src={function2} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function3} /></a>
-                    <a href="/timetable" role="button"  target="_parent"><img src={function4} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function5} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function6}/></a>
-                    <a href="#" role="button"  target="_parent" ><img src={function7} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function8} /></a> */}
+           
                     </div>
                 </div>
             </div> 
