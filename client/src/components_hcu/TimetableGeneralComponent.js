@@ -19,6 +19,7 @@ const TimetableGeneralComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [zoomLevel, setZoomLevel] = useState(1);
     const [timetable, setTimetable] = useState([])
+    const [ submited, setSubmited] = useState(true);
     const { id } = useParams();
     const [state, setState] = useState({
         addDay: "",
@@ -34,7 +35,7 @@ const TimetableGeneralComponent = (props) => {
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic, timetableId } = state
 
     const isSubmitEnabled =
-        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
+        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment || !submited;
 
 
     const [isChecked, setIsChecked] = useState({});
@@ -192,7 +193,7 @@ const TimetableGeneralComponent = (props) => {
             });
             return;
         }
-        
+        setSubmited(false);
         
         const timeablelist = getTimeablelist(duration,numberAppointment,start,end);
         try {
@@ -250,6 +251,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -262,6 +264,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -274,6 +277,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -317,6 +321,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -329,6 +334,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -341,6 +347,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -385,6 +392,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -397,6 +405,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -409,6 +418,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -453,6 +463,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -465,6 +476,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -477,6 +489,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -521,6 +534,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -533,6 +547,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -545,6 +560,7 @@ const TimetableGeneralComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -560,9 +576,7 @@ const TimetableGeneralComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchTimeTableData();
-                }
+                window.location.reload();
             });
 
         } catch (firebaseError) {
@@ -1056,11 +1070,7 @@ const TimetableGeneralComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchTimeTableData();
-                    let x = document.getElementById("Edittimetable");
-                    x.style.display = "none";
-                }
+                window.location.reload();
             });
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);

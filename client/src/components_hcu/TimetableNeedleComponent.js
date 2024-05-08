@@ -18,6 +18,7 @@ const TimetablePhysicalComponent = (props) => {
     const animationFrameRef = useRef();
     const { user , userData} = useUserAuth();
     const [timetable, setTimetable] = useState([])
+    const [ submited, setSubmited] = useState(true);
     const { id } = useParams();
     const [state, setState] = useState({
         addDay: "",
@@ -38,7 +39,7 @@ const TimetablePhysicalComponent = (props) => {
     const { numberMainAppointmentCheck,addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId,timeAppointmentMainStart,timeAppointmentMainEnd,numberMainAppointment} = state
 
     const isSubmitEnabled =
-    !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
+    !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment|| !submited;
 
 
     const [isChecked, setIsChecked] = useState({});
@@ -343,7 +344,7 @@ const TimetablePhysicalComponent = (props) => {
         }
 
     }
-
+    setSubmited(false);
     const timeablelist = [];
 
     const interval = Math.floor(duration / numberAppointment);
@@ -413,19 +414,6 @@ const TimetablePhysicalComponent = (props) => {
                 isDelete: "No",
             };
             
-
-            const isInputMainAppointmentTimeOverlap = () => {
-                const appointmentStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
-                const appointmentEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
-                const inputStartTime = new Date(`2000-01-01T${timeAppointmentMainStart}`);
-                const inputEndTime = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
-                
-                return (
-                    (inputStartTime >= appointmentStartTime && inputStartTime <= appointmentEndTime) ||
-                    (inputEndTime >= appointmentStartTime && inputEndTime <= appointmentEndTime) ||
-                    (inputStartTime <= appointmentStartTime && inputEndTime >= appointmentEndTime)
-                );
-            };
             if (addDay === "monday") {
                 const mondayTimetable = timetable.filter(item => item.addDay === "monday");
                 
@@ -467,6 +455,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -479,6 +468,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -491,18 +481,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
-                    return;
-                }  else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
+                    setSubmited(true);
                     return;
                 }
             }
@@ -546,6 +525,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -558,6 +538,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -570,18 +551,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
-                    return;
-                }  else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
+                    setSubmited(true);
                     return;
                 }
             }
@@ -626,6 +596,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -638,6 +609,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -650,20 +622,9 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
-                }  else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
+                } 
             }
 
             if (addDay === "thursday") {
@@ -706,6 +667,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -718,6 +680,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -730,20 +693,9 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
-                }  else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
+                }  
             }
             
             if (addDay === "friday") {
@@ -786,6 +738,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -798,6 +751,7 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -810,20 +764,9 @@ const TimetablePhysicalComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
-                }  else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
+                }  
             }
             await addDoc(collection(db, 'timeTable'), additionalTImeTable);
 
@@ -837,9 +780,7 @@ const TimetablePhysicalComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchTimeTableData();
-                }
+                window.location.reload();
             });
 
         } catch (firebaseError) {
@@ -1147,19 +1088,6 @@ const TimetablePhysicalComponent = (props) => {
                 status: "Enabled",
             };
 
-
-            const isInputMainAppointmentTimeOverlap = () => {
-                const appointmentStartTime = new Date(`2000-01-01T${timeAppointmentStart}`);
-                const appointmentEndTime = new Date(`2000-01-01T${timeAppointmentEnd}`);
-                const inputStartTime = new Date(`2000-01-01T${timeAppointmentMainStart}`);
-                const inputEndTime = new Date(`2000-01-01T${timeAppointmentMainEnd}`);
-                
-                return (
-                    (inputStartTime >= appointmentStartTime && inputStartTime <= appointmentEndTime) ||
-                    (inputEndTime >= appointmentStartTime && inputEndTime <= appointmentEndTime) ||
-                    (inputStartTime <= appointmentStartTime && inputEndTime >= appointmentEndTime)
-                );
-            };
             if (addDay === "monday") {
                 const mondayTimetable = timetable.filter(item => item.addDay === "monday" && item.id != timetableId);
                 
@@ -1226,19 +1154,6 @@ const TimetablePhysicalComponent = (props) => {
                     });
                     return;
                 } 
-                else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
             }
             if (addDay === "tuesday") {
                 const tuesdayTimetable = timetable.filter(item => item.addDay === "tuesday"  && item.id != timetableId);
@@ -1306,19 +1221,6 @@ const TimetablePhysicalComponent = (props) => {
                     });
                     return;
                 } 
-                else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
             } 
 
             if (addDay === "wednesday") {
@@ -1387,19 +1289,6 @@ const TimetablePhysicalComponent = (props) => {
                     });
                     return;
                 } 
-                else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
             }
 
             if (addDay === "thursday") {
@@ -1468,19 +1357,6 @@ const TimetablePhysicalComponent = (props) => {
                     });
                     return;
                 } 
-                else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
             }
             
             if (addDay === "friday") {
@@ -1549,19 +1425,6 @@ const TimetablePhysicalComponent = (props) => {
                     });
                     return;
                 } 
-                else if (isInputMainAppointmentTimeOverlap()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "เกิดข้อผิดพลาด!",
-                        text: "กรอกเวลาฝังเข็มทับซ้อนกับช่วงเวลานัดหมาย กรุณากรอกใหม่!",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#263A50',
-                        customClass: {
-                            confirmButton: 'custom-confirm-button',
-                        }
-                    });
-                    return;
-                }
             }
     
             await updateDoc(timetableRef, updatedTimetable);
@@ -1576,11 +1439,7 @@ const TimetablePhysicalComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchTimeTableData();
-                    let x = document.getElementById("Edittimetable");
-                    x.style.display = "none";
-                }
+                window.location.reload();
             });
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);
