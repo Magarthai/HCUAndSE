@@ -1037,9 +1037,12 @@ const DeleteAppointmentPhysic = async (userData,type,appointmentuid, uid,Appoint
 
                 const userRef = doc(db, "users", uid);
 
+                
                 await updateDoc(userRef, {
                     "appointments": arrayRemove("appointments", appointmentuid)
                 });
+
+
                 const info = {
                     role: userData.role,
                     date: AppointmentUserData.appointment.appointmentDate,
