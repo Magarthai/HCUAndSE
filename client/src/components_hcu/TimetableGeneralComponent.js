@@ -1649,12 +1649,32 @@ const TimetableGeneralComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeStart}
-                                    onChange={inputValue("timeStart")}
+                                    // onChange={inputValue("timeStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1666,7 +1686,27 @@ const TimetableGeneralComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeEnd}
-                                    onChange={inputValue("timeEnd")}
+                                    // onChange={inputValue("timeEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1675,12 +1715,32 @@ const TimetableGeneralComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
-                                    onChange={inputValue("timeAppointmentStart")}
+                                    // onChange={inputValue("timeAppointmentStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state,timeAppointmentStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1691,19 +1751,41 @@ const TimetableGeneralComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
-                                    onChange={inputValue("timeAppointmentEnd")}
+                                    // onChange={inputValue("timeAppointmentEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
                                     pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
+                            {/* <p className="colorRed" style={{marginBottom:0}}>หมายเหตุ: ตั้งค่าช่วงเวลาอยู่ในช่วง 00:00 - 23:59 </p> */}
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
                                 <input type="number" pattern="[0-9]+"  className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span className="admin-textBody-large"> คิว</span>
 
                             </div>
+                            <p className="colorRed" >หมายเหตุ: ตั้งค่าช่วงเวลาอยู่ในช่วง 00:00 - 23:59 </p>
                             <div className="admin-timetable-btn">
                                 <button type="button" onClick={openAddtimetable} className="btn-secondary btn-systrm">กลับ</button>
                                 <input type="submit" value="เพิ่มช่วงเวลา" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
@@ -1734,12 +1816,32 @@ const TimetableGeneralComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ</label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeStart}
-                                    onChange={inputValue("timeStart")}
+                                    // onChange={inputValue("timeStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1750,7 +1852,27 @@ const TimetableGeneralComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeEnd}
-                                    onChange={inputValue("timeEnd")}
+                                    // onChange={inputValue("timeEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1759,12 +1881,32 @@ const TimetableGeneralComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
-                                    onChange={inputValue("timeAppointmentStart")}
+                                    // onChange={inputValue("timeAppointmentStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1775,19 +1917,41 @@ const TimetableGeneralComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
-                                    onChange={inputValue("timeAppointmentEnd")}
+                                    // onChange={inputValue("timeAppointmentEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
                                     pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                                 />
                             </div>
+
                             <div>
                                 <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
+                            <p className="colorRed" >หมายเหตุ: ตั้งค่าช่วงเวลาอยู่ในช่วง 00:00 - 23:59 </p>
                             <div className="admin-timetable-btn">
                                 <button type="button" onClick={() => closeEditTimeTable()} className="btn-secondary btn-systrm" >กลับ</button>
                                 <input type="submit" value="แก้ไขช่วงเวลา" className="btn-primary btn-systrm" target="_parent" />
