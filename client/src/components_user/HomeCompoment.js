@@ -31,10 +31,7 @@ const HomeComponent = (props) => {
         console.log(userId,"userIduserIduserIduserId");
     }, [userId]);
 
-    const toLocation = async () => {
-        navigate('/location');
-      
-      };
+  
 
     return (
         
@@ -48,7 +45,7 @@ const HomeComponent = (props) => {
             </header>
             <div className="user-body">
                 <div className="user-home">
-                    <a href="#" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
+                    <a href="/location" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
                     <h3 className="colorPrimary-800">Welcome to HCU</h3>
                     <a href="/profile" target="_parent">
                     <div className="user-home-proflie" >
@@ -60,7 +57,7 @@ const HomeComponent = (props) => {
                         <div className="user-home-proflie-box colorPrimary-800" style={{width:"70%", justifyContent:"flex-start", paddingLeft:"6%"}}>
                             {userData && <div className="admin-textBody-huge" style={{overflow:"hidden", whiteSpace: "nowrap",textOverflow: "ellipsis", maxWidth: "200px", display: "inline-block",  textAlign:"initial"}}>{userData.firstName} {userData.lastName}<br></br> <div className="admin-textBody-small2">{userData.id}</div></div> }
                         </div>
-                        <div className="user-home-proflie-box admin-right" style={{width:"15%"}} onClick={toLocation()}  role="button"  target="_parent">
+                        <div className="user-home-proflie-box admin-right" style={{width:"15%"}}>
                             <img src={right} style={{width:"40px", height:"40px"}} />
                         </div>  
  
