@@ -184,6 +184,9 @@
     .colorSecondary-950{
         color: #152E2D;
     }
+    .colorRed{
+        color: #bb0000;
+    }
     .form-control::placeholder {
         font-size: 16px;
         font-weight: 300;
@@ -390,13 +393,6 @@
     }
     .user-home{
         padding: 0% 3%;
-        /* display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: stretch;
-        box-sizing: border-box;
-        gap: 3%; */
     }
     .user-home-proflie{
         display: flex;
@@ -435,8 +431,6 @@
         margin-bottom: 20px;
     }
     .user-home-list a{
-        /* width: 31.3%;
-        width: 48%; */
         box-sizing: border-box;
         margin-bottom: 0%;
         background-color: #263A50;
@@ -486,10 +480,6 @@
     .hide {
         display: none;
     }
-    .custom-calendar {
-        /* width: 100%; */
-        /* display: inline-block; */
-    } 
     .custom-datepicker-wrapper {
         width: 85%;
         display: inline-block;
@@ -537,10 +527,6 @@
         position: relative;  
         z-index: 1;
     }
-    /* .react-datepicker-popper{
-        position: relative;  
-        z-index: 999; 
-    } */
     .errorpage{
         display: flex;
         flex-direction: column;
@@ -609,8 +595,6 @@
     .user{
         width: 48%;
         margin: 0px 26%;
-        /* max-width: 500px;
-        min-width: 500px; */
     }
     .user-header {
         width: 48%;
@@ -634,15 +618,10 @@
     .user{
         width: 40%;
         margin: 0px 30%;
-        /* max-width: 500px;
-        min-width: 500px; */
-  
     }
     .user-header {
         width: 40%;
         padding-left: 3%;
-        /* max-width: 500px;
-        min-width: 500px; */
     }
     .user-home-list{
         height: 35vw;

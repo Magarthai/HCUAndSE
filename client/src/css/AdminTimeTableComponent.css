@@ -58,7 +58,7 @@ body{
         margin-top: 10px; 
     }
     .admin-timetable-system-detail::-webkit-scrollbar {
-        width: 5px; 
+        width: 10px; 
         margin: 5px;
     }
     .admin-timetable-system-detail::-webkit-scrollbar-thumb {
@@ -267,7 +267,7 @@ body{
         margin: 5px 0px;
     }
     #Detailtimetable::-webkit-scrollbar {
-        width: 5px; 
+        width: 10px; 
         margin: 5px;
     }
     #Detailtimetable::-webkit-scrollbar-thumb {
