@@ -207,8 +207,8 @@ const DashboardServicePhysical = (props) => {
     ]
 
     
-      const COLORS = ['#BABABA', '#456A91'];
-      const COLORSDAY = ['#BABABA', '#54B2B0'];
+      const COLORS = [ '#456A91','#BABABA'];
+      const COLORSDAY = [ '#54B2B0', '#BABABA'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
