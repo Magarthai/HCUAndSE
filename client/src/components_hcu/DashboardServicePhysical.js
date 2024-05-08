@@ -144,7 +144,7 @@ const DashboardServicePhysical = (props) => {
       }
       const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
       if (respone2.data){
-        setData2(respone2.data,"คลินิกกายภาพ")
+        setData2(respone2.data)
         console.log(respone2.data)
       }
       const respone5 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);

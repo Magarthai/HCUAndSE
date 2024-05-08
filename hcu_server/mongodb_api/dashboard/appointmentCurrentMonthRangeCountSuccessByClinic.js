@@ -76,7 +76,7 @@ function groupBy(arr, key) {
         ]
         const infoPhysic = [
             {
-                name: 'ทำฝังเข็ม',
+                name: 'ทำกายภาพ',
                 value: 0,
             }, 
             {
