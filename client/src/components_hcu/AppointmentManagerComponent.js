@@ -809,15 +809,15 @@ const AppointmentManagerComponent = (props) => {
             z.style.display = "none";
             setsaveDetailId("")
             setsaveEditId(AppointmentUsersData.appointmentuid)
-            document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม<span className="colorRed">*</span>: ${AppointmentUsersData.timeslot.start}-${AppointmentUsersData.timeslot.end}`
+            document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start}-${AppointmentUsersData.timeslot.end}`
         } else {
             if (saveEditId === AppointmentUsersData.appointmentuid) {
                 x.style.display = "none";
                 setsaveEditId("")
-                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม<span className="colorRed">*</span>: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end}`
+                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end}`
             } else {
                 setsaveEditId(AppointmentUsersData.appointmentuid)
-                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม<span className="colorRed">*</span>: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end}`
+                document.getElementById("timeslotxd").innerHTML = `ช่วงเวลาเดิม: ${AppointmentUsersData.timeslot.start} - ${AppointmentUsersData.timeslot.end} `
             }
         }
     }
@@ -1220,7 +1220,7 @@ const AppointmentManagerComponent = (props) => {
 
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา <span className="colorRed">*</span></label>
+                                        <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา </label> <span className="colorRed">*</span>
                                         <select
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}
@@ -1265,7 +1265,7 @@ const AppointmentManagerComponent = (props) => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน<span className="colorRed">*</span></label><br></br>
+                                        <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน</label><br></br>
                                         <input type="text" className="form-control appointment-input" value={appointmentId} disabled onChange={inputValue("appointmentId")} placeholder="64000000000" />
                                     </div>
                                     <div>

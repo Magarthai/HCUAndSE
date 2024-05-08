@@ -1153,7 +1153,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                                     : "Select a date"}</p>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา</label>
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา<span className="colorRed">*</span></label>
                                 <select
                                     name="time"
                                     value={JSON.stringify(appointmentTime)}
@@ -1202,7 +1202,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน<span className="colorRed">*</span></label><br></br>
                                 <input type="text" className="form-control appointment-input" value={appointmentId} onChange={inputValue("appointmentId")} placeholder="64000000000 หรือ 00000" />
                             </div>
                             <div>
@@ -1266,7 +1266,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                                                
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800" id="timeslotxd">ช่วงเวลา</label>
+                                <label className="admin-textBody-large colorPrimary-800" id="timeslotxd">ช่วงเวลา</label><span className="colorRed">*</span>
                                 <select
                                     name="time"
                                     value={JSON.stringify(appointmentTime)}

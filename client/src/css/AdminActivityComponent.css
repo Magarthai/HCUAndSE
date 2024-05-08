@@ -403,3 +403,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.cardAddActivity{
+    /* background-color: #ffffff58;  */
+     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px;
+     border: 0.25px solid #7886a0;
+    /* background-color: rgba(248, 248, 248, 0.5); 
+    box-shadow: inset 4px 4px 8px 0px rgba(0,0,0,0.15), inset -4px -4px 8px 0px rgba(214, 214, 214, 0.7); */
+    color: #263A50;
+    text-decoration: none;
+    padding: 2% 2%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}

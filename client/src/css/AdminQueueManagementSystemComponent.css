@@ -52,7 +52,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .admin-queue-card-box::-webkit-scrollbar {
-    width: 5px; 
+    width: 10px; 
     margin: 5px;
 }
 .admin-queue-card-box::-webkit-scrollbar-thumb {
