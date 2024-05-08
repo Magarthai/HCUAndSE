@@ -255,13 +255,13 @@ const InformationAdd = (props) => {
                                 </div>
                                 <div className="admin-activity-today-hearder-box admin-activity-form">
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">ชื่อบทความ</label>
+                                        <label className="admin-textBody-large colorPrimary-800">ชื่อบทความ<span className="colorRed">*</span></label>
                                         <input type="text" className="form-control" value={informationName} onChange={inputValue("informationName")} placeholder="Information" maxLength={70}/>
                                         {informationName.length > 70 ? <div style={{display:"flex",color:"red",justifyContent:"flex-end"}}>{informationName.length}/70</div> : <div style={{display:"flex",color:"grey",justifyContent:"flex-end"}}>{informationName.length}/70</div>}
                                     </div>
                                     
                                     <div>
-                                    <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด</label>
+                                    <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด<span className="colorRed">*</span></label>
                                     <textarea
                                         value={informationDetail}
                                         onChange={inputValue("informationDetail")}

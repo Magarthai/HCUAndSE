@@ -195,7 +195,7 @@ const FeedbackGeneralAll = (props) => {
             <div className="admin-body">
                 <h2>{selectedDate ? formatDate(selectedDate) : formatMonthInThai(month, year)}</h2>
                 <div className="admin-feedback">
-                {feedbackItems.map((feedback, index) => {
+                {feedbackItems.length > 0 ? (feedbackItems.map((feedback, index) => {
 
                     const newDate = feedback.date;
                     
@@ -229,7 +229,12 @@ const FeedbackGeneralAll = (props) => {
 
                         </div>
                     );
-                    })}
+                    })
+                ) : (
+                    <div className="center admin-feedback-item" style={{width:"100%"}}>
+                      <p style={{fontSize:40,margin:"100px 0px"}} className="colorPrimary-800">ไม่มีข้อเสนอแนะ</p>
+                    </div>
+                  )}
 
                 </div>
                 
