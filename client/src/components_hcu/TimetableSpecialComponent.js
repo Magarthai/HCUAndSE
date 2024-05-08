@@ -1708,7 +1708,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800">วัน<span className="colorRed">*</span></label>
                                 <select
                                     name="Day"
                                     value={addDay}
@@ -1724,7 +1724,7 @@ const TimetableSpecialComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -1789,7 +1789,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span></label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span><span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -1853,7 +1853,7 @@ const TimetableSpecialComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
@@ -1872,7 +1872,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800">วัน<span className="colorRed">*</span></label>
                                 <select
                                     name="Day"
                                     value={addDay}
@@ -1888,7 +1888,7 @@ const TimetableSpecialComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -1953,7 +1953,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2017,7 +2017,7 @@ const TimetableSpecialComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 

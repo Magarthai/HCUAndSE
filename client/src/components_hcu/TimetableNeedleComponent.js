@@ -2080,7 +2080,7 @@ const TimetablePhysicalComponent = (props) => {
                             <div className="admin-timetable-system-detail">
                             <h2 className=" colorPrimary-800">คลินิกฝังเข็ม</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800" >วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800" >วัน<span className="colorRed">*</span></label>
                                 <div className="custom-admin-addtimetable">
                                 <select
                                     name="Day"
@@ -2098,7 +2098,7 @@ const TimetablePhysicalComponent = (props) => {
                                 </div>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2163,7 +2163,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span></label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span><span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2227,14 +2227,14 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
                             <div className="custome-admin-underline"></div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2298,7 +2298,7 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" className="form-control timeable" pattern="[0-9]+" value={numberMainAppointment} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
@@ -2319,7 +2319,7 @@ const TimetablePhysicalComponent = (props) => {
                             <div className="admin-timetable-system-detail">
                             <h2 className=" colorPrimary-800">คลินิกฝังเข็ม</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800" >วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800" >วัน<span className="colorRed">*</span></label>
                                 <div className="custom-admin-addtimetable">
                                 <select
                                     name="Day"
@@ -2337,7 +2337,7 @@ const TimetablePhysicalComponent = (props) => {
                                 </div>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2402,7 +2402,7 @@ const TimetablePhysicalComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span></label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมายเพื่อปรึกษา <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span><span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2466,14 +2466,14 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" className="form-control timeable" pattern="[0-9]+" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
                             <div className="custome-admin-underline"></div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาทําฝังเข็ม<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
@@ -2537,7 +2537,7 @@ const TimetablePhysicalComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberMainAppointment} min={minnumber2} onChange={inputValue("numberMainAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
