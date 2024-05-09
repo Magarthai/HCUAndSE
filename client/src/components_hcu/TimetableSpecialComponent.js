@@ -19,6 +19,7 @@ const TimetableSpecialComponent = (props) => {
     const animationFrameRef = useRef();
     const { user,userData } = useUserAuth();
     const [timetable, setTimetable] = useState([])
+    const [ submited, setSubmited] = useState(true);
     const { id } = useParams();
     const [state, setState] = useState({
         addDay: "",
@@ -35,7 +36,7 @@ const TimetableSpecialComponent = (props) => {
     const { addDay, timeStart, timeEnd, timeAppointmentStart, timeAppointmentEnd, numberAppointment, clinic ,timetableId} = state
 
     const isSubmitEnabled =
-        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment;
+        !addDay || !timeStart || !timeEnd || !timeAppointmentStart || !timeAppointmentEnd || !numberAppointment|| !submited;
 
 
     const [isChecked, setIsChecked] = useState({});
@@ -229,7 +230,7 @@ const TimetableSpecialComponent = (props) => {
                 end: slotEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
             });
         }
-
+        setSubmited(false);
 
         try {
             const additionalTImeTable = {
@@ -286,6 +287,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -298,6 +300,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -310,6 +313,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -341,8 +345,6 @@ const TimetableSpecialComponent = (props) => {
                         (inputStartTime <= startTime && inputEndTime >= endTime)
                     );
                 });
-                
-                
             
                 if (isTimeOverlap && !isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -355,6 +357,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -367,6 +370,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -379,6 +383,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -411,7 +416,7 @@ const TimetableSpecialComponent = (props) => {
                         (inputStartTime <= startTime && inputEndTime >= endTime)
                     );
                 });
-            
+
                 if (isTimeOverlap && !isAppointmentTimeOverlap) {
                     Swal.fire({
                         icon: "error",
@@ -423,6 +428,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -435,6 +441,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -447,6 +454,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -491,6 +499,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -503,6 +512,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -515,6 +525,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
@@ -559,6 +570,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (!isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -571,6 +583,7 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } else if (isTimeOverlap && isAppointmentTimeOverlap) {
                     Swal.fire({
@@ -583,11 +596,12 @@ const TimetableSpecialComponent = (props) => {
                             confirmButton: 'custom-confirm-button',
                         }
                     });
+                    setSubmited(true);
                     return;
                 } 
             }
+            
             await addDoc(collection(db, 'timeTable'), additionalTImeTable);
-
             Swal.fire({
                 icon: "success",
                 title: "เพิ่มช่วงเวลาสำเร็จ!",
@@ -598,9 +612,7 @@ const TimetableSpecialComponent = (props) => {
                     confirmButton: 'custom-confirm-button',
                 }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    fetchTimeTableData();
-                }
+                window.location.reload();
             });
 
         } catch (firebaseError) {
@@ -1696,7 +1708,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800">วัน<span className="colorRed">*</span></label>
                                 <select
                                     name="Day"
                                     value={addDay}
@@ -1712,12 +1724,32 @@ const TimetableSpecialComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาที่แพทย์เปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeStart}
-                                    onChange={inputValue("timeStart")}
+                                    // onChange={inputValue("timeStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1728,7 +1760,27 @@ const TimetableSpecialComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeEnd}
-                                    onChange={inputValue("timeEnd")}
+                                    // onChange={inputValue("timeEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1737,12 +1789,32 @@ const TimetableSpecialComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย <span className="colorNeutralBlack-400">(ช่วงเวลาที่ให้ผู้ใช้บริการจองคิวนัดหมาย)</span><span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
-                                    onChange={inputValue("timeAppointmentStart")}
+                                    // onChange={inputValue("timeAppointmentStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state,timeAppointmentStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1753,7 +1825,27 @@ const TimetableSpecialComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
-                                    onChange={inputValue("timeAppointmentEnd")}
+                                    // onChange={inputValue("timeAppointmentEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1761,11 +1853,12 @@ const TimetableSpecialComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="textBody-big2 colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
+                            <p className="colorRed" >หมายเหตุ: ตั้งค่าช่วงเวลาอยู่ในช่วง 00:00 - 23:59 </p>
                             <div className="admin-timetable-btn">
                                 <button type="button" onClick={closeEditTimeTable} className="btn-secondary btn-systrm">กลับ</button>
                                 <input type="submit" value="เพิ่มช่วงเวลา" className="btn-primary btn-systrm" target="_parent" disabled={isSubmitEnabled} />
@@ -1779,7 +1872,7 @@ const TimetableSpecialComponent = (props) => {
                             </div>
                             <h2 className=" colorPrimary-800">คลินิกเฉพาะทาง</h2>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">วัน</label>
+                                <label className="admin-textBody-large colorPrimary-800">วัน<span className="colorRed">*</span></label>
                                 <select
                                     name="Day"
                                     value={addDay}
@@ -1795,12 +1888,32 @@ const TimetableSpecialComponent = (props) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้บริการ<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeStart}
-                                    onChange={inputValue("timeStart")}
+                                    // onChange={inputValue("timeStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1811,7 +1924,27 @@ const TimetableSpecialComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeEnd}
-                                    onChange={inputValue("timeEnd")}
+                                    // onChange={inputValue("timeEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1820,12 +1953,32 @@ const TimetableSpecialComponent = (props) => {
                             </div>
 
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย</label><br />
+                                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลาเปิดให้นัดหมาย<span className="colorRed">*</span></label><br />
                                 <input
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentStart}
-                                    onChange={inputValue("timeAppointmentStart")}
+                                    // onChange={inputValue("timeAppointmentStart")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentStart: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1836,7 +1989,27 @@ const TimetableSpecialComponent = (props) => {
                                     type="text"
                                     className="form-control timeable"
                                     value={timeAppointmentEnd}
-                                    onChange={inputValue("timeAppointmentEnd")}
+                                    // onChange={inputValue("timeAppointmentEnd")}
+                                    onChange={(e) => {
+                                        const input = e.target.value.replace(/\D/g, ""); 
+                                        if (input.length <= 4) { 
+                                            let formattedValue = input;
+                                            if (input.length > 1) {
+                                                const hours = input.slice(0, 2);
+                                                const minutes = input.slice(2);
+                                                const parsedHours = parseInt(hours, 10);
+                                                const parsedMinutes = parseInt(minutes, 10);
+                                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                                    formattedValue = `${hours}:${minutes}`;
+                                                } else if (parsedHours >= 24) {
+                                                    formattedValue = '23:';
+                                                } else if (parsedMinutes >= 60) {
+                                                    formattedValue = `${hours}:59`;
+                                                }
+                                            }
+                                            setState({ ...state, timeAppointmentEnd: formattedValue });
+                                        }
+                                    }}
                                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                                     onInput={(e) => e.target.setCustomValidity("")}
                                     placeholder="00:00"
@@ -1844,11 +2017,12 @@ const TimetableSpecialComponent = (props) => {
                                 />
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">จำนวนคิว</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">จำนวนคิว<span className="colorRed">*</span></label><br></br>
                                 <input type="number" pattern="[0-9]+" className="form-control timeable" value={numberAppointment} min={minnumber} onChange={inputValue("numberAppointment")} placeholder="5" />
                                 <span> คิว</span>
 
                             </div>
+                            <p className="colorRed" >หมายเหตุ: ตั้งค่าช่วงเวลาอยู่ในช่วง 00:00 - 23:59 </p>
                             <div className="admin-timetable-btn">
                                 <button onClick={() => closeEditTimeTable()} className="btn-secondary btn-systrm" >กลับ</button>
                                 <input type="submit" value="แก้ไขช่วงเวลา" className="btn-primary btn-systrm" target="_parent" />

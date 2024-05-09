@@ -184,7 +184,7 @@ const FeedbackServiceNeedle = (props) => {
             <div className="admin-body">
             <h2>{selectedDate ? formatDate(selectedDate) : formatMonthInThai(month, year)}</h2>
                 <div className="admin-feedback">
-                {feedbackItems.map((feedback, index) => (
+                {feedbackItems.length > 0 ? (feedbackItems.map((feedback, index) => (
                     <div className="admin-feedback-item"  key={index}>
                         <div className="admin-feedback-item-header">
                             <div className="admin-feedback-item-header-box">
@@ -202,7 +202,12 @@ const FeedbackServiceNeedle = (props) => {
                         <p className="admin-textBody-large">รายละเอียดเพิ่มเติม</p>
                         <p className="admin-textBody-big" style={{wordWrap: "break-word", width:"100%",display: "inline-block"}}>{feedback.detail}</p>
                     </div>
-                   ))}
+                   ))
+                ) : (
+                    <div className="center admin-feedback-item" style={{width:"100%"}}>
+                      <p style={{fontSize:40,margin:"100px 0px"}} className="colorPrimary-800">ไม่มีข้อเสนอแนะ</p>
+                    </div>
+                  )}
 
                 </div>
                 

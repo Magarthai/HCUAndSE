@@ -31,6 +31,8 @@ const HomeComponent = (props) => {
         console.log(userId,"userIduserIduserIduserId");
     }, [userId]);
 
+  
+
     return (
         
         <div className="user" style={{userSelect:"none"}}>
@@ -43,7 +45,7 @@ const HomeComponent = (props) => {
             </header>
             <div className="user-body">
                 <div className="user-home">
-                    <a href="#" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
+                    <a href="/location" role="button"  target="_parent" style={{width:"100%"}}><img src={home} className="user-home-hcu"/></a>
                     <h3 className="colorPrimary-800">Welcome to HCU</h3>
                     <a href="/profile" target="_parent">
                     <div className="user-home-proflie" >
@@ -62,7 +64,6 @@ const HomeComponent = (props) => {
                     </div>
                     </a>                 
                     <div className="user-home-list">
-                    {/* <a href="#" role="button"  target="_parent" className="user-home-list-box1"><img src={function0}/><p>หน้าแรก</p></a> */}
                     <a href="/appointment" role="button"  target="_parent" className="user-home-list-box1"><img src={function1}/><p>นัดหมาย</p></a>
                     <a href="/activity" role="button"  target="_parent" className="user-home-list-box2"><img src={function2}/><p>กิจกรรม</p></a>
                     <a href="/queue" role="button"  target="_parent" className="user-home-list-box2"><img src={function3}/><p>สถานะคิว</p></a>
@@ -71,14 +72,7 @@ const HomeComponent = (props) => {
                     <a href="/information" role="button"  target="_parent" className="user-home-list-box2"><img src={function6}/><p>ข้อมูลทั่วไป</p></a>
                     <a href="/feedback" role="button"  target="_parent" className="user-home-list-box2"><img src={function7}/><p>ประเมินความพึงพอใจ</p></a>
                     <a href="/manual" role="button"  target="_parent" className="user-home-list-box2"><img src={function8}/><p>คู่มือการใช้งาน</p></a>
-                    {/* <a href="/appointment" role="button"  target="_parent"><img src={function1}/><p>นัดหมาย</p></a>
-                    <a href="#" role="button"  target="_parent"><img src={function2} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function3} /></a>
-                    <a href="/timetable" role="button"  target="_parent"><img src={function4} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function5} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function6}/></a>
-                    <a href="#" role="button"  target="_parent" ><img src={function7} /></a>
-                    <a href="#" role="button"  target="_parent"><img src={function8} /></a> */}
+           
                     </div>
                 </div>
             </div> 

@@ -248,7 +248,7 @@ const updateAppointmentsStatus = async () => {
         const userQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', appointment.appointmentId)));
         const userDocuments = userQuerySnapshot.docs;
         const userData = userDocuments.length > 0 ? userDocuments[0].data() : null;
-        const currentFormattedTime2 = moment(timeslotStart).subtract(15, 'minutes');
+        const currentFormattedTime2 = moment(timeslotStart).subtract(60, 'minutes');
 
 
         const link = (e) => {
@@ -746,7 +746,7 @@ const updateAppointmentsStatus = async () => {
         const option = {
             from: 'kmutthealthcareunit@gmail.com',
             to: `${userData.email}`,
-            subject: `[อัพเดตสถานะการนัดหมาย]`,
+            subject: `[ใกล้ถึงเวลานัดหมายคุณแล้ว]`,
             html: `
         
             <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
@@ -814,7 +814,7 @@ const updateAppointmentsStatus = async () => {
                                           "contents": [
                                           {
                                               "type": "text",
-                                              "text": "‼️ อัพเดตสถานะการนัดหมาย ‼️"
+                                              "text": "‼️ ใกล้ถึงเวลานัดหมายคุณแล้ว ‼️"
                                           }
                                           ]
                                       },

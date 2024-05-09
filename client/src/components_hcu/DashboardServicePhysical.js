@@ -144,13 +144,13 @@ const DashboardServicePhysical = (props) => {
       }
       const respone2 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByClinic`,info);
       if (respone2.data){
-        setData2(respone2.data,"คลินิกกายภาพ")
+        setData2(respone2.data)
         console.log(respone2.data)
       }
       const respone5 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthTodayCountSuccessByClinic`,info);
       if (respone5.data){
-        setData5(respone5.data,"คลินิกกายภาพ")
-        console.log(respone5.data)
+        setData5(respone5.data)
+        console.log(respone5.data,"คลินิกกายภาพ22222")
       }
       const respone3 = await axios.post(`${REACT_APP_API}/api/appointmentCurrentMonthRangeCountSuccessByPhysicOrNeedle`,info);
       if (respone3.data){
@@ -207,8 +207,8 @@ const DashboardServicePhysical = (props) => {
     ]
 
     
-      const COLORS = ['#BABABA', '#456A91'];
-      const COLORSDAY = ['#BABABA', '#54B2B0'];
+      const COLORS = [ '#456A91','#BABABA'];
+      const COLORSDAY = [ '#54B2B0', '#BABABA'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;

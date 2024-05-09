@@ -208,7 +208,7 @@ const DashboardServiceNeedle = (props) => {
 
     
 
-        const COLORS = ['#7C9DC1','#BABABA'];
+      const COLORS = ['#7C9DC1','#BABABA'];
       const COLORSDAY = ['#54B2B0','#BABABA'];
       const RADIAN = Math.PI / 180;
       const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {

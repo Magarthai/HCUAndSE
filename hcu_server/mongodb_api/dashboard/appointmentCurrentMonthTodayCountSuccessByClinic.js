@@ -81,21 +81,21 @@ function groupBy(arr, key) {
         ]
         const infoPhysic = [
             {
-                name: 'สําเร็จ',
+                name: 'ปรึกษาแพทย์',
                 value: 0,
             }, 
             {
-                name: 'ไม่สำเร็จ',
+                name: 'ทํากายภาพ',
                 value: 0,
             }, 
         ]
         const infoNeedle = [
             {
-                name: 'สําเร็จ',
+                name: 'ปรึกษาแพทย์',
                 value: 0,
             }, 
             {
-                name: 'ไม่สำเร็จ',
+                name: 'ทำฝังเข็ม',
                 value: 0,
             }, 
         ]
@@ -120,13 +120,13 @@ function groupBy(arr, key) {
                             infoSpecial[1].value++;
                         }
                     } else if (item.clinic === "คลินิกกายภาพ") {
-                        if(item.status == "เสร็จสิ้น"){
+                        if(item.type == "talk"){
                             infoPhysic[0].value++;
                         } else {
                             infoPhysic[1].value++;
                         }
                     } else if (item.clinic === "คลินิกฝังเข็ม") {
-                        if(item.status == "เสร็จสิ้น"){
+                        if(item.type == "talk"){
                             infoNeedle[0].value++;
                         } else {
                             infoNeedle[0].value++;

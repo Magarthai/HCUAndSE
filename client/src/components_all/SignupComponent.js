@@ -423,7 +423,7 @@ const SignupComponent = (props) => {
         <br />
         <input
           type="submit"
-          value="SIGNUP"
+          value="SIGN UP"
           className="btn-primary "
           target="_parent"
           disabled={isSubmitEnabled}

@@ -13,11 +13,11 @@ const db = getFirestore(firebaseApp);
 
 router.post('/createHoliday', asyncHandler(async (req, res) => {
     try {   
-        const LINE_ACCESS_TOKEN = "WOHHQHgzpE0GbbSYHMu8yKvnmbH3b7RPBdMvCfHCojMG7A8Dm1Xn3KsPZ/w/r4Y+mm/TH11+2lBmRmASmWC59LLxt99DJKMXhFo6ydfVyrIuLNlkH1fqRIn/cTnO0635vkcqux610lMpBLDDK+ge9AdB04t89/1O/w1cDnyilFU="; 
+        const LINE_ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN; 
         const LINE_BOT_API = "https://api.line.me/v2/bot/message"; 
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer WOHHQHgzpE0GbbSYHMu8yKvnmbH3b7RPBdMvCfHCojMG7A8Dm1Xn3KsPZ/w/r4Y+mm/TH11+2lBmRmASmWC59LLxt99DJKMXhFo6ydfVyrIuLNlkH1fqRIn/cTnO0635vkcqux610lMpBLDDK+ge9AdB04t89/1O/w1cDnyilFU=` 
+            'Authorization': `Bearer ${LINE_ACCESS_TOKEN}` 
         }
         const appointmentCollection = collection(db,"appointment");
         const snapShotAppointment = await getDocs(query(appointmentCollection, where("appointmentDate","==", `${req.body.date}`)))
@@ -50,6 +50,71 @@ router.post('/createHoliday', asyncHandler(async (req, res) => {
                 });
                 console.log(exitUserDataSnapShot[0].userLineID,"lineID")
                 if(exitUserDataSnapShot[0].userLineID != ""){
+
+                    const nodemailer = require('nodemailer');
+                    const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'kmutthealthcareunit@gmail.com',
+                            pass: 'vqos ixxk pscf bqwm'
+                        }
+                    })
+                    const option = {
+                        from: 'kmutthealthcareunit@gmail.com',
+                        to: `${exitUserDataSnapShot[0].email}`,
+                        subject: `[นัดหมายคุณถูกยกเลิก]`,
+                        html: `
+                    
+                        <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
+                        <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${exitUserDataSnapShot[0].firstName}  ${exitUserDataSnapShot[0].lastName}</h3>
+                        <p style="margin-left: 20px; margin-bottom: 40px;">🗓️ รายละเอียดการนัดที่ถูกยกเลิก</b></p>
+                        <p style="margin-left: 20px; margin-bottom: 40px;">นัดหมาย <b>${appointment.clinic}</b> ในวันที่ <b> ${appointment.appointmentDate}</b> ถูกยกเลิกเนื่องจากเหตุผล : <b> ${req.body.note}</b> กรุณาทํารายการใหม่อีกครั้งด้วย ครับ/ค่ะ</p>
+                        <p style="margin-left: 20px"> <b>🙏🏻 ขออภัยในความไม่สะดวก กรุณาลงทะเบียนนัดหมายใหม่อีกครั้ง!</p>
+                        <p style="margin-left: 20px">หากท่านต้องการนัดหมายใหม่, กรุณานัดหมายผ่านทางเว็บไซต์ https://hcukmutt.vercel.app/ หรือติดต่อเราผ่านเบอร์โทร 02 470 8446 อย่างน้อย 24 ชั่วโมงก่อนเวลานัดหมาย</p>
+                        <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
+                        
+                        <div style="margin: 0px 20px; margin-bottom: 60px;">
+                            <p>เวลาทำการ: ช่วงเปิดภาคการศึกษา</p>
+                            <ul>
+                                <li>วันจันทร์ - วันศุกร์: 08.30 - 18.00 น.</li>
+                                <li>วันเสาร์: 08.30 - 16.30 น.</li>
+                                <li>ยกเว้นวันอาทิตย์และวันหยุดนักขัตฤกษ์</li>
+                            </ul>
+                            <p>เวลาทำการ: ช่วงปิดภาคการศึกษา</p>
+                            <ul>
+                                <li>วันจันทร์ - วันศุกร์: 08.30 - 16.30 น.</li>
+                                <li>ยกเว้นวันเสาร์, วันอาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                            </ul>
+                        </div>
+                    
+                        <div style="margin-right: 20px;">
+                            <p style="margin-left: 20px">ด้วยความเคารพ,</p>
+                            <p style="margin-left: 20px">Health Care Unit KMUTT</p>
+                            <p style="margin-left: 20px">กลุ่มงานบริการสุขภาพและอนามัย</p>
+                            <p style="margin-left: 20px">02 470 8446</p>
+                            <p style="margin-left: 20px">hcu@kmutt.ac.th</p>
+                        </div>
+                    `
+                    }
+
+                    transporter.sendMail(option, (err, info) => {
+                        if (err) {
+                            console.log('err', err)
+                            return res.status(200).json({
+                                RespCode: 400,
+                                RespMessage: 'bad',
+                                RespError: err
+                            })
+                        }
+                        else {
+                            console.log('Send: ' + info.response)
+                            return res.status(200).json({
+                                RespCode: 200,
+                                RespMessage: 'good',
+                            })
+                        }
+                    })
+
                     const body = {
                         "to": exitUserDataSnapShot[0].userLineID,
                         "messages":[

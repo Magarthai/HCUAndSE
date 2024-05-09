@@ -1399,6 +1399,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                             }} className="colorPrimary-50">เพิ่มนัดหมายต่อเนื่อง +</a>
                              <a href="/adminCanceledListPeopleAppointment" target="_parent">รายชื่อที่ถูกยกเลิก</a>
                              <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                             <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                         </div>
                     </div>
                     <div className="admin-appointment-flex">
@@ -1512,7 +1513,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             : "Select a date"}</p>
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา</label>
+                                        <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา<span className="colorRed">*</span></label>
                                         <select
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}
@@ -1560,7 +1561,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน</label><br></br>
+                                        <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน<span className="colorRed">*</span></label><br></br>
                                         <input type="text" className="form-control appointment-input" value={appointmentId} onChange={(e) => { setState({ ...state, appointmentId: e.target.value, }); }} placeholder="64000000000 หรือ 00000" />
                                     </div>
                                     <div>
@@ -1624,7 +1625,7 @@ const AppointmentManagerPhysicComponent = (props) => {
 
                                     </div>
                                     <div>
-                                    <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา </label>
+                                    <label className="admin-textBody-large colorPrimary-800 " id="timeslotxd"> ช่วงเวลา </label><span className="colorRed">*</span>
                                         <select
                                             name="time"
                                             value={JSON.stringify(appointmentTime)}
@@ -1720,11 +1721,11 @@ const AppointmentManagerPhysicComponent = (props) => {
                         <div className="admin-appointmemt-popup">
                             <h1 className="center colorPrimary-800">เพิ่มนัดหมายต่อเนื่อง</h1>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">รหัสนักศึกษา/รหัสพนักงาน<span className="colorRed">*</span></label><br></br>
                                 <input type="text" className="form-control appointment-input" value={appointmentId} onChange={(e) => { setState({ ...state, appointmentId: e.target.value, }); }} placeholder="64000000000 หรือ 00000" />
                             </div>
                             <div className="center-container">
-                                <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+                                <label className="admin-textBody-large colorPrimary-800">วันที่<span className="colorRed">*</span></label>
                                 <br></br>
                                 <input
                                     type="date"
@@ -1746,11 +1747,11 @@ const AppointmentManagerPhysicComponent = (props) => {
                             <div>
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">จำนวนครั้งนัดหมาย</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">จำนวนครั้งนัดหมาย<span className="colorRed">*</span><span className="colorNeutralBlack-400">(ไม่นับจำนวนครั้งที่ให้คำปรึกษา)</span></label><br></br>
                                 <input type="text" className="form-control appointment-input" onChange={(e) => { inputValue("time")(e); }} placeholder="5" />
                             </div>
                             <div>
-                                <label className="admin-textBody-large colorPrimary-800">ระยะห่างวันนัดหมาย (จํานวนวัน)</label><br></br>
+                                <label className="admin-textBody-large colorPrimary-800">ระยะห่างวันนัดหมาย (จํานวนวัน)<span className="colorRed">*</span></label><br></br>
                                 <input type="text" className="form-control appointment-input" onChange={(e) => { inputValue("timelength")(e); }} placeholder="7" />
                             </div>
                             <div>

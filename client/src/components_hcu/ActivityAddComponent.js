@@ -10,6 +10,7 @@ import { addDoc, doc } from "firebase/firestore";
 import { setDoc } from 'firebase/firestore';
 import { useNavigate } from "react-router-dom";
 import { ref, uploadBytes, getStorage, getDownloadURL } from 'firebase/storage';
+import item4 from "../picture/close.png";
 const ActivityAddComponent = (props) => {
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
@@ -429,8 +430,14 @@ const ActivityAddComponent = (props) => {
     };
     const renderTimeSlots = () => {
         return timeSlots.map((timeSlot, index) => (
-            <div key={index}>
-                <label className="admin-textBody-large colorPrimary-800">วันที่</label>
+            <div key={index} className="cardAddActivity">
+                <div style={{display:"flex"}}>
+                    <label className="admin-textBody-large colorPrimary-800">วันที่<span className="colorRed">*</span>
+                    </label>
+                    <div className="admin-right" style={{ flex: 1, justifyContent: 'flex-end'}}>
+                        <img className="PopupCloseBtn" src={item4} alt="icon-close" onClick={(event) => removeData(event, index)} style={{cursor:"pointer"}}/>
+                    </div>
+                </div>
                 <input
                     type="date"
                     className="form-control"
@@ -438,13 +445,36 @@ const ActivityAddComponent = (props) => {
                     min={new Date().toISOString().split("T")[0]}
                     value={timeSlot.date}
                     onChange={handleInputChange(index, "date")}
+                    style={{width:"325px"}}
                 />
-                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา</label><br />
+                <label className="admin-textBody-large colorPrimary-800">ช่วงเวลา<span className="colorRed">*</span></label><br />
                 <input
                     type="text"
                     className="form-control timeable"
                     value={timeSlot.startTime}
-                    onChange={handleInputChange(index, "startTime")}
+                    // onChange={handleInputChange(index, "startTime")}
+                    onChange={(e) => {
+                        const input = e.target.value.replace(/\D/g, ""); 
+                        if (input.length <= 4) { 
+                            let formattedValue = input;
+                            if (input.length > 1) {
+                                const hours = input.slice(0, 2);
+                                const minutes = input.slice(2);
+                                const parsedHours = parseInt(hours, 10);
+                                const parsedMinutes = parseInt(minutes, 10);
+                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                    formattedValue = `${hours}:${minutes}`;
+                                } else if (parsedHours >= 24) {
+                                    formattedValue = '23:';
+                                } else if (parsedMinutes >= 60) {
+                                    formattedValue = `${hours}:59`;
+                                }
+                            }
+                            const updatedTimeSlots = timeSlots.map((slot, idx) => idx === index ? { ...slot, startTime: formattedValue } : slot);
+                            setTimeSlots(updatedTimeSlots);
+                            handleInputChange(index, "startTime")
+                        }
+                    }}
                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                     onInput={(e) => e.target.setCustomValidity("")}
                     placeholder="00:00"
@@ -455,14 +485,36 @@ const ActivityAddComponent = (props) => {
                     type="text"
                     className="form-control timeable"
                     value={timeSlot.endTime}
-                    onChange={handleInputChange(index, "endTime")}
+                    // onChange={handleInputChange(index, "endTime")}
+                    onChange={(e) => {
+                        const input = e.target.value.replace(/\D/g, ""); 
+                        if (input.length <= 4) { 
+                            let formattedValue = input;
+                            if (input.length > 1) {
+                                const hours = input.slice(0, 2);
+                                const minutes = input.slice(2);
+                                const parsedHours = parseInt(hours, 10);
+                                const parsedMinutes = parseInt(minutes, 10);
+                                if (parsedHours < 24 && parsedMinutes < 60) {
+                                    formattedValue = `${hours}:${minutes}`;
+                                } else if (parsedHours >= 24) {
+                                    formattedValue = '23:';
+                                } else if (parsedMinutes >= 60) {
+                                    formattedValue = `${hours}:59`;
+                                }
+                            }
+                            const updatedTimeSlots = timeSlots.map((slot, idx) => idx === index ? { ...slot, endTime: formattedValue } : slot);
+                            setTimeSlots(updatedTimeSlots);
+                            handleInputChange(index, "endTime")
+                        }
+                    }}
                     onInvalid={(e) => e.target.setCustomValidity(`กรุณากรอกเวลาในรูปแบบนี้ "00:00"`)}
                     onInput={(e) => e.target.setCustomValidity("")}
                     placeholder="00:00"
                     pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}"
                 />
                 <br></br>
-                <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน</label><br></br>
+                <label className="admin-textBody-large colorPrimary-800">จำนวนผู้ลงทะเบียน<span className="colorRed">*</span></label><br></br>
                 <input
                     type="number"
                     className="form-control timeable"
@@ -472,9 +524,6 @@ const ActivityAddComponent = (props) => {
                     onKeyDown={handleKeyDown}
                 />
                 <span className="admin-textBody-large"> คน</span>
-                <div className="admin-right">
-                    <button onClick={(event) => removeData(event, index)} className="admin-activity-remove-btn">ลบช่วงเวลา</button>
-                </div>
 
             </div>
         ));
@@ -538,13 +587,13 @@ const ActivityAddComponent = (props) => {
                                 </div>
                                 <div className="admin-activity-today-hearder-box admin-activity-form">
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800">ชื่อกิจกรรม</label>
+                                        <label className="admin-textBody-large colorPrimary-800">ชื่อกิจกรรม<span className="colorRed">*</span></label>
                                         <input type="text" className="form-control" value={activityName} onChange={inputValue("activityName")} placeholder="Activity" maxLength={70} />
                                         {activityName.length > 70 ? <div style={{ display: "flex", color: "red", justifyContent: "flex-end" }}>{activityName.length}/70</div> : <div style={{ display: "flex", color: "grey", justifyContent: "flex-end" }}>{activityName.length}/70</div>}
                                     </div>
 
                                     <div>
-                                        <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด</label>
+                                        <label className="admin-textBody-large colorPrimary-800 acivity-detail">รายละเอียด<span className="colorRed">*</span></label>
                                         <textarea
                                             value={activityDetail}
                                             onChange={inputValue("activityDetail")}
@@ -554,7 +603,7 @@ const ActivityAddComponent = (props) => {
                                     </div>
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <label className="admin-textBody-large colorPrimary-800">รูปแบบกิจกรรม</label>
                                     <input
                                         type="radio"
@@ -578,13 +627,48 @@ const ActivityAddComponent = (props) => {
                                         onChange={handleRadioChange}
                                     />
                                     <label class="admin-activity-queue" for="option2">ไม่มีระบบคิว</label>
-                                </div>
+                                </div> */}
                                 <div className="admin-activity-form-register">
                                     <div className="admin-activity-form-register-box">
-                                        <h2 className="colorPrimary-800">ช่วงเวลาลงทะเบียน</h2>
+                                    <div>
+                                        <h2 className="colorPrimary-800" style={{marginBottom:"15px"}}>รูปแบบกิจกรรม<span className="colorRed">*</span></h2>
+                                        {/* <input
+                                            type="radio"
+                                            className="btn-check"
+                                            name="options"
+                                            id="option1"
+                                            autoComplete="off"
+                                            value="yes"
+                                            checked={activityType === 'yes'}
+                                            onChange={handleRadioChange}
+                                        />
+                                        <label class="admin-activity-queue focus" for="option1">มีระบบคิว</label>
+                                        <input
+                                            type="radio"
+                                            className="btn-check"
+                                            name="options"
+                                            id="option2"
+                                            autoComplete="off"
+                                            value="no"
+                                            checked={activityType === 'no'}
+                                            onChange={handleRadioChange}
+                                        />
+                                        <label class="admin-activity-queue" for="option2">ไม่มีระบบคิว</label> */}
+                                        <select
+                                            className="form-select"
+                                            style={{border:"1px solid #0a0f157a", width:"450px"}}
+                                            value={activityType}
+                                            onChange={handleRadioChange} // ใช้งานฟังก์ชันเดียวกันกับ radio buttons
+                                        >
+                                            <option value="yes">มีระบบคิว</option>
+                                            <option value="no">ไม่มีระบบคิว</option>
+                                        </select>
+                                        </div>
                                         <br></br>
+
+
+                                        <h2 className="colorPrimary-800">ช่วงวันเปิดกิจกรรมให้ลงทะเบียน<span className="colorRed">*</span></h2>
                                         <div>
-                                            <label className="admin-textBody-large colorPrimary-800">ช่วงวันที่</label><br />
                                             <input
                                                 type="date"
                                                 className="form-control admin-activity-input"
@@ -607,11 +691,11 @@ const ActivityAddComponent = (props) => {
                                                 }}
                                             />
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <label className="admin-textBody-large colorPrimary-800">จำนวนเปิดรับผู้ลงทะเบียนทั้งหมด</label><br></br>
                                             <input type="text" className="form-control timeable" placeholder="40" disabled value={totalRegisteredCount} />
                                             <span className="admin-textBody-large"> คน</span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="admin-activity-form-register-box border-L">
                                         <div className="admin-activity-container">

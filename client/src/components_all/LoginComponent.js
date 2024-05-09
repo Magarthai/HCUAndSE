@@ -125,7 +125,7 @@ const LoginComponent = () => {
                       
                         <input
                             type="submit"
-                            value="Login"
+                            value="Log in"
                             className="btn-primary "
                             target="_parent"
                             disabled={isSubmitEnabled}

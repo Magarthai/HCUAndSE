@@ -9,7 +9,8 @@ import people from "../picture/people.png";
 import axios from "axios";
 
 const DashboardFeedbackAll = (props) => {
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    // const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 7));
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -406,7 +407,7 @@ const DashboardFeedbackAll = (props) => {
                             <a href="/adminDashboardFeedbackNeedle" target="_parent" >หลังใช้บริการคลินิกฝังเข็ม</a>
                         </div>
                         <div className="admin-hearder-item3 admin-right" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <input type="date" className="form-control" style={{ width: 250 }} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().split("T")[0]}/>
+                            <input type="month" className="form-control" style={{ width: 250 }} value={selectedDate} onChange={handleDateChange} max={new Date().toISOString().slice(0, 7)}/>
                         </div>
                     </div>
 

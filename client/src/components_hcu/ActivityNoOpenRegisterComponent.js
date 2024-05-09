@@ -60,12 +60,12 @@ const ActivityNoOpenRegisterComponent = (props) => {
             const openActivity = await fetchCloseActivity(user, checkCurrentDate);
 
                 openActivity.forEach(item => {
-                    item.endQueueDate = new Date(item.endQueueDate);
-                    item.endQueueDate.setHours(0, 0, 0, 0);
+                    item.endQueueDates = new Date(item.endQueueDate);
+                    item.endQueueDates.setHours(0, 0, 0, 0);
                 });
                 
                 console.log(openActivity,"openActivity")
-                const filterActivity = openActivity.filter(item => item.endQueueDate >= currentday);
+                const filterActivity = openActivity.filter(item => item.endQueueDates >= currentday);
                 setActivities(filterActivity);
                 console.log("endQueueDate",filterActivity)
                 setIsCheckedActivity(true);

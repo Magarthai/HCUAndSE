@@ -59,6 +59,7 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
             if(isNewDateAfterCurrentDate) {
             await runTransaction(db, async (transaction) => {
             if (appointmentDocSnapshot.exists()){
+                if(appointmentData.appointmentId) {
                 const usersCollection = collection(db, 'users');
                     const usersQuerySnapshot = await getDocs(query(usersCollection, where('id', '==', `${appointmentData.appointmentId}`)));
                     const existingUsers = usersQuerySnapshot.docs.map(async(docs) => {
@@ -180,7 +181,7 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                             }
                         ]
                     }
-                    if(appointmentData.clinic == "คลินิกกายภาพ" || appointmentData.clinic == "คลินิกฝั่งเข็ม"){
+                    if(appointmentData.clinic == "คลินิกกายภาพ" && appointmentData.type == "main"|| appointmentData.clinic == "คลินิกฝังเข็ม" && appointmentData.type == "main"){
                         const nodemailer = require('nodemailer');
                         const transporter = nodemailer.createTransport({
                             service: 'gmail',
@@ -326,7 +327,10 @@ router.post('/adminDeletTimetable', limitRequests, async (req, res) => {
                     });
                     
                     
-            }})};
+            } else {
+                return;
+            }
+        }})};
           }
         }
          

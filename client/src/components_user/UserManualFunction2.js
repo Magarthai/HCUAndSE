@@ -26,32 +26,6 @@ const UserManualFunction2 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนการขอ/แก้ไข/ยกเลิกนัดหมาย</h3>
-                        {/* <object 
-                            type="application/pdf"
-                            data={user_manual}
-                            width={"100%"}
-                            height={500}
-                          
-                        ></object> */}
-                         {/* <Document
-                            file={user_manual}
-                            onLoadSuccess={onDocumentLoadSuccess}
-                            width={"100%"}
-                            className="pdf-document"
-                          
-                        >
-                            {Array.from(new Array(numPages), (el, index) => (
-                                <Page
-                                    key={`page_${index + 1}`}
-                                    pageNumber={index + 1}
-                                    width={400}
-                                    height={100}
-                                    
-                                    
-                                />
-                            ))}
-                        </Document> */}
-                       
                         <iframe src="https://drive.google.com/file/d/1jU0_2-t1yPmLmCcYJdHOchnuP6bRfDtZ/preview" width="100%" height="500px" />
                     
 

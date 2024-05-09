@@ -27,31 +27,6 @@ const UserManualFunction6 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนดูตำแหน่งที่ตั้ง</h3>
-                    {/* <object 
-                            type="application/pdf"
-                            data={user_manual}
-                            width={"100%"}
-                            height={500}
-                          
-                        ></object> */}
-                         {/* <Document
-                            file={user_manual}
-                            onLoadSuccess={onDocumentLoadSuccess}
-                            width={"100%"}
-                            className="pdf-document"
-                          
-                        >
-                            {Array.from(new Array(numPages), (el, index) => (
-                                <Page
-                                    key={`page_${index + 1}`}
-                                    pageNumber={index + 1}
-                                    width={400}
-                                    height={100}
-                                    
-                                    
-                                />
-                            ))}
-                        </Document> */}
                     <iframe src="https://drive.google.com/file/d/17BCGBFZU38seYaV03hJLGmqPJMxjGM_o/preview" width="100%" height="500px" />
                     
 

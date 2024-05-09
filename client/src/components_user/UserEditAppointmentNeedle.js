@@ -280,6 +280,20 @@ const UserEditAppointmentNeedle = (props) => {
         try {
             const timetableRef = doc(db, 'appointment', uid);
             const appointmentsCollection = collection(db, 'appointment');
+
+            const defaultupdatedTimetable = {
+                appointmentId: appointmentId,
+                appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                appointmentDate2: appointmentDate,
+                appointmentTime: appointmentTime2,
+                clinic:"คลินิกฝังเข็ม",
+                appointmentTime2: appointmentTime,
+                appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
+                status: "ลงทะเบียนแล้ว",
+                status2: "เสร็จสิ้น",
+                subject: "ขอเลื่อนนัดหมาย",
+            };
+
             const updatedTimetable = {
                 appointmentId: appointmentId,
                 appointmentDate: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
@@ -359,6 +373,7 @@ const UserEditAppointmentNeedle = (props) => {
                     cancelButton: 'custom-cancel-button',
                 }
             }).then(async (result) => {
+                if(type === "main") {
                 await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
                 await updateDoc(timetableRef, updatedTimetable);
@@ -483,7 +498,112 @@ const UserEditAppointmentNeedle = (props) => {
                         }
                     });
                 }
-            })});
+            })}
+            else {
+                await runTransaction(db, async (transaction) => {
+                    if (result.isConfirmed) {
+                    await updateDoc(timetableRef, defaultupdatedTimetable);
+                    const existingAppointmentsQuerySnapshot2 = await getDocs(query(
+                        appointmentsCollection,
+                        where('appointmentDate', '==', defaultupdatedTimetable.appointmentDate),
+                        where('appointmentTime.timetableId', '==', defaultupdatedTimetable.appointmentTime.timetableId),
+                        where('appointmentTime.timeSlotIndex', '==', defaultupdatedTimetable.appointmentTime.timeSlotIndex)
+                    ));
+    
+                    const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    
+                    if (b.length > 1) { 
+                        console.log('มีเอกสาร');
+                        console.log('XD');
+                        await updateDoc(timetableRef, updatedTimetableRollBack);
+                        Swal.fire({
+                            icon: "error",
+                            title: "เกิดข้อผิดพลาด",
+                            text: "มีคนเลือกเวลานี้แล้วโปรดเลือกเวลาใหม่!",
+                            confirmButtonText: "ตกลง",
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            }
+                        });
+                        return;
+                    }else {
+                        const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
+                                const timeTableDocNew = doc(db, 'timeTable', defaultupdatedTimetable.appointmentTime.timetableId);
+                                    getDoc(timeTableDocRef)
+                                    .then(async(docSnapshot) => {
+                                        if (docSnapshot.exists()) {
+                                        const timeTableData = docSnapshot.data();
+                                        const appointmentList = timeTableData.appointmentList || [];
+    
+                                        const updatedAppointmentList = appointmentList.filter(appointment => appointment.appointmentId !== uid);
+    
+                                        await updateDoc(timeTableDocRef, { appointmentList: updatedAppointmentList });
+                                        const timeTableAppointment = {appointmentId: uid, appointmentDate: defaultupdatedTimetable.appointmentDate}
+                                        await updateDoc(timeTableDocNew, {
+                                            appointmentList: arrayUnion(timeTableAppointment),
+                                        });
+                                        } else {
+                                        console.log('ไม่พบเอกสาร timeTable');
+                                        }
+                                    })
+                                    .then(() => {
+                                        console.log('การอัปเดตข้อมูลสำเร็จ');
+                                    })
+                                    .catch((error) => {
+                                        console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+                                    });
+                                    const info = {
+                                        role: userData.role,
+                                        date: defaultupdatedTimetable.appointmentDate,
+                                        time: timeLabel,
+                                        clinic: defaultupdatedTimetable.clinic,
+                                        id: defaultupdatedTimetable.appointmentId,
+                                        oldDate: defaultupdatedTimetable.appointmentDate,
+                                    };
+    
+                                    try {
+                                        const respone = await axios.post(`${REACT_APP_API}/api/NotificationEditAppointment`, info);
+                                    } catch (error) {
+                                        console.log(error);
+                                    }
+            
+                                    
+    
+                    }
+                    Swal.fire({
+                        title: "ส่งคำขอแก้ไขนัดหมายสำเร็จz",
+                        icon: "success",
+                        confirmButtonText: "ตกลง",
+                        confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            }
+                    });  
+                    
+                    navigate('/appointment');
+                    
+                }
+                    else {
+                        Swal.fire({
+                            title: "แก้ไขไม่สําเร็จ",
+                            icon: "error",
+                            confirmButtonText: "ตกลง",
+                            confirmButtonColor: '#263A50',
+                            customClass: {
+                                cancelButton: 'custom-cancel-button',
+                            }
+                        });
+                    }
+                });
+            }
+            }
+
+        
+        );
             
         } catch (firebaseError) {
             console.error('Firebase update error:', firebaseError);
