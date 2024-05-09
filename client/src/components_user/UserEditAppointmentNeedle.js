@@ -57,7 +57,8 @@ const UserEditAppointmentNeedle = (props) => {
                 const querySnapshot = await getDocs(query(
                     timeTableCollection,
                     where('addDay', '==', selectedDate.dayName),
-                    where('clinic', '==', 'คลินิกฝังเข็ม')
+                    where('clinic', '==', 'คลินิกฝังเข็ม'),
+                    where('status', '==', 'Enabled')
                 ));
 
                 const timeTableData = querySnapshot.docs.map((doc) => ({
