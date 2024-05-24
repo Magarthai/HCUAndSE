@@ -35,9 +35,9 @@ router.post('/NotificationEditActivity', async (req, res) => {
 
         const querySnapshot = await getDoc(timetableRef);
         const activitiesData = querySnapshot.data();
-        const FilteredData = activitiesData
-                .flatMap((doc) => {
-                    return doc.timeSlots.map((slot, index) => ({
+        console.log(activitiesData)
+        const FilteredData = activitiesData.timeSlots.map((slot, index) => ({
+                
                     ...slot,
                     id: doc.id,
                     activityName: doc.activityName,
@@ -47,9 +47,8 @@ router.post('/NotificationEditActivity', async (req, res) => {
                     activityStatus: doc.activityStatus,
                     index: index,
                     testid: doc.id + index
-                    }));
-                })
-                .filter((slot) => slot.date === checkCurrentDate);
+                    })
+                )
         console.log(FilteredData);
         FilteredData.forEach(async(item) => {
             const userList = item.userList;
@@ -73,7 +72,7 @@ router.post('/NotificationEditActivity', async (req, res) => {
                     <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${user.firstName}  ${user.lastName}</h3>
                     <p style="margin-left: 20px;">🗓️ รายละเอียดกิจกรรม ${item.activityName}</b></p>
                     <p style="margin-left: 20px;margin-bottom: 40px;">วันที่ : ${item.date} เวลา : ${item.startTime} น. - ${item.endTime} น.</p>
-                    <p style="margin-left: 20px"> <b>ได้มีรายละเอียดแก้ไข้ดังนี้ ${data.edit}</p>
+                    <p style="margin-left: 20px"> <b>ได้มีรายละเอียดแก้ไข้ดังนี้ ${data.detial}</p>
                     <p style="margin-left: 20px"> <b>🙏🏻 ขออภัยในความไม่สะดวก</p>
                     <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
                     

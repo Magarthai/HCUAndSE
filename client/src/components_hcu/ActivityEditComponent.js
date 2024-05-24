@@ -355,11 +355,11 @@ const ActivityEditComponent = (props) => {
                         try {
                             const data = {
                                 id:id,
-                                editDetial:editDetial,
+                                detial:editDetial,
                             }
                             const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
                         } catch(err) {
-                            console.error(err)
+                            console.log(err)
                         }
                         Swal.fire({
                             title: 'แก้ไขกิจกรรมสําเร็จ',
@@ -432,16 +432,16 @@ const ActivityEditComponent = (props) => {
                         try {
                             const data = {
                                 id:id,
-                                editDetial:editDetial,
+                                detial:editDetial,
                             }
                             try{
                                 const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
                                 console.log(respone)
                             } catch(err) {
-                                console.error(err)
+                                console.log(err)
                             }
                         } catch(err) {
-                            console.error(err)
+                            console.log(err)
                         }
                         Swal.fire({
                             title: 'แก้ไขกิจกรรมสําเร็จ',

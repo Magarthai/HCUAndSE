@@ -18,7 +18,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
-    const REACT_APP_API = process.env.REACT_API_API
+    const REACT_APP_API = process.env.REACT_APP_API
     const navigate = useNavigate();
     const [state, setState] = useState({
         activityName: "",
@@ -391,7 +391,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                         try {
                             const data = {
                                 id:id,
-                                editDetial:editDetial,
+                                detial:editDetial,
                             }
                             const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
                         } catch(err) {
@@ -468,7 +468,7 @@ const ActivityEditOpenRegistartComponent = (props) => {
                         try {
                             const data = {
                                 id:id,
-                                editDetial:editDetial,
+                                detial:editDetial,
                             }
                             try{
                                 const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
