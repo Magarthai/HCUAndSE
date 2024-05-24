@@ -992,38 +992,41 @@ const AppointmentManagerComponent = (props) => {
         console.log("timeLabel",timeLabel)
     },[timeLabel]);
 
-    const downloadPDF = async() => {
+    const downloadPDF = async () => {
         let listHtml = ""; // Use 'let' to modify the variable
         AppointmentUsersData
             .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
             .forEach((AppointmentUserData, index) => {
                 listHtml += `<tr class="item">
-                    <td>${index+1}</td>
+                    <td>${index + 1}</td>
                     <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
-                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCause}</td>
                     <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
                     <td>${AppointmentUserData.appointment.appointmentNotation}</td>
                     <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
                 </tr>`;
             });
-
-            const data = {
-                listHtml: listHtml,
-                date:  `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
-                clinic: clinic,
-                count: AppointmentUsersData.length
-            }
-            try{
-            const respone = axios.post(`${REACT_APP_API}/create-pdf`,data).then(() => axios.get(`${REACT_APP_API}/fetch-pdf`, { responseType: 'blob' }))
-            .then((res) => {
-              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-      
-              saveAs(pdfBlob, `รายการผู้ที่นัดหมาย${clinic} วันที่ ${data.date}.pdf`);
-            })
-        } catch(err) {
-            console.log(err)
+    
+        const data = {
+            listHtml: listHtml,
+            date: `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+            clinic: clinic,
+            count: AppointmentUsersData.length
+        };
+    
+        try {
+            const response = await axios.post(`${REACT_APP_API}/create-pdf`, data, {
+                responseType: 'blob' // Set the response type to blob to handle binary data
+            });
+    
+            // Trigger download using Blob and saveAs
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+            saveAs(pdfBlob, `รายการผู้ที่นัดหมาย${clinic} วันที่ ${data.date}.pdf`);
+        } catch (err) {
+            console.log(err);
         }
-    }
+    };
+    
     
 
     const maxDate = new Date();

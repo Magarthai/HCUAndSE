@@ -1370,26 +1370,24 @@ const fs = require('fs');
 
 // Route for creating PDF file 1
 app.post('/create-pdf', (req, res, next) => {
-    // Delete existing PDF file if it exists
-    fs.unlink('result.pdf', (err) => {
-        if (err && err.code !== 'ENOENT') {
-            // If there's an error other than file not found, handle it
-            return res.status(500).json({ error: `Error deleting PDF ${err}` });
+    // Proceed with creating the new PDF
+    pdf.create(pdfTemplate(req.body), {}).toBuffer((err, buffer) => {
+        if(err) {
+            return res.status(500).json({ error: `Error creating PDF ${err}` });
         }
-        
-        // Proceed with creating the new PDF
-        pdf.create(pdfTemplate(req.body), {}).toFile('resultxd.pdf', (err) => {
-            console.log(req.body)
-            if(err) {
-                return res.status(500).json({ error: `Error creating PDF ${err}` });
-            }
-            
-            next();
-        });
+        // Attach the buffer containing the PDF to the request object
+        req.pdfBuffer = buffer;
+        next();
     });
 }, (req, res) => {
-    res.json({ success: true });
+    // Send the PDF buffer as response
+    res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="resultxd.pdf"'
+    });
+    res.send(req.pdfBuffer);
 });
+
 
 // Route for fetching PDF file 1
 app.get('/fetch-pdf', (req, res) => {
