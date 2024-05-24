@@ -8,6 +8,7 @@ import { db, getDocs, collection, doc, getDoc } from "../firebase/config";
 import { addDoc, query, where, updateDoc, arrayUnion, deleteDoc, arrayRemove } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import { saveAs } from 'file-saver';
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from "sweetalert2";
 import { fetchTimeTableDataFromBackend } from '../backend/backendGeneral'
@@ -37,7 +38,7 @@ const AppointmentManagerComponent = (props) => {
         appointmentCasue: "",
         appointmentSymptom: "",
         appointmentNotation: "",
-        clinic: "",
+        clinic: "คลินิกทั่วไป",
         uid: "",
         timeablelist: "",
         appointmentDater: "",
@@ -991,6 +992,39 @@ const AppointmentManagerComponent = (props) => {
         console.log("timeLabel",timeLabel)
     },[timeLabel]);
 
+    const downloadPDF = async() => {
+        let listHtml = ""; // Use 'let' to modify the variable
+        AppointmentUsersData
+            .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
+            .forEach((AppointmentUserData, index) => {
+                listHtml += `<tr class="item">
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+            });
+
+            const data = {
+                listHtml: listHtml,
+                date: selectedDate,
+                clinic: clinic,
+                count: AppointmentUsersData.length
+            }
+            try{
+            const respone = axios.post(`${REACT_APP_API}/create-pdf`,data).then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
+            .then((res) => {
+              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      
+              saveAs(pdfBlob, `รายการผู้ที่นัเหมาย${clinic}-วันที่-${selectedDate}.pdf`);
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    
+
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 3);
     maxDate.setDate(0)
@@ -1038,6 +1072,7 @@ const AppointmentManagerComponent = (props) => {
                                 <div className="appointment-hearder">
                                     <div className="colorPrimary-800 appointment-hearder-item">
                                         <h2>นัดหมายคลินิกทั่วไป</h2>
+                                        <button onClick={() => downloadPDF()}>Download List</button>
                                         <p className="admin-textBody-large">
                                             {selectedDate
                                                 ? `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`

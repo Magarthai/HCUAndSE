@@ -8,9 +8,12 @@ const app = express();
 const morgan = require('morgan');;
 const moment = require('moment-timezone');
 const dbConnect = require('./db.connector');
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents');
 dbConnect();
-
+const bodyParser = require('body-parser');
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
@@ -1357,15 +1360,23 @@ setInterval(() => {
 }, 5000);
 
 
-app.get('/', (req, res) => {
-    res.send('test')
-})
-
 app.get('/date', (req, res) => {
     const thaiTime = moment().tz('Asia/Bangkok');
     res.send(thaiTime)
 })
+app.post('/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
 
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
 fetchAvailableActivities();
