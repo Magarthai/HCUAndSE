@@ -19,9 +19,13 @@ import UserAllAppointment from './components_user/UserAllAppointment.js';
 import ListAppointmentUser from './components_user/ListAppointmentUser.js';
 import AdminAppointmentManagerPhysicalComponent from './components_hcu/AppointmentManagerPhysicalComponent.js';
 import UserDateateAppointment from './components_user/DateAppointment.js';
-import AddAppointmentUserGeneral from './components_user/AddAppointmentUserGeneral.js';
+
+import AdminAppointmentRequestManagementNeedleComponent from './components_hcu/AppointmentRequestManagementNeedleComponent.js';import AddAppointmentUserGeneral from './components_user/AddAppointmentUserGeneral.js';
+import AdminAppointmentRequestManagementPhysicalComponent from './components_hcu/AppointmentRequestManagementPhysicalComponent.js';
 import AdminAppointmentRequestManagementComponent from './components_hcu/AppointmentRequestManagementComponent.js';
 import AdminAppointmentRequestManagementHistoryComponent from './components_hcu/AppointmentRequestManagementHistoryComponent.js';
+import AdminAppointmentRequestManagementHistoryPhysicalComponent from './components_hcu/AppointmentRequestManagementHistoryPhysicalComponent.js';
+import AdminAppointmentRequestManagementHistoryNeedleComponent from './components_hcu/AppointmentRequestManagementHistoryNeedleComponent.js';
 import AdminQueueManagementSystemComponent from './components_hcu/QueueManagementSystemComponent.js';
 import UserHomeComponent from './components_user/HomeCompoment.js';
 import UserEditAppointment from "./components_user/UserEditAppointment.js"
@@ -182,8 +186,28 @@ const router = createBrowserRouter([
     element: <ProtectAdminRoute><AdminAppointmentRequestManagementComponent/></ProtectAdminRoute>
   },
   {
+    path: "/adminAppointmentRequestManagementPhysicalComponent",
+    element: <ProtectAdminRoute><AdminAppointmentRequestManagementPhysicalComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminAppointmentRequestManagementComponent",
+    element: <ProtectAdminRoute><AdminAppointmentRequestManagementComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminAppointmentRequestManagementNeedleComponent",
+    element: <ProtectAdminRoute><AdminAppointmentRequestManagementNeedleComponent/></ProtectAdminRoute>
+  },
+  {
     path: "/adminAppointmentRequestManagementHistoryComponent",
     element: <ProtectAdminRoute><AdminAppointmentRequestManagementHistoryComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminAppointmentRequestManagementHistoryPhysicalComponent",
+    element: <ProtectAdminRoute><AdminAppointmentRequestManagementHistoryPhysicalComponent/></ProtectAdminRoute>
+  },
+  {
+    path: "/adminAppointmentRequestManagementHistoryNeedleComponent",
+    element: <ProtectAdminRoute><AdminAppointmentRequestManagementHistoryNeedleComponent/></ProtectAdminRoute>
   },
   {
     path: "/adminQueueManagementSystemComponent",

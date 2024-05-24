@@ -1023,7 +1023,7 @@ const AppointmentManagerComponent = (props) => {
                             <a href="/adminAppointmentManagerNeedleComponent" target="_parent" >คลินิกฝังเข็ม</a>
                         </div>
                         <div className="admin-hearder-item admin-right">
-                            <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                            <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการเลื่อนนัดหมาย</a>
                             <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                         </div>
                     </div>

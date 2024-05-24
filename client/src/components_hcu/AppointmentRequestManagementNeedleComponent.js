@@ -47,7 +47,7 @@ const AppointmentRequestManagementPhysicalComponent = (props) => {
             if (user) {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection,
-                where('status', '==', 'ยื่นแก้ไข')));
+                where('status', '==', 'ยื่นแก้ไข'),where('clinic', '==', 'คลินิกฝังเข็ม')));
     
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -424,9 +424,9 @@ const AppointmentRequestManagementPhysicalComponent = (props) => {
                 <div className="admin-header">
                     
                     <div className="admin-hearder-item">
-                    <a href="/adminAppointmentRequestManagementComponent" target="_parent" id="select">คลินิกทั้งหมด</a>
-                    <a href="/adminAppointmentRequestManagementPhysicalComponent" target="_parent">คลินิกกายภาพ</a>
-                            <a href="/adminAppointmentRequestManagementNeedleComponent" target="_parent" >คลินิกฝังเข็ม</a>
+                    <a href="/adminAppointmentRequestManagementComponent" target="_parent" >คลินิกทั้งหมด</a>
+                    <a href="/adminAppointmentRequestManagementPhysicalComponent" target="_parent" >คลินิกกายภาพ</a>
+                            <a href="/adminAppointmentRequestManagementNeedleComponent" target="_parent" id="select">คลินิกฝังเข็ม</a>
                         </div>
                     <div className="admin-hearder-item admin-right">
                        

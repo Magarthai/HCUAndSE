@@ -277,6 +277,7 @@ const UserEditAppointmentNeedle = (props) => {
     const [selectedValue, setSelectedValue] = useState("");
     const submitEditForm = async (e) => {
         e.preventDefault();
+        console.log(type)
         try {
             const timetableRef = doc(db, 'appointment', uid);
             const appointmentsCollection = collection(db, 'appointment');
@@ -575,7 +576,7 @@ const UserEditAppointmentNeedle = (props) => {
     
                     }
                     Swal.fire({
-                        title: "ส่งคำขอแก้ไขนัดหมายสำเร็จz",
+                        title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',

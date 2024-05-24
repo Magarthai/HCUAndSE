@@ -646,7 +646,7 @@ const AddAppointment = (props) => {
                             <a href="/adminAppointmentManagerNeedleComponent" target="_parent" >คลินิกฝังเข็ม</a>
                         </div>
                         <div className="admin-hearder-item admin-right">
-                            <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                            <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการเลื่อนนัดหมาย</a>
                         </div>
                     </div> */}
                     <div className="admin-appointment-flex">

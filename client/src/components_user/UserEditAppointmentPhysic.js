@@ -316,7 +316,7 @@ const UserEditAppointmentPhysic = (props) => {
                 clinic:"คลินิกกายภาพ",
                 appointmentTime2: appointmentTime,
                 appointmentSymptom2: appointmentSymptom2 || "เป็นไข้",
-                status: "ยื่นแก้ไข",
+                status: "ลงทะเบียนแล้ว",
                 status2: "กำลังดำเนินการ",
                 subject: "ขอเลื่อนนัดหมาย",
             };
@@ -372,6 +372,7 @@ const UserEditAppointmentPhysic = (props) => {
                 });
                 return;
             }
+            console.log(type)
             Swal.fire({
                 title: "ขอแก้ไขนัดหมาย",
                 html:  `อัพเดตเป็นวันที่ ${selectedDate.day}/${selectedDate.month}/${selectedDate.year} <br/> เวลา ${selectedTimeLabel}`,
@@ -388,6 +389,7 @@ const UserEditAppointmentPhysic = (props) => {
                 }
             }).then(async (result) => {
                 if(type == "main") {
+                    
                 await runTransaction(db, async (transaction) => {
                 if (result.isConfirmed) {
                 await updateDoc(timetableRef, updatedTimetable);
@@ -447,6 +449,7 @@ const UserEditAppointmentPhysic = (props) => {
                     await updateDoc(timetableRef, updatedTimetableRollBack);
                     return;
                 } else {
+                    
                     const timeTableDocRef = doc(db, 'timeTable', appointmentTimer.timetableId);
                             const timeTableDocNew = doc(db, 'timeTable', updatedTimetable.appointmentTime.timetableId);
                                 getDoc(timeTableDocRef)
@@ -515,6 +518,7 @@ const UserEditAppointmentPhysic = (props) => {
                 }
             })}
             else {
+                console.log("check talk")
                 await runTransaction(db, async (transaction) => {
                     if (result.isConfirmed) {
                     await updateDoc(timetableRef, defaultupdatedTimetable);
@@ -524,6 +528,8 @@ const UserEditAppointmentPhysic = (props) => {
                         where('appointmentTime.timetableId', '==', defaultupdatedTimetable.appointmentTime.timetableId),
                         where('appointmentTime.timeSlotIndex', '==', defaultupdatedTimetable.appointmentTime.timeSlotIndex)
                     ));
+
+                    console.log(defaultupdatedTimetable)
     
                     const b = existingAppointmentsQuerySnapshot2.docs.map((doc) => ({
                         id: doc.id,
@@ -590,7 +596,7 @@ const UserEditAppointmentPhysic = (props) => {
     
                     }
                     Swal.fire({
-                        title: "ส่งคำขอแก้ไขนัดหมายสำเร็จz",
+                        title: "ส่งคำขอแก้ไขนัดหมายสำเร็จ",
                         icon: "success",
                         confirmButtonText: "ตกลง",
                         confirmButtonColor: '#263A50',

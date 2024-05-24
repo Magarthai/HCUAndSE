@@ -151,8 +151,81 @@ const ActivityAddComponent = (props) => {
     const submitForm = async (e) => {
         e.preventDefault();
         try {
-            const activitiesCollection = collection(db, 'activities');
+            for (let index = 0; index < timeSlots.length; index++) {
+                const currentTimeSlots = timeSlots[index];
+                const sameDate = timeSlots.filter((timeSlot, idx) => idx !== index)
+                                          .some(timeSlot => 
+                                              timeSlot.date === currentTimeSlots.date &&
+                                              timeSlot.startTime === currentTimeSlots.startTime &&
+                                              timeSlot.endTime === currentTimeSlots.endTime
+                                          );
+                if (sameDate) {
+                    await Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        html: `มีช่วงเวลาจัดกิจกรรมที่ซํ้ากัน ในช่วงเวลาที่ ${index+1}`,
+                        showConfirmButton: true,
+                        icon: 'warning',
+                        confirmButtonText: 'ยืนยัน',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        },
+                    });
+                    return;
+                }
+            }
 
+            for (let index = 0; index < timeSlots.length; index++) {
+                const currentTimeSlots = timeSlots[index];
+                const sameDate = timeSlots.filter((timeSlot, idx) => idx !== index)
+                                          .some(timeSlot => 
+                                              timeSlot.date === currentTimeSlots.date &&
+                                              timeSlot.startTime === currentTimeSlots.startTime
+                                          );
+                if (sameDate) {
+                    await Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        html: `มีช่วงเวลาเริ่มจัดกิจกรรมที่ซํ้ากัน ในช่วงเวลาที่ ${index+1}`,
+                        showConfirmButton: true,
+                        icon: 'warning',
+                        confirmButtonText: 'ยืนยัน',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        },
+                    });
+                    return;
+                }
+            }
+            
+            for (let index = 0; index < timeSlots.length; index++) {
+                const currentTimeSlots = timeSlots[index];
+                const sameDate = timeSlots.filter((timeSlot, idx) => idx !== index)
+                                          .some(timeSlot => 
+                                              timeSlot.date === currentTimeSlots.date &&
+                                              timeSlot.endTime === currentTimeSlots.endTime
+                                          );
+                if (sameDate) {
+                    await Swal.fire({
+                        title: 'เกิดข้อผิดพลาด',
+                        html: `มีช่วงเวลาสิ้นสุดจัดกิจกรรมที่ซํ้ากัน ในช่วงเวลาที่ ${index+1}`,
+                        showConfirmButton: true,
+                        icon: 'warning',
+                        confirmButtonText: 'ยืนยัน',
+                        confirmButtonColor: '#263A50',
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'custom-confirm-button',
+                        },
+                    });
+                    return;
+                }
+            }
+
+            const activitiesCollection = collection(db, 'activities');
+            
             const storage = getStorage();
 
             const fileInput = document.querySelector('.input-activity-img');
@@ -289,12 +362,13 @@ const ActivityAddComponent = (props) => {
                 const date2 = new Date(checkCurrentDate);
                 date1.setHours(0, 0, 0, 0);
                 date2.setHours(0, 0, 0, 0);
-
+                
                 const activityStatusForCurrentDate = date1.getDate() <= date2.getDate() && date1.getMonth() === date2.getMonth();
 
 
                 console.log(activityStatusForCurrentDate, date2, date1, checkCurrentDate, openQueueDate);
-
+                
+                
                 const activityInfo = {
                     activityName: activityName,
                     activityDetail: activityDetail,

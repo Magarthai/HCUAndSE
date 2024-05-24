@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "../css/Component.css";
 import "../css/AdminAppointmentRequestManagementComponent.css";
 import { useUserAuth } from "../context/UserAuthContext";
-import NavbarComponent from "../components_hcu/NavbarComponent";
+import NavbarComponent from "./NavbarComponent";
 import Close_icon from "../picture/close.png";
 import Tick_icon from "../picture/tick-circle.png";
 import arrow_icon from "../picture/arrow.png";
@@ -48,7 +48,7 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
             if (user) {
                 const appointmentsCollection = collection(db, 'appointment');
                 const appointmentQuerySnapshot = await getDocs(query(appointmentsCollection,
-                    where('appove', 'in', ['ไม่อนุมัติ', 'อนุมัติ'])));
+                    where('appove', 'in', ['ไม่อนุมัติ', 'อนุมัติ']),where('clinic', '==', 'คลินิกกายภาพ')));
                 
                 const timeTableCollection = collection(db, 'timeTable');
                 const existingAppointments = appointmentQuerySnapshot.docs.map((doc) => {
@@ -217,8 +217,8 @@ const AppointmentRequestManagementHistoryComponent = (props) => {
             <div className="admin-header">
                 
                 <div className="admin-hearder-item">
-                <a href="/adminAppointmentRequestManagementHistoryComponent" target="_parent" id="select">คลินิกทั้งหมด</a>
-                    <a href="/adminAppointmentRequestManagementHistoryPhysicalComponent" target="_parent">คลินิกกายภาพ</a>
+                <a href="/adminAppointmentRequestManagementHistoryComponent" target="_parent" >คลินิกทั้งหมด</a>
+                    <a href="/adminAppointmentRequestManagementHistoryPhysicalComponent" target="_parent" id="select">คลินิกกายภาพ</a>
                             <a href="/adminAppointmentRequestManagementHistoryNeedleComponent" target="_parent">คลินิกฝังเข็ม</a>
                         </div>
             </div>

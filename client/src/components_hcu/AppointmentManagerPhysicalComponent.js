@@ -1398,7 +1398,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 openContinueAddinAppointment();
                             }} className="colorPrimary-50">เพิ่มนัดหมายต่อเนื่อง +</a>
                              <a href="/adminCanceledListPeopleAppointment" target="_parent">รายชื่อที่ถูกยกเลิก</a>
-                             <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                             <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการเลื่อนนัดหมาย</a>
                              <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                         </div>
                     </div>
@@ -1813,7 +1813,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
                                             <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
                                         </div>
-                                        <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); setState({ ...state, timeOptions1: e.target.value, }); }} placeholder="" maxLength="135"/>
+                                        <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="" maxLength="135"/>
                                     </div>
 
                                 </div>
