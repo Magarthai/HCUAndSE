@@ -993,7 +993,7 @@ const AppointmentManagerNeedleComponent = (props) => {
 
                                     divElement.innerHTML = `
                                     
-                            <p class="admin-textBody-large">วันที่ ${formatdate} สถานะ : ${existingAppointments.length > 0 ? 'มีช่วงเวลาไม่ว่าง กรุณาเปลี่ยน' : 'ว่าง'} </p>
+                            <p class="admin-textBody-large">วันที่ ${formatdate} </p>
                             ${templateCommon}
                         `;
                                     appointmentPopupItem.appendChild(divElement);

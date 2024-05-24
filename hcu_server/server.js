@@ -16,6 +16,7 @@ app.use(morgan('dev'));
 app.use(cors());
 const firebaseConfig = require('./firebase');
 const NotificationActivityToday = require('./allapi/Notification/activity/NotificationActivityToday');
+const NotificationActivityEdit = require('./allapi/Notification/activity/NotificationActivityEdit');
 const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
 const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
 const QueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityOpenQueueToday');
@@ -67,6 +68,7 @@ const deleteDeletedAppointment = require('./mongodb_api/canceledAppointment/dele
 const fetchUserDataWithAppointmentss = require('./allapi/FetchTImeTable/fetchUserDataWithAppointments');
 
 app.use('/api', dataRoute);
+app.use('/api', NotificationActivityEdit);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
@@ -1182,7 +1184,7 @@ const notificationUser3DayBefore = async () => {
                                                     },
                                                     "hero": {
                                                         "type": "image",
-                                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                                        "url": "https://i.pinimg.com/564x/26/58/74/2658743727a84f478760f363864f1a17.jpg",
                                                         "size": "full",
                                                     },
                                                     "body": {
