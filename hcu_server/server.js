@@ -1378,7 +1378,7 @@ app.post('/create-pdf', (req, res, next) => {
         }
         
         // Proceed with creating the new PDF
-        pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        pdf.create(pdfTemplate(req.body), {}).toFile('resultxd.pdf', (err) => {
             console.log(req.body)
             if(err) {
                 return res.status(500).json({ error: `Error creating PDF ${err}` });
@@ -1394,7 +1394,7 @@ app.post('/create-pdf', (req, res, next) => {
 // Route for fetching PDF file 1
 app.get('/fetch-pdf', (req, res) => {
     // Send the generated PDF file to the client
-    res.sendFile(`${__dirname}/result.pdf`);
+    res.sendFile(`${__dirname}/resultxd.pdf`);
 });
 
 // Route for creating PDF file 2
