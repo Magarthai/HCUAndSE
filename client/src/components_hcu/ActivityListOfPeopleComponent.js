@@ -142,7 +142,7 @@ const ActivityListOfPeopleComponent = (props) => {
   เวลา : {item.startTime} - {item.endTime} <br />
   รายชื่อ: {item.userList.length}
 </p>
-<button style={{margin:0,marginBottom:15,width:"auto",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF(item)}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button>
+{/* <button style={{margin:0,marginBottom:15,width:"auto",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF(item)}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button> */}
                 
                 <table className="table table-striped">
                 

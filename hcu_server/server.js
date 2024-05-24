@@ -1381,6 +1381,7 @@ app.post('/create-pdf', (req, res, next) => {
     });
 }, (req, res) => {
     // Send the PDF buffer as response
+    console.log("new")
     res.set({
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="resultxd.pdf"'
