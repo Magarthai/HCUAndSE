@@ -1,4 +1,4 @@
-module.exports = ({ listHtml, date, clinic,count }) => {
+module.exports = ({ listHtml,listHtml2, date, clinic,count }) => {
     const today = new Date();
 return `
 <!doctype html>
@@ -113,7 +113,7 @@ return `
                <p style="margin: 0;margin-right: 20px;">02 470 8446</p>
             </div>
             <div class="center">
-               <b style="font-size: 20px;">รายชื่อผู้นัดหมาย ${clinic}</b>
+               <b style="font-size: 20px;">รายชื่อผู้นัดหมายปรึกษาแพทย์ ${clinic}</b>
                <p style="margin: 0;font-size: 20px; margin-bottom: 20px;">ประจําวันที่ ${date}</p>
             </div>
             <table cellpadding="0" cellspacing="0">
@@ -128,7 +128,31 @@ return `
                ${listHtml}
             </table>
          </div>
-         <h1 class="justify-center">จํานวนผู้นัดวันนี้รวม ${count} คน</h1>
+         <h1 class="justify-center">จํานวนผู้นัดปรึกษาแพทย์รวม ${count} คน</h1>
+         ${listHtml2 != "" ?
+            `
+            <div style="width:100%; border-top:0.5px solid"></div>
+
+         <div class="center" style="margin-top: 100px;">
+               <b style="font-size: 20px;">รายชื่อผู้นัดหมาย ${clinic == "คลินิกกายภาพ" ? "ทํากายภาพ" : "ฝังเข็ม"}</b>
+               <p style="margin: 0;font-size: 20px; margin-bottom: 20px;">ประจําวันที่ ${date}</p>
+            </div>
+            <table cellpadding="0" cellspacing="0">
+               <tr class="heading">
+                  <td>ลําดับที่</td>
+                  <td>ชื่อ-นามสกุล</td>
+                  <td>สาเหตุการนัดหมาย</td>
+                  <td>อาการเบื้องต้น</td>
+                  <td>หมายเหตุ</td>
+                  <td>ช่วงเวลา</td>
+               </tr>
+               ${listHtml2}
+            </table>
+            <h1 class="justify-center">จํานวนผู้นัด${clinic == "คลินิกกายภาพ" ? "ทํากายภาพ" : "ฝังเข็ม"}รวม ${count} คน</h1>
+         </div>
+         
+         `
+         : ``}
       </div>
    </body>
 </html>

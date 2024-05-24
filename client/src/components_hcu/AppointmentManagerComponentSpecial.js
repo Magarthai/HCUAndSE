@@ -15,6 +15,7 @@ import ClockComponent from "../utils/ClockComponent";
 import icon_date from "../picture/datepicker.png"
 import DatePicker from "react-datepicker";
 import axios from "axios";
+import { saveAs } from 'file-saver';
 const AppointmentManagerComponentSpecial = (props) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -1041,7 +1042,38 @@ const AppointmentManagerComponentSpecial = (props) => {
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 3);
     maxDate.setDate(0)
+    const downloadPDF = async() => {
+        let listHtml = ""; // Use 'let' to modify the variable
+        AppointmentUsersData
+            .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
+            .forEach((AppointmentUserData, index) => {
+                listHtml += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+            });
 
+            const data = {
+                listHtml: listHtml,
+                date:  `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                clinic: "คลินิกเฉพาะทาง",
+                count: AppointmentUsersData.length
+            }
+            try{
+            const respone = axios.post(`${REACT_APP_API}/create-pdf`,data).then(() => axios.get(`${REACT_APP_API}/fetch-pdf`, { responseType: 'blob' }))
+            .then((res) => {
+              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      
+              saveAs(pdfBlob, `รายการผู้ที่นัดหมาย${clinic} วันที่ ${data.date}.pdf`);
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
     return (
         <div className="appointment" style={containerStyle}>
             <NavbarComponent />
@@ -1123,6 +1155,7 @@ const AppointmentManagerComponentSpecial = (props) => {
                             </div>
                         ))}
                         </div>
+                        <button style={{margin:0,marginTop:7,width:"100%",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF()}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button>
                     </div>
 
                 </div>

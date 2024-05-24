@@ -7,7 +7,10 @@ import "../css/AdminActivityComponent.css";
 import arrow_icon from "../picture/arrow.png";
 import { useLocation,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { saveAs } from "file-saver";
+import axios from "axios";
 const ActivityListOfPeopleComponent = (props) => {
+    const REACT_APP_API = process.env.REACT_APP_API
     const { user, userData } = useUserAuth();
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
@@ -16,6 +19,39 @@ const ActivityListOfPeopleComponent = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { data } = location.state || {};
+    const downloadPDF = async(datas) => {
+        let listHtml = ""; 
+        const time = `${datas.startTime - datas.endTime}`
+        datas.userList
+            .forEach((item, index) => {
+
+                listHtml += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${item.id}</td>
+                    <td>${item.firstName} ${item.lastName}</td>
+                    <td>${item.tel}</td>
+                    <td>${item.email}</td>
+                </tr>`;
+            });
+            
+            const data = {
+                listHtml: listHtml,
+                date:  datas.date,
+                name: datas.activityName,
+                time: time,
+                count: datas.userList.length
+            }
+            try{
+            const respone = axios.post(`${REACT_APP_API}/create-pdf3`,data).then(() => axios.get(`${REACT_APP_API}/fetch-pdf3`, { responseType: 'blob' }))
+            .then((res) => {
+              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      
+              saveAs(pdfBlob, `รายการผู้เข้าร่วมกิจกรรม${datas.name} วันที่ ${datas.date}.pdf`);
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
     useEffect(() => {
         document.title = 'Health Care Unit';
         console.log(user);
@@ -101,7 +137,12 @@ const ActivityListOfPeopleComponent = (props) => {
     {data && data.length > 0 ? (
         data.map((item, index) => (
             <div key={index} className="admin-body">
-                <p className="admin-textBody-large colorPrimary-800">กิจกรรม : {item.activityName} วันที่ : {item.date} เวลา : {item.startTime} - {item.endTime}<br /> รายชื่อ: {item.userList.length}</p>
+                <p className="admin-textBody-large colorPrimary-800" style={{margin:0}}>
+  กิจกรรม : {item.activityName} วันที่ : {item.date} <br />
+  เวลา : {item.startTime} - {item.endTime} <br />
+  รายชื่อ: {item.userList.length}
+</p>
+<button style={{margin:0,marginBottom:15,width:"auto",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF(item)}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button>
                 
                 <table className="table table-striped">
                 

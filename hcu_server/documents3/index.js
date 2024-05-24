@@ -1,4 +1,4 @@
-module.exports = ({ listHtml, date, clinic,count }) => {
+module.exports = ({ listHtml, date, name,count }) => {
     const today = new Date();
 return `
 <!doctype html>
@@ -113,22 +113,21 @@ return `
                <p style="margin: 0;margin-right: 20px;">02 470 8446</p>
             </div>
             <div class="center">
-               <b style="font-size: 20px;">รายชื่อผู้นัดหมาย ${clinic}</b>
-               <p style="margin: 0;font-size: 20px; margin-bottom: 20px;">ประจําวันที่ ${date}</p>
+               <b style="font-size: 20px;">กิจกรรม: ${name}</b>
+               <p style="margin: 0;font-size: 20px;">ประจําวันที่ ${date}</p>
+               <p style="margin: 0;font-size: 20px; margin-bottom: 20px;">จํานวนผู้เข้าร่วม ${count}</p>
             </div>
             <table cellpadding="0" cellspacing="0">
                <tr class="heading">
                   <td>ลําดับที่</td>
+                  <td>รหัสนักศึกษา/รหัสพนักงาน</td>
                   <td>ชื่อ-นามสกุล</td>
-                  <td>สาเหตุการนัดหมาย</td>
-                  <td>อาการเบื้องต้น</td>
-                  <td>หมายเหตุ</td>
-                  <td>ช่วงเวลา</td>
+                  <td>เบอร์โทร</td>
+                  <td>Email</td>
                </tr>
                ${listHtml}
             </table>
          </div>
-         <h1 class="justify-center">จํานวนผู้นัดวันนี้รวม ${count} คน</h1>
       </div>
    </body>
 </html>

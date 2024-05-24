@@ -10,6 +10,8 @@ const moment = require('moment-timezone');
 const dbConnect = require('./db.connector');
 const pdf = require('html-pdf');
 const pdfTemplate = require('./documents');
+const pdfTemplate2 = require('./documents2');
+const pdfTemplate3 = require('./documents3');
 dbConnect();
 const bodyParser = require('body-parser');
 app.use(express.urlencoded({ extended: true }));
@@ -1364,19 +1366,62 @@ app.get('/date', (req, res) => {
     const thaiTime = moment().tz('Asia/Bangkok');
     res.send(thaiTime)
 })
-app.post('/create-pdf', (req, res) => {
+app.post('/create-pdf', (req, res, next) => {
     pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
         if(err) {
-            res.send(Promise.reject());
+            return res.status(500).json({ error: 'Error creating PDF' });
         }
-
-        res.send(Promise.resolve());
+        
+        next();
     });
+}, (req, res) => {
+    res.json({ success: true });
 });
 
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
-})
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/result.pdf`);
+});
+
+app.post('/create-pdf2', (req, res, next) => {
+    pdf.create(pdfTemplate2(req.body), {}).toFile('result2.pdf', (err) => {
+        if(err) {
+            return res.status(500).json({ error: 'Error creating PDF' });
+        }
+        
+        next();
+    });
+}, (req, res) => {
+    res.json({ success: true });
+});
+
+app.get('/fetch-pdf2', (req, res) => {
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/result2.pdf`);
+});
+
+
+
+app.post('/create-pdf3', (req, res, next) => {
+    pdf.create(pdfTemplate3(req.body), {}).toFile('result3.pdf', (err) => {
+        if(err) {
+            return res.status(500).json({ error: 'Error creating PDF' });
+        }
+        
+        next();
+    });
+}, (req, res) => {
+    res.json({ success: true });
+});
+
+app.get('/fetch-pdf3', (req, res) => {
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/result3.pdf`);
+});
+
+
+
+
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
 fetchAvailableActivities();

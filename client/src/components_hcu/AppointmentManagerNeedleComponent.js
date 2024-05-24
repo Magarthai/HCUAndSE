@@ -17,7 +17,12 @@ import Swal from "sweetalert2";
 import icon_date from "../picture/datepicker.png"
 import DatePicker from "react-datepicker";
 import axios from "axios";
+import { saveAs } from 'file-saver';
 const AppointmentManagerNeedleComponent = (props) => {
+
+
+
+
     const REACT_APP_API = process.env.REACT_APP_API;
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDates, setSelectedDates] = useState(null);
@@ -1385,6 +1390,59 @@ const AppointmentManagerNeedleComponent = (props) => {
     maxDate.setDate(0)
     const talk = "talk";
     const main = "needle";
+
+
+    const downloadPDF = async() => {
+        let listHtml = ""; 
+        let listHtml2 = ""; 
+        let count = 0;
+        let count2 = 0;
+        AppointmentUsersData
+            .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
+            .forEach((AppointmentUserData, index) => {
+                if(AppointmentUserData.appointment.type == "talk"){
+                listHtml += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+                count += 1;
+                } else {
+                    listHtml2 += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+                count2 += 1;
+                }
+            });
+
+            const data = {
+                listHtml: listHtml,
+                listHtml2: listHtml2,
+                date:  `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                clinic: "คลินิกฝังเข็ม",
+                count: count,
+                count2: count2
+            }
+            try{
+            const respone = axios.post(`${REACT_APP_API}/create-pdf2`,data).then(() => axios.get(`${REACT_APP_API}/fetch-pdf2`, { responseType: 'blob' }))
+            .then((res) => {
+              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      
+              saveAs(pdfBlob, `รายการผู้ที่นัดหมาย${clinic} วันที่ ${data.date}.pdf`);
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className="appointment" style={containerStyle}>
             <NavbarComponent />
@@ -1505,6 +1563,7 @@ const AppointmentManagerNeedleComponent = (props) => {
                                         </div>
                                     ))}
                             </div>
+                            <button style={{margin:0,marginTop:7,width:"100%",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF()}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button>
                         </div>
                     </div>
                     <div className="admin-appointment-box">
