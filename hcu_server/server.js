@@ -1368,8 +1368,9 @@ app.get('/date', (req, res) => {
 })
 app.post('/create-pdf', (req, res, next) => {
     pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        console.log(req.body)
         if(err) {
-            return res.status(500).json({ error: 'Error creating PDF' });
+            return res.status(500).json({ error: `Error creating PDF ${error}` });
         }
         
         next();
@@ -1405,7 +1406,7 @@ app.get('/fetch-pdf2', (req, res) => {
 app.post('/create-pdf3', (req, res, next) => {
     pdf.create(pdfTemplate3(req.body), {}).toFile('result3.pdf', (err) => {
         if(err) {
-            return res.status(500).json({ error: 'Error creating PDF' });
+            return res.status(500).json({ error: `Error creating PDF ${error}` });
         }
         
         next();
