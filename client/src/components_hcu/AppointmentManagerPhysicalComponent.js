@@ -696,10 +696,10 @@ const AppointmentManagerPhysicComponent = (props) => {
                     })
                     x.style.display = "none";
                 }
-                if (Number(time) > 10) {
+                if (Number(time) > 20) {
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
-                        text: `จํากัดการสร้างแค่ 10 ครั้งเท่านั้น!`,
+                        text: `จํากัดการสร้างแค่ 20 ครั้งเท่านั้น!`,
                         icon: 'warning',
                         confirmButtonText: 'ย้อนกลับ',
                         confirmButtonColor: '#263A50',

@@ -95,11 +95,11 @@ const TimetableSpecialComponent = (props) => {
         const start = new Date(`2000-01-01T${timeAppointmentStart}`);
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
-        if (numberAppointment > 10) {
+        if (numberAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -627,11 +627,11 @@ const TimetableSpecialComponent = (props) => {
         const end = new Date(`2000-01-01T${timeAppointmentEnd}`);
         const duration = (end - start) / 60000;
 
-        if (numberAppointment > 10) {
+        if (numberAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {

@@ -173,11 +173,11 @@ const TimetablePhysicalComponent = (props) => {
             })
             return;
         }
-        if (numberAppointment > 10) {
+        if (numberAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -186,11 +186,11 @@ const TimetablePhysicalComponent = (props) => {
             })
             return;
         }
-        if (numberMainAppointment > 10) {
+        if (numberMainAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายกายภาพได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -869,11 +869,11 @@ const TimetablePhysicalComponent = (props) => {
             })
             return;
         }
-        if (numberAppointment > 10) {
+        if (numberAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายเพื่อปรึกษาได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
@@ -882,11 +882,11 @@ const TimetablePhysicalComponent = (props) => {
             })
             return;
         }
-        if (numberMainAppointment > 10) {
+        if (numberMainAppointment > 20) {
             Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด!",
-                text: "ทํานัดหมายกายภาพได้ไม่เกิน 10 ครั้ง!",
+                text: "ทํานัดหมายกายภาพได้ไม่เกิน 20 ครั้ง!",
                 confirmButtonText: 'ตกลง',
                 confirmButtonColor: '#263A50',
                 customClass: {
