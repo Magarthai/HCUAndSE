@@ -470,7 +470,13 @@ const ActivityEditOpenRegistartComponent = (props) => {
                                 id:id,
                                 editDetial:editDetial,
                             }
-                            const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
+                            try{
+                                const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
+                                console.log(respone)
+                            } catch(err) {
+                                console.error(err)
+                            }
+                            
                         } catch(err) {
                             console.error(err)
                         }
