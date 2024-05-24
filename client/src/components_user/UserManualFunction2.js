@@ -26,8 +26,8 @@ const UserManualFunction2 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนการขอ/แก้ไข/ยกเลิกนัดหมาย</h3>
-                        <iframe src="https://drive.google.com/file/d/1jU0_2-t1yPmLmCcYJdHOchnuP6bRfDtZ/preview" width="100%" height="500px" />
-                    
+                        <iframe src="https://drive.google.com/file/d/1rZWLLY9HW_vEBDGyF817z-dpJ6yk8OQO/preview" width="100%" height="500px" />
+                        
 
                 </div>        
             </div>

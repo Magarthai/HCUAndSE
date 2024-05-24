@@ -28,9 +28,8 @@ const UserManualFunction5 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนดูช่วงเวลาเข้าทําการแพทย์</h3>
-                        <iframe src="https://drive.google.com/file/d/1FtiS5RgvsEaNm1Usw4mYztEUAULhzmpf/preview" width="100%" height="500px" />
-                    
-
+                        <iframe src="https://drive.google.com/file/d/1W8tETkD-WqxkqY6KzSh-d_NhzK7poXjD/preview" width="100%" height="500px" />
+                       
                 </div>        
             </div>
         </div>
