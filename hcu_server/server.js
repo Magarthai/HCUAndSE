@@ -1366,55 +1366,88 @@ app.get('/date', (req, res) => {
     const thaiTime = moment().tz('Asia/Bangkok');
     res.send(thaiTime)
 })
+const fs = require('fs');
+
+// Route for creating PDF file 1
 app.post('/create-pdf', (req, res, next) => {
-    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
-        console.log(req.body)
-        if(err) {
-            return res.status(500).json({ error: `Error creating PDF ${err}` });
+    // Delete existing PDF file if it exists
+    fs.unlink('result.pdf', (err) => {
+        if (err && err.code !== 'ENOENT') {
+            // If there's an error other than file not found, handle it
+            return res.status(500).json({ error: `Error deleting PDF ${err}` });
         }
         
-        next();
+        // Proceed with creating the new PDF
+        pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+            console.log(req.body)
+            if(err) {
+                return res.status(500).json({ error: `Error creating PDF ${err}` });
+            }
+            
+            next();
+        });
     });
 }, (req, res) => {
     res.json({ success: true });
 });
 
+// Route for fetching PDF file 1
 app.get('/fetch-pdf', (req, res) => {
     // Send the generated PDF file to the client
     res.sendFile(`${__dirname}/result.pdf`);
 });
 
+// Route for creating PDF file 2
 app.post('/create-pdf2', (req, res, next) => {
-    pdf.create(pdfTemplate2(req.body), {}).toFile('result2.pdf', (err) => {
-        if(err) {
-            return res.status(500).json({ error: 'Error creating PDF' });
+    // Delete existing PDF file if it exists
+    fs.unlink('result2.pdf', (err) => {
+        if (err && err.code !== 'ENOENT') {
+            // If there's an error other than file not found, handle it
+            return res.status(500).json({ error: `Error deleting PDF ${err}` });
         }
         
-        next();
+        // Proceed with creating the new PDF
+        pdf.create(pdfTemplate2(req.body), {}).toFile('result2.pdf', (err) => {
+            if(err) {
+                return res.status(500).json({ error: 'Error creating PDF' });
+            }
+            
+            next();
+        });
     });
 }, (req, res) => {
     res.json({ success: true });
 });
 
+// Route for fetching PDF file 2
 app.get('/fetch-pdf2', (req, res) => {
     // Send the generated PDF file to the client
     res.sendFile(`${__dirname}/result2.pdf`);
 });
 
-
-
+// Route for creating PDF file 3
 app.post('/create-pdf3', (req, res, next) => {
-    pdf.create(pdfTemplate3(req.body), {}).toFile('result3.pdf', (err) => {
-        if(err) {
-            return res.status(500).json({ error: `Error creating PDF ${err}` });
+    // Delete existing PDF file if it exists
+    fs.unlink('result3.pdf', (err) => {
+        if (err && err.code !== 'ENOENT') {
+            // If there's an error other than file not found, handle it
+            return res.status(500).json({ error: `Error deleting PDF ${err}` });
         }
         
-        next();
+        // Proceed with creating the new PDF
+        pdf.create(pdfTemplate3(req.body), {}).toFile('result3.pdf', (err) => {
+            if(err) {
+                return res.status(500).json({ error: `Error creating PDF ${err}` });
+            }
+            
+            next();
+        });
     });
 }, (req, res) => {
     res.json({ success: true });
 });
 
+// Route for fetching PDF file 3
 app.get('/fetch-pdf3', (req, res) => {
     // Send the generated PDF file to the client
     res.sendFile(`${__dirname}/result3.pdf`);
