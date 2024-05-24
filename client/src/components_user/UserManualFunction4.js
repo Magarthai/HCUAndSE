@@ -27,8 +27,7 @@ const UserManualFunction4 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนการรับคิวกิจกรรม/ดูสถานะคิว</h3>
-                        <iframe src="https://drive.google.com/file/d/19xe1Du8Llzbqhuz64Zk8pSOoleHShAjx/preview" width="100%" height="500px" />
-
+                        <iframe src="https://drive.google.com/file/d/1Hv65K-zD0RmedpHVfasHqQKjRgQj3uVf/preview" width="100%" height="500px" />
                 </div>        
             </div>
         </div>

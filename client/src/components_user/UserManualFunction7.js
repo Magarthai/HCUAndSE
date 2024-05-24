@@ -27,9 +27,9 @@ const UserManualFunction7 = (props) =>{
             <div className="user-body"> 
                 <div className="user-Manual_container colorPrimary-800">
                         <h3 className="center">ขั้นตอนดูข้อมูลทั่วไป</h3>
-                        <iframe src="https://drive.google.com/file/d/18XkcYTs3d6EJHXEfbnqRWYnD_P_V34Fx/preview" width="100%" height="500px" />
+                        <iframe src="https://drive.google.com/file/d/1Mq5qv4WMKTsuSZyYBHMPYi5-vNmIvQDR/preview" width="100%" height="500px" />
                     
-
+                        
                 </div>        
             </div>
         </div>
