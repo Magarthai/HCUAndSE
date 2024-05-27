@@ -6,9 +6,7 @@ on:
       - main
 jobs:
   build:
-    runs-on:
-      - self-hosted
-      - dev-server
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
@@ -30,18 +28,14 @@ jobs:
 
   pull:
     needs: build
-    runs-on:
-      - self-hosted
-      - dev-server
+    runs-on: self-hosted
     steps:
       - name: Pull image from Docker Hub
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
 
   deploy:
     needs: pull
-    runs-on:
-      - self-hosted
-      - dev-server
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
