@@ -1,7 +1,7 @@
 const Mongoose = require("mongoose")
-
+const MONGO_URL = process.env.MONGO_URL
 const dbConnect = () => {
-    const connect = Mongoose.connect("mongodb+srv://Magar:Magarthai1@hcukmutt.xdi1ter.mongodb.net/HCU?retryWrites=true&w=majority&appName=HCUKMUTT")
+    const connect = Mongoose.connect(MONGO_URL)
     console.log("Database is connected successfully!");
 }
 
