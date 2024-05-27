@@ -1,9 +1,9 @@
-name: deployment dev
+name: main
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   build:
