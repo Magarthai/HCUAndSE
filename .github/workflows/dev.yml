@@ -1,13 +1,14 @@
-name: main
+name: deployment dev
 
 on:
   push:
     branches:
       - main
-
 jobs:
   build:
-    runs-on: srv534452
+    runs-on:
+      - self-hosted
+      - dev-server
 
     steps:
       - name: Checkout
@@ -27,17 +28,24 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
 
-  deploy:
+  pull:
     needs: build
-    runs-on: srv534452
+    runs-on:
+      - self-hosted
+      - dev-server
+    steps:
+      - name: Pull image from Docker Hub
+        run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
+
+  deploy:
+    needs: pull
+    runs-on:
+      - self-hosted
+      - dev-server
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Pull image from Docker Hub
-        run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
-
       - name: Run Docker compose up
-        run: |
-          docker-compose -f /path/to/your/docker-compose.yml up -d
+        run: docker compose build && docker compose up -d
