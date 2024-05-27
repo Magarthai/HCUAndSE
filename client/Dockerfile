@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY ./src ./src
-
+COPY ./public ./public
 RUN npm install
 
 COPY .env .
 
-EXPOSE 5000
+EXPOSE 3000
 
 CMD npm start
