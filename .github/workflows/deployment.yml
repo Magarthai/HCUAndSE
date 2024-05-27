@@ -24,7 +24,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
 
   pull:
     needs: build
