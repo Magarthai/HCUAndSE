@@ -18,14 +18,29 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push
+      - name: Build and push client
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./client
+          file: ./client/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
 
+      - name: Build and push hcu_server
+        uses: docker/build-push-action@v4
+        with:
+          context: ./hcu_server
+          file: ./hcu_server/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
+
+      - name: Build and push mongodb-backend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./mongodb-backend
+          file: ./mongodb-backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcukmutt:latest
 
   pull:
     needs: build

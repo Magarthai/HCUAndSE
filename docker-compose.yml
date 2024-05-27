@@ -1,24 +1,24 @@
 version: '3'
 services:
   client:
-    image: magarthai/demo-client:latest  # เปลี่ยนชื่อภาพเป็นชื่อที่ถูกต้องของ client
+    build: ./client
     ports:
-      - "3000:3000"
+      - "3000:3000"  
     depends_on:
       - mongodb-backend
       - hcu_server
 
   mongodb-backend:
-    image: magarthai/demo-mongodb-backend:latest  # เปลี่ยนชื่อภาพเป็นชื่อที่ถูกต้องของ mongodb-backend
+    build: ./mongodb-backend
     ports:
-      - "4000:4000"
+      - "4000:4000"  
     depends_on:
       - mongodb
 
   hcu_server:
-    image: magarthai/demo-hcu-server:latest  # เปลี่ยนชื่อภาพเป็นชื่อที่ถูกต้องของ hcu_server
+    build: ./hcu_server
     ports:
-      - "5000:5000"
+      - "5000:5000" 
 
   mongodb:
     image: mongo:latest
