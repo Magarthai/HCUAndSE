@@ -1,7 +1,7 @@
 const Mongoose = require("mongoose")
 
 const dbConnect = () => {
-    const connect = Mongoose.connect("mongodb+srv://Magar:Magarthai1@hcukmutt.xdi1ter.mongodb.net/HCU?retryWrites=true&w=majority&appName=HCUKMUTT")
+    const connect = Mongoose.connect("mongodb://root:password@pumipat.trueddns.com:63711")
     console.log("Database is connected successfully!");
 }
 
