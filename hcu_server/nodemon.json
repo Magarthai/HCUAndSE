@@ -1,0 +1,11 @@
+{
+    "watch": ["*.*", "**/*"],
+    "ext": "js,json",
+    "ignore": ["node_modules/*"],
+    "exec": "node server.js",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "restart_delay": "2500"
+  }
+  

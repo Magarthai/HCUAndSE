@@ -1,0 +1,11 @@
+{
+    "watch": ["index.js", "config", "controllers", "middlewares", "models"],
+    "ext": "js,json",
+    "ignore": ["node_modules"],
+    "exec": "node index.js",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "restart_delay": "2500"
+  }
+  
