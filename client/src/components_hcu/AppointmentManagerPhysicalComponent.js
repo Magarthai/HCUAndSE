@@ -11,6 +11,7 @@ import "../css/AdminAppointmentComponent.css";
 import "../css/Component.css";
 import DatePicker from "react-datepicker";
 import { PulseLoader } from "react-spinners";
+import { saveAs } from 'file-saver';
 import "react-datepicker/dist/react-datepicker.css";
 import ClockComponent from "../utils/ClockComponent";
 import { GetTimeOptionsFilterdFromTimetable, GetTimeOptionsFromTimetable } from "../backend/timeOptions";
@@ -645,6 +646,57 @@ const AppointmentManagerPhysicComponent = (props) => {
     let count = parseInt(time);
     let notimeforthisday = 0;
 
+
+    const downloadPDF = async() => {
+        let listHtml = ""; 
+        let listHtml2 = ""; 
+        let count = 0;
+        let count2 = 0;
+        AppointmentUsersData
+            .sort((a, b) => a.timeslot.start.localeCompare(b.timeslot.start))
+            .forEach((AppointmentUserData, index) => {
+                if(AppointmentUserData.appointment.type == "talk"){
+                listHtml += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+                count += 1;
+                } else {
+                    listHtml2 += `<tr class="item">
+                    <td>${index+1}</td>
+                    <td>${AppointmentUserData.firstName} ${AppointmentUserData.lastName}</td>
+                    <td>${AppointmentUserData.appointment.appointmentCasue}</td>
+                    <td>${AppointmentUserData.appointment.appointmentSymptom}</td>
+                    <td>${AppointmentUserData.appointment.appointmentNotation}</td>
+                    <td>${AppointmentUserData.timeslot.start} - ${AppointmentUserData.timeslot.end}</td>
+                </tr>`;
+                count2 += 1;
+                }
+            });
+
+            const data = {
+                listHtml: listHtml,
+                listHtml2: listHtml2,
+                date:  `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`,
+                clinic: "คลินิกกายภาพ",
+                count: count,
+                count2: count2
+            }
+            try{
+            const respone = axios.post(`${REACT_APP_API}/create-pdf2`,data).then(() => axios.get(`${REACT_APP_API}/fetch-pdf2`, { responseType: 'blob' }))
+            .then((res) => {
+              const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      
+              saveAs(pdfBlob, `รายการผู้ที่นัดหมาย${clinic} วันที่ ${data.date}.pdf`);
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    }
     const submitFormAddContinue = async () => {
         setState((prevState) => ({
             ...prevState,
@@ -696,10 +748,10 @@ const AppointmentManagerPhysicComponent = (props) => {
                     })
                     x.style.display = "none";
                 }
-                if (Number(time) > 10) {
+                if (Number(time) > 20) {
                     Swal.fire({
                         title: 'เกิดข้อผิดพลาด',
-                        text: `จํากัดการสร้างแค่ 10 ครั้งเท่านั้น!`,
+                        text: `จํากัดการสร้างแค่ 20 ครั้งเท่านั้น!`,
                         icon: 'warning',
                         confirmButtonText: 'ย้อนกลับ',
                         confirmButtonColor: '#263A50',
@@ -961,7 +1013,7 @@ const AppointmentManagerPhysicComponent = (props) => {
 
 
                                     divElement.innerHTML = `
-                            <p class="admin-textBody-large">วันที่ ${formatdate} สถานะ : ${existingAppointments.length > 0 ? 'มีช่วงเวลาไม่ว่าง กรุณาเปลี่ยน' : 'ว่าง'} </p>
+                            <p class="admin-textBody-large">วันที่ ${formatdate}</p>
                             ${templateCommon}
                         `;
                                     appointmentPopupItem.appendChild(divElement);
@@ -1398,7 +1450,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                 openContinueAddinAppointment();
                             }} className="colorPrimary-50">เพิ่มนัดหมายต่อเนื่อง +</a>
                              <a href="/adminCanceledListPeopleAppointment" target="_parent">รายชื่อที่ถูกยกเลิก</a>
-                             <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการขอนัดหมาย</a>
+                             <a href="/adminAppointmentRequestManagementComponent" target="_parent">รายการเลื่อนนัดหมาย</a>
                              <a href="/adminQueueManagementSystemComponent" target="_parent">ระบบจัดการคิว</a>
                         </div>
                     </div>
@@ -1484,6 +1536,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                         </div>
                                     ))}
                                 </div>
+                                {/* <button style={{margin:0,marginTop:7,width:"100%",backgroundColor:"#263A50",borderRadius:10,paddingLeft:10,paddingLeft:10,padding:5,color:"white"}} onClick={() => downloadPDF()}> <img style={{width:20,height:20,marginLeft:5, filter:"brightness(100)"}} src="https://i.imgur.com/qKcn8qM.png" alt="" /> <span style={{marginRight:5}}>ดาวน์โหลดรายชื่อ</span></button> */}
                             </div>
                         </div>
                         <div className="admin-appointment-box">
@@ -1813,7 +1866,7 @@ const AppointmentManagerPhysicComponent = (props) => {
                                             <label className="admin-textBody-large colorPrimary-800" style={{ flexGrow: 1 }}>หมายเหตุ</label>
                                             <span style={{ display: 'flex', alignItems: 'center', color: appointmentNotation.length > 135 ? 'red' : 'grey' }}>{appointmentNotation.length}/135</span>
                                         </div>
-                                        <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); setState({ ...state, timeOptions1: e.target.value, }); }} placeholder="" maxLength="135"/>
+                                        <input type="text" className="form-control input-big" value={appointmentNotation} onChange={(e) => { setState({ ...state, appointmentNotation: e.target.value, }); }} placeholder="" maxLength="135"/>
                                     </div>
 
                                 </div>

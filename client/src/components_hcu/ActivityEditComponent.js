@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import Swal from "sweetalert2";
 import { addDoc,doc, updateDoc } from "firebase/firestore";
+import axios from "axios";
 import { setDoc } from 'firebase/firestore';
 import { ref, uploadBytes,getStorage, getDownloadURL } from 'firebase/storage';
 import item4 from "../picture/close.png";
@@ -17,6 +18,7 @@ const ActivityEditComponent = (props) => {
     const [showTime, setShowTime] = useState(getShowTime);
     const [zoomLevel, setZoomLevel] = useState(1);
     const animationFrameRef = useRef();
+    const REACT_APP_API = process.env.REACT_APP_API
     const navigate = useNavigate();
     const [state, setState] = useState({
         activityName: "",
@@ -350,9 +352,17 @@ const ActivityEditComponent = (props) => {
                     if (result.isConfirmed) {
                         await updateDoc(activitiesCollection, activityInfo);
                         await setDoc(doc(db, 'activities', id), { imageURL: downloadURL, activityType: activityType }, { merge: true });
-    
+                        try {
+                            const data = {
+                                id:id,
+                                detial:editDetial,
+                            }
+                            const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
+                        } catch(err) {
+                            console.log(err)
+                        }
                         Swal.fire({
-                            title: 'สร้างกิจกรรมสําเร็จ',
+                            title: 'แก้ไขกิจกรรมสําเร็จ',
                             icon: 'success',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -360,10 +370,11 @@ const ActivityEditComponent = (props) => {
                                 confirmButton: 'custom-confirm-button',
                             },
                         });
+                        
                         navigate('/adminActivityOpenRegisterComponent', { replace: true, state: {} });
                     } else {
                         Swal.fire({
-                            title: 'สร้างไม่สําเร็จ',
+                            title: 'แก้ไขไม่สําเร็จ',
                             icon: 'error',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',
@@ -418,7 +429,20 @@ const ActivityEditComponent = (props) => {
                 }).then(async (result) => {
                     if (result.isConfirmed) {
                         await updateDoc(activitiesCollection, activityInfo);
-
+                        try {
+                            const data = {
+                                id:id,
+                                detial:editDetial,
+                            }
+                            try{
+                                const respone = axios.post(`${REACT_APP_API}/api/NotificationEditActivity`,data);
+                                console.log(respone)
+                            } catch(err) {
+                                console.log(err)
+                            }
+                        } catch(err) {
+                            console.log(err)
+                        }
                         Swal.fire({
                             title: 'แก้ไขกิจกรรมสําเร็จ',
                             icon: 'success',
@@ -433,7 +457,7 @@ const ActivityEditComponent = (props) => {
                         
                     } else {
                         Swal.fire({
-                            title: 'สร้างไม่สําเร็จ',
+                            title: 'แก้ไขไม่สําเร็จ',
                             icon: 'error',
                             confirmButtonText: 'ตกลง',
                             confirmButtonColor: '#263A50',

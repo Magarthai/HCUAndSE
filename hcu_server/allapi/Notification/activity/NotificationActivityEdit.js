@@ -27,35 +27,17 @@ function getCurrentDate() {
 }
 const checkCurrentDate = getCurrentDate();
 
-const NotificationActivityToday = async () => {
+router.post('/NotificationEditActivity', async (req, res) => {
+    const data = req.body;
     try {
-        const activitiesCollection = collection(db, 'activities');
 
-        const querySnapshot = await getDocs(activitiesCollection);
+        const timetableRef = doc(db, 'activities', `${data.id}`);
 
-        const activitiesData = querySnapshot.docs
-        .map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }))
-        .map((activity) => ({
-            ...activity,
-            timeSlots: activity.timeSlots.map((slot, index) => ({
-                ...slot,
-                id: activity.id,
-                activityName: activity.activityName,
-                openQueueDate: activity.openQueueDate,
-                endQueueDate: activity.endQueueDate,
-                activityType: activity.activityType,
-                activityStatus: activity.activityStatus,
-                index: index 
-            })),
-        }))
-        .filter((activity) => activity.timeSlots.some(slot => slot.date === checkCurrentDate));
-        
-        const FilteredData = activitiesData
-                .flatMap((doc) => {
-                    return doc.timeSlots.map((slot, index) => ({
+        const querySnapshot = await getDoc(timetableRef);
+        const activitiesData = querySnapshot.data();
+        console.log(activitiesData)
+        const FilteredData = activitiesData.timeSlots.map((slot, index) => ({
+                
                     ...slot,
                     id: doc.id,
                     activityName: doc.activityName,
@@ -65,9 +47,8 @@ const NotificationActivityToday = async () => {
                     activityStatus: doc.activityStatus,
                     index: index,
                     testid: doc.id + index
-                    }));
-                })
-                .filter((slot) => slot.date === checkCurrentDate);
+                    })
+                )
         console.log(FilteredData);
         FilteredData.forEach(async(item) => {
             const userList = item.userList;
@@ -84,14 +65,15 @@ const NotificationActivityToday = async () => {
                 const option = {
                     from: 'kmutthealthcareunit@gmail.com',
                     to: `${user.email}`,
-                    subject: `[แจ้งเตือนกิจกรรม]`,
+                    subject: `[แจ้งเตือนการแก้ไข้รายละเอียดกิจกรรม]`,
                     html: `
                 
                     <img src="https://i.imgur.com/NKnMp3K.png" alt="HCU" style="width:100px;height:100px;margin-left: 10px;">
                     <h3 style="margin-left: 20px; margin-top: 0px;">สวัสดีคุณ ${user.firstName}  ${user.lastName}</h3>
-                    <p style="margin-left: 20px; margin-bottom: 40px;">🗓️ รายละเอียดกิจกรรม ${item.activityName}</b></p>
-                    <p style="margin-left: 20px; margin-bottom: 40px;">วันที่ : ${item.date} เวลา : ${item.startTime} น. - ${item.endTime} น.</p>
-                    <p style="margin-left: 20px"> <b>🙏🏻 กรุณามาตามรายละเอียดวัน เวลาที่ได้แจ้งไว้</p>
+                    <p style="margin-left: 20px;">🗓️ รายละเอียดกิจกรรม ${item.activityName}</b></p>
+                    <p style="margin-left: 20px;margin-bottom: 40px;">วันที่ : ${item.date} เวลา : ${item.startTime} น. - ${item.endTime} น.</p>
+                    <p style="margin-left: 20px"> <b>ได้มีรายละเอียดแก้ไข้ดังนี้ ${data.detial}</p>
+                    <p style="margin-left: 20px"> <b>🙏🏻 ขออภัยในความไม่สะดวก</p>
                     <p style="margin-left: 20px; margin-bottom: 50px;">ขอบคุณที่เลือกใช้บริการของเรา และเราหวังว่าจะได้ให้บริการท่านในเร็วๆ นี้</p>
                     
                     <div style="margin: 0px 20px; margin-bottom: 60px;">
@@ -142,7 +124,7 @@ const NotificationActivityToday = async () => {
                         "messages": [
                             {
                                 "type": "flex",
-                                "altText": "‼️ แจ้งเตือนกิจกรรม ‼️",
+                                "altText": "‼️ แจ้งเตือนการแก้ไข้รายละเอียดกิจกรรม ‼️",
                                 "contents": {
                                     "type": "bubble",
                                     "header": {
@@ -178,7 +160,16 @@ const NotificationActivityToday = async () => {
                                             {
                                                 "type": "text",
                                                 "text": `เวลา : ${item.startTime} น. - ${item.endTime} น.`
-                                            }
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `มีรายละเอียดการแก้ไข้ดังนี้`
+                                            },
+                                            {
+                                                "type": "text",
+                                                "wrap": true,
+                                                "text": `${data.edit}`
+                                            },
                                         ]
                                     }
                                 }
@@ -197,8 +188,8 @@ const NotificationActivityToday = async () => {
 
 
     } catch (error) {
-        console.log(`fetch activities error : `, error)
+        console.error(`Error fetching data: ${error}`);
+        return res.status(500).json({ error: 'Internal server error' }); 
     }
-};
-
-module.exports = NotificationActivityToday;
+});
+module.exports = router;

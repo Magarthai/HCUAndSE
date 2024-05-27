@@ -76,7 +76,7 @@ body{
         height: 480px;
         width: 100%;
         padding-top: 10px;
-        padding: 10px 3% 10px 0%;
+        padding: 0px 3% 10px 0%;
         
     }
     .admin-appointment-box-card::-webkit-scrollbar {
@@ -255,6 +255,7 @@ body{
     .appointment-hearder-item{
         box-sizing: border-box;
 	    width: 50%;
+        filter: brightness(100px);
     }
     .appointment-hearder-item1{
         box-sizing: border-box;

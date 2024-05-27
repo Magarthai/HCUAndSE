@@ -8,14 +8,20 @@ const app = express();
 const morgan = require('morgan');;
 const moment = require('moment-timezone');
 const dbConnect = require('./db.connector');
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents');
+const pdfTemplate2 = require('./documents2');
+const pdfTemplate3 = require('./documents3');
 dbConnect();
-
+const bodyParser = require('body-parser');
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 const firebaseConfig = require('./firebase');
 const NotificationActivityToday = require('./allapi/Notification/activity/NotificationActivityToday');
+const NotificationActivityEdit = require('./allapi/Notification/activity/NotificationActivityEdit');
 const fetchAvailableActivities = require('./allapi/Acitivity/activityOpenerQueue');
 const CloseAvailableActivities = require('./allapi/Acitivity/activityCloserQueue');
 const QueueTodayAvailableActivities = require('./allapi/Acitivity/fetchActivityOpenQueueToday');
@@ -67,6 +73,7 @@ const deleteDeletedAppointment = require('./mongodb_api/canceledAppointment/dele
 const fetchUserDataWithAppointmentss = require('./allapi/FetchTImeTable/fetchUserDataWithAppointments');
 
 app.use('/api', dataRoute);
+app.use('/api', NotificationActivityEdit);
 app.use('/api', fetchOpenActivity);
 app.use('/api', activityAddFromUser);
 app.use('/api', QueueTodayAvailableActivities);
@@ -1182,7 +1189,7 @@ const notificationUser3DayBefore = async () => {
                                                     },
                                                     "hero": {
                                                         "type": "image",
-                                                        "url": "https://i.pinimg.com/564x/b3/62/f7/b362f7d08ef02029757e990343f86cb6.jpg",
+                                                        "url": "https://i.pinimg.com/564x/26/58/74/2658743727a84f478760f363864f1a17.jpg",
                                                         "size": "full",
                                                     },
                                                     "body": {
@@ -1355,14 +1362,98 @@ setInterval(() => {
 }, 5000);
 
 
-app.get('/', (req, res) => {
-    res.send('test')
-})
-
 app.get('/date', (req, res) => {
     const thaiTime = moment().tz('Asia/Bangkok');
     res.send(thaiTime)
 })
+const fs = require('fs');
+
+// Route for creating PDF file 1
+app.post('/create-pdf', (req, res, next) => {
+    // Proceed with creating the new PDF
+    pdf.create(pdfTemplate(req.body), {}).toBuffer((err, buffer) => {
+        if(err) {
+            return res.status(500).json({ error: `Error creating PDF ${err}` });
+        }
+        // Attach the buffer containing the PDF to the request object
+        req.pdfBuffer = buffer;
+        next();
+    });
+}, (req, res) => {
+    // Send the PDF buffer as response
+    console.log("new")
+    res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="resultxd.pdf"'
+    });
+    res.send(req.pdfBuffer);
+});
+
+
+// Route for fetching PDF file 1
+app.get('/fetch-pdf', (req, res) => {
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/resultxd.pdf`);
+});
+
+// Route for creating PDF file 2
+app.post('/create-pdf2', (req, res, next) => {
+    // Delete existing PDF file if it exists
+    fs.unlink('result2.pdf', (err) => {
+        if (err && err.code !== 'ENOENT') {
+            // If there's an error other than file not found, handle it
+            return res.status(500).json({ error: `Error deleting PDF ${err}` });
+        }
+        
+        // Proceed with creating the new PDF
+        pdf.create(pdfTemplate2(req.body), {}).toFile('result2.pdf', (err) => {
+            if(err) {
+                return res.status(500).json({ error: 'Error creating PDF' });
+            }
+            
+            next();
+        });
+    });
+}, (req, res) => {
+    res.json({ success: true });
+});
+
+// Route for fetching PDF file 2
+app.get('/fetch-pdf2', (req, res) => {
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/result2.pdf`);
+});
+
+// Route for creating PDF file 3
+app.post('/create-pdf3', (req, res, next) => {
+    // Delete existing PDF file if it exists
+    fs.unlink('result3.pdf', (err) => {
+        if (err && err.code !== 'ENOENT') {
+            // If there's an error other than file not found, handle it
+            return res.status(500).json({ error: `Error deleting PDF ${err}` });
+        }
+        
+        // Proceed with creating the new PDF
+        pdf.create(pdfTemplate3(req.body), {}).toFile('result3.pdf', (err) => {
+            if(err) {
+                return res.status(500).json({ error: `Error creating PDF ${err}` });
+            }
+            
+            next();
+        });
+    });
+}, (req, res) => {
+    res.json({ success: true });
+});
+
+// Route for fetching PDF file 3
+app.get('/fetch-pdf3', (req, res) => {
+    // Send the generated PDF file to the client
+    res.sendFile(`${__dirname}/result3.pdf`);
+});
+
+
+
 
 fetchUserDataWithAppointments();
 updateAppointmentsStatus();
