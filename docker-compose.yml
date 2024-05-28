@@ -1,7 +1,7 @@
 version: '3'
 services:
   client:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/client:latest
+    image: magarthai/client:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -9,14 +9,14 @@ services:
       - hcu_server
 
   mongodb-backend:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/mongodb-backend:latest
+    image: magarthai/mongodb-backend:latest
     ports:
       - "4000:4000"
     depends_on:
       - mongodb
 
   hcu_server:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/hcu_server:latest
+    image: magarthai/hcu_server:latest
     ports:
       - "5000:5000"
 
