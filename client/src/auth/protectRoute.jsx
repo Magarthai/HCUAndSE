@@ -57,7 +57,7 @@ function ProtectRoute({ children }) {
             Swal.fire({
                 icon: 'error',
                 title: 'เกิดข้อผิดพลาด',
-                text: 'กรุณาตั้งเวลาให้ตรงกับวันปัจจุบัน!',
+                text: 'กรุณาตั้งเวลาให้ตรงกับวันปัจจุบั!',
                 confirmButtonColor: '#263A50',
                 customClass: {
                     confirmButton: 'custom-confirm-button',
