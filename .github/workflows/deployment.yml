@@ -25,7 +25,7 @@ jobs:
           context: ./client
           file: ./client/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/client:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/client:${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/client:latest
 
       - name: Build and push hcu_server
         uses: docker/build-push-action@v4
@@ -33,7 +33,7 @@ jobs:
           context: ./hcu_server
           file: ./hcu_server/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcu_server:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hcu_server:${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/hcu_server:latest
 
       - name: Build and push mongodb-backend
         uses: docker/build-push-action@v4
@@ -41,7 +41,7 @@ jobs:
           context: ./mongodb-backend
           file: ./mongodb-backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mongodb-backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mongodb-backend:${{ github.run_number }}, ${{ secrets.DOCKERHUB_USERNAME }}/mongodb-backend:latest
 
   pull:
     needs: build
