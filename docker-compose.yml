@@ -1,22 +1,22 @@
 version: '3'
 services:
-  client:
-    image: magarthai/client:latest
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mongodb-backend
-      - hcu_server
+  # client:
+  #   build: ./client
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - mongodb-backend
+  #     - hcu_server
 
   mongodb-backend:
-    image: magarthai/mongodb-backend:latest
+    build: ./mongodb-backend
     ports:
       - "4000:4000"
     depends_on:
       - mongodb
 
   hcu_server:
-    image: magarthai/hcu_server:latest
+    build: ./hcu_server
     ports:
       - "5000:5000"
 
