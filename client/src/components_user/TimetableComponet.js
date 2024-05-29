@@ -80,7 +80,7 @@ const TimetableComponet = (props) => {
                     </div>
                     <div className="colorPrimary-800">
                         <p>วันจันทร์</p>
-                        <div className="user-timetable-detail card2">
+                        <div className="user-timetable-detail">
                         {timetable.filter((timetable) => timetable.addDay === "monday" && timetable.clinic == clinic).sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                             <p> เวลา : {timetable.timeStart} - {timetable.timeEnd}</p> 
                         ))}
@@ -90,7 +90,7 @@ const TimetableComponet = (props) => {
                         </div>
 
                         <p>วันอังคาร</p>
-                        <div className="user-timetable-detail card2">
+                        <div className="user-timetable-detail">
                         {timetable.filter((timetable) => timetable.addDay === "tuesday" && timetable.clinic == clinic).sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                                 <p> เวลา : {timetable.timeStart} - {timetable.timeEnd}</p> 
                         ))}
@@ -99,7 +99,7 @@ const TimetableComponet = (props) => {
                         )}
                         </div>
                         <p>วันพุธ</p>
-                        <div className="user-timetable-detail card2">
+                        <div className="user-timetable-detail">
                         {timetable.filter((timetable) => timetable.addDay === "wednesday" && timetable.clinic == clinic).sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                                 <p> เวลา : {timetable.timeStart} - {timetable.timeEnd}</p> 
                             ))}
@@ -108,7 +108,7 @@ const TimetableComponet = (props) => {
                         )}
                         </div>
                         <p>วันพฤหัสบดี</p>
-                        <div className="user-timetable-detail card2">
+                        <div className="user-timetable-detail">
                         {timetable.filter((timetable) => timetable.addDay === "thursday" && timetable.clinic == clinic).sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                                 <p> เวลา : {timetable.timeStart} - {timetable.timeEnd}</p> 
                             ))}
@@ -117,7 +117,7 @@ const TimetableComponet = (props) => {
                         )}
                         </div>
                         <p>วันศุกร์</p>
-                        <div className="user-timetable-detail card2">
+                        <div className="user-timetable-detail">
                         {timetable.filter((timetable) => timetable.addDay === "friday" && timetable.clinic == clinic).sort((a, b) => (a.timeStart > b.timeStart) ? 1 : ((b.timeStart > a.timeStart) ? -1 : 0)).map((timetable, index) => (
                                 <p> เวลา : {timetable.timeStart} - {timetable.timeEnd}</p> 
                             ))}
