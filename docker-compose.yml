@@ -1,12 +1,12 @@
 version: '3'
 services:
-  # client:
-  #   build: ./client
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - mongodb-backend
-  #     - hcu_server
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    # depends_on:
+    #   - mongodb-backend
+    #   - hcu_server
 
   mongodb-backend:
     build: ./mongodb-backend
