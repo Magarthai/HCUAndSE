@@ -4,7 +4,6 @@ services:
     image: magarthai/client:latest
     ports:
       - "3000:3000"
-      - "443:443"
     depends_on:
       - mongodb-backend
       - hcu_server
