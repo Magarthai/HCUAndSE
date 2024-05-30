@@ -1373,6 +1373,7 @@ app.post('/create-pdf', (req, res, next) => {
     // Proceed with creating the new PDF
     pdf.create(pdfTemplate(req.body), {}).toBuffer((err, buffer) => {
         if(err) {
+            console.log(err)
             return res.status(500).json({ error: `Error creating PDF ${err}` });
         }
         // Attach the buffer containing the PDF to the request object
