@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY ./src ./src
 
-RUN npm install
+RUN npm install --production
 
 RUN npm -g install phantomjs-prebuilt
 COPY .env .
